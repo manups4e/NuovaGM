@@ -25,7 +25,6 @@ namespace TheLastPlanet.Client.Cache
         public static async Task InitPlayer()
         {
             var pippo = await EventDispatcher.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
-            Client.Logger.Warning(pippo.ToJson());
             MyPlayer = new PlayerClient(pippo);
             _checkTimer = new(5000);
             Client.Instance.AddTick(TickStatus);

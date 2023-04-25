@@ -244,7 +244,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             }
             else
             {
-                HUD.ShowNotification("errore nello script letti\"LettoMid\", segnalalo allo scripter", NotificationColor.Red, true);
+                HUD.ShowNotification("errore nello script letti\"LettoMid\", segnalalo allo scripter", ColoreNotifica.Red, true);
             }
         }
 
@@ -320,7 +320,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 RemoveAnimDict("mp_bedmid");
             }
             else
-                HUD.ShowNotification("errore nello script letti \"LettoLow\", segnalalo allo scripter", NotificationColor.Red, true);
+                HUD.ShowNotification("errore nello script letti \"LettoLow\", segnalalo allo scripter", ColoreNotifica.Red, true);
         }
 
         public async override void ScendiDalLetto()

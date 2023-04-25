@@ -156,19 +156,19 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                             while (!taximeter.Taximeter.IsLoaded) await BaseScript.Delay(0);
                             taximeter.meter_rt = RenderTargets.CreateNamedRenderTargetForModel("taxi", (uint)GetHashKey("prop_taxi_meter_2"));
                             Client.Instance.AddTick(ServizioTaxi);
-                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
+                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                             if (p.IsInVehicle(VeicoloServizio)) Client.Instance.AddTick(TaximeterTick);
                         }
                         else
                         {
                             Client.Instance.RemoveTick(ServizioTaxi);
-                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei uscito dal servizio.", NotificationIcon.Taxi, IconType.ChatBox);
+                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei uscito dal servizio.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                             VaiFuoriServizio(1);
                         }
                     }
                     else
                     {
-                        HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Non puoi entrare in servizio senza il tuo veicolo da lavoro!.", NotificationIcon.Taxi, IconType.ChatBox);
+                        HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Non puoi entrare in servizio senza il tuo veicolo da lavoro!.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                     }
                 }
             }
@@ -210,7 +210,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                                     jobs.blip = null;
                                 }
 
-                                HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente è ~r~morto~w~. Trova un altro cliente, abbiamo già avvertito la polizia", NotificationIcon.Taxi, IconType.ChatBox);
+                                HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente è ~r~morto~w~. Trova un altro cliente, abbiamo già avvertito la polizia", NotificationIcon.Taxi, TipoIcona.ChatBox);
                             }
                             else
                             {
@@ -225,7 +225,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                                         NPCPasseggero.Task.ClearAllImmediately();
                                         NPCPasseggero.MarkAsNoLongerNeeded();
                                         NPCPasseggero = null;
-                                        HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente si è spazientito e ha cancellato il servizio. Trovane ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
+                                        HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente si è spazientito e ha cancellato il servizio. Trovane ~y~un altro~w.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                                         jobs.flag[0] = 0;
                                         jobs.flag[1] = 59 + SharedMath.GetRandomInt(1, 61);
                                     }
@@ -266,7 +266,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                                         NPCPasseggero.Task.ClearAll();
                                         NPCPasseggero.MarkAsNoLongerNeeded();
                                         NPCPasseggero = null;
-                                        HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente non si sente al sicuro con te, fermati e fallo scendere, dovrai trovarne ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
+                                        HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente non si sente al sicuro con te, fermati e fallo scendere, dovrai trovarne ~y~un altro~w.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                                         while (VeicoloServizio.Speed > 0) await BaseScript.Delay(1000);
                                         NPCPasseggero.Task.LeaveVehicle(VeicoloServizio, true);
                                         jobs.flag[0] = 0;
@@ -324,7 +324,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                                                 NPCPasseggero.Task.ClearAll();
                                                 NPCPasseggero.MarkAsNoLongerNeeded();
                                                 NPCPasseggero = null;
-                                                HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente non si sente al sicuro con te, fermati e fallo scendere, dovrai trovarne ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
+                                                HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente non si sente al sicuro con te, fermati e fallo scendere, dovrai trovarne ~y~un altro~w.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                                                 while (VeicoloServizio.Speed > 0) await BaseScript.Delay(1000);
                                                 NPCPasseggero.Task.LeaveVehicle(VeicoloServizio, true);
                                                 jobs.flag[0] = 0;
@@ -350,11 +350,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                                             NPCPasseggero.MarkAsNoLongerNeeded();
                                             NPCPasseggero = null;
                                             await BaseScript.Delay(2500);
-                                            HUD.ShowNotification("Hai portato con successo a destinazione il tuo cliente.", NotificationColor.GreenDark, true);
+                                            HUD.ShowNotification("Hai portato con successo a destinazione il tuo cliente.", ColoreNotifica.GreenDark, true);
                                             BaseScript.TriggerServerEvent("lprp:givemoney", jobs.jobPay);
                                             HUD.ShowNotification("Hai guadagnato $" + jobs.jobPay);
                                             await BaseScript.Delay(8000);
-                                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
+                                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                                             jobs.flag[0] = 0;
                                             jobs.flag[1] = 59 + SharedMath.GetRandomInt(1, 61);
                                             taximeter.ClearDisplay();
@@ -369,7 +369,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                             {
                                 jobs.flag[0] = 0;
                                 jobs.flag[1] = 59 + SharedMath.GetRandomInt(1, 61);
-                                HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
+                                HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, TipoIcona.ChatBox);
 
                                 if (jobs.blip != null && jobs.blip.Exists())
                                 {
@@ -396,7 +396,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                                             NPCPasseggero.Task.ClearAll();
                                             NPCPasseggero.BlockPermanentEvents = true;
                                             NPCPasseggero.Task.StandStill(1000 * jobs.flag[1]);
-                                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Abbiamo un passeggero, vai a prenderlo.", NotificationIcon.Taxi, IconType.ChatBox);
+                                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Abbiamo un passeggero, vai a prenderlo.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                                             Blip lblip = NPCPasseggero.AttachBlip();
                                             lblip.IsFriendly = true;
                                             lblip.Sprite = BlipSprite.Friend;
@@ -407,7 +407,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                                         {
                                             jobs.flag[0] = 0;
                                             jobs.flag[1] = 59 + SharedMath.GetRandomInt(1, 61);
-                                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
+                                            HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                                         }
                                     }
                                 }
@@ -425,7 +425,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
                 else
                 {
                     VaiFuoriServizio(1);
-                    HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo taxi è rotto! Sarai multato per questo!.", NotificationIcon.Taxi, IconType.ChatBox);
+                    HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo taxi è rotto! Sarai multato per questo!.", NotificationIcon.Taxi, TipoIcona.ChatBox);
                 }
             }
             else

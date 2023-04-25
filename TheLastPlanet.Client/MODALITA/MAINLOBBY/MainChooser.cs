@@ -1,8 +1,6 @@
-﻿using CitizenFX.Core.Native;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Ingresso;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 {
@@ -10,11 +8,11 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
     {
         public static Dictionary<ModalitaServer, int> Bucket_n_Players { get; set; }
 
-        private static BucketMarker RP_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1266.863f, -3013.068f, -49.0f), new(10f, 10f, 1f), Colors.RoyalBlue), "", "mp_mission_name_freemode_199");
-        private static BucketMarker Mini_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1280.206f, -3021.234f, -49.0f), new(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");
-        private static BucketMarker Gare_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1267.147f, -3032.353f, -49.0f), new(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
-        private static BucketMarker Nego_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1251.566f, -3032.304f, -49.0f), new(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
-        private static BucketMarker Roam_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1250.61f, -3007.73f, -49.0f), new(10f, 10f, 1f), Colors.Indigo), "", "mp_mission_name_freemode_1999999");
+        private static BucketMarker RP_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1266.863f, -3013.068f, -49.0f), new Vector3(10f, 10f, 1f), Colors.RoyalBlue), "", "mp_mission_name_freemode_199");
+        private static BucketMarker Mini_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1280.206f, -3021.234f, -49.0f), new Vector3(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");
+        private static BucketMarker Gare_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1267.147f, -3032.353f, -49.0f), new Vector3(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
+        private static BucketMarker Nego_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1251.566f, -3032.304f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
+        private static BucketMarker Roam_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1250.61f, -3007.73f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Indigo), "", "mp_mission_name_freemode_1999999");
 
         private static ParticleEffectsAssetNetworked DespawnParticle = new("scr_powerplay");
         public static void Init()
@@ -43,9 +41,9 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
             {
                 StopPlayerSwitch();
                 await BaseScript.Delay(1000);
-                var txd = CreateRuntimeTxd("thelastgalaxy");
-                var _titledui = CreateDui("https://c.tenor.com/2jV0hjUDz6QAAAAC/galaxy-stars.gif", 498, 290);
-                var _logodui = CreateDui("https://giphy.com/embed/VI2UC13hwWin1MIfmi", 80, 80);
+                long txd = CreateRuntimeTxd("thelastgalaxy");
+                long _titledui = CreateDui("https://c.tenor.com/2jV0hjUDz6QAAAAC/galaxy-stars.gif", 498, 290);
+                long _logodui = CreateDui("https://giphy.com/embed/VI2UC13hwWin1MIfmi", 80, 80);
                 CreateRuntimeTextureFromDuiHandle(txd, "bannerbackground", GetDuiHandle(_titledui));
                 CreateRuntimeTextureFromDuiHandle(txd, "serverlogo", GetDuiHandle(_logodui));
                 firstTick = false;
@@ -103,7 +101,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 {
                     if (Bucket_n_Players[ModalitaServer.Roleplay] >= 512)
                     {
-                        HUD.ShowNotification("Il Pianeta RolePlay è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Il Pianeta RolePlay è pieno al momento, riprova più tardi!", ColoreNotifica.Red, true);
 
                         return;
                     }
@@ -125,7 +123,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                         /*
                         if (Bucket_n_Players[2] == 64)
                         {
-                            HUD.ShowNotification("Il mondo dei Minigiochi è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Il mondo dei Minigiochi è pieno al momento, riprova più tardi!", ColoreNotifica.Red, true);
 
                             return;
                         }
@@ -135,7 +133,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                     }
                     else
                     {
-                        HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", ColoreNotifica.Red, true);
                     }
                 }
             }
@@ -151,7 +149,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                         /*
                         if (Bucket_n_Players[3] == 64)
                         {
-                            HUD.ShowNotification("Il mondo delle Gare è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Il mondo delle Gare è pieno al momento, riprova più tardi!", ColoreNotifica.Red, true);
 
                             return;
                         }
@@ -162,7 +160,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                     }
                     else
                     {
-                        HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", ColoreNotifica.Red, true);
                     }
                 }
             }
@@ -181,7 +179,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 }
                 else
                 {
-                    HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", ColoreNotifica.Red, true);
                 }
             }
 
@@ -193,7 +191,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 {
                     if (Bucket_n_Players[ModalitaServer.FreeRoam] >= 512)
                     {
-                        HUD.ShowNotification("Il pianeta FreeRoam è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Il pianeta FreeRoam è pieno al momento, riprova più tardi!", ColoreNotifica.Red, true);
 
                         return;
                     }
@@ -249,7 +247,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
             {
                 if (userId == PlayerCache.MyPlayer.Handle)
                 {
-                    var ped = PlayerCache.MyPlayer.Ped;
+                    Ped ped = PlayerCache.MyPlayer.Ped;
                     if (active)
                     {
                         ped.CanBeDraggedOutOfVehicle = false;

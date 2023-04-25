@@ -30,7 +30,7 @@ namespace TheLastPlanet.Server
             return Weapons;
         }
 
-        private static async Task<string> ClientSharedCallback(PlayerClient client, ModalitaServer type)
+        private static async Task<string> ClientSharedCallback([FromSource] PlayerClient client, ModalitaServer type)
         {
             if (type == ModalitaServer.Roleplay)
             {
@@ -38,7 +38,7 @@ namespace TheLastPlanet.Server
             }
             return null;
         }
-        private static async Task<string> ClientConfigCallback(PlayerClient client, ModalitaServer type)
+        private static async Task<string> ClientConfigCallback([FromSource] PlayerClient client, ModalitaServer type)
         {
             switch (type)
             {

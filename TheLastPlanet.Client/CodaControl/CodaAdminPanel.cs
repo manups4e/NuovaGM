@@ -66,7 +66,7 @@ namespace TheLastPlanet.Client.CodaControl
                 }
                 else
                 {
-                    HUD.ShowNotification("Pannello coda già aperto!!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Pannello coda già aperto!!", ColoreNotifica.Red, true);
                 }
             }
             catch (Exception)

@@ -17,13 +17,13 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
             EventDispatcher.Mount("tlg:casino:getVehModel", new Func<PlayerClient, Task<string>>(ReturnCasinoPriceModelForPlayer));
         }
 
-        public static void SalvaPersonaggio(PlayerClient client)
+        public static void SalvaPersonaggio([FromSource] PlayerClient client)
         {
             client.User.FreeRoamChar.Posizione = client.Ped.Position.ToPosition();
             API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
         }
 
-        public static void FinishChar(PlayerClient client, FreeRoamChar data)
+        public static void FinishChar([FromSource] PlayerClient client, FreeRoamChar data)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
                 Server.Logger.Error($"{e.Message}");
             }
         }
-        public static async Task<string> ReturnCasinoPriceModelForPlayer(PlayerClient client)
+        public static async Task<string> ReturnCasinoPriceModelForPlayer([FromSource] PlayerClient client)
         {
             // per il momento usiamo una prototipo poi vediamo...
             return "zentorno";

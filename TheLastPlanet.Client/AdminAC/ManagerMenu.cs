@@ -304,7 +304,7 @@ namespace TheLastPlanet.Client.AdminAC
                                         if (quantita < 99 && quantita > 0)
                                             BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.Handle, chars.CharID, item1.Item, quantita);
                                         else
-                                            HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+                                            HUD.ShowNotification("Quantità non valida!", ColoreNotifica.Red, true);
                                     }
                                     else if (mitem == rem)
                                     {
@@ -312,7 +312,7 @@ namespace TheLastPlanet.Client.AdminAC
                                         if (quantita < 99 && quantita > 0)
                                             BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.Handle, chars.CharID, item1.Item, quantita);
                                         else
-                                            HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+                                            HUD.ShowNotification("Quantità non valida!", ColoreNotifica.Red, true);
                                     }
 
                                     menu.ParentMenu.RefreshIndex();
@@ -326,7 +326,7 @@ namespace TheLastPlanet.Client.AdminAC
                             if (quantita < 99 && quantita > 0)
                                 BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.Handle, chars.CharID, oggetto, quantita);
                             else
-                                HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Quantità non valida!", ColoreNotifica.Red, true);
                             menu.RefreshIndex();
                         };
 

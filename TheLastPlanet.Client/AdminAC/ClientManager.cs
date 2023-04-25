@@ -481,11 +481,11 @@ namespace TheLastPlanet.Client.AdminAC
 
                 //do it
                 ent.PositionNoOffset = new Vector3(coords.X, coords.Y, ground);
-                HUD.ShowNotification("Teletrasportato!", NotificationColor.Blue, true);
+                HUD.ShowNotification("Teletrasportato!", ColoreNotifica.Blue, true);
             }
             else
             {
-                HUD.ShowNotification("Punto in mappa non trovato, imposta un punto in mappa!", NotificationColor.Red, true);
+                HUD.ShowNotification("Punto in mappa non trovato, imposta un punto in mappa!", ColoreNotifica.Red, true);
             }
         }
     }

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.Races.Creator
 {
@@ -29,7 +27,7 @@ namespace TheLastPlanet.Client.Races.Creator
 
         private static Camera enteringCamera;
         private static Prop cross;
-        private static Marker placeMarker;
+        private static MarkerEx placeMarker;
         private static Vector3 curLocation;
         private static float Height = 0;
         private static Vector3 curRotation;
@@ -74,7 +72,7 @@ namespace TheLastPlanet.Client.Races.Creator
             PlayerCache.MyPlayer.Ped.DiesInstantlyInWater = false;
             PlayerCache.MyPlayer.Ped.Position = new Vector3(0, 0, 1000);
             Screen.Hud.IsRadarVisible = false;
-            placeMarker ??= new Marker(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new(6.7f), Colors.GreyDark);
+            placeMarker ??= new MarkerEx(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new Vector3(6.7f), 100f, Colors.GreyDark);
 
             if (cross == null)
             {
@@ -283,12 +281,12 @@ namespace TheLastPlanet.Client.Races.Creator
                 }
                 else if (b == classeDefault)
                 {
-                    var veicoli = Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().ToList();
+                    List<VehicleHash> veicoli = Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().ToList();
                     VehicleClass classe;
                     bool success = Enum.TryParse(b.Items[c].ToString(), out classe);
-                    var disp = veicoli.Where(x => GetVehicleClassFromName((uint)x) == (int)classe).Except(data.VeicoliEsclusi).ToList();
+                    List<VehicleHash> disp = veicoli.Where(x => GetVehicleClassFromName((uint)x) == (int)classe).Except(data.VeicoliEsclusi).ToList();
                     veicoloDefault.Items.Clear();
-                    foreach (var d in disp)
+                    foreach (VehicleHash d in disp)
                         veicoloDefault.Items.Add(d.ToString());
                     VehicleClass pippo;
                     VehicleHash poppo;
@@ -320,12 +318,12 @@ namespace TheLastPlanet.Client.Races.Creator
                         else
                             data.ClassiPermesse.Remove(classe);
                         classeDefault.Items.Clear();
-                        var veicoli = Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().ToList();
-                        foreach (var cla in data.ClassiPermesse)
+                        List<VehicleHash> veicoli = Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().ToList();
+                        foreach (VehicleClass cla in data.ClassiPermesse)
                             classeDefault.Items.Add(cla.ToString());
-                        var disp = veicoli.Where(x => GetVehicleClassFromName((uint)x) == (int)classe).Except(data.VeicoliEsclusi).ToList();
+                        List<VehicleHash> disp = veicoli.Where(x => GetVehicleClassFromName((uint)x) == (int)classe).Except(data.VeicoliEsclusi).ToList();
                         veicoloDefault.Items.Clear();
-                        foreach (var d in disp)
+                        foreach (VehicleHash d in disp)
                             veicoloDefault.Items.Add(d.ToString());
                         VehicleClass pippo;
                         VehicleHash poppo;
@@ -378,208 +376,209 @@ namespace TheLastPlanet.Client.Races.Creator
 
             #region PROPS E POSIZIONAMENTO
             UIMenuDynamicListItem tipo = new("Tipo", RaceCreatorHelper.GetPropName(-248283675), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
-				{
-					tipoPropScelto += 1;
-					if (tipoPropScelto > RaceCreatorHelper.GetFinalInCategory(categoriaScelta))
-						tipoPropScelto = 0;
-				}
-				else if (direction == UIMenuDynamicListItem.ChangeDirection.Left)
-				{
-					tipoPropScelto -= 1;
-					if (tipoPropScelto < 0)
-						tipoPropScelto = RaceCreatorHelper.GetFinalInCategory(categoriaScelta);
-				}
-				int m = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
-				if (m == 0)
-				{
-					tipoPropScelto = 0;
-					m = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
-				}
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
+                {
+                    tipoPropScelto += 1;
+                    if (tipoPropScelto > RaceCreatorHelper.GetFinalInCategory(categoriaScelta))
+                        tipoPropScelto = 0;
+                }
+                else if (direction == UIMenuDynamicListItem.ChangeDirection.Left)
+                {
+                    tipoPropScelto -= 1;
+                    if (tipoPropScelto < 0)
+                        tipoPropScelto = RaceCreatorHelper.GetFinalInCategory(categoriaScelta);
+                }
+                int m = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
+                if (m == 0)
+                {
+                    tipoPropScelto = 0;
+                    m = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
+                }
 
-				Vector3 pos = Vector3.Zero;
-				if (DummyProp != null)
-					pos = DummyProp.Position;
-				else
-					pos = cross.Position;
-				if (DummyProp != null)
-					DummyProp.Delete();
-				DummyProp = await Funzioni.SpawnLocalProp(m, pos, false, false);
-				DummyProp.Heading = cross.Heading;
-				DummyProp.IsCollisionEnabled = false;
-				dummyRot = new(0, 0, dummyRot.Z);
-				DummyProp.Rotation = dummyRot;
-				SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
-				AttachEntityToEntity(cross.Handle, DummyProp.Handle, 0, 0, 0, 1f, 0, 0, 0, false, false, false, false, 0, false);
-				return RaceCreatorHelper.GetPropName(m);
-			});
-			UIMenuDynamicListItem color = new UIMenuDynamicListItem("Colore", "", async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
-				{
-					colorePropScelto++;
-					if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
-						if (colorePropScelto == 5 || colorePropScelto == 9)
-							colorePropScelto++;
-					if (colorePropScelto > RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash))
-						colorePropScelto = 0;
-				}
-				else if(direction == UIMenuDynamicListItem.ChangeDirection.Left)
-				{
-					colorePropScelto--;
-					if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
-						if (colorePropScelto == 5 || colorePropScelto == 9)
-							colorePropScelto--;
-					if (colorePropScelto < 0)
-						colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
-				}
+                Vector3 pos = Vector3.Zero;
+                if (DummyProp != null)
+                    pos = DummyProp.Position;
+                else
+                    pos = cross.Position;
+                if (DummyProp != null)
+                    DummyProp.Delete();
+                DummyProp = await Funzioni.SpawnLocalProp(m, pos, false, false);
+                DummyProp.Heading = cross.Heading;
+                DummyProp.IsCollisionEnabled = false;
+                dummyRot = new(0, 0, dummyRot.Z);
+                DummyProp.Rotation = dummyRot;
+                SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
+                AttachEntityToEntity(cross.Handle, DummyProp.Handle, 0, 0, 0, 1f, 0, 0, 0, false, false, false, false, 0, false);
+                return RaceCreatorHelper.GetPropName(m);
+            });
+            UIMenuDynamicListItem color = new UIMenuDynamicListItem("Colore", "", async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
+                {
+                    colorePropScelto++;
+                    if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
+                        if (colorePropScelto == 5 || colorePropScelto == 9)
+                            colorePropScelto++;
+                    if (colorePropScelto > RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash))
+                        colorePropScelto = 0;
+                }
+                else if (direction == UIMenuDynamicListItem.ChangeDirection.Left)
+                {
+                    colorePropScelto--;
+                    if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
+                        if (colorePropScelto == 5 || colorePropScelto == 9)
+                            colorePropScelto--;
+                    if (colorePropScelto < 0)
+                        colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
+                }
 
-				SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
-				return Game.GetGXTEntry(RaceCreatorHelper.GetPropColor(DummyProp.Model.Hash, colorePropScelto));
-			});
-			UIMenuDynamicListItem categoria = new UIMenuDynamicListItem("Categoria", RaceCreatorHelper.GetCategoryName(categoriaScelta), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
-				{
-					categoriaScelta += 1;
-					if (categoriaScelta > 47)
-						categoriaScelta = 0;
-				}
-				else if (direction == UIMenuDynamicListItem.ChangeDirection.Left)
-				{
-					categoriaScelta -= 1;
-					if (categoriaScelta < 0)
-						categoriaScelta = 47;
-				}
-				tipoPropScelto = RaceCreatorHelper.GetFinalInCategory(categoriaScelta);
-				var pp = await tipo.Callback(tipo, UIMenuDynamicListItem.ChangeDirection.Right);
-				colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
-				var col = await color.Callback(color, UIMenuDynamicListItem.ChangeDirection.Right);
-				tipo.CurrentListItem = pp;
-				color.CurrentListItem = col;
-				return RaceCreatorHelper.GetCategoryName(categoriaScelta);
-			});
-			propPlacing.AddItem(categoria);
-			propPlacing.AddItem(tipo);
-			UIMenuListItem tipoRot = new UIMenuListItem("Tipo di Rotazione", new List<dynamic>() { GetLabelText("FMMC_PROT_NORM"), "Roll", "Pitch", "Yaw" }, 0);
-			propPlacing.AddItem(tipoRot);
-			propPlacing.AddItem(color);
-			UIMenuListItem stacking = new("Abilita Accatastamento Prop", new List<dynamic>() { "Si", "No" }, 0);
-			propPlacing.AddItem(stacking);
-			UIMenuListItem snapAtt = new(Game.GetGXTEntry("FMMC_PRP_SNP"), new List<dynamic>() { "No", "Si" }, 0);
-			propPlacing.AddItem(snapAtt);
-			propPlacing.OnListChange += (a, b, c) =>
-			{
-				if (b == tipoRot)
-				{
-					rotationDummyType = (RotationDummyType)c;
-				}
-				else if (b == stacking)
-				{
-					accatastamento = c == 0;
-				}
-				else if (b == snapAtt)
-				{
-					OpzioniSnap.Attivo = c != 0;
-					OpzioniSnap.Prossimità = c != 0;
-					if (!OpzioniSnap.Attivo)
-					{
-						DummyProp.Detach();
-						attachedBone = 0;
-					}
-				}
-			};
-
-
-			UIMenu opzioniAvanzate = propPlacing.AddSubMenu("Opzioni Avanzate");
-			#region opzioniAvanzate
-
-			UIMenu overridePos = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~posizionare~w~ i componenti nelle esatte posizioni");
-			UIMenu overrideRot = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~ruotare~w~ i componenti nelle esatte posizioni");
-			UIMenu snapOptions = opzioniAvanzate.AddSubMenu(Game.GetGXTEntry("FMMC_PRP_SNPO"));
-			#region override pos e rot
-			UIMenuCheckboxItem useOverride = new UIMenuCheckboxItem("Usa Override", UIMenuCheckboxStyle.Tick, false, "");
-			UIMenuListItem alignment = new UIMenuListItem("Allineamento", new List<dynamic>() { "Mondo", "Locale" }, 0);
-			UIMenuDynamicListItem posX = new UIMenuDynamicListItem("X", curLocation.X.ToString("F3"), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.X -= 0.1f;
-				else curLocation.X += 0.1f;
-				return curLocation.X.ToString("F3");
-			});
-			UIMenuDynamicListItem posY = new UIMenuDynamicListItem("Y", curLocation.Y.ToString("F3"), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.Y -= 0.1f;
-				else curLocation.Y += 0.1f;
-				return curLocation.Y.ToString("F3");
-			});
-			UIMenuDynamicListItem posZ = new UIMenuDynamicListItem("Z", curLocation.Z.ToString("F3"), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.Z -= 0.1f;
-				else curLocation.Z += 0.1f;
-				return curLocation.Z.ToString("F3");
-			});
-			UIMenuDynamicListItem rotX = new UIMenuDynamicListItem("X", dummyRot.X.ToString("F3"), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.X -= 0.1f;
-				else dummyRot.X += 0.1f;
-				return dummyRot.X.ToString("F3");
-			});
-			UIMenuDynamicListItem rotY = new UIMenuDynamicListItem("Y", dummyRot.Y.ToString("F3"), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.Y -= 0.1f;
-				else dummyRot.Y += 0.1f;
-				return dummyRot.Y.ToString("F3");
-			});
-			UIMenuDynamicListItem rotZ = new UIMenuDynamicListItem("Z", dummyRot.Z.ToString("F3"), async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.Z -= 0.1f;
-				else dummyRot.Z += 0.1f;
-				return dummyRot.Z.ToString("F3");
-			});
-			overridePos.AddItem(alignment);
-			overridePos.AddItem(posX);
-			overridePos.AddItem(posY);
-			overridePos.AddItem(posZ);
-			overrideRot.AddItem(alignment);
-			overrideRot.AddItem(rotX);
-			overrideRot.AddItem(rotY);
-			overrideRot.AddItem(rotZ);
-			#endregion
-
-			#region SnapOptions
-
-			UIMenuListItem proxSnap = new UIMenuListItem("", new List<dynamic>() { "No", "Si" }, 0);
-			UIMenuListItem chainSnap = new UIMenuListItem("", new List<dynamic>() { "No", "Si" }, 0);
-			snapOptions.AddItem(proxSnap);
-			snapOptions.AddItem(chainSnap);
-
-			#endregion
-
-			#endregion
-
-			UIMenuListItem speedPadIntensity = new UIMenuListItem("Intensità Pad Accelerazione", new List<dynamic>() { "Debole", "Normale", "Forte", "Extra Forte", "Ultra Forte" }, 1);
-			propPlacing.AddItem(speedPadIntensity);
-			UIMenuListItem slowPadIntensity = new UIMenuListItem("Intensità Pad Rallentamento", new List<dynamic>() { "Debole", "Normale", "Forte", "Extra Forte", "Ultra Forte" }, 1);
-			propPlacing.AddItem(slowPadIntensity);
-			UIMenu soundTriggerMenu = propPlacing.AddSubMenu("Menu Attivazione Suoni");
-			#region soundTriggerMenu
-
-			UIMenuListItem soundId = new UIMenuListItem("Sound ID", new List<dynamic>() { "Airhorn", "Roar", "Chitarra 01", "Chitarra 02", "Clacson", "Tuono", "Allarme" }, 0);
-			UIMenuItem soundPreview = new UIMenuItem("Play Anteprima Suono");
-			UIMenuListItem radius = new UIMenuListItem("Distanza Attivazione", new List<dynamic> { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 150 }, 0);
-			UIMenuListItem voltePerLap = new UIMenuListItem("(Globale) Volte per Giro", new List<dynamic>() { "Infinite", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70 }, 0);
-			UIMenuCheckboxItem oncePerLap = new UIMenuCheckboxItem("Una Volta per Giro", false);
-			soundTriggerMenu.AddItem(soundId);
-			soundTriggerMenu.AddItem(soundPreview);
-			soundTriggerMenu.AddItem(radius);
-			soundTriggerMenu.AddItem(voltePerLap);
-			soundTriggerMenu.AddItem(oncePerLap);
-
-			#endregion
+                SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
+                return Game.GetGXTEntry(RaceCreatorHelper.GetPropColor(DummyProp.Model.Hash, colorePropScelto));
+            });
+            UIMenuDynamicListItem categoria = new UIMenuDynamicListItem("Categoria", RaceCreatorHelper.GetCategoryName(categoriaScelta), async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
+                {
+                    categoriaScelta += 1;
+                    if (categoriaScelta > 47)
+                        categoriaScelta = 0;
+                }
+                else if (direction == UIMenuDynamicListItem.ChangeDirection.Left)
+                {
+                    categoriaScelta -= 1;
+                    if (categoriaScelta < 0)
+                        categoriaScelta = 47;
+                }
+                tipoPropScelto = RaceCreatorHelper.GetFinalInCategory(categoriaScelta);
+                string pp = await tipo.Callback(tipo, UIMenuDynamicListItem.ChangeDirection.Right);
+                colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
+                string col = await color.Callback(color, UIMenuDynamicListItem.ChangeDirection.Right);
+                //TODO: DECOMMENTARE will be fixed in next release
+                //tipo.CurrentListItem = pp;
+                //color.CurrentListItem = col;
+                return RaceCreatorHelper.GetCategoryName(categoriaScelta);
+            });
+            propPlacing.AddItem(categoria);
+            propPlacing.AddItem(tipo);
+            UIMenuListItem tipoRot = new UIMenuListItem("Tipo di Rotazione", new List<dynamic>() { GetLabelText("FMMC_PROT_NORM"), "Roll", "Pitch", "Yaw" }, 0);
+            propPlacing.AddItem(tipoRot);
+            propPlacing.AddItem(color);
+            UIMenuListItem stacking = new("Abilita Accatastamento Prop", new List<dynamic>() { "Si", "No" }, 0);
+            propPlacing.AddItem(stacking);
+            UIMenuListItem snapAtt = new(Game.GetGXTEntry("FMMC_PRP_SNP"), new List<dynamic>() { "No", "Si" }, 0);
+            propPlacing.AddItem(snapAtt);
+            propPlacing.OnListChange += (a, b, c) =>
+            {
+                if (b == tipoRot)
+                {
+                    rotationDummyType = (RotationDummyType)c;
+                }
+                else if (b == stacking)
+                {
+                    accatastamento = c == 0;
+                }
+                else if (b == snapAtt)
+                {
+                    OpzioniSnap.Attivo = c != 0;
+                    OpzioniSnap.Prossimità = c != 0;
+                    if (!OpzioniSnap.Attivo)
+                    {
+                        DummyProp.Detach();
+                        attachedBone = 0;
+                    }
+                }
+            };
 
 
-			#endregion
+            UIMenu opzioniAvanzate = propPlacing.AddSubMenu("Opzioni Avanzate");
+            #region opzioniAvanzate
+
+            UIMenu overridePos = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~posizionare~w~ i componenti nelle esatte posizioni");
+            UIMenu overrideRot = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~ruotare~w~ i componenti nelle esatte posizioni");
+            UIMenu snapOptions = opzioniAvanzate.AddSubMenu(Game.GetGXTEntry("FMMC_PRP_SNPO"));
+            #region override pos e rot
+            UIMenuCheckboxItem useOverride = new UIMenuCheckboxItem("Usa Override", UIMenuCheckboxStyle.Tick, false, "");
+            UIMenuListItem alignment = new UIMenuListItem("Allineamento", new List<dynamic>() { "Mondo", "Locale" }, 0);
+            UIMenuDynamicListItem posX = new UIMenuDynamicListItem("X", curLocation.X.ToString("F3"), async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.X -= 0.1f;
+                else curLocation.X += 0.1f;
+                return curLocation.X.ToString("F3");
+            });
+            UIMenuDynamicListItem posY = new UIMenuDynamicListItem("Y", curLocation.Y.ToString("F3"), async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.Y -= 0.1f;
+                else curLocation.Y += 0.1f;
+                return curLocation.Y.ToString("F3");
+            });
+            UIMenuDynamicListItem posZ = new UIMenuDynamicListItem("Z", curLocation.Z.ToString("F3"), async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.Z -= 0.1f;
+                else curLocation.Z += 0.1f;
+                return curLocation.Z.ToString("F3");
+            });
+            UIMenuDynamicListItem rotX = new UIMenuDynamicListItem("X", dummyRot.X.ToString("F3"), async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.X -= 0.1f;
+                else dummyRot.X += 0.1f;
+                return dummyRot.X.ToString("F3");
+            });
+            UIMenuDynamicListItem rotY = new UIMenuDynamicListItem("Y", dummyRot.Y.ToString("F3"), async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.Y -= 0.1f;
+                else dummyRot.Y += 0.1f;
+                return dummyRot.Y.ToString("F3");
+            });
+            UIMenuDynamicListItem rotZ = new UIMenuDynamicListItem("Z", dummyRot.Z.ToString("F3"), async (sender, direction) =>
+            {
+                if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.Z -= 0.1f;
+                else dummyRot.Z += 0.1f;
+                return dummyRot.Z.ToString("F3");
+            });
+            overridePos.AddItem(alignment);
+            overridePos.AddItem(posX);
+            overridePos.AddItem(posY);
+            overridePos.AddItem(posZ);
+            overrideRot.AddItem(alignment);
+            overrideRot.AddItem(rotX);
+            overrideRot.AddItem(rotY);
+            overrideRot.AddItem(rotZ);
+            #endregion
+
+            #region SnapOptions
+
+            UIMenuListItem proxSnap = new UIMenuListItem("", new List<dynamic>() { "No", "Si" }, 0);
+            UIMenuListItem chainSnap = new UIMenuListItem("", new List<dynamic>() { "No", "Si" }, 0);
+            snapOptions.AddItem(proxSnap);
+            snapOptions.AddItem(chainSnap);
+
+            #endregion
+
+            #endregion
+
+            UIMenuListItem speedPadIntensity = new UIMenuListItem("Intensità Pad Accelerazione", new List<dynamic>() { "Debole", "Normale", "Forte", "Extra Forte", "Ultra Forte" }, 1);
+            propPlacing.AddItem(speedPadIntensity);
+            UIMenuListItem slowPadIntensity = new UIMenuListItem("Intensità Pad Rallentamento", new List<dynamic>() { "Debole", "Normale", "Forte", "Extra Forte", "Ultra Forte" }, 1);
+            propPlacing.AddItem(slowPadIntensity);
+            UIMenu soundTriggerMenu = propPlacing.AddSubMenu("Menu Attivazione Suoni");
+            #region soundTriggerMenu
+
+            UIMenuListItem soundId = new UIMenuListItem("Sound ID", new List<dynamic>() { "Airhorn", "Roar", "Chitarra 01", "Chitarra 02", "Clacson", "Tuono", "Allarme" }, 0);
+            UIMenuItem soundPreview = new UIMenuItem("Play Anteprima Suono");
+            UIMenuListItem radius = new UIMenuListItem("Distanza Attivazione", new List<dynamic> { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 150 }, 0);
+            UIMenuListItem voltePerLap = new UIMenuListItem("(Globale) Volte per Giro", new List<dynamic>() { "Infinite", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70 }, 0);
+            UIMenuCheckboxItem oncePerLap = new UIMenuCheckboxItem("Una Volta per Giro", false);
+            soundTriggerMenu.AddItem(soundId);
+            soundTriggerMenu.AddItem(soundPreview);
+            soundTriggerMenu.AddItem(radius);
+            soundTriggerMenu.AddItem(voltePerLap);
+            soundTriggerMenu.AddItem(oncePerLap);
+
+            #endregion
+
+
+            #endregion
             #endregion
 
             UIMenuItem Esci = new("Esci");
@@ -982,10 +981,10 @@ namespace TheLastPlanet.Client.Races.Creator
                 #region CreaProp
                 if (Input.IsControlJustPressed(Control.FrontendAccept))
                 {
-                    var submenuselected = Creator.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento").Value.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento tracciato").Value.Children.Values.Any(x => x.ParentItem.Selected);
+                    bool submenuselected = Creator.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento").Value.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento tracciato").Value.Children.Values.Any(x => x.ParentItem.Selected);
                     if (submenuselected) return;
                     // controllo che non ho selezionato i submenu
-                    var model = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
+                    int model = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
                     Prop prop = await Funzioni.SpawnLocalProp(model, curLocation, false, false);
                     prop.Rotation = dummyRot;
                     SetObjectTextureVariation(prop.Handle, colorePropScelto);
@@ -993,14 +992,14 @@ namespace TheLastPlanet.Client.Races.Creator
                     {
                         DummyProp.Detach();
                         attachedBone = 0;
-                        var close = prop.GetClosestProp(new List<Entity> { prop, DummyProp, cross });
+                        Prop close = prop.GetClosestProp(new List<Entity> { prop, DummyProp, cross });
                         //SEMPRE BONE 2 O 3 SEMPRE!
                         Vector3 bone2 = GetWorldPositionOfEntityBone(close.Handle, 2);
                         Vector3 bone3 = GetWorldPositionOfEntityBone(close.Handle, 3);
 
                         if (Vector3.Distance(GetWorldPositionOfEntityBone(prop.Handle, 3), bone2) < 15f)
                         {
-                            var vVar13 = close.Rotation;
+                            Vector3 vVar13 = close.Rotation;
                             prop.Rotation = new Vector3(0, 0, vVar13.Z);
                             prop.IsCollisionEnabled = false;
                             if (func_277(close.Model.Hash, 18))
@@ -1011,7 +1010,7 @@ namespace TheLastPlanet.Client.Races.Creator
                         }
                         if (Vector3.Distance(GetWorldPositionOfEntityBone(prop.Handle, 2), bone3) < 15f)
                         {
-                            var vVar13 = close.Rotation;
+                            Vector3 vVar13 = close.Rotation;
                             prop.Rotation = new Vector3(0, 0, vVar13.Z);
                             prop.IsCollisionEnabled = false;
                             if (func_277(close.Model.Hash, 18))
@@ -1028,7 +1027,7 @@ namespace TheLastPlanet.Client.Races.Creator
 
                 if (OpzioniSnap.Attivo && OpzioniSnap.Prossimità) // func_8363
                 {
-                    var close = DummyProp.GetClosestProp(new List<Entity> { DummyProp, cross });
+                    Prop close = DummyProp.GetClosestProp(new List<Entity> { DummyProp, cross });
                     //SEMPRE BONE 2 O 3 SEMPRE! (tranne gli incroci o i bivii)
                     Vector3 bone2 = GetWorldPositionOfEntityBone(close.Handle, 2);
                     Vector3 bone3 = GetWorldPositionOfEntityBone(close.Handle, 3);
@@ -1038,7 +1037,7 @@ namespace TheLastPlanet.Client.Races.Creator
                         {
                             if (Vector3.Distance(GetWorldPositionOfEntityBone(DummyProp.Handle, 3), bone2) < 15f)
                             {
-                                var vVar13 = close.Rotation;
+                                Vector3 vVar13 = close.Rotation;
                                 DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
                                 DummyProp.IsCollisionEnabled = false;
                                 if (func_277(close.Model.Hash, 18))
@@ -1050,7 +1049,7 @@ namespace TheLastPlanet.Client.Races.Creator
                             }
                             else if (Vector3.Distance(GetWorldPositionOfEntityBone(DummyProp.Handle, 2), bone3) < 15f)
                             {
-                                var vVar13 = close.Rotation;
+                                Vector3 vVar13 = close.Rotation;
                                 DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
                                 DummyProp.IsCollisionEnabled = false;
                                 if (func_277(close.Model.Hash, 18))

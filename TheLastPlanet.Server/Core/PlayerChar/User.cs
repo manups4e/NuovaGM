@@ -13,9 +13,9 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 {
     public class User : BasePlayerShared
     {
-        [Ignore] [JsonIgnore] public string source;
+        [Ignore] [JsonIgnore] internal string source;
 
-        [Ignore] [JsonIgnore] public DateTime LastSaved;
+        [Ignore] [JsonIgnore] internal DateTime LastSaved;
 
         [Ignore] [JsonIgnore] internal BasePlayerShared basePlayer;
 
@@ -65,13 +65,13 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             LastSaved = DateTime.Now;
         }
 
-        [Ignore] [JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
+        [Ignore] [JsonIgnore] internal string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-        [Ignore] [JsonIgnore] public string DOB => CurrentChar.Info.dateOfBirth;
+        [Ignore] [JsonIgnore] internal string DOB => CurrentChar.Info.dateOfBirth;
 
         [Ignore]
         [JsonIgnore]
-        public bool DeathStatus
+        internal bool DeathStatus
         {
             get => CurrentChar.is_dead;
             set
@@ -83,7 +83,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
         [Ignore]
         [JsonIgnore]
-        public int Money
+        internal int Money
         {
             get => CurrentChar.Finance.Money;
             set
@@ -99,7 +99,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
         [Ignore]
         [JsonIgnore]
-        public int Bank
+        internal int Bank
         {
             get => CurrentChar.Finance.Bank;
             set
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
         [Ignore]
         [JsonIgnore]
-        public int DirtCash
+        internal int DirtCash
         {
             get => CurrentChar.Finance.DirtyCash;
             set
@@ -308,7 +308,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
         }
 
-        [Ignore] [JsonIgnore] public Vector3 getCoords => CurrentChar.Posizione.ToVector3;
+        [Ignore] [JsonIgnore] internal Vector3 getCoords => CurrentChar.Posizione.ToVector3;
 
         public void giveLicense(string license, string mittente)
         {

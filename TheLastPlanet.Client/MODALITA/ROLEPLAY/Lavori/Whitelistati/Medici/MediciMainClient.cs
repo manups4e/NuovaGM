@@ -199,7 +199,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                         }
                                         else
                                         {
-                                            HUD.ShowNotification("Il veicolo che tenti di posare non è registrato a un medico!", NotificationColor.Red, true);
+                                            HUD.ShowNotification("Il veicolo che tenti di posare non è registrato a un medico!", ColoreNotifica.Red, true);
                                         }
                                     }
                                 }
@@ -249,7 +249,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                         }
                                         else
                                         {
-                                            HUD.ShowNotification("L'elicottero che tenti di posare non è registrato a un medico!", NotificationColor.Red, true);
+                                            HUD.ShowNotification("L'elicottero che tenti di posare non è registrato a un medico!", ColoreNotifica.Red, true);
                                         }
                                     }
                                 }

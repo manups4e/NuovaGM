@@ -307,7 +307,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 
                     break;
                 case 2:
-                    HUD.ShowNotification("Questo carrello è pieno!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Questo carrello è pieno!", ColoreNotifica.Red, true);
 
                     return;
             }

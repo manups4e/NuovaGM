@@ -86,18 +86,18 @@ namespace TheLastPlanet.Client.Core.Utility
             switch (toggle)
             {
                 case "on" when !On:
-                    HUD.HUD.ShowNotification("DelGun Attivata!", HUD.NotificationColor.GreenLight);
+                    HUD.HUD.ShowNotification("DelGun Attivata!", HUD.ColoreNotifica.GreenLight);
                     On = true;
                     break;
                 case "on" when On:
-                    HUD.HUD.ShowNotification("~y~DelGun già attivata!", HUD.NotificationColor.Yellow);
+                    HUD.HUD.ShowNotification("~y~DelGun già attivata!", HUD.ColoreNotifica.Yellow);
                     break;
                 case "off" when On:
-                    HUD.HUD.ShowNotification("~b~DelGun Disattivata!", HUD.NotificationColor.GreenLight);
+                    HUD.HUD.ShowNotification("~b~DelGun Disattivata!", HUD.ColoreNotifica.GreenLight);
                     On = false;
                     break;
                 case "off" when !On:
-                    HUD.HUD.ShowNotification("~y~DelGun già Disattivata!", HUD.NotificationColor.Yellow);
+                    HUD.HUD.ShowNotification("~y~DelGun già Disattivata!", HUD.ColoreNotifica.Yellow);
                     break;
             }
         }
@@ -107,7 +107,7 @@ namespace TheLastPlanet.Client.Core.Utility
             HUD.HUD.ShowNotification(text);
         }
 
-        public static void advancedNotification(string title, string subject, string msg, string icon, HUD.IconType iconType)
+        public static void advancedNotification(string title, string subject, string msg, string icon, HUD.TipoIcona iconType)
         {
             HUD.HUD.ShowAdvancedNotification(title, subject, msg, icon, iconType);
         }

@@ -13,8 +13,8 @@ using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Shared.PlayerChar
 {
-    [Serialization]
-    public partial class BasePlayerShared
+    
+    public class BasePlayerShared
     {
         public int ID { get; set; }
 
@@ -31,7 +31,7 @@ namespace TheLastPlanet.Shared.PlayerChar
         public UserGroup group_level { get; set; }
         public long playTime { get; set; }
 
-        [Ignore] [JsonIgnore] public Player Player;
+        [Ignore] [JsonIgnore] internal Player Player;
         public Identifiers Identifiers { get; set; }
 
         public List<Char_data> Characters { get; set; } = new();
@@ -60,10 +60,11 @@ namespace TheLastPlanet.Shared.PlayerChar
             get => Characters.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
             set => Characters = value.FromJson<List<Char_data>>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
         }
+        public BasePlayerShared() { }
     }
 
-    [Serialization]
-    public partial class Identifiers
+    
+    public class Identifiers
     {
         public string? Steam { get; set; }
         public string? License { get; set; }

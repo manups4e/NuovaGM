@@ -743,11 +743,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         {
                             if (result == "Nuovo" || result == "Nome")
                             {
-                                HUD.ShowNotification("Hai inserito un Nome non accettabile! Riprova", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
+                                HUD.ShowNotification("Hai inserito un Nome non accettabile! Riprova", TheLastPlanet.Client.Core.Utility.HUD.ColoreNotifica.Red, true);
                             }
                             else if (result.Length < 4)
                             {
-                                HUD.ShowNotification("Hai inserito un Nome troppo corto!", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
+                                HUD.ShowNotification("Hai inserito un Nome troppo corto!", TheLastPlanet.Client.Core.Utility.HUD.ColoreNotifica.Red, true);
                             }
                             else
                             {
@@ -765,11 +765,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         {
                             if (result == "Personaggio" || result == "Cognome")
                             {
-                                HUD.ShowNotification("Hai inserito un Cognome non accetabile! Riprova", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
+                                HUD.ShowNotification("Hai inserito un Cognome non accetabile! Riprova", TheLastPlanet.Client.Core.Utility.HUD.ColoreNotifica.Red, true);
                             }
                             else if (result.Length < 4)
                             {
-                                HUD.ShowNotification("Hai inserito un Cognome troppo corto!", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
+                                HUD.ShowNotification("Hai inserito un Cognome troppo corto!", TheLastPlanet.Client.Core.Utility.HUD.ColoreNotifica.Red, true);
                             }
                             else
                             {
@@ -786,11 +786,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         {
                             if (result == "01/12/199cambiami" || result == "gg/mm/yyyy")
                             {
-                                HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
+                                HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", TheLastPlanet.Client.Core.Utility.HUD.ColoreNotifica.Red, true);
                             }
                             else if (result.ToCharArray()[2] != '/' || result.ToCharArray()[5] != '/' || result.Length < 10 || result.Length > 10)
                             {
-                                HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
+                                HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", TheLastPlanet.Client.Core.Utility.HUD.ColoreNotifica.Red, true);
                             }
                             else
                             {

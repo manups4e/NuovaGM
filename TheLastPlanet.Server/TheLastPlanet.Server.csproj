@@ -18,7 +18,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- Exclude the output of source generators from the compilation -->
-		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,7 +43,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Server" Version="1.0.5828" />
+		<PackageReference Include="CitizenFX.Core.Server" Version="1.0.6335" />
 		<PackageReference Include="Confuser.MSBuild" Version="2.0.0-alpha-0191">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -51,8 +51,9 @@
 		<PackageReference Include="Dapper" Version="2.0.123">
 		  <GeneratePathProperty>False</GeneratePathProperty>
 		</PackageReference>
+		<PackageReference Include="FxEvents.Server" Version="1.0.3" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="MySqlConnector" Version="2.1.12" />
+		<PackageReference Include="MySqlConnector" Version="2.2.5" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
 
 	</ItemGroup>
@@ -65,10 +66,6 @@
 		<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
 		<!--<Compile Include="..\TheLastPlanet.Shared\**\*.cs" />-->
 		<Content Include="TheLastPlanet.Server.crproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -112,12 +109,6 @@
 		<SourceFiles Remove="$(OutDir)*.json" />
 		<JsonConfigFiles Include="$(OutDir)\Resources\*.json" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Reference Include="FxEvents.Server">
-	    <HintPath>L:\FiveM\ManuGamemode\resources\fx_events\Server\FxEvents.Server.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Copy SkipUnchangedFiles="true" SourceFiles="@(SourceFiles)" DestinationFolder="L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\" />
 		<Copy SkipUnchangedFiles="true" SourceFiles="@(JsonConfigFiles)" DestinationFolder="L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\Resources" />

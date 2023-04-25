@@ -318,14 +318,15 @@ namespace TheLastPlanet.Shared
     }
 
 
-    [Serialization]
-    public partial class InstanceBag
+    
+    public class InstanceBag
     {
         public bool Stanziato { get; set; }
         public int ServerIdProprietario { get; set; }
         public bool IsProprietario { get; set; }
         public string? Instance { get; set; }
 
+        public InstanceBag() { }
         public InstanceBag(bool stanziato, int serverId, bool proprietario, string instance)
         {
             Stanziato = stanziato;

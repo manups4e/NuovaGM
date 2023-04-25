@@ -19,7 +19,7 @@ namespace TheLastPlanet.Shared
         public static readonly Position Zero = new();
 
 
-        internal Position() { }
+        public Position() { }
 
         public Position(float value)
         {

@@ -24,7 +24,7 @@ namespace TheLastPlanet.Server.Veicoli
             Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
             Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
             Server.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool, string>(InGarage));
-            EventDispatcher.Mount("lprp:caricaVeicoli", new Func<PlayerClient, ulong, Task<List<OwnedVehicle>>>(async (a, b) =>
+            EventDispatcher.Mount("lprp:caricaVeicoli", new Func<PlayerClient, ulong, Task<List<OwnedVehicle>>>(async ([FromSource] a, b) =>
             {
                 const string query = "SELECT * FROM owned_vehicles WHERE UserID = @disc AND char_id = @pers";
                 Player player = a.Player;
@@ -38,7 +38,7 @@ namespace TheLastPlanet.Server.Veicoli
             }));
         }
 
-        public static async void onPlayerSpawn(PlayerClient client)
+        public static async void onPlayerSpawn([FromSource] PlayerClient client)
         {
             await BaseScript.Delay(0);
 

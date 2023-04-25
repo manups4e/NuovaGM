@@ -390,11 +390,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                             case UIMenuItem i when i == incarcera: break;
                         }
                     else
-                        HUD.ShowNotification("Nessuno trovato vicino a te..~n~Avvicinati!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Nessuno trovato vicino a te..~n~Avvicinati!", ColoreNotifica.Red, true);
                 }
                 else
                 {
-                    HUD.ShowNotification("Non ci sono altri giocatori!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Non ci sono altri giocatori!", ColoreNotifica.Red, true);
                 }
             };
 
@@ -460,7 +460,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     if (!nome.Any(char.IsDigit))
                         item.SetRightLabel(nome);
                     else
-                        HUD.ShowNotification("Non puoi ricercare un nome che contiene cifre!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi ricercare un nome che contiene cifre!", ColoreNotifica.Red, true);
                 }
                 else if (item == cercaCognome)
                 {
@@ -468,7 +468,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     if (!cognome.Any(char.IsDigit))
                         item.SetRightLabel(cognome);
                     else
-                        HUD.ShowNotification("Non puoi ricercare un cognome che contiene cifre!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi ricercare un cognome che contiene cifre!", ColoreNotifica.Red, true);
                 }
                 else if (item == cercaNTelefono)
                 {
@@ -476,7 +476,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     if (numero.All(char.IsDigit))
                         item.SetRightLabel(numero);
                     else
-                        HUD.ShowNotification("Non puoi ricercare un numero che contiene lettere!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi ricercare un numero che contiene lettere!", ColoreNotifica.Red, true);
                 }
             };
 

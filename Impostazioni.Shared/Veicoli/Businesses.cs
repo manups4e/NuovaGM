@@ -4,8 +4,8 @@ using FxEvents.Shared.Attributes;
 
 namespace Impostazioni.Shared.Configurazione.Generici
 {
-    [Serialization]
-    public partial class GasStation
+    
+    public class GasStation
     {
         public Vector3 pos;
         public List<Vector3> pumps = new List<Vector3>();

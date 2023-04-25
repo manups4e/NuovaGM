@@ -5,8 +5,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class SharedWeapon
+    
+    public class SharedWeapon
     {
         public string? Name { get; set; }
         public GameLabel Label { get; set; }

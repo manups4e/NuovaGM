@@ -1,15 +1,15 @@
 ﻿global using CitizenFX.Core;
 global using CitizenFX.Core.Native;
-global using static CitizenFX.Core.Native.API;
-global using TheLastPlanet.Shared;
 global using FxEvents;
 global using FxEvents.Shared;
+global using TheLastPlanet.Shared;
+global using static CitizenFX.Core.Native.API;
+using FxEvents.Shared.Snowflakes;
 using Logger;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core;
-using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Server
 {
@@ -28,6 +28,7 @@ namespace TheLastPlanet.Server
 
         public Server()
         {
+            EventDispatcher.Initalize("qIFBYn6qv7ZxbGLT7uzpFHa1wPCpmIHbDTWGJ8fy", "QNrAF12UC1qOvnhL6JEShdEdNiCyASUbbNpvyZPG", "Pi5V5nvCki0BcwppyczIfgy3ZZCJPqaYAeQsLZOs");
             Instance = this;
             Logger = new Log();
 #if DEBUG
@@ -36,7 +37,7 @@ namespace TheLastPlanet.Server
 #else
 			SetConvarReplicated("DEBUG", "0");
 #endif
-            SnowflakeGenerator.Create(new Random().NextShort(100,200));
+            SnowflakeGenerator.Create(new Random().NextShort(100, 200));
             SetConvarServerInfo("sv_projectName", "^2THE ^0LAST ^1GALAXY.");
             SetConvarServerInfo("sv_projectDesc", "^5Un server per domarli, un server per trovarli, un server per ghermirli e nel videogioco incatenarli!");
             SetConvarServerInfo("locale", "it-IT");
@@ -45,7 +46,6 @@ namespace TheLastPlanet.Server
             SetMapName("The Last Planet");
             StartServer();
         }
-
         private async void StartServer()
         {
             StateBagsHandler = new StateBagsHandler();

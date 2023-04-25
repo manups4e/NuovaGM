@@ -264,7 +264,7 @@ namespace TheLastPlanet.Server
             EventDispatcher.Mount("lpop:onPlayerDied", new Action<PlayerClient, int, int, Position>(OnPlayerDied));
         }
 
-        private static void OnPlayerDied(PlayerClient player, int tipo, int killer, Position victimCoords)
+        private static void OnPlayerDied([FromSource] PlayerClient player, int tipo, int killer, Position victimCoords)
         {
             string morte = "";
             Player Killer = Funzioni.GetPlayerFromId(killer);

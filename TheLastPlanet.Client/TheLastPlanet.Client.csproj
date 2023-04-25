@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net472</TargetFramework>
+		<TargetFramework>net452</TargetFramework>
 		<TargetName>TheLastPlanet.Client.net</TargetName>
 		<DefineConstants>DEBUG;CLIENT</DefineConstants>
 		<AssemblyName>TheLastPlanet.Client.net</AssemblyName>
@@ -18,7 +18,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- Exclude the output of source generators from the compilation -->
-		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
 	</ItemGroup>
 
 
@@ -55,18 +55,16 @@
 	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
 	<Import Project="..\Impostazioni.Shared\Impostazioni.Shared.projitems" Label="Shared" />
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5828" />
+		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.6370" />
 		<PackageReference Include="Confuser.MSBuild" Version="2.0.0-alpha-0191">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="FxEvents.FiveM.Client" Version="1.0.3" />
 
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
 
-		<Reference Include="FxEvents.Client">
-		  <HintPath>L:\FiveM\ManuGamemode\resources\fx_events\Client\FxEvents.Client.dll</HintPath>
-		  <Private>True</Private>
-		</Reference>
+		<PackageReference Include="ScaleformUI" Version="2.9.2" />
 		<Reference Include="Newtonsoft.Json">
 			<HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
 		</Reference>
@@ -76,10 +74,7 @@
 		<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
 		<!--PER OFFUSCARE-->
 		<Content Include="TheLastPlanet.Client.crproj" />
-		<ProjectReference Include="..\ScaleformUI\ScaleformUI.csproj" />
 		<!--PER OFFUSCARE-->
-
-		<ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
 	</ItemGroup>
 
 	<!--SE OUTPUTDIR E' VUOTA NON CI SONO FILE DA COPIARE QUINDI NIENTE COPIA FINO A COMPILAZIONE SUCCESSIVA!-->

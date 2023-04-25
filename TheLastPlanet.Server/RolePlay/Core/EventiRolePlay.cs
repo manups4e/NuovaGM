@@ -75,7 +75,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
                 (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => a.Player.Handle)));
         }
 
-        public static void FinishChar(PlayerClient client, string data)
+        public static void FinishChar([FromSource] PlayerClient client, string data)
         {
             try
             {
@@ -88,13 +88,13 @@ namespace TheLastPlanet.Server.RolePlay.Core
             }
         }
 
-        public static void deathStatus(PlayerClient source, bool value)
+        public static void deathStatus([FromSource] PlayerClient source, bool value)
         {
             source.User.DeathStatus = value;
             source.SetState($"{source.Status.RolePlayStates._name}:FinDiVita", value);
         }
 
-        public static void PayFine(PlayerClient source, int amount)
+        public static void PayFine([FromSource] PlayerClient source, int amount)
         {
             User player = source.User;
 
@@ -109,7 +109,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
             }
         }
 
-        public static void Spawnato(PlayerClient source)
+        public static void Spawnato([FromSource] PlayerClient source)
         {
             User user = source.User;
             Server.Logger.Info($"{user.FullName} ({source.Player.Name} è entrato in città");
@@ -120,7 +120,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
         }
 
         //TODO: DA CAMBIARE CON NUOVO METODO
-        public static async void SalvaPlayer(PlayerClient client)
+        public static async void SalvaPlayer([FromSource] PlayerClient client)
         {
             await BaseScript.Delay(0);
             string name = client.Player.Name;
@@ -136,7 +136,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
             await Task.FromResult(0);
         }
 
-        public static void removeItemsDeath(PlayerClient source)
+        public static void removeItemsDeath([FromSource] PlayerClient source)
         {
             User player = source.User;
             int money = player.Money;
@@ -148,13 +148,13 @@ namespace TheLastPlanet.Server.RolePlay.Core
             player.DirtCash -= dirty;
         }
 
-        public static void GiveMoney(PlayerClient source, int amount)
+        public static void GiveMoney([FromSource] PlayerClient source, int amount)
         {
             User player = source.User;
             player.Money += amount;
         }
 
-        public static void RemoveMoney(PlayerClient source, int amount)
+        public static void RemoveMoney([FromSource] PlayerClient source, int amount)
         {
             if (amount > 0)
                 source.User.Money -= amount;
@@ -162,57 +162,57 @@ namespace TheLastPlanet.Server.RolePlay.Core
                 source.Player.Drop("Rilevata possibile modifica ai valori di gioco");
         }
 
-        public static void GiveBank(PlayerClient source, int amount)
+        public static void GiveBank([FromSource] PlayerClient source, int amount)
         {
             source.User.Bank += amount;
         }
 
-        public static void RemoveBank(PlayerClient source, int amount)
+        public static void RemoveBank([FromSource] PlayerClient source, int amount)
         {
             source.User.Bank -= amount;
         }
 
-        public static void GiveDirty(PlayerClient source, int amount)
+        public static void GiveDirty([FromSource] PlayerClient source, int amount)
         {
             source.User.DirtCash += amount;
         }
 
-        public static void RemoveDirty(PlayerClient source, int amount)
+        public static void RemoveDirty([FromSource] PlayerClient source, int amount)
         {
             source.User.DirtCash -= amount;
         }
 
-        public static void AddInventory(PlayerClient source, string item, int amount, float peso)
+        public static void AddInventory([FromSource] PlayerClient source, string item, int amount, float peso)
         {
             source.User.addInventoryItem(item, amount, peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
         }
 
-        public static void RemoveInventory(PlayerClient source, string item, int amount)
+        public static void RemoveInventory([FromSource] PlayerClient source, string item, int amount)
         {
             source.User.removeInventoryItem(item, amount);
         }
 
-        public static void AddWeapon(PlayerClient source, string weaponName, int ammo)
+        public static void AddWeapon([FromSource] PlayerClient source, string weaponName, int ammo)
         {
             source.User.addWeapon(weaponName, ammo);
         }
 
-        public static void RemoveWeapon(PlayerClient source, string weaponName)
+        public static void RemoveWeapon([FromSource] PlayerClient source, string weaponName)
         {
             source.User.removeWeapon(weaponName);
         }
 
-        public static void AddWeaponComp(PlayerClient source, string weaponName, string weaponComponent)
+        public static void AddWeaponComp([FromSource] PlayerClient source, string weaponName, string weaponComponent)
         {
             source.User.addWeaponComponent(weaponName, weaponComponent);
         }
 
-        public static void RemoveWeaponComp(PlayerClient source, string weaponName, string weaponComponent)
+        public static void RemoveWeaponComp([FromSource] PlayerClient source, string weaponName, string weaponComponent)
         {
             source.User.removeWeaponComponent(weaponName, weaponComponent);
         }
 
-        public static void AddWeaponTint(PlayerClient source, string weaponName, int tint)
+        public static void AddWeaponTint([FromSource] PlayerClient source, string weaponName, int tint)
         {
             source.User.addWeaponTint(weaponName, tint);
         }
@@ -291,32 +291,32 @@ namespace TheLastPlanet.Server.RolePlay.Core
             Funzioni.GetUserFromPlayerId(target).addWeaponTint(weaponName, tint);
         }
 
-        private static void GiveLicense(PlayerClient source, string license)
+        private static void GiveLicense([FromSource] PlayerClient source, string license)
         {
             User player = source.User;
         }
 
-        private static void GiveLicenseToChar(PlayerClient source, int target, string license)
+        private static void GiveLicenseToChar([FromSource] PlayerClient source, int target, string license)
         {
             User player = source.User;
         }
 
-        private static void RemoveLicense(PlayerClient source, string license)
+        private static void RemoveLicense([FromSource] PlayerClient source, string license)
         {
             User player = source.User;
         }
 
-        private static void RemoveLicenseToChar(PlayerClient source, int target, string license)
+        private static void RemoveLicenseToChar([FromSource] PlayerClient source, int target, string license)
         {
             User player = source.User;
         }
 
-        private static void AggiornaAmmo(PlayerClient source, string weaponName, int ammo)
+        private static void AggiornaAmmo([FromSource] PlayerClient source, string weaponName, int ammo)
         {
             source.User.updateWeaponAmmo(weaponName, ammo);
         }
 
-        private static void GiveItemToOtherPlayer(PlayerClient source, int target, string itemName, int amount)
+        private static void GiveItemToOtherPlayer([FromSource] PlayerClient source, int target, string itemName, int amount)
         {
             User player = source.User;
             PlayerClient targetClient = Funzioni.GetClientFromPlayerId(target);
@@ -328,7 +328,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
             targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} da {player.FullName}");
         }
 
-        private static void GiveWeaponToOtherPlayer(PlayerClient source, int target, string weaponName, int ammo)
+        private static void GiveWeaponToOtherPlayer([FromSource] PlayerClient source, int target, string weaponName, int ammo)
         {
             User player = source.User;
             PlayerClient targetClient = Funzioni.GetClientFromPlayerId(target);

@@ -3,8 +3,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class ConfigurazionePolizia
+    
+    public class ConfigurazionePolizia
     {
         public bool AbilitaBlipVolanti { get; set; }
         public bool AbilitaTimerManette { get; set; }
@@ -17,21 +17,21 @@ namespace TheLastPlanet.Shared
         public List<StazioniDiPolizia> Stazioni { get; set; }
     }
 
-    [Serialization]
-    public partial class ConfigurazioneMedici
+    
+    public class ConfigurazioneMedici
     {
         public bool AbilitaBlipVolanti { get; set; }
         public List<Ospedale> Ospedali { get; set; }
     }
 
-    [Serialization]
-    public partial class ConfigurazioneVendAuto
+    
+    public class ConfigurazioneVendAuto
     {
         public Position BossActions { get; set; }
         public Position MenuVendita { get; set; }
     }
-    [Serialization]
-    public partial class ConfigurazioneVendCase
+    
+    public class ConfigurazioneVendCase
     {
         public Position BossActions { get; set; }
         public Position Ingresso { get; set; }
@@ -41,8 +41,8 @@ namespace TheLastPlanet.Shared
         public Position Actions { get; set; }
     }
 
-    [Serialization]
-    public partial class _Pescatori
+    
+    public class _Pescatori
     {
         public bool TempoPescaDinamico { get; set; }
         public int TempoFisso { get; set; }
@@ -55,23 +55,23 @@ namespace TheLastPlanet.Shared
         public _PesciPescati Pesci { get; set; }
     }
 
-    [Serialization]
-    public partial class _PesciPescati
+    
+    public class _PesciPescati
     {
         public List<string> facile { get; set; }
         public List<string> medio { get; set; }
         public List<string> avanzato { get; set; }
     }
 
-    [Serialization]
-    public partial class _Cacciatori
+    
+    public class _Cacciatori
     {
         public Position inizioCaccia { get; set; }
         public Position zonaDiCaccia { get; set; }
         public float limiteArea { get; set; }
     }
-    [Serialization]
-    public partial class _Tassisti
+    
+    public class _Tassisti
     {
         public Position PosAccettazione { get; set; }
         public Position PosDepositoVeicolo { get; set; }
@@ -82,8 +82,8 @@ namespace TheLastPlanet.Shared
         public List<Position> jobCoords { get; set; }
     }
 
-    [Serialization]
-    public partial class _Towing
+    
+    public class _Towing
     {
         public Position InizioLavoro { get; set; }
         public List<Position> PuntiDespawn { get; set; }
@@ -91,8 +91,8 @@ namespace TheLastPlanet.Shared
         public List<Position> SpawnVeicoli { get; set; }
     }
 
-    [Serialization]
-    public partial class WhiteListed
+    
+    public class WhiteListed
     {
         public Dictionary<string, JobGrade> Polizia { get; set; }
         public Dictionary<string, JobGrade> Medico { get; set; }
@@ -100,21 +100,21 @@ namespace TheLastPlanet.Shared
 
     }
 
-    [Serialization]
-    public partial class JobGrade
+    
+    public class JobGrade
     {
         public int Id { get; set; }
         public int Stipendio { get; set; }
         public AbitiLavoro Vestiti { get; set; }
     }
-    [Serialization]
-    public partial class AbitiLavoro
+    
+    public class AbitiLavoro
     {
         public AbitiLav Maschio { get; set; }
         public AbitiLav Femmina { get; set; }
     }
-    [Serialization]
-    public partial class AbitiLav
+    
+    public class AbitiLav
     {
         public ComponentDrawables Abiti { get; set; }
         public ComponentDrawables TextureVestiti { get; set; }
@@ -122,15 +122,15 @@ namespace TheLastPlanet.Shared
         public PropIndices TexturesAccessori { get; set; }
     }
 
-    [Serialization]
-    public partial class CaniPolizia
+    
+    public class CaniPolizia
     {
         public string Nome { get; set; }
         public string Model { get; set; }
     }
 
-    [Serialization]
-    public partial class Autorizzati
+    
+    public class Autorizzati
     {
         public string Nome { get; set; }
         public string Model { get; set; }
@@ -138,8 +138,8 @@ namespace TheLastPlanet.Shared
     }
 
 
-    [Serialization]
-    public partial class StazioniDiPolizia
+    
+    public class StazioniDiPolizia
     {
         public BlipLavoro Blip { get; set; }
         public List<Position> Spogliatoio { get; set; }
@@ -152,8 +152,8 @@ namespace TheLastPlanet.Shared
         public List<Position> BossActions { get; set; }
     }
 
-    [Serialization]
-    public partial class Ospedale
+    
+    public class Ospedale
     {
         public BlipLavoro Blip { get; set; }
         public List<Position> Spogliatoio { get; set; }
@@ -167,8 +167,8 @@ namespace TheLastPlanet.Shared
         public List<Position> AzioniCapo { get; set; }
     }
 
-    [Serialization]
-    public partial class BlipLavoro
+    
+    public class BlipLavoro
     {
         public Position Coords { get; set; }
         public int Sprite { get; set; }
@@ -177,16 +177,16 @@ namespace TheLastPlanet.Shared
         public int Color { get; set; }
         public string Nome { get; set; }
     }
-    [Serialization]
-    public partial class SpawnerSpawn
+    
+    public class SpawnerSpawn
     {
         public Position SpawnerMenu { get; set; }
         public List<SpawnPoints> SpawnPoints { get; set; }
         public List<Position> Deleters { get; set; }
     }
 
-    [Serialization]
-    public partial class SpawnPoints
+    
+    public class SpawnPoints
     {
         public Position Coords { get; set; }
         public float Heading { get; set; }

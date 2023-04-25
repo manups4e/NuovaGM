@@ -1,15 +1,12 @@
-﻿using CitizenFX.Core.Native;
-using TheLastPlanet.Client.Core.Utility.HUD;
-
-namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
+﻿namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 {
     public class BucketMarker
     {
-        public Marker Marker;
+        public MarkerEx Marker;
         public string Name;
         public Scaleform Scaleform;
 
-        public BucketMarker(Marker marker, string name, string scaleform)
+        public BucketMarker(MarkerEx marker, string name, string scaleform)
         {
             Marker = marker;
             Name = name;
@@ -22,7 +19,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
             if (!Scaleform.IsLoaded) return;
             Position p = Marker.Position - Cache.PlayerCache.MyPlayer.Ped.Position.ToPosition();
-            var heading = API.GetHeadingFromVector_2d(p.X, p.Y);
+            float heading = API.GetHeadingFromVector_2d(p.X, p.Y);
             Scaleform.Render3D(Marker.Position.ToVector3, new(0, 0, -heading), Marker.Scale / 2);
         }
     }

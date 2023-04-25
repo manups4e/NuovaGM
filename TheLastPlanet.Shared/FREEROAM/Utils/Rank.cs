@@ -4,8 +4,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class Rank
+    
+    public class Rank
     {
         private readonly int _a = 25;
         private readonly int _b = 23575;

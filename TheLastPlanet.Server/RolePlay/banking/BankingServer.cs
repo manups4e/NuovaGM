@@ -16,7 +16,7 @@ namespace TheLastPlanet.Server.banking
             EventDispatcher.Mount("lprp:banking:atmdeposit", new Func<PlayerClient, int, Task<KeyValuePair<bool, string>>>(Deposit));
         }
 
-        private static async Task<KeyValuePair<bool, string>> SendMoney(PlayerClient source, string name, int amount)
+        private static async Task<KeyValuePair<bool, string>> SendMoney([FromSource] PlayerClient source, string name, int amount)
         {
             User user = source.User;
             if (user.Bank >= amount)
@@ -36,7 +36,7 @@ namespace TheLastPlanet.Server.banking
             return new KeyValuePair<bool, string>(false, "I tuoi fondi bancari non coprono la transazione!");
         }
 
-        private static async Task<KeyValuePair<bool, string>> Withdraw(PlayerClient source, int amount)
+        private static async Task<KeyValuePair<bool, string>> Withdraw([FromSource] PlayerClient source, int amount)
         {
             var player = source.Player;
             if (amount > 0)
@@ -57,7 +57,7 @@ namespace TheLastPlanet.Server.banking
             return new KeyValuePair<bool, string>(false, "Devi inserire un valore positivo.");
         }
 
-        private static async Task<KeyValuePair<bool, string>> Deposit(PlayerClient source, int amount)
+        private static async Task<KeyValuePair<bool, string>> Deposit([FromSource] PlayerClient source, int amount)
         {
             var player = source.Player;
             if (amount > 0)

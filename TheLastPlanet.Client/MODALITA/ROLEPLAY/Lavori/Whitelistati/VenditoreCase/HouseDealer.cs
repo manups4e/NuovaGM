@@ -224,7 +224,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
                             if (string.IsNullOrEmpty(res) || string.IsNullOrWhiteSpace(res))
                             {
-                                HUD.ShowNotification("Devi inserire almeno un valore!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Devi inserire almeno un valore!", ColoreNotifica.Red, true);
 
                                 return;
                             }
@@ -233,7 +233,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
                             if (aff <= 0)
                             {
-                                HUD.ShowNotification("Devi inserire un valore positivo!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Devi inserire un valore positivo!", ColoreNotifica.Red, true);
 
                                 return;
                             }
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
                             if (string.IsNullOrEmpty(res) || string.IsNullOrWhiteSpace(res))
                             {
-                                HUD.ShowNotification("Devi inserire almeno un valore!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Devi inserire almeno un valore!", ColoreNotifica.Red, true);
 
                                 return;
                             }
@@ -255,7 +255,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
                             if (aff <= 0)
                             {
-                                HUD.ShowNotification("Devi inserire un valore positivo!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Devi inserire un valore positivo!", ColoreNotifica.Red, true);
 
                                 return;
                             }

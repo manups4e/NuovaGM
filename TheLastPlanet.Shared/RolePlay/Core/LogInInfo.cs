@@ -2,8 +2,8 @@
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class LogInInfo
+    
+    public class LogInInfo
     {
         public string ID { get; set; }
         public string firstName { get; set; }
@@ -13,8 +13,8 @@ namespace TheLastPlanet.Shared
         public int Bank { get; set; }
     }
 
-    [Serialization]
-    public partial class SkinAndDress
+    
+    public class SkinAndDress
     {
         public Skin Skin { get; set; }
         public Dressing Dressing { get; set; }

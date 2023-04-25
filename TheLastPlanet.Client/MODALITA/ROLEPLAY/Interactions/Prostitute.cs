@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                                     }
                                     else
                                     {
-                                        HUD.ShowNotification("Non può salire dietro!", NotificationColor.Red, true);
+                                        HUD.ShowNotification("Non può salire dietro!", ColoreNotifica.Red, true);
                                     }
 
                                     if (Prostituta.IsInVehicle(p.CurrentVehicle))
@@ -95,17 +95,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                                 }
                                 else
                                 {
-                                    HUD.ShowNotification("Non puoi con il veicolo in movimento!", NotificationColor.Red, true);
+                                    HUD.ShowNotification("Non puoi con il veicolo in movimento!", ColoreNotifica.Red, true);
                                 }
                             }
                             else
                             {
-                                HUD.ShowNotification("Non può salire su questo veicolo!!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Non può salire su questo veicolo!!", ColoreNotifica.Red, true);
                             }
                         }
                         else
                         {
-                            HUD.ShowNotification(GetLabelText("PROS_NO_MONEY"), NotificationColor.Red, true);
+                            HUD.ShowNotification(GetLabelText("PROS_NO_MONEY"), ColoreNotifica.Red, true);
                         }
                     }
                 }

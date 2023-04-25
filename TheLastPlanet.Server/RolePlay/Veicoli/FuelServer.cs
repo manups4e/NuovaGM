@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server.Veicoli
             EventDispatcher.Mount("tlg:roleplay:getStations", new Func<PlayerClient, Task<List<GasStation>>>(GetStations));
         }
 
-        private static async Task<List<GasStation>> GetStations(PlayerClient client)
+        private static async Task<List<GasStation>> GetStations([FromSource] PlayerClient client)
         {
             return ConfigShared.SharedConfig.Main.Veicoli.gasstations;
         }

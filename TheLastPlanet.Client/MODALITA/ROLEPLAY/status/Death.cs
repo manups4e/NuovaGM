@@ -86,7 +86,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
                         RequestAnimSet("move_injured_generic");
                         while (!HasAnimSetLoaded("move_injured_generic")) await BaseScript.Delay(0);
                         ped.MovementAnimationSet = "move_injured_generic";
-                        HUD.ShowNotification("Sei ferito ~b~gravemente~w~!! Hai bisogno di essere ~b~curato~w~ da un ~b~medico~w~!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Sei ferito ~b~gravemente~w~!! Hai bisogno di essere ~b~curato~w~ da un ~b~medico~w~!", ColoreNotifica.Red, true);
                         ferito = true;
                         guarito = false;
                         RemoveAnimSet("move_injured_generic");

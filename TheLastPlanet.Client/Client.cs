@@ -1,15 +1,16 @@
 ﻿global using CitizenFX.Core;
 global using CitizenFX.Core.Native;
 global using CitizenFX.Core.UI;
-global using static CitizenFX.Core.Native.API;
+global using FxEvents;
+global using FxEvents.Shared;
 global using ScaleformUI;
-global using TheLastPlanet.Shared;
 global using TheLastPlanet.Client.Cache;
 global using TheLastPlanet.Client.Core.PlayerChar;
 global using TheLastPlanet.Client.Core.Utility;
 global using TheLastPlanet.Client.Core.Utility.HUD;
-global using FxEvents;
-global using FxEvents.Shared;
+global using TheLastPlanet.Shared;
+global using static CitizenFX.Core.Native.API;
+using FxEvents.Shared.Snowflakes;
 using Logger;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.AdminAC;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Handlers;
-using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client
 {
@@ -32,8 +32,9 @@ namespace TheLastPlanet.Client
         public NuiManager NuiManager { get; set; }
         public StateBagsHandler StateBagsHandler { get; set; }
         public StateBag ServerState => GlobalState;
-        public Client() 
+        public Client()
         {
+            EventDispatcher.Initalize("qIFBYn6qv7ZxbGLT7uzpFHa1wPCpmIHbDTWGJ8fy", "QNrAF12UC1qOvnhL6JEShdEdNiCyASUbbNpvyZPG", "Pi5V5nvCki0BcwppyczIfgy3ZZCJPqaYAeQsLZOs");
             Logger = new();
             SnowflakeGenerator.Create(new Random().NextShort(1, 199));
             Instance = this;

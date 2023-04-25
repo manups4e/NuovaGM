@@ -324,7 +324,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
                             if (string.IsNullOrEmpty(am)) break;
                             amount = Convert.ToInt32(am);
-                            if (amount < 1 || amount > me.GetPlayerData().Money) HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+                            if (amount < 1 || amount > me.GetPlayerData().Money) HUD.ShowNotification("Quantità non valida!", ColoreNotifica.Red, true);
                         } while (amount <= 1);
 
                         if (amount == -1) return;
@@ -348,7 +348,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
                             if (string.IsNullOrEmpty(am)) break;
                             amount = Convert.ToInt32(am);
-                            if (amount < 1 || amount > me.GetPlayerData().DirtyCash) HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+                            if (amount < 1 || amount > me.GetPlayerData().DirtyCash) HUD.ShowNotification("Quantità non valida!", ColoreNotifica.Red, true);
                         } while (amount < 1);
 
                         if (amount == -1) return;
@@ -762,7 +762,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Sei ferito! Non puoi fare quest'azione al momento!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Sei ferito! Non puoi fare quest'azione al momento!", ColoreNotifica.Red, true);
                 }
             };
             UIMenu animMenu = HUD.MenuPool.AddSubMenu(ANeStil, "Menu Animazioni", "~g~Quando il RolePlay diventa anche divertente", pos);
@@ -800,7 +800,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             animMenu1.AddItem(item1);
@@ -835,7 +835,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             UIMenu animMenu3 = HUD.MenuPool.AddSubMenu(animMenu, "Lavori", "~g~Il RolePlay non è solo un gioco!", pos);
@@ -914,7 +914,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             UIMenu animMenu4 = HUD.MenuPool.AddSubMenu(animMenu, "Umore", "~g~Cosa vuoi dirgli col corpo?", pos);
@@ -985,7 +985,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             UIMenu animMenu5 = HUD.MenuPool.AddSubMenu(animMenu, "Sports", "~g~Tenersi in forma è importante..", pos);
@@ -1015,7 +1015,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             UIMenu animMenu6 = HUD.MenuPool.AddSubMenu(animMenu, "Varie", "~g~Per la vita quotidiana", pos);
@@ -1057,7 +1057,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             UIMenu animMenu7 = HUD.MenuPool.AddSubMenu(animMenu, "Hard", "~g~La vita può prendere delle pieghe inaspettate nel RolePlay", pos);
@@ -1111,7 +1111,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             UIMenu animMenu8 = HUD.MenuPool.AddSubMenu(animMenu, "Nuove", "~g~Perche ci siamo evoluti~w~", pos);
@@ -1145,7 +1145,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 }
                 else
                 {
-                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
+                    HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", ColoreNotifica.Red);
                 }
             };
             animMenu8.AddItem(item70);
@@ -1187,12 +1187,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                         }
                         else
                         {
-                            HUD.ShowNotification("Ci sono già troppe Bande Criminali attive in sessione.~n~Riprova in un altro momento.", NotificationColor.Red, true);
+                            HUD.ShowNotification("Ci sono già troppe Bande Criminali attive in sessione.~n~Riprova in un altro momento.", ColoreNotifica.Red, true);
                         }
                     }
                     else
                     {
-                        HUD.ShowNotification("Non possiedi abbastanza fondi bancari per diventare un Boss!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non possiedi abbastanza fondi bancari per diventare un Boss!", ColoreNotifica.Red, true);
                     }
                 };
             }
@@ -1335,7 +1335,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                     }
                     else
                     {
-                        HUD.ShowNotification("Non puoi aprire il menu sulle giostre!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi aprire il menu sulle giostre!", ColoreNotifica.Red, true);
                     }
                 }
             }
@@ -1366,7 +1366,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
             if (Vector3.Distance(PlayerCache.MyPlayer.Posizione.ToVector3, b.Position) < 20)
             {
-                HUD.ShowNotification("GPS: Sei arrivato a ~b~Destinazione~w~!", NotificationColor.GreenDark, true);
+                HUD.ShowNotification("GPS: Sei arrivato a ~b~Destinazione~w~!", ColoreNotifica.GreenDark, true);
                 b.ShowRoute = false;
                 Client.Instance.RemoveTick(routeColor);
             }

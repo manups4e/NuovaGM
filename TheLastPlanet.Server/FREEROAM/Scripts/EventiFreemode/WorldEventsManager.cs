@@ -52,7 +52,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
         }
 
-        private static void OnUpdateCurrentEvent(PlayerClient client, int eventId, float currentAttempt)
+        private static void OnUpdateCurrentEvent([FromSource] PlayerClient client, int eventId, float currentAttempt)
         {
             if (CurrentEvent == null) { return; }
             if (CurrentEvent.Id != eventId) { return; }
@@ -146,7 +146,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             await Task.FromResult(0);
         }
 
-        private static void Salvami(PlayerClient client)
+        private static void Salvami([FromSource] PlayerClient client)
         {
             try
             {
@@ -165,7 +165,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             }
         }
 
-        private static void OnEventEnded(PlayerClient client, int eventId, int currentAttempt, int bestAttempt)
+        private static void OnEventEnded([FromSource] PlayerClient client, int eventId, int currentAttempt, int bestAttempt)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             }
         }
 
-        private static async Task<Tuple<int, int, int, int, bool>> OnGetStatus(PlayerClient client)
+        private static async Task<Tuple<int, int, int, int, bool>> OnGetStatus([FromSource] PlayerClient client)
         {
             try
             {
@@ -205,7 +205,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             }
         }
 
-        private static void OnAddParticipant(PlayerClient client)
+        private static void OnAddParticipant([FromSource] PlayerClient client)
         {
             try
             {

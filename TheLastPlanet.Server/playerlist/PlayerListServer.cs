@@ -24,7 +24,7 @@ namespace FivemPlayerlistServer
             EventDispatcher.Mount("tlg:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
         }
 
-        private static async Task<int> ReturnMaxPlayers(PlayerClient source, ModalitaServer mod)
+        private static async Task<int> ReturnMaxPlayers([FromSource] PlayerClient source, ModalitaServer mod)
         {
             await BaseScript.Delay(0);
             switch (mod)
@@ -43,7 +43,7 @@ namespace FivemPlayerlistServer
                     return 0;
             }
         }
-        private static async Task<List<PlayerSlot>> ReturnPlayers(PlayerClient source, ModalitaServer mod)
+        private static async Task<List<PlayerSlot>> ReturnPlayers([FromSource] PlayerClient source, ModalitaServer mod)
         {
             List<PlayerSlot> result = new();
             foreach (var client in Server.Instance.Clients)

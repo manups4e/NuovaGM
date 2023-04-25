@@ -18,7 +18,7 @@ namespace TheLastPlanet.Server.Telefoni
             EventDispatcher.Mount("tlg:roleplay:onPlayerSpawn", new Action<PlayerClient>(SetupPhone));
         }
 
-        private static async void SetupPhone(PlayerClient client)
+        private static async void SetupPhone([FromSource] PlayerClient client)
         {
             await BaseScript.Delay(0);
             try

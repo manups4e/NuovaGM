@@ -47,8 +47,8 @@ namespace TheLastPlanet.Shared
         Invio
     }
 
-    [Serialization]
-    public partial class Char_data
+    
+    public class Char_data
     {
         public ulong CharID { get; set; }
         public bool is_dead { get; set; }
@@ -491,8 +491,8 @@ namespace TheLastPlanet.Shared
         }
     }
 
-    [Serialization]
-    public partial class Phone_data
+    
+    public class Phone_data
     {
         public int id { get; set; } = 1;
         public int Theme { get; set; } = 1;
@@ -532,8 +532,8 @@ namespace TheLastPlanet.Shared
         }
     }
 
-    [Serialization]
-    public partial class Message
+    
+    public class Message
     {
         public string From { get; set; }
         public string Title { get; set; }
@@ -549,8 +549,8 @@ namespace TheLastPlanet.Shared
         }
     }
 
-    [Serialization]
-    public partial class Contatto
+    
+    public class Contatto
     {
         public int Player { get; set; }
         public string Name { get; set; }
@@ -571,8 +571,8 @@ namespace TheLastPlanet.Shared
         }
     }
 
-    [Serialization]
-    public partial class BankTransaction
+    
+    public class BankTransaction
     {
         public BankTransactionType Type { get; set; }
         public long Amount { get; set; }

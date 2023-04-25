@@ -113,7 +113,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
                     Client.Instance.RemoveTick(ControlloRimozione);
                     Client.Instance.AddTick(InizioLavoro);
                     if (HUD.TimerBarPool.ToList().Contains(timerVeicolo)) HUD.TimerBarPool.Remove(timerVeicolo);
-                    HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", ColoreNotifica.Red, true);
                     Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name = "Disoccupato";
                     Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade = 0;
 
@@ -165,7 +165,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
                 string str = GetStreetNameFromHashKey(streename);
                 string veicolo = Rimozione.VeicoliDaRimorchiare[SharedMath.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)];
                 RequestCollisionAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z);
-                HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Veicolo da rimuovere in {str}", "CHAR_CALL911", IconType.DollarIcon);
+                HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Veicolo da rimuovere in {str}", "CHAR_CALL911", TipoIcona.DollarIcon);
                 BlipVeicoloDaRimuovere = World.CreateBlip(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z));
                 BlipVeicoloDaRimuovere.Sprite = BlipSprite.PersonalVehicleCar;
                 BlipVeicoloDaRimuovere.Color = BlipColor.Red;
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
                     BlipVeicoloDaRimuovere.Sprite = BlipSprite.PersonalVehicleCar;
                     BlipVeicoloDaRimuovere.Color = BlipColor.Red;
                     BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
-                    HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Il veicolo da rimuovere e' un modello ~y~{VeicoloDaRimuovere.LocalizedName}~w~ con targa ~y~{VeicoloDaRimuovere.Mods.LicensePlate}~w~", "CHAR_CALL911", IconType.DollarIcon);
+                    HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Il veicolo da rimuovere e' un modello ~y~{VeicoloDaRimuovere.LocalizedName}~w~ con targa ~y~{VeicoloDaRimuovere.Mods.LicensePlate}~w~", "CHAR_CALL911", TipoIcona.DollarIcon);
                 }
             }
 
@@ -280,7 +280,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
                 {
                     HUD.TimerBarPool.Remove(timerVeicolo);
                     timerVeicolo = null;
-                    HUD.ShowNotification("Il veicolo da rimuovere se n'è andato!!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Il veicolo da rimuovere se n'è andato!!", ColoreNotifica.Red, true);
 
                     if (VeicoloDaRimuovere != null)
                     {

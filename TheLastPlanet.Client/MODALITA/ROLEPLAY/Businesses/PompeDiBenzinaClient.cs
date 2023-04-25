@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
             }
             else
             {
-                HUD.ShowNotification("Puoi gestire la stazione una volta ogni 24 ore.~n~Torna domani alle ore ~r~" + managetime + "~w~.", NotificationColor.RedDifferent);
+                HUD.ShowNotification("Puoi gestire la stazione una volta ogni 24 ore.~n~Torna domani alle ore ~r~" + managetime + "~w~.", ColoreNotifica.RedDifferent);
             }
 
             _interactWait = false;
@@ -123,11 +123,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
             {
                 Client.Instance.NuiManager.SendMessage(new { closeManager = true });
                 Client.Instance.NuiManager.SetFocus(false, false);
-                HUD.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", NotificationColor.GreenLight);
+                HUD.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", ColoreNotifica.GreenLight);
             }
             else
             {
-                HUD.ShowNotification(msg, NotificationColor.Red);
+                HUD.ShowNotification(msg, ColoreNotifica.Red);
             }
         }
 
@@ -135,12 +135,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
         {
             if (success)
             {
-                HUD.ShowNotification($"Congratulazioni nell'acquisto della tua nuova Stazione!\n~b~ {sellprice}~w~ sono stati spesi.", NotificationColor.GreenLight);
+                HUD.ShowNotification($"Congratulazioni nell'acquisto della tua nuova Stazione!\n~b~ {sellprice}~w~ sono stati spesi.", ColoreNotifica.GreenLight);
                 BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", sidx);
             }
             else
             {
-                HUD.ShowNotification(msg, NotificationColor.Red);
+                HUD.ShowNotification(msg, ColoreNotifica.Red);
                 _interactWait = false;
             }
         }

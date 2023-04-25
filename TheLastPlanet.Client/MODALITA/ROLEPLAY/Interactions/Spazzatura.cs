@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai oggetti nell'inventario!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai oggetti nell'inventario!!", ColoreNotifica.Red, true);
                     }
                 }
                 else if (Input.IsControlJustPressed(Control.Detonate) && !HUD.MenuPool.IsAnyMenuOpen)

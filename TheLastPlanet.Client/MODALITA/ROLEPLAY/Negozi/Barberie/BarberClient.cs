@@ -652,11 +652,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                     if (obj.var == 0 && obj.var == capAttuali)
                     {
-                        HUD.ShowNotification("Non puoi rasare i capelli 2 volte!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi rasare i capelli 2 volte!!", ColoreNotifica.Red, true);
                     }
                     else if (obj.var == capAttuali && colAttuale1 == capCol1.CurrentSelection && colAttuale2 == capCol2.CurrentSelection)
                     {
-                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare Colore", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare Colore", ColoreNotifica.Red, true);
                     }
                     else
                     {
@@ -672,7 +672,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             await BaseScript.Delay(100);
                             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                            HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+                            HUD.ShowNotification("Hai pagato in contanti", ColoreNotifica.GreenDark);
                         }
                         else
                         {
@@ -688,11 +688,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 await BaseScript.Delay(100);
                                 //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                                HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+                                HUD.ShowNotification("Hai pagato con carta", ColoreNotifica.GreenDark);
                             }
                             else
                             {
-                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa capigliatura!", NotificationColor.Red, true);
+                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa capigliatura!", ColoreNotifica.Red, true);
                             }
                         }
                     }
@@ -703,11 +703,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                     if (obj.var == -1 && obj.var == soprAtt)
                     {
-                        HUD.ShowNotification("Non puoi rimuovere le sopracciglia 2 volte!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi rimuovere le sopracciglia 2 volte!!", ColoreNotifica.Red, true);
                     }
                     else if (obj.var == soprAtt && soprBase.CurrentSelection == soprCAtt && soprSec.CurrentSelection == soprC1Att && soprOp.Percentage == soprOpAtt)
                     {
-                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", ColoreNotifica.Red, true);
                     }
                     else
                     {
@@ -725,7 +725,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             await BaseScript.Delay(100);
                             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                            HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+                            HUD.ShowNotification("Hai pagato in contanti", ColoreNotifica.GreenDark);
                         }
                         else
                         {
@@ -743,11 +743,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 await BaseScript.Delay(100);
                                 //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                                HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+                                HUD.ShowNotification("Hai pagato con carta", ColoreNotifica.GreenDark);
                             }
                             else
                             {
-                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare queste sopracciglia!", NotificationColor.Red, true);
+                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare queste sopracciglia!", ColoreNotifica.Red, true);
                             }
                         }
                     }
@@ -758,11 +758,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                     if (obj.var == -1 && obj.var == brbAtt)
                     {
-                        HUD.ShowNotification("Non puoi rasare la barba 2 volte!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi rasare la barba 2 volte!!", ColoreNotifica.Red, true);
                     }
                     else if (obj.var == brbAtt && beardBase.CurrentSelection == brbAttC1 && beardSec.CurrentSelection == brbAttC2 && beardOp.Percentage == brbAttOp)
                     {
-                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", ColoreNotifica.Red, true);
                     }
                     else
                     {
@@ -780,7 +780,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             await BaseScript.Delay(100);
                             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                            HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+                            HUD.ShowNotification("Hai pagato in contanti", ColoreNotifica.GreenDark);
                         }
                         else
                         {
@@ -798,11 +798,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 await BaseScript.Delay(100);
                                 //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                                HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+                                HUD.ShowNotification("Hai pagato con carta", ColoreNotifica.GreenDark);
                             }
                             else
                             {
-                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa rasatura!", NotificationColor.Red, true);
+                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa rasatura!", ColoreNotifica.Red, true);
                             }
                         }
                     }
@@ -813,11 +813,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                     if (obj.var == -1 && obj.var == brbAtt)
                     {
-                        HUD.ShowNotification("Non puoi rimuovere il trucco 2 volte!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi rimuovere il trucco 2 volte!!", ColoreNotifica.Red, true);
                     }
                     else if (obj.var == trcAtt && trOp.Percentage == trcOpAtt)
                     {
-                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", ColoreNotifica.Red, true);
                     }
                     else
                     {
@@ -831,7 +831,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             await BaseScript.Delay(100);
                             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                            HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+                            HUD.ShowNotification("Hai pagato in contanti", ColoreNotifica.GreenDark);
                         }
                         else
                         {
@@ -845,11 +845,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 await BaseScript.Delay(100);
                                 //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                                HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+                                HUD.ShowNotification("Hai pagato con carta", ColoreNotifica.GreenDark);
                             }
                             else
                             {
-                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo trucco!", NotificationColor.Red, true);
+                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo trucco!", ColoreNotifica.Red, true);
                             }
                         }
                     }
@@ -860,11 +860,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                     if (obj.var == -1 && obj.var == rossAttuali)
                     {
-                        HUD.ShowNotification("Non puoi rimuovere lo stesso rossetto 2 volte!!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi rimuovere lo stesso rossetto 2 volte!!", ColoreNotifica.Red, true);
                     }
                     else if (obj.var == rossAttuali && rossColBase.CurrentSelection == rossAttualiC && rossColSec.CurrentSelection == rossAttualiC2 && rossOp.Percentage == rossAttualiO)
                     {
-                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", ColoreNotifica.Red, true);
                     }
                     else
                     {
@@ -882,7 +882,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             await BaseScript.Delay(100);
                             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                            HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+                            HUD.ShowNotification("Hai pagato in contanti", ColoreNotifica.GreenDark);
                         }
                         else
                         {
@@ -900,11 +900,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 await BaseScript.Delay(100);
                                 //BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
                                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin = skin;
-                                HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+                                HUD.ShowNotification("Hai pagato con carta", ColoreNotifica.GreenDark);
                             }
                             else
                             {
-                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo rossetto!", NotificationColor.Red, true);
+                                HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo rossetto!", ColoreNotifica.Red, true);
                             }
                         }
                     }

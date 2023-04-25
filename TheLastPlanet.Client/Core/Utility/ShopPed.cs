@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using TheLastPlanet.Client.IPLs.dlc_doomsday;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -94,7 +97,7 @@ namespace TheLastPlanet.Client.Core.Utility
             }
 
         }
-        public struct PedOutfitData
+        public class PedOutfitData
         {
             //for prop:	0			0	Price:-449919479	0	Unk1:99 0	Unk1:1	0	TotalItems:6	0	Unk2:0	0	unk3:3	0	f7:1599032387 // 0xB7952076E444979D
             //for sa:	lock:-2014967816	0	hash:21067119		0	price:99	0	Unk1:1	0	TotalItems:6	0	Unk2:0	0	unk3:3	0	f7:1599032387 //0x6D793F03A631FE56
@@ -115,6 +118,7 @@ namespace TheLastPlanet.Client.Core.Utility
             public int Unk3 { get; } //6
             public string Label { get; } //7
 
+            public PedOutfitData() { }
             public PedOutfitData(int lockHash, int hash, int price, int unk1, int totalItems, int unk2, int unk3, string label)
             {
                 LockHash = lockHash;
@@ -126,37 +130,64 @@ namespace TheLastPlanet.Client.Core.Utility
                 Unk3 = unk3;
                 Label = label;
             }
+
+            public PedOutfitData(dynamic obj)
+            {
+                LockHash = Convert.ToInt32(obj.LockHash);
+                Hash = Convert.ToInt32(obj.Hash);
+                Price = obj.Price;
+                TotalProps = obj.TotalProps;
+                TotalComponents = obj.TotalComponents;
+                Unk2 = obj.Unk2;
+                Unk3 = obj.Unk3;
+                Label = obj.Label;
+            }
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        public struct PedComponentData
+        public class PedComponentData
         {
-            public int lockHash { get; }
-            public int hash { get; }
-            public int locate { get; } // f2
-            public int drawable { get; } // 3
-            public int texture { get; } //4
-            public int price { get; } // f5 = price
-            public int componentType { get; }
+            public int LockHash { get; }
+            public int Hash { get; }
+            public int Locate { get; } // f2
+            public int Drawable { get; } // 3
+            public int Texture { get; } //4
+            public int Price { get; } // f5 = price
+            public int ComponentType { get; }
             public int f_7 { get; }
             public int f_8 { get; }
-            public string label { get; } // f9
+            public string Label { get; } // f9
 
+            public PedComponentData() { }
             public PedComponentData(int lockHash, int hash, int locate, int drawable, int texture, int f_5, int componentType, int f_7, int f_8, string label)
             {
-                this.lockHash = lockHash;
-                this.hash = hash;
-                this.locate = locate;
-                this.drawable = drawable;
-                this.texture = texture;
-                this.price = f_5;
-                this.componentType = componentType;
+                this.LockHash = lockHash;
+                this.Hash = hash;
+                this.Locate = locate;
+                this.Drawable = drawable;
+                this.Texture = texture;
+                this.Price = f_5;
+                this.ComponentType = componentType;
                 this.f_7 = f_7;
                 this.f_8 = f_8;
-                this.label = label;
+                this.Label = label;
+            }
+
+            public PedComponentData(dynamic obj)
+            {
+                LockHash = Convert.ToInt32(obj.LockHash);
+                Hash = Convert.ToInt32(obj.Hash);
+                Locate = obj.Locate;
+                Drawable = obj.Drawable;
+                Texture = obj.Texture;
+                Price = obj.Price;
+                ComponentType = obj.ComponentType;
+                f_7 = obj.f_7;
+                f_8 = obj.f_8;
+                Label = obj.Label;
             }
         }
 
@@ -174,7 +205,10 @@ namespace TheLastPlanet.Client.Core.Utility
         // equivaut à GetShopData de TestStruct
         public static PedComponentData GetShopPedComponent(uint componentHash)
         {
-            return _GetShopPedComponent(componentHash);
+            //return _GetShopPedComponent(componentHash);
+            dynamic obj = Client.Instance.GetExports["tlp"].GetShopPedComponent(componentHash);
+            PedComponentData data = new(obj);
+            return data;
         }
         private static PedComponentData _GetShopPedProp(uint propHash)
         {
@@ -190,7 +224,10 @@ namespace TheLastPlanet.Client.Core.Utility
         // equivaut à GetShopPedProp de TestStruct
         public static PedComponentData GetShopPedProp(uint propHash)
         {
-            return _GetShopPedProp(propHash);
+            //return _GetShopPedProp(propHash);
+            string json = Client.Instance.GetExports["tlp"].GetShopPedProp(propHash);
+            PedComponentData data = json.FromJson<PedComponentData>();
+            return data;
         }
 
         #region Query components
@@ -203,8 +240,9 @@ namespace TheLastPlanet.Client.Core.Utility
                 ptr = new IntPtr(&data).ToInt64();
                 CitizenFX.Core.Native.Function.Call(CitizenFX.Core.Native.Hash.INIT_SHOP_PED_COMPONENT, ptr);
             }
-
+            
             int max = CitizenFX.Core.Native.Function.Call<int>(CitizenFX.Core.Native.Hash._GET_NUM_PROPS_FROM_OUTFIT, characterType, 0, -1, 0/*0=component/1=props*/, -1, componentType);
+            
             if (componentId > max)
                 return new PedComponentData();
 
@@ -217,7 +255,6 @@ namespace TheLastPlanet.Client.Core.Utility
         }
         private static PedComponentData[] _GetShopPedQueryComponents(int componentType, int characterType, int locate = -1)
         {
-
             UnsafePedComponentData data;
             long ptr;
             unsafe
@@ -225,7 +262,9 @@ namespace TheLastPlanet.Client.Core.Utility
                 ptr = new IntPtr(&data).ToInt64();
                 CitizenFX.Core.Native.Function.Call(CitizenFX.Core.Native.Hash.INIT_SHOP_PED_COMPONENT, ptr);
             }
+            
             int max = CitizenFX.Core.Native.Function.Call<int>(CitizenFX.Core.Native.Hash._GET_NUM_PROPS_FROM_OUTFIT, characterType, 0, locate, 0/*0=component/1=props*/, -1/*propreleated?*/, componentType);
+            
             if (max == 0)
                 return null;
             PedComponentData[] items = new PedComponentData[max];
@@ -239,17 +278,6 @@ namespace TheLastPlanet.Client.Core.Utility
             }
             return items;
         }
-
-        public static PedComponentData GetShopPedQueryComponent(int componentId, int componentType, int characterType)
-        {
-            return _GetShopPedQueryComponent(componentId, componentType, characterType);
-        }
-
-        public static PedComponentData[] GetShopPedQueryComponents(int componentType, int characterType, int locate = -1)
-        {
-            return _GetShopPedQueryComponents(componentType, characterType, locate);
-        }
-
         private static int _QueryGetComponentIndex(uint nameHash, int characterType, int componentType)
         {
             UnsafePedComponentData data;
@@ -271,7 +299,7 @@ namespace TheLastPlanet.Client.Core.Utility
                     CitizenFX.Core.Native.Function.Call(CitizenFX.Core.Native.Hash.GET_SHOP_PED_QUERY_COMPONENT, i, ptr);
                     safe = data.GetData();
                 }
-                if ((uint)safe.hash == nameHash)
+                if ((uint)safe.Hash == nameHash)
                 {
                     return i;
                 }
@@ -279,9 +307,27 @@ namespace TheLastPlanet.Client.Core.Utility
 
             return -1;
         }
+
+        public static PedComponentData GetShopPedQueryComponent(int componentId, int componentType, int characterType)
+        {
+            //return _GetShopPedQueryComponent(componentId, componentType, characterType);
+            dynamic obj = Client.Instance.GetExports["tlp"].GetShopPedQueryComponent(componentId, componentType, characterType);
+            PedComponentData data = new(obj);
+            return data;
+        }
+        public static PedComponentData[] GetShopPedQueryComponents(int componentType, int characterType, int locate = -1)
+        {
+            //return _GetShopPedQueryComponents(componentType, characterType, locate);
+            List<PedComponentData> comps = new();
+            dynamic obj = Client.Instance.GetExports["tlp"].GetShopPedQueryComponents(componentType, characterType, locate);
+            foreach (var o in obj) comps.Add(new(o));
+            return comps.ToArray();
+        }
         public static int QueryGetComponentIndex(uint nameHash, int characterType, int componentType)
         {
-            return _QueryGetComponentIndex(nameHash, characterType, componentType);
+            //return _QueryGetComponentIndex(nameHash, characterType, componentType);
+            int idx = Client.Instance.GetExports["tlp"].QueryGetComponentIndex(nameHash, characterType, componentType);
+            return idx;
         }
         #endregion
 
@@ -329,17 +375,6 @@ namespace TheLastPlanet.Client.Core.Utility
             }
             return items;
         }
-
-        public static PedComponentData GetShopPedQueryProp(int propId, int characterType)
-        {
-            return _GetShopPedQueryProp(propId, characterType);
-        }
-
-        public static PedComponentData[] GetShopPedQueryProps(int characterType)
-        {
-            return _GetShopPedQueryProps(characterType);
-        }
-
         private static int _QueryGetPropIndex(uint nameHash, int characterType)
         {
             UnsafePedComponentData data;
@@ -361,7 +396,7 @@ namespace TheLastPlanet.Client.Core.Utility
                     CitizenFX.Core.Native.Function.Call(CitizenFX.Core.Native.Hash.GET_SHOP_PED_QUERY_PROP, i, ptr);
                     safe = data.GetData();
                 }
-                if ((uint)safe.hash == nameHash)
+                if ((uint)safe.Hash == nameHash)
                 {
                     return i;
                 }
@@ -369,9 +404,27 @@ namespace TheLastPlanet.Client.Core.Utility
 
             return -1;
         }
+        public static PedComponentData GetShopPedQueryProp(int propId, int characterType)
+        {
+            //return _GetShopPedQueryProp(propId, characterType);
+            dynamic obj = Client.Instance.GetExports["tlp"].GetShopPedQueryProp(propId, characterType);
+            PedComponentData data = new(obj);
+            return data;
+        }
+
+        public static PedComponentData[] GetShopPedQueryProps(int characterType)
+        {
+            //return _GetShopPedQueryProps(characterType);
+            List<PedComponentData> comps = new();
+            dynamic obj = Client.Instance.GetExports["tlp"].GetShopPedQueryProps(characterType);
+            foreach (var o in obj) comps.Add(new(o));
+            return comps.ToArray();
+        }
         public static int QueryGetPropIndex(uint nameHash, int characterType)
         {
-            return _QueryGetPropIndex(nameHash, characterType);
+            //return _QueryGetPropIndex(nameHash, characterType);
+            int idx = Client.Instance.GetExports["tlp"].QueryGetPropIndex(nameHash, characterType);
+            return idx;
         }
         #endregion
 
@@ -409,16 +462,20 @@ namespace TheLastPlanet.Client.Core.Utility
         }
         public static PedOutfitData GetShopPedQueryOutfit(int outfitId, int characterType)
         {
-            return _GetShopPedQueryOutfit(outfitId, characterType);
+            //return _GetShopPedQueryOutfit(outfitId, characterType);
+            string json = Client.Instance.GetExports["tlp"].GetShopPedQueryOutfit(outfitId, characterType);
+            PedOutfitData data = new(json);
+            return data;
         }
         public static PedOutfitData[] GetShopPedQueryOutfits(int characterType)
         {
-            return _GetShopPedQueryOutfits(characterType);
+            //return _GetShopPedQueryOutfits(characterType);
+            string json = Client.Instance.GetExports["tlp"].GetShopPedQueryOutfit(characterType);
+            PedOutfitData[] data = json.FromJson<PedOutfitData[]>();
+            return data;
         }
 
         // -------
-
-
 
         private static PedOutfitData _GetShopPedOutfit(uint outfitHash)
         {
@@ -431,7 +488,10 @@ namespace TheLastPlanet.Client.Core.Utility
         }
         public static PedOutfitData GetShopPedOutfit(uint outfitHash)
         {
-            return _GetShopPedOutfit(outfitHash);
+            //return _GetShopPedOutfit(outfitHash);
+            string json = Client.Instance.GetExports["tlp"].GetShopPedOutfit(outfitHash);
+            PedOutfitData data = json.FromJson<PedOutfitData>();
+            return data;
         }
 
         // -------
@@ -478,7 +538,10 @@ namespace TheLastPlanet.Client.Core.Utility
         }
         public static PedOutfitComponentVariantData GetShopPedOutfitComponentVariant(int componentHash, int slot)
         {
-            return _GetShopPedOutfitComponentVariant(componentHash, slot);
+            //return _GetShopPedOutfitComponentVariant(componentHash, slot);
+            string json = Client.Instance.GetExports["tlp"].GetShopPedOutfitComponentVariant(componentHash, slot);
+            PedOutfitComponentVariantData data = json.FromJson<PedOutfitComponentVariantData>();
+            return data;
         }
 
         //----
@@ -493,7 +556,10 @@ namespace TheLastPlanet.Client.Core.Utility
         }
         public static PedOutfitComponentVariantData GetShopPedOutfitPropVariant(int componentHash, int slot)
         {
-            return _GetShopPedOutfitPropVariant(componentHash, slot);
+            //return _GetShopPedOutfitPropVariant(componentHash, slot);
+            string json = Client.Instance.GetExports["tlp"].GetShopPedOutfitComponentVariant(componentHash, slot);
+            PedOutfitComponentVariantData data = json.FromJson<PedOutfitComponentVariantData>();
+            return data;
         }
 
         //public static string GetItemCategoryLabel(string sParam0, bool bParam1)

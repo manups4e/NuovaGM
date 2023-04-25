@@ -3,13 +3,13 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class FreeRoamSettings
+    
+    public class FreeRoamSettings
     {
     }
 
-    [Serialization]
-    public partial class WeaponTintSettings
+    
+    public class WeaponTintSettings
     {
         public int Index;
         public string Name;
@@ -18,8 +18,8 @@ namespace TheLastPlanet.Shared
     }
 
 
-    [Serialization]
-    public partial class CratesSettings
+    
+    public class CratesSettings
     {
         public int Cash;
         public int NthRank;
@@ -28,22 +28,22 @@ namespace TheLastPlanet.Shared
         public List<CratesWeapon> Weapons = new List<CratesWeapon>();
         public List<CrateLocations> Locations = new List<CrateLocations>();
     }
-    [Serialization]
-    public partial class CratesWeapon
+    
+    public class CratesWeapon
     {
         public string Id;
         public string Name;
         public int Ammo;
     }
-    [Serialization]
-    public partial class CrateLocations
+    
+    public class CrateLocations
     {
         public float[] Blip = new float[3];
         public List<float[]> Positions = new List<float[]>();
     }
 
-    [Serialization]
-    public partial class HeadHunterSettings
+    
+    public class HeadHunterSettings
     {
         public int Time;
         public float Radius;
@@ -52,56 +52,56 @@ namespace TheLastPlanet.Shared
         public int WantedLevel;
         public AssetRecoveryRewards Rewards = new AssetRecoveryRewards();
     }
-    [Serialization]
-    public partial class HeadHunterTarget
+    
+    public class HeadHunterTarget
     {
         public string PedModel;
         public float[] Location = new float[3];
     }
 
-    [Serialization]
-    public partial class AssetRecoveryMissionSettings
+    
+    public class AssetRecoveryMissionSettings
     {
         public int Time;
         public List<AssetRecoveryVariant> Variants = new List<AssetRecoveryVariant>();
         public float DropRadius;
     }
-    [Serialization]
-    public partial class AssetRecoveryVariant
+    
+    public class AssetRecoveryVariant
     {
         public string Vehicle;
         public float[] VehicleLocation = new float[4];
         public float[] DropOffLocation = new float[3];
     }
-    [Serialization]
-    public partial class AssetRecoveryRewards
+    
+    public class AssetRecoveryRewards
     {
         public AssetRecoveryReward Cash = new AssetRecoveryReward();
         public AssetRecoveryReward Exp = new AssetRecoveryReward();
     }
-    [Serialization]
-    public partial class AssetRecoveryReward
+    
+    public class AssetRecoveryReward
     {
         public int Min;
         public int Max;
     }
 
 
-    [Serialization]
-    public partial class MostWantedSettings
+    
+    public class MostWantedSettings
     {
         public int Time;
         public MostWantedRewards Rewards = new MostWantedRewards();
     }
-    [Serialization]
-    public partial class MostWantedRewards
+    
+    public class MostWantedRewards
     {
         public int MaxCash;
         public int MaxExp;
     }
 
-    [Serialization]
-    public partial class VelocityMissionSettings
+    
+    public class VelocityMissionSettings
     {
         public int EnterVehicleTime;
         public int PrepationTime;
@@ -112,23 +112,23 @@ namespace TheLastPlanet.Shared
         public VelocityMissionRewards Rewards = new VelocityMissionRewards();
     }
 
-    [Serialization]
-    public partial class VelocityMissionRewards
+    
+    public class VelocityMissionRewards
     {
         public VelocityMissionReward Cash = new VelocityMissionReward();
         public VelocityMissionReward Exp = new VelocityMissionReward();
     }
 
-    [Serialization]
-    public partial class VelocityMissionReward
+    
+    public class VelocityMissionReward
     {
         public int Min;
         public int Max;
         public int PerAboutToDetonate;
     }
 
-    [Serialization]
-    public partial class HeistMissionSettings
+    
+    public class HeistMissionSettings
     {
         public int Time;
         public List<float[]> Places = new List<float[]>();
@@ -136,28 +136,28 @@ namespace TheLastPlanet.Shared
         public HeistTake Take = new HeistTake();
     }
 
-    [Serialization]
-    public partial class HeistTake
+    
+    public class HeistTake
     {
         public int Inverval;
         public HeistRate Rate = new HeistRate();
     }
-    [Serialization]
-    public partial class HeistRate
+    
+    public class HeistRate
     {
         public HeistCash Cash = new HeistCash();
         public float Exp;
     }
-    [Serialization]
-    public partial class HeistCash
+    
+    public class HeistCash
     {
         public int Min;
         public int Max;
         public int Limit;
     }
 
-    [Serialization]
-    public partial class SpecialCargoMissionSettings
+    
+    public class SpecialCargoMissionSettings
     {
         public string MissionName;
         public int Time;
@@ -171,24 +171,24 @@ namespace TheLastPlanet.Shared
         public List<float[]> WareHouses = new List<float[]>();
     }
 
-    [Serialization]
-    public partial class CargoMissionLocation
+    
+    public class CargoMissionLocation
     {
         public float[] Pos = new float[3];
         public float Heading;
         public bool Wanted;
     }
 
-    [Serialization]
-    public partial class MissionCrate
+    
+    public class MissionCrate
     {
         public string Name;
         public int Price;
         public EventReward Reward = new EventReward();
     }
 
-    [Serialization]
-    public partial class MissionsSettings
+    
+    public class MissionsSettings
     {
         public int ResetTimeInterval;
         public List<float[]> Places = new List<float[]>();
@@ -196,22 +196,22 @@ namespace TheLastPlanet.Shared
         public EventReward FactionRewards = new EventReward();
     }
 
-    [Serialization]
-    public partial class AmmunationSpecialAmmoSettings
+    
+    public class AmmunationSpecialAmmoSettings
     {
         public int Ammo;
         public int Price;
         public string Type;
     }
-    [Serialization]
-    public partial class AmmunationRefillingWeaponsSettings
+    
+    public class AmmunationRefillingWeaponsSettings
     {
         public List<string> Weapons = new List<string>();
         public int Ammo;
         public int Price;
     }
-    [Serialization]
-    public partial class HuntTheBeastSettings
+    
+    public class HuntTheBeastSettings
     {
         public int Duration;
         public int Lives;
@@ -220,23 +220,23 @@ namespace TheLastPlanet.Shared
         public float Radius;
         public BeastRewardsSettings Rewards = new BeastRewardsSettings();
     }
-    [Serialization]
-    public partial class BeastRewardsSettings
+    
+    public class BeastRewardsSettings
     {
         public EventReward BeastLandmark = new EventReward();
         public EventReward Killer = new EventReward();
     }
 
-    [Serialization]
-    public partial class HotPropertySettings
+    
+    public class HotPropertySettings
     {
         public int Duration;
         public List<float[]> Places = new List<float[]>();
         public EventRewards Rewards = new EventRewards();
     }
 
-    [Serialization]
-    public partial class KingOfTheCastleSettings
+    
+    public class KingOfTheCastleSettings
     {
         public int Duration;
         public List<float[]> Places = new List<float[]>();
@@ -244,15 +244,15 @@ namespace TheLastPlanet.Shared
         public EventRewards Rewards = new EventRewards();
     }
 
-    [Serialization]
-    public partial class SharpShooterSettings
+    
+    public class SharpShooterSettings
     {
         public int Duration;
         public EventRewards Rewards = new EventRewards();
     }
 
-    [Serialization]
-    public partial class StockPilingSettings
+    
+    public class StockPilingSettings
     {
         public int Duration;
         public List<float[]> CheckPoints = new List<float[]>();
@@ -260,39 +260,39 @@ namespace TheLastPlanet.Shared
         public EventRewards Rewards = new EventRewards();
     }
 
-    [Serialization]
-    public partial class GunSettings
+    
+    public class GunSettings
     {
         public int Duration;
         public List<string> Categories = new List<string>();
         public EventRewards Rewards = new EventRewards();
     }
-    [Serialization]
-    public partial class EventRewards
+    
+    public class EventRewards
     {
         public List<EventReward> Top = new List<EventReward>();
         public EventReward Point = new EventReward();
     }
-    [Serialization]
-    public partial class EventReward
+    
+    public class EventReward
     {
         public int Cash;
         public int Exp;
     }
-    [Serialization]
-    public partial class EventSettings
+    
+    public class EventSettings
     {
         public int Interval;
         public int MinPlayers;
     }
-    [Serialization]
-    public partial class MarkerSettings
+    
+    public class MarkerSettings
     {
         public float Radius;
         public int Opacity;
     }
-    [Serialization]
-    public partial class GTA2Cam
+    
+    public class GTA2Cam
     {
         public float Min;
         public float Max;
@@ -301,8 +301,8 @@ namespace TheLastPlanet.Shared
         public int Key = 212; // home // INPUT_FRONTEND_SOCIAL_CLUB
     }
 
-    [Serialization]
-    public partial class SettingsSpawn
+    
+    public class SettingsSpawn
     {
         public List<float[]> SpawnPoints = new List<float[]>();
         public int DeathTime;
@@ -312,8 +312,8 @@ namespace TheLastPlanet.Shared
         public SpawnRadius Radius = new SpawnRadius();
     }
 
-    [Serialization]
-    public partial class SpawnRadius
+    
+    public class SpawnRadius
     {
         public float Min;
         public float Max;

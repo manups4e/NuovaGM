@@ -463,13 +463,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         p.IsEngineRunning = false;
                         p.IsDriveable = false;
                         acceso = false;
-                        HUD.ShowNotification("Motore spento.", NotificationColor.Cyan);
+                        HUD.ShowNotification("Motore spento.", ColoreNotifica.Cyan);
                     }
                     else
                     {
                         p.IsEngineRunning = true;
                         p.IsDriveable = true;
-                        HUD.ShowNotification("Motore acceso.", NotificationColor.Cyan);
+                        HUD.ShowNotification("Motore acceso.", ColoreNotifica.Cyan);
                         acceso = true;
                     }
                 }
@@ -625,12 +625,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                 if (Cache.PlayerCache.MyPlayer.User.Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
                 {
                     BaseScript.TriggerServerEvent("lprp:removebank", MenuAffittoVeicoli.veicoloInAffitto.price);
-                    HUD.ShowNotification("Hai pagato $" + MenuAffittoVeicoli.veicoloInAffitto.price + " per l'affitto del veicolo", NotificationColor.GreenLight, true);
+                    HUD.ShowNotification("Hai pagato $" + MenuAffittoVeicoli.veicoloInAffitto.price + " per l'affitto del veicolo", ColoreNotifica.GreenLight, true);
                     BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Cache.PlayerCache.MyPlayer.User.FullName}, [{Cache.PlayerCache.MyPlayer.Player.Name}], ha pagato ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo dell'affitto di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}");
                 }
                 else
                 {
-                    HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la rata oraria di affitto del Veicolo!", NotificationColor.Red, true);
+                    HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la rata oraria di affitto del Veicolo!", ColoreNotifica.Red, true);
                     await BaseScript.Delay(100);
                     HUD.ShowNotification("Il Veicolo smetterà di funzionare e verrà riportato al garage di competenza!");
                     veicoloinaffitto.IsInvincible = true;

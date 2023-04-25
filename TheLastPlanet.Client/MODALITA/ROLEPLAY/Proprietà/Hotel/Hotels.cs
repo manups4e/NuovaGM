@@ -86,7 +86,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai abbastanza fondi!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai abbastanza fondi!", ColoreNotifica.Red, true);
                     }
                 }
                 else if (item == stanzaMedia)
@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai abbastanza fondi!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai abbastanza fondi!", ColoreNotifica.Red, true);
                     }
                 }
                 else if (item == appartamento)
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai abbastanza fondi!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai abbastanza fondi!", ColoreNotifica.Red, true);
                     }
                 }
 

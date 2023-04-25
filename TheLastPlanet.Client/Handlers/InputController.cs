@@ -1,5 +1,4 @@
 ﻿using System;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client
 {
@@ -7,7 +6,7 @@ namespace TheLastPlanet.Client
     {
         public Position Position = Position.Zero;
         public string InputMessage = null;
-        public Marker Marker = null;
+        public MarkerEx Marker = null;
         public Control Control;
         public PadCheck Check;
         public ControlModifier Modifier;
@@ -25,7 +24,7 @@ namespace TheLastPlanet.Client
             Modalita = modalita;
         }
 
-        public InputController(Control control, Position position, string message, Marker marker, ModalitaServer modalita, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
+        public InputController(Control control, Position position, string message, MarkerEx marker, ModalitaServer modalita, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
         {
             Control = control;
             Check = check;

@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
             BaseScript.TriggerServerEvent("lprp:salvaPlayer");
             BaseScript.TriggerEvent("lprp:phone_start", "Main");
             await BaseScript.Delay(5000);
-            HUD.ShowNotification("Salvataggio Completato", NotificationColor.GreenDark);
+            HUD.ShowNotification("Salvataggio Completato", ColoreNotifica.GreenDark);
 
         }
 

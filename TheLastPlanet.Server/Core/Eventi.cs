@@ -29,7 +29,7 @@ namespace TheLastPlanet.Server.Core
             EventDispatcher.Mount("tlg:getClients", new Func<PlayerClient, Task<List<PlayerClient>>>(GetAllClients));
 
             EventDispatcher.Mount("tlg:callPlayers", new Func<PlayerClient, Position, Task<List<PlayerClient>>>(
-            async (a, b) =>
+            async ([FromSource] a, b) =>
             {
                 User user = a.User;
                 switch (a.Status.PlayerStates.Modalita)
@@ -68,7 +68,7 @@ namespace TheLastPlanet.Server.Core
         {
             return Server.Instance.GetPlayers.OrderBy(x => Convert.ToInt32(x.Handle)).ToList();
         }
-        public static async Task<List<PlayerClient>> GetAllClients(PlayerClient request)
+        public static async Task<List<PlayerClient>> GetAllClients([FromSource] PlayerClient request)
         {
 
 
@@ -95,26 +95,31 @@ namespace TheLastPlanet.Server.Core
 
         public static async Task<BasePlayerShared> GetUserFromHandle(int handle) 
         {
-            return Funzioni.GetUserFromPlayerId(handle).basePlayer;
+            var pla = Server.Instance.Clients.FirstOrDefault(x => handle == x.Handle);
+            if (pla != null)
+            {
+                return pla.User.basePlayer;
+            }
+            return null;
         }
-        public static void SetStateBag(PlayerClient client, string key, string value)
+        public static void SetStateBag([FromSource] PlayerClient client, string key, string value)
         {
             Server.Logger.Debug(key);
             byte[] val = value.StringToBytes();
             client.Player.SetState(key, val, true);
         }
-        public static void Drop(PlayerClient client, string reason)
+        public static void Drop([FromSource] PlayerClient client, string reason)
         {
             client.Player.Drop(reason);
         }
 
-        public static void Ping(PlayerClient client)
+        public static void Ping([FromSource] PlayerClient client)
         {
             if (client.Player.Ping >= Server.Impostazioni.Main.PingMax)
                 client.Player.Drop("Ping troppo alto (Limite: " + Server.Impostazioni.Main.PingMax + ", tuo ping: " + client.Player.Ping + ")");
         }
 
-        public static void AFK(PlayerClient client)
+        public static void AFK([FromSource] PlayerClient client)
         {
             client.Player.Drop("Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo in AFK");
         }

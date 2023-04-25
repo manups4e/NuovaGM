@@ -3,8 +3,8 @@ using FxEvents.Shared.Attributes;
 
 namespace Impostazioni.Client.Configurazione.Negozi.Abiti
 {
-    [Serialization]
-    public partial class Completo : Dressing
+    
+    public class Completo : Dressing
     {
         public int Price { get; set; }
 
@@ -16,8 +16,8 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
         }
     }
 
-    [Serialization]
-    public partial class Singolo
+    
+    public class Singolo
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -26,8 +26,8 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
         public List<int> Text { get; set; } = new List<int>();
     }
 
-    [Serialization]
-    public partial class Accessori
+    
+    public class Accessori
     {
         public List<Singolo> Borse { get; set; } = new List<Singolo>();
         public Testa Testa { get; set; } = new Testa();

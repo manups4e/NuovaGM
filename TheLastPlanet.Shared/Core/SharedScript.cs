@@ -53,8 +53,8 @@ namespace TheLastPlanet.Shared
         }
     }
 
-    [Serialization]
-    public partial class OggettoRaccoglibile
+    
+    public class OggettoRaccoglibile
     {
         public string type { get; set; }
         public int id { get; set; }

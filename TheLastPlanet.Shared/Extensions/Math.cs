@@ -15,8 +15,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A double-precision floating point number that is greater than or equal to minValue, and less than maxValue.</returns>
         public static double NextDouble(this Random rand, double minValue, double maxValue)
         {
@@ -51,8 +51,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A single-precision floating point number that is greater than or equal to minValue, and less than maxValue.</returns>
         public static float NextFloat(this Random rand, float minValue, float maxValue)
         {
@@ -102,8 +102,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random decimal number that is greater than or equal to minValue, and less than maxValue.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A decimal number that is greater than or equal to minValue, and less than maxValue.</returns>
         public static decimal NextDecimal(this Random rand, decimal minValue, decimal maxValue)
         {
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Shared
         /// Returns a random byte that is less than the specified maximum.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 8-bit unsigned integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
         public static byte NextByte(this Random rand, byte maxValue)
         {
@@ -141,8 +141,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random byte that is within a specified range.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 8-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static byte NextByte(this Random rand, byte minValue, byte maxValue)
         {
@@ -167,7 +167,7 @@ namespace TheLastPlanet.Shared
         /// Returns a non-negative random sbyte that is less than the specified maximum.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 8-bit signed integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
         public static sbyte NextSByte(this Random rand, sbyte maxValue)
         {
@@ -180,8 +180,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random sbyte that is within a specified range.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 8-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static sbyte NextSByte(this Random rand, sbyte minValue, sbyte maxValue)
         {
@@ -206,7 +206,7 @@ namespace TheLastPlanet.Shared
         /// Returns a non-negative random short that is less than the specified maximum.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 16-bit signed integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
         public static short NextShort(this Random rand, short maxValue)
         {
@@ -219,8 +219,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random short that is within a specified range.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 16-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static short NextShort(this Random rand, short minValue, short maxValue)
         {
@@ -245,7 +245,7 @@ namespace TheLastPlanet.Shared
         /// Returns a random ushort that is less than the specified maximum.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 16-bit unsigned integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
         public static ushort NextUShort(this Random rand, ushort maxValue)
         {
@@ -258,8 +258,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random ushort that is within a specified range.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 16-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static ushort NextUShort(this Random rand, ushort minValue, ushort maxValue)
         {
@@ -285,7 +285,7 @@ namespace TheLastPlanet.Shared
         /// Returns a random uint that is less than the specified maximum.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 32-bit unsigned integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
         public static uint NextUInt(this Random rand, uint maxValue)
         {
@@ -296,8 +296,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random uint that is within a specified range.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 32-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static uint NextUInt(this Random rand, uint minValue, uint maxValue)
         {
@@ -331,7 +331,7 @@ namespace TheLastPlanet.Shared
         /// Returns a non-negative random long that is less than the specified maximum.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 64-bit signed integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
         public static long NextLong(this Random rand, long maxValue)
         {
@@ -342,8 +342,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random long that is within a specified range.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 64-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static long NextLong(this Random rand, long minValue, long maxValue)
         {
@@ -381,7 +381,7 @@ namespace TheLastPlanet.Shared
         /// Returns a random ulong that is less than the specified maximum.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 64-bit unsigned integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
         public static ulong NextULong(this Random rand, ulong maxValue)
         {
@@ -392,8 +392,8 @@ namespace TheLastPlanet.Shared
         /// Returns a random ulong that is within a specified range.
         /// </summary>
         /// <param name="rand">A random number generator.</param>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="minValue">The incTheLastPlanet lower bound of the random number returned.</param>
+        /// <param name="maxValue">The excTheLastPlanet upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 64-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static ulong NextULong(this Random rand, ulong minValue, ulong maxValue)
         {

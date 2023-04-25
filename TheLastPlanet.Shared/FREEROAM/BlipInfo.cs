@@ -2,8 +2,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class FRBlipsInfo
+    
+    public class FRBlipsInfo
     {
         public string Name { get; set; }
         public Position Pos { get; set; }

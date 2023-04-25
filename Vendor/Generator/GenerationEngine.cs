@@ -163,7 +163,7 @@ namespace TheLastPlanet.Events.Generator
             using (code.BeginScope($"namespace {item.NamespaceDeclaration.Name}"))
             {
                 using (code.BeginScope(
-                    $"public partial class {item.ClassDeclaration.Identifier}{item.ClassDeclaration.TypeParameterList} {item.ClassDeclaration.ConstraintClauses}"))
+                    $"public class {item.ClassDeclaration.Identifier}{item.ClassDeclaration.TypeParameterList} {item.ClassDeclaration.ConstraintClauses}"))
                 {
                     if (!item.ClassDeclaration.DescendantNodes().Any(self =>
                         self is ConstructorDeclarationSyntax constructorDecl &&

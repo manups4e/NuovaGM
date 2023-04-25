@@ -28,7 +28,6 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
             Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
             Server.Instance.AddEventHandler("playerJoining", new Action<Player, string>(PlayerJoining));
             Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
-            EventDispatcher.Debug = true;
             EventDispatcher.Mount("lprp:setupUser", new Func<PlayerClient, Task<Tuple<Snowflake, BasePlayerShared>>>(SetupUser));
 
 #if DEBUG
@@ -194,11 +193,10 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
             }
         }
 
-        private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser(PlayerClient source)
+        private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser([FromSource] PlayerClient source)
         {
             try
             {
-                Server.Logger.Debug($"{source.Id.ToInt64()}, {source.User.ToJson()}");
                 await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = source.GetLicense(Identifier.Discord) });
                 return new Tuple<Snowflake, BasePlayerShared>(source.Id, source.User);
             }

@@ -184,7 +184,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 
             if (client.User.DeathStatus)
             {
-                HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
+                HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", ColoreNotifica.Red, true);
                 DateTime now = DateTime.Now;
                 BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + client.User.FullName + " e' spawnato morto poiché è sloggato da morto");
                 playerPed.Health = 0;

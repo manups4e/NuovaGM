@@ -35,7 +35,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
             }
         }
 
-        private static void Spawnato(PlayerClient client)
+        private static void Spawnato([FromSource] PlayerClient client)
         {
             for (int i = 0; i < Morti.Count; i++)
                 client.Player.TriggerEvent("lprp:medici:aggiungiPlayerAiMorti", Morti[i]);

@@ -6,8 +6,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared.Veicoli
 {
-    [Serialization]
-    public partial class OwnedVehicle
+    
+    public class OwnedVehicle
     {
         [Ignore]
         [JsonIgnore]
@@ -54,8 +54,8 @@ namespace TheLastPlanet.Shared.Veicoli
         }
     }
 
-    [Serialization]
-    public partial class VehGarage
+    
+    public class VehGarage
     {
         public bool InGarage { get; set; }
         public string Garage { get; set; }
@@ -167,8 +167,8 @@ namespace TheLastPlanet.Shared.Veicoli
         }
     }
 
-    [Serialization]
-    public partial class Veicoloaff
+    
+    public class Veicoloaff
     {
         public string name { get; set; }
         public string description { get; set; }

@@ -33,7 +33,7 @@ namespace TheLastPlanet.Server.TimeWeather
             Server.Instance.AddTick(Conteggio);
         }
 
-        private static void SyncMeteoPerMe(PlayerClient p, bool startup)
+        private static void SyncMeteoPerMe([FromSource] PlayerClient p, bool startup)
         {
             Meteo.StartUp = startup;
             EventDispatcher.Send(p, "tlg:getMeteo", Meteo);

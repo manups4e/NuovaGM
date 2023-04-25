@@ -18,7 +18,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
             EventDispatcher.Mount("tlg:roleplay:onPlayerSpawn", new Action<PlayerClient>(Spawnato));
         }
 
-        private static async void Spawnato(PlayerClient client)
+        private static async void Spawnato([FromSource] PlayerClient client)
         {
             dynamic aparts = await Server.Instance.Query("select * from immobili_creati");
             if (aparts.Count > 0)

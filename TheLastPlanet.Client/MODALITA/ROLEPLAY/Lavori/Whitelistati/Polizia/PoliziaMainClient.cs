@@ -161,7 +161,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                                     }
                                     else
                                     {
-                                        HUD.ShowNotification("Il veicolo che tenti di posare non è della polizia!", NotificationColor.Red, true);
+                                        HUD.ShowNotification("Il veicolo che tenti di posare non è della polizia!", ColoreNotifica.Red, true);
                                     }
                                 }
                             }
@@ -208,7 +208,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                                     }
                                     else
                                     {
-                                        HUD.ShowNotification("Il veicolo che tenti di posare non è della polizia!", NotificationColor.Red, true);
+                                        HUD.ShowNotification("Il veicolo che tenti di posare non è della polizia!", ColoreNotifica.Red, true);
                                     }
                                 }
                             }

@@ -516,12 +516,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                                                 }
                                                 else
                                                 {
-                                                    HUD.ShowNotification("Il tuo veicolo è pieno!", NotificationColor.Red, true);
+                                                    HUD.ShowNotification("Il tuo veicolo è pieno!", ColoreNotifica.Red, true);
                                                 }
                                             }
                                             else
                                             {
-                                                HUD.ShowNotification("Il motore del veicolo deve essere SPENTO", NotificationColor.Red, true);
+                                                HUD.ShowNotification("Il motore del veicolo deve essere SPENTO", ColoreNotifica.Red, true);
                                             }
                                         }
 
@@ -715,7 +715,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                                 }
                                 else
                                 {
-                                    HUD.ShowNotification("La tua cisterna è vuota. Puoi acquistare carburante alla Stazione Rifornimento delle Cisterne.", NotificationColor.Red, true);
+                                    HUD.ShowNotification("La tua cisterna è vuota. Puoi acquistare carburante alla Stazione Rifornimento delle Cisterne.", ColoreNotifica.Red, true);
                                     HUD.ShowHelp("Per smettere di lavorare, allontanati dal tuo veicolo.");
                                 }
                             }
@@ -774,7 +774,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                     if (!distwarn)
                     {
                         distwarn = true;
-                        HUD.ShowNotification("Se ti allontani troppo dal tuo veicolo il contratto di lavoro verrà annullato.", NotificationColor.Yellow);
+                        HUD.ShowNotification("Se ti allontani troppo dal tuo veicolo il contratto di lavoro verrà annullato.", ColoreNotifica.Yellow);
                     }
 
                     if (dist > 60f)
@@ -790,7 +790,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         distwarn = false;
                         hasTanker = false;
                         HideRefuelBlips();
-                        HUD.ShowNotification("Ti sei allontanato troppo dal tuo camion ed è stato rimorchiato.", NotificationColor.Red, true);
+                        HUD.ShowNotification("Ti sei allontanato troppo dal tuo camion ed è stato rimorchiato.", ColoreNotifica.Red, true);
                     }
                 }
 
@@ -803,7 +803,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         jobTruck = new Vehicle(0);
                         jobTrailer = new Vehicle(0);
                         if (plate != "") BaseScript.TriggerServerEvent("lprp:vehicles:unregisterJobVehicle", plate);
-                        HUD.ShowNotification("Hai perso il tuo camion o la tua cisterna. La consegna è stata cancellata.", NotificationColor.Red);
+                        HUD.ShowNotification("Hai perso il tuo camion o la tua cisterna. La consegna è stata cancellata.", ColoreNotifica.Red);
                         curRegPickup = 0;
                         canRegisterForTanker = true;
                         canPickupTanker = true;

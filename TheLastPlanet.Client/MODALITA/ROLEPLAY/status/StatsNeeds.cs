@@ -207,13 +207,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
             if (fame.Val >= 20f && !_fame20)
             {
-                HUD.ShowNotification("Senti un certo languorino... Stuzzicheresti volentieri qualcosa.", NotificationColor.GreenDark, true);
+                HUD.ShowNotification("Senti un certo languorino... Stuzzicheresti volentieri qualcosa.", ColoreNotifica.GreenDark, true);
                 _fame20 = true;
             }
 
             if (fame.Val >= 60 && !_fame60)
             {
-                HUD.ShowNotification("Hai fame! forse dovresti mangiare qualcosa!", NotificationColor.Yellow, true);
+                HUD.ShowNotification("Hai fame! forse dovresti mangiare qualcosa!", ColoreNotifica.Yellow, true);
                 _fame60 = true;
                 int stam = 0;
                 StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref stam, -1);
@@ -222,7 +222,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
             if (fame.Val >= 80 && !_fame80)
             {
-                HUD.ShowNotification("Stai morendo di fame! Se continui così rischi di morire!.", NotificationColor.Red, true);
+                HUD.ShowNotification("Stai morendo di fame! Se continui così rischi di morire!.", ColoreNotifica.Red, true);
                 _fame80 = true;
                 playerPed.Health -= 5;
                 playerPed.MovementAnimationSet = "move_injured_generic";
@@ -230,7 +230,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
             if (fame.Val == 100 && !_fame100)
             {
-                HUD.ShowNotification("Stai morendo di fame!", NotificationColor.Red, true);
+                HUD.ShowNotification("Stai morendo di fame!", ColoreNotifica.Red, true);
                 _fame100 = true;
                 Client.Instance.AddTick(FameSete);
             }
@@ -261,13 +261,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
             if (sete.Val >= 20f && !_sete20)
             {
-                HUD.ShowNotification("Hai la gola un po' secca... ti andrebbe una bibita.", NotificationColor.GreenDark, true);
+                HUD.ShowNotification("Hai la gola un po' secca... ti andrebbe una bibita.", ColoreNotifica.GreenDark, true);
                 _sete20 = true;
             }
 
             if (sete.Val >= 60 && !_sete60)
             {
-                HUD.ShowNotification("Hai sete! forse dovresti bere qualcosa!", NotificationColor.Yellow, true);
+                HUD.ShowNotification("Hai sete! forse dovresti bere qualcosa!", ColoreNotifica.Yellow, true);
                 _sete60 = true;
                 int stam = 0;
                 StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref stam, -1);
@@ -276,7 +276,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
             if (sete.Val >= 80 && !_sete80)
             {
-                HUD.ShowNotification("Stai morendo di sete! Se continui così rischi di morire!.", NotificationColor.Red, true);
+                HUD.ShowNotification("Stai morendo di sete! Se continui così rischi di morire!.", ColoreNotifica.Red, true);
                 playerPed.Health -= 5;
                 playerPed.MovementAnimationSet = "move_injured_generic";
                 _sete80 = true;
@@ -284,7 +284,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
             if (sete.Val == 100 && !_sete100)
             {
-                HUD.ShowNotification("Stai morendo di sete!", NotificationColor.Red, true);
+                HUD.ShowNotification("Stai morendo di sete!", ColoreNotifica.Red, true);
                 _sete100 = true;
                 Client.Instance.AddTick(FameSete);
             }

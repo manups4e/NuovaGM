@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCase
 {
@@ -17,16 +15,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
         private static Position CameraRotIngresso;
         private static string travelSpeedStr = "Media";
         private static int checkTimer = 0;
-        private static Marker markerIngrPiedi;
-        private static Marker markerIngrGarage;
-        private static Marker markerIngrTetto;
+        private static MarkerEx markerIngrPiedi;
+        private static MarkerEx markerIngrGarage;
+        private static MarkerEx markerIngrTetto;
         private static UIMenuItem markerIngressoCasa;
         private static UIMenuItem markerIngressoGarage;
         private static UIMenuItem markerIngressoTetto;
         private static UIMenuItem posCamera;
         private static UIMenuColorPanel blipColor;
         private static Prop renderCamObject;
-        private static Marker dummyMarker = new(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.WhiteSmoke);
+        private static MarkerEx dummyMarker = new(MarkerType.VerticalCylinder, Position.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
         private static int interno = 0;
         private static string abbreviazione;
 
@@ -55,7 +53,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             posCamera = null;
             blipColor = null;
             renderCamObject = null;
-            dummyMarker = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.WhiteSmoke);
+            dummyMarker = new MarkerEx(MarkerType.VerticalCylinder, Position.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
             interno = 0;
             abbreviazione = "";
             InstanceBags oldInstance = new();
@@ -245,7 +243,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             {
                 if (item == markerIngressoCasa)
                 {
-                    markerIngrPiedi = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
+                    markerIngrPiedi = new MarkerEx(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
 
                     if (immobile == TipoImmobile.Casa)
                     {
@@ -255,7 +253,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                 }
                 else if (item == markerIngressoGarage)
                 {
-                    markerIngrGarage = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
+                    markerIngrGarage = new MarkerEx(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
 
                     switch (immobile)
                     {
@@ -273,7 +271,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                 }
                 else if (item == markerIngressoTetto)
                 {
-                    markerIngrTetto = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
+                    markerIngrTetto = new MarkerEx(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
 
                     if (immobile == TipoImmobile.Casa)
                     {
@@ -955,9 +953,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 }
 
                                 Client.Instance.AddTick(MarkerTick);
-                                if (markerIngrPiedi == null) markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.Red);
-                                if (markerIngrGarage == null) markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.Red);
-                                if (markerIngrTetto == null) markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.Red);
+                                if (markerIngrPiedi == null) markerIngrPiedi = new MarkerEx(MarkerType.VerticalCylinder, Position.Zero, new Vector3(1.5f), Colors.Red);
+                                if (markerIngrGarage == null) markerIngrGarage = new MarkerEx(MarkerType.VerticalCylinder, Position.Zero, new Vector3(1.5f), Colors.Red);
+                                if (markerIngrTetto == null) markerIngrTetto = new MarkerEx(MarkerType.VerticalCylinder, Position.Zero, new Vector3(1.5f), Colors.Red);
                             }
 
                             break;
@@ -1040,7 +1038,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                                         }
                                                         else
                                                         {
-                                                            HUD.ShowNotification("Hai incluso il tetto ma manca il marker del tetto!", NotificationColor.Red, true);
+                                                            HUD.ShowNotification("Hai incluso il tetto ma manca il marker del tetto!", ColoreNotifica.Red, true);
                                                         }
                                                     }
                                                     else
@@ -1052,7 +1050,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                                 }
                                                 else
                                                 {
-                                                    HUD.ShowNotification("Hai incluso il garage ma mancano i marker del garage!", NotificationColor.Red, true);
+                                                    HUD.ShowNotification("Hai incluso il garage ma mancano i marker del garage!", ColoreNotifica.Red, true);
                                                 }
                                             }
                                             else // non garage incluso
@@ -1067,7 +1065,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                                     }
                                                     else
                                                     {
-                                                        HUD.ShowNotification("Hai incluso il tetto ma manca il marker del tetto!", NotificationColor.Red, true);
+                                                        HUD.ShowNotification("Hai incluso il tetto ma manca il marker del tetto!", ColoreNotifica.Red, true);
                                                     }
                                                 }
                                                 else
@@ -1081,28 +1079,28 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                         }
                                         else
                                         {
-                                            HUD.ShowNotification("Non hai settato la telecamera d'ingresso!", NotificationColor.Red, true);
+                                            HUD.ShowNotification("Non hai settato la telecamera d'ingresso!", ColoreNotifica.Red, true);
                                         }
                                     }
                                     else
                                     {
-                                        HUD.ShowNotification("Non hai impostato il marker d'entrata!", NotificationColor.Red, true);
+                                        HUD.ShowNotification("Non hai impostato il marker d'entrata!", ColoreNotifica.Red, true);
                                     }
                                 }
                                 else
                                 {
-                                    HUD.ShowNotification("Non hai inserito un prezzo!", NotificationColor.Red, true);
+                                    HUD.ShowNotification("Non hai inserito un prezzo!", ColoreNotifica.Red, true);
                                 }
                             }
                             else
                             {
-                                HUD.ShowNotification("Non hai inserito l'abbreviazione!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Non hai inserito l'abbreviazione!", ColoreNotifica.Red, true);
                             }
 
                             break;
                         }
                     case TipoImmobile.Casa:
-                        HUD.ShowNotification("Non hai specificato il nome dell'immobile!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai specificato il nome dell'immobile!", ColoreNotifica.Red, true);
 
                         break;
                     case TipoImmobile.Garage when !string.IsNullOrWhiteSpace(garageDummy.Label):
@@ -1121,28 +1119,28 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                         }
                                         else
                                         {
-                                            HUD.ShowNotification("Non hai settato la telecamera d'ingresso!", NotificationColor.Red, true);
+                                            HUD.ShowNotification("Non hai settato la telecamera d'ingresso!", ColoreNotifica.Red, true);
                                         }
                                     }
                                     else
                                     {
-                                        HUD.ShowNotification("Non hai impostato il marker d'entrata!", NotificationColor.Red, true);
+                                        HUD.ShowNotification("Non hai impostato il marker d'entrata!", ColoreNotifica.Red, true);
                                     }
                                 }
                                 else
                                 {
-                                    HUD.ShowNotification("Non hai inserito un prezzo!", NotificationColor.Red, true);
+                                    HUD.ShowNotification("Non hai inserito un prezzo!", ColoreNotifica.Red, true);
                                 }
                             }
                             else
                             {
-                                HUD.ShowNotification("Non hai inserito l'abbreviazione!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Non hai inserito l'abbreviazione!", ColoreNotifica.Red, true);
                             }
 
                             break;
                         }
                     case TipoImmobile.Garage:
-                        HUD.ShowNotification("Non hai specificato il nome dell'immobile!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai specificato il nome dell'immobile!", ColoreNotifica.Red, true);
 
                         break;
                 }

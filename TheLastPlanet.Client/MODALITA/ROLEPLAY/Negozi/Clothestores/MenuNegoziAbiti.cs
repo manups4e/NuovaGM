@@ -457,7 +457,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 }
@@ -623,7 +623,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -792,7 +792,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -963,7 +963,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -1132,7 +1132,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                     }
                 }
             };
@@ -1268,7 +1268,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             }
                             else
                             {
-                                HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                             }
                         }
                     }
@@ -1326,7 +1326,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 }
@@ -1389,7 +1389,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 }
@@ -1464,7 +1464,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 }
@@ -1619,7 +1619,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             }
                             else
                             {
-                                HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                                HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                             }
                         }
                     }
@@ -1675,7 +1675,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 }
@@ -1730,7 +1730,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai i soldi per questo abito!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai i soldi per questo abito!", ColoreNotifica.Red, true);
                         }
                     }
                 }

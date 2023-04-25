@@ -3,8 +3,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class StationDiBenzina
+    
+    public class StationDiBenzina
     {
         public string identifier { get; set; }
         public string Name { get; set; }

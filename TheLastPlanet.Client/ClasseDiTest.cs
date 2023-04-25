@@ -1,12 +1,6 @@
-﻿using CitizenFX.Core.Native;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
+﻿using System.Drawing;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.TypeExtensions;
+using MarkerEx = TheLastPlanet.Client.Core.Utility.HUD.MarkerEx;
 
 namespace TheLastPlanet.Client
 {
@@ -18,8 +12,9 @@ namespace TheLastPlanet.Client
             Client.Instance.AddTick(TestTick);
         }
 
+
         static bool pp = false;
-        static Marker dummyMarker = new(MarkerType.VerticalCylinder, WorldProbe.CrossairRaycastResult.HitPosition.ToPosition(), Colors.Blue);
+        static MarkerEx dummyMarker = new(MarkerType.VerticalCylinder, WorldProbe.CrossairRaycastResult.HitPosition.ToPosition(), Colors.Blue);
         private static async Task TestTick()
         {
             //Client.Logger.Debug(IplManager.Global.ToJson());
@@ -55,7 +50,7 @@ namespace TheLastPlanet.Client
 
         private static void TestMenu()
         {
-            var menu = new UIMenu("🐌", "test", new PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
+            UIMenu menu = new UIMenu("🐌", "test", new PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
             UIMenuItem item = new("😐", "~BLIP_INFO_ICON~ Potrai in ogni mento riaprire questo menu di pausa premendo i tasti ~INPUT_SPRINT~ + ~INPUT_DROP_WEAPON~ oppure con il comando /help.");
             menu.AddItem(item);
             HUD.MenuPool.Add(menu);

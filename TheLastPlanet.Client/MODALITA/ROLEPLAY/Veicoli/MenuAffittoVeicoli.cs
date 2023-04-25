@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         }
                         else
                         {
-                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", NotificationColor.Red, true);
+                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -140,7 +140,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         }
                         else
                         {
-                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", NotificationColor.Red, true);
+                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         }
                         else
                         {
-                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", NotificationColor.Red, true);
+                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -250,7 +250,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         }
                         else
                         {
-                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", NotificationColor.Red, true);
+                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -305,7 +305,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         }
                         else
                         {
-                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", NotificationColor.Red, true);
+                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -360,7 +360,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         }
                         else
                         {
-                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", NotificationColor.Red, true);
+                            HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", ColoreNotifica.Red, true);
                         }
                     }
                 };
@@ -410,7 +410,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                     }
                     else
                     {
-                        HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", NotificationColor.Red, true);
+                        HUD.ShowNotification("NON hai abbastanza ~b~Soldi~w~ per coprire la prima ora di affitto del veicolo!", ColoreNotifica.Red, true);
                     }
                 }
             };
@@ -467,7 +467,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             {
                 if (_item == rest)
                 {
-                    HUD.ShowNotification("Grazie di aver utilizzato LastPlanet Affitto Veicoli!", NotificationColor.GreenLight);
+                    HUD.ShowNotification("Grazie di aver utilizzato LastPlanet Affitto Veicoli!", ColoreNotifica.GreenLight);
                     BaseScript.TriggerServerEvent("lprp:serverlog DA CAMBIARE PER LOG!", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Cache.PlayerCache.MyPlayer.User.FullName}, [{Cache.PlayerCache.MyPlayer.Player.Name}], ha appena appena restituito il veicolo {veicoloInAffitto.name} affittato");
                     veicoloInAffitto = null;
                     VeicoliClient.veicoloinaffitto.Delete();

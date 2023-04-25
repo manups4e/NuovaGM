@@ -16,7 +16,7 @@ namespace TheLastPlanet.Server.manager
             //Server.Instance.AddEventHandler("entityCreated", new Action<int>(EntityCreating));
         }
 
-        private static void TippaDaMe(PlayerClient client, int source)
+        private static void TippaDaMe([FromSource] PlayerClient client, int source)
         {
             var player = Funzioni.GetClientFromPlayerId(source);
             player.Ped.Position = client.Ped.Position + new Vector3(0, 1f, 0);
@@ -97,7 +97,7 @@ namespace TheLastPlanet.Server.manager
 
         public override string ToString()
         {
-            return $"Handle = {Handle}, PopulationType = {PopulationType}, owner = {Owner.Name}, tipo = {Type.Name}, decor = {Decor.ToInt64()}, coordinate = {Entity.Position}";
+            return $"Handle = {Handle}, PopulationType = {PopulationType}, owner = {Owner.Name}, tipo = {Type.Name}, decor = {Decor.ToInt64}, coordinate = {Entity.Position}";
         }
     }
 }

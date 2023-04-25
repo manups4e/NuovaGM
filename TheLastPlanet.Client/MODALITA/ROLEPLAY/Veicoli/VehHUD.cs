@@ -261,7 +261,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                         if (beltOn)
                         {
                             Game.DisableControlThisFrame(0, Control.VehicleExit);
-                            if (Input.IsDisabledControlJustPressed(Control.VehicleExit)) HUD.ShowNotification("Hai la cintura allacciata!!", NotificationColor.Red, true);
+                            if (Input.IsDisabledControlJustPressed(Control.VehicleExit)) HUD.ShowNotification("Hai la cintura allacciata!!", ColoreNotifica.Red, true);
                         }
 
                         speedBuffer[1] = speedBuffer[0];

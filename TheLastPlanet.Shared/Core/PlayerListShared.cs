@@ -36,8 +36,8 @@ namespace TheLastPlanet.Shared
     /// <summary>
     /// Struct used for the player info row options.
     /// </summary>
-    [Serialization]
-    public partial class PlayerSlot
+    
+    public class PlayerSlot
     {
         public int ServerId;
         public string? Name;

@@ -1,60 +1,58 @@
 ﻿using System;
 using System.Drawing;
-using static TheLastPlanet.Client.Cache.PlayerCache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
-    public class Marker
+    public class MarkerEx : Marker
     {
-        public MarkerType MarkerType { get; set; }
-        public Position Position { get; set; }
-        public Vector3 Direction { get; set; } = Vector3.Zero;
-        public Vector3 Scale { get; set; } = new(1.5f);
-        public Color Color { get; set; }
-        public bool BobUpDown = false;
-        public bool Rotate = false;
-        public bool FaceCamera = false;
-        public bool IsInMarker = false;
+        private float _height;
+        public new Position Position { get; set; }
+        public new bool IsInMarker { get; set; }
 
-        public Marker(MarkerType type, Position position, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+        public MarkerEx(MarkerType type, Position position, float distance, Color color, bool placeOnGround = false, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+            : base(type, position.ToVector3, distance, color, placeOnGround, bobUpDown, rotate, faceCamera)
         {
-            MarkerType = type;
             Position = position;
-            Color = color;
-            BobUpDown = false;
-            BobUpDown = bobUpDown;
-            Rotate = rotate;
-            FaceCamera = false;
-            FaceCamera = faceCamera;
         }
 
-        public Marker(MarkerType type, Position position, Vector3 scale, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+        public MarkerEx(MarkerType type, Position position, Vector3 scale, float distance, Color color, bool placeOnGround = false, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+            : base(type, position.ToVector3, scale, distance, color, placeOnGround, bobUpDown, rotate, faceCamera)
         {
-            MarkerType = type;
             Position = position;
-            Scale = scale;
-            Color = color;
-            BobUpDown = false;
-            BobUpDown = bobUpDown;
-            Rotate = rotate;
-            FaceCamera = false;
-            FaceCamera = faceCamera;
         }
 
-        public void Draw(bool useZ = false)
+        public MarkerEx(MarkerType type, Position position, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+            : base(type, position.ToVector3, 50f, color, bobUpDown, rotate, faceCamera)
         {
-            if (Game.IsPaused) return;
-            World.DrawMarker(MarkerType, Position.ToVector3, Direction, Position.ToRotationVector, Scale, Color, BobUpDown, FaceCamera, Rotate);
-            if (useZ)
+            Position = position;
+        }
+
+        public MarkerEx(MarkerType type, Position position, Vector3 scale, Color color, bool placeOnGround = false, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+            : base(type, position.ToVector3, scale, 50f, color, placeOnGround, bobUpDown, rotate, faceCamera)
+        {
+            Position = position;
+        }
+
+
+        public new void Draw()
+        {
+            if (IsInRange && PlaceOnGround && Position.Z != _height + 0.1f && API.GetGroundZFor_3dCoord(Position.X, Position.Y, Position.Z, ref _height, ignoreWater: false))
             {
-                float distanceSquared = Position.ToVector3.DistanceToSquared(MyPlayer.Posizione.ToVector3);
-                IsInMarker = (distanceSquared < Math.Pow(Scale.X / 2, 2) || distanceSquared < Math.Pow(Scale.Y / 2, 2)) || distanceSquared < Math.Pow(Scale.Z / 2, 2);
+                Position = new Position(Position.X, Position.Y, _height + 0.03f);
+            }
+
+            World.DrawMarker(MarkerType, Position.ToVector3, Direction, Rotation, Scale, Color, BobUpDown, FaceCamera, Rotate);
+            if (CheckZ)
+            {
+                float num = Position.ToVector3.DistanceToSquared(PlayerCache.MyPlayer.Posizione.ToVector3);
+                IsInMarker = (double)num < Math.Pow(Scale.X / 2f, 2.0) || (double)num < Math.Pow(Scale.Y / 2f, 2.0) || (double)num < Math.Pow(Scale.Z / 2f, 2.0);
             }
             else
             {
-                var pos = Position.ToVector3.DistanceToSquared2D(MyPlayer.Posizione.ToVector3);
-                IsInMarker = pos <= Math.Pow(Scale.X / 2, 2) || pos <= Math.Pow(Scale.Y / 2, 2);
+                float num2 = Position.ToVector3.DistanceToSquared2D(PlayerCache.MyPlayer.Posizione.ToVector3);
+                IsInMarker = (double)num2 <= Math.Pow(Scale.X / 2f, 2.0) || (double)num2 <= Math.Pow(Scale.Y / 2f, 2.0);
             }
         }
+
     }
 }

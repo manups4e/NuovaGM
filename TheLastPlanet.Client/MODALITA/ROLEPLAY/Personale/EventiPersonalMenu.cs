@@ -101,25 +101,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                     {
                         veh.Doors[(VehicleDoorIndex)port].Close();
                         if (portiera == "Cofano" || portiera == "Bagagliaio")
-                            HUD.ShowNotification("Hai chiuso il ~y~ " + portiera + "~w~.", NotificationColor.Cyan);
+                            HUD.ShowNotification("Hai chiuso il ~y~ " + portiera + "~w~.", ColoreNotifica.Cyan);
                         else
-                            HUD.ShowNotification("Hai chiuso la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
+                            HUD.ShowNotification("Hai chiuso la portiera~y~ " + portiera + "~w~.", ColoreNotifica.Cyan);
                     }
                     else
                     {
                         veh.Doors[(VehicleDoorIndex)port].Open();
                         if (portiera == "Cofano" || portiera == "Bagagliaio")
-                            HUD.ShowNotification("Hai aperto il ~y~ " + portiera + "~w~.", NotificationColor.Cyan);
+                            HUD.ShowNotification("Hai aperto il ~y~ " + portiera + "~w~.", ColoreNotifica.Cyan);
                         else
-                            HUD.ShowNotification("Hai aperto la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
+                            HUD.ShowNotification("Hai aperto la portiera~y~ " + portiera + "~w~.", ColoreNotifica.Cyan);
                     }
                 }
                 else
                 {
                     if (portiera == "Cofano" || portiera == "Bagagliaio")
-                        HUD.ShowNotification("Questo veicolo non ha il ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Questo veicolo non ha il ~b~ " + portiera + "~w~!", ColoreNotifica.Red, true);
                     else
-                        HUD.ShowNotification("Questo veicolo non ha la portiera ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Questo veicolo non ha la portiera ~b~ " + portiera + "~w~!", ColoreNotifica.Red, true);
                 }
             }
             else
@@ -135,27 +135,27 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                         {
                             vehicle.Doors[(VehicleDoorIndex)port].Close();
                             if (portiera == "Cofano" || portiera == "Bagagliaio")
-                                HUD.ShowNotification("Hai chiuso il ~y~ " + portiera + "~w~.", NotificationColor.Cyan);
+                                HUD.ShowNotification("Hai chiuso il ~y~ " + portiera + "~w~.", ColoreNotifica.Cyan);
                             else
-                                HUD.ShowNotification("Hai chiuso la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
+                                HUD.ShowNotification("Hai chiuso la portiera~y~ " + portiera + "~w~.", ColoreNotifica.Cyan);
                         }
                         else
                         {
                             vehicle.Doors[(VehicleDoorIndex)port].Open();
-                            HUD.ShowNotification("Hai aperto la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
+                            HUD.ShowNotification("Hai aperto la portiera~y~ " + portiera + "~w~.", ColoreNotifica.Cyan);
                         }
                     }
                     else
                     {
                         if (portiera == "Cofano" || portiera == "Bagagliaio")
-                            HUD.ShowNotification("Questo veicolo non ha il ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Questo veicolo non ha il ~b~ " + portiera + "~w~!", ColoreNotifica.Red, true);
                         else
-                            HUD.ShowNotification("Questo veicolo non ha la portiera ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Questo veicolo non ha la portiera ~b~ " + portiera + "~w~!", ColoreNotifica.Red, true);
                     }
                 }
                 else
                 {
-                    HUD.ShowNotification("Sei troppo distante dal tuo veicolo salvato!", NotificationColor.Red, true);
+                    HUD.ShowNotification("Sei troppo distante dal tuo veicolo salvato!", ColoreNotifica.Red, true);
                 }
             }
         }
@@ -231,7 +231,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             {
                 saveVehicle.AttachedBlip.Delete();
                 saveVehicle = null;
-                HUD.ShowNotification("Veicolo salvato ~r~rimosso~w~ attento se ti allontani verrà eliminato.", NotificationColor.Blue);
+                HUD.ShowNotification("Veicolo salvato ~r~rimosso~w~ attento se ti allontani verrà eliminato.", ColoreNotifica.Blue);
                 PersonalMenu.salvato = true;
             }
             else
@@ -240,7 +240,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 saveVehicle.AttachBlip();
                 saveVehicle.AttachedBlip.Sprite = BlipSprite.PersonalVehicleCar;
                 saveVehicle.AttachedBlip.Color = BlipColor.Green;
-                HUD.ShowNotification("Questa ~y~" + saveVehicle.LocalizedName + "~w~ è stata~g~ salvata ~w~e non verrà eliminata se ti allontani.", NotificationColor.GreenDark);
+                HUD.ShowNotification("Questa ~y~" + saveVehicle.LocalizedName + "~w~ è stata~g~ salvata ~w~e non verrà eliminata se ti allontani.", ColoreNotifica.GreenDark);
                 PersonalMenu.salvato = true;
             }
         }
@@ -268,7 +268,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                         {
                             vehicle.LockStatus = VehicleLockStatus.Locked;
                             SetVehicleDoorsLockedForAllPlayers(vehicle.Handle, true);
-                            HUD.ShowNotification("Hai chiuso la tua ~y~" + vehicle.LocalizedName + "~w~.", NotificationColor.Cyan, true);
+                            HUD.ShowNotification("Hai chiuso la tua ~y~" + vehicle.LocalizedName + "~w~.", ColoreNotifica.Cyan, true);
                             PlayVehicleDoorCloseSound(vehicle.Handle, 1);
                             PersonalMenu.chiuso = true;
                         }
@@ -278,24 +278,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                             {
                                 vehicle.LockStatus = VehicleLockStatus.Locked;
                                 SetVehicleDoorsLockedForAllPlayers(vehicle.Handle, true);
-                                HUD.ShowNotification("Hai chiuso la tua ~y~" + vehicle.LocalizedName + "~w~.", NotificationColor.Cyan, true);
+                                HUD.ShowNotification("Hai chiuso la tua ~y~" + vehicle.LocalizedName + "~w~.", ColoreNotifica.Cyan, true);
                                 await LockLightsAsync(vehicle);
                                 PlayVehicleDoorCloseSound(vehicle.Handle, 1);
                                 PersonalMenu.chiuso = true;
                             }
                             else
                             {
-                                HUD.ShowNotification("Veicolo già chiuso.", NotificationColor.Red);
+                                HUD.ShowNotification("Veicolo già chiuso.", ColoreNotifica.Red);
                             }
                         }
                         else
                         {
-                            HUD.ShowNotification("Devi essere entro 20mt dal tuo veicolo per chiuderlo.", NotificationColor.Red);
+                            HUD.ShowNotification("Devi essere entro 20mt dal tuo veicolo per chiuderlo.", ColoreNotifica.Red);
                         }
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai un veicolo salvato!", NotificationColor.Red);
+                        HUD.ShowNotification("Non hai un veicolo salvato!", ColoreNotifica.Red);
                     }
                 }
                 else
@@ -306,7 +306,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                         {
                             vehicle.LockStatus = VehicleLockStatus.Unlocked;
                             SetVehicleDoorsLockedForAllPlayers(vehicle.Handle, false);
-                            HUD.ShowNotification("Hai aperto la tua ~y~" + vehicle.LocalizedName + "~w~.", NotificationColor.Cyan, true);
+                            HUD.ShowNotification("Hai aperto la tua ~y~" + vehicle.LocalizedName + "~w~.", ColoreNotifica.Cyan, true);
                             PlayVehicleDoorOpenSound(vehicle.Handle, 0);
                             PersonalMenu.chiuso = false;
                         }
@@ -316,24 +316,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                             {
                                 vehicle.LockStatus = VehicleLockStatus.Unlocked;
                                 SetVehicleDoorsLockedForAllPlayers(vehicle.Handle, false);
-                                HUD.ShowNotification("Hai aperto la tua ~y~" + vehicle.LocalizedName + "~w~.", NotificationColor.Cyan, true);
+                                HUD.ShowNotification("Hai aperto la tua ~y~" + vehicle.LocalizedName + "~w~.", ColoreNotifica.Cyan, true);
                                 await LockLightsAsync(vehicle);
                                 PlayVehicleDoorOpenSound(vehicle.Handle, 0);
                                 PersonalMenu.chiuso = false;
                             }
                             else
                             {
-                                HUD.ShowNotification("Veicolo già aperto.", NotificationColor.Red);
+                                HUD.ShowNotification("Veicolo già aperto.", ColoreNotifica.Red);
                             }
                         }
                         else
                         {
-                            HUD.ShowNotification("Devi essere entro 20mt dal tuo veicolo per sbloccarlo.", NotificationColor.Red);
+                            HUD.ShowNotification("Devi essere entro 20mt dal tuo veicolo per sbloccarlo.", ColoreNotifica.Red);
                         }
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai un veicolo salvato!", NotificationColor.Red);
+                        HUD.ShowNotification("Non hai un veicolo salvato!", ColoreNotifica.Red);
                     }
                 }
             }

@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
@@ -7,7 +6,7 @@ using Font = CitizenFX.Core.UI.Font;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
-    public enum NotificationType : int
+    public enum TipoNotifica : int
     {
         Default = 0,
         Bubble = 1,
@@ -41,7 +40,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         }
     }
 
-    public enum NotificationColor
+    public enum ColoreNotifica
     {
         Red = 27,
         Yellow = 50,
@@ -55,7 +54,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         RedDifferent = 52
     }
 
-    public enum IconType
+    public enum TipoIcona
+
     {
         ChatBox = 1,
         Email = 2,
@@ -106,7 +106,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         /// <param name="color">Il colore di sfondo della notifica </param>
         /// <param name="blink"> Se vuoi che lampeggi </param>
         /// <returns></returns>
-        public static Notifica ShowNotification(string msg, NotificationColor color, bool blink = false)
+        public static Notifica ShowNotification(string msg, ColoreNotifica color, bool blink = false)
         {
             AddTextEntry("LprpNotification", msg);
             BeginTextCommandThefeedPost("LprpNotification");
@@ -217,7 +217,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         /// <param name="immagine"></param>
         /// <param name="iconType"></param>
         /// <param name="lampeggia"></param>
-        public static void ShowAdvancedNotification(string titolo, string sottotitolo, string testo, string immagine, IconType iconType, bool lampeggia = false)
+        public static void ShowAdvancedNotification(string titolo, string sottotitolo, string testo, string immagine, TipoIcona iconType, bool lampeggia = false)
         {
             BeginTextCommandThefeedPost("jamyfafi");                                                             //icontype 1 → Chat Box --2 → Email
             AddTextComponentSubstringPlayerName(testo);                                                          //3 → Add Friend Request--7 → Right Jumping Arrow
@@ -225,7 +225,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
             EndTextCommandThefeedPostTicker(lampeggia, true);
         }
 
-        public static void ShowAdvancedNotification(string text, string title, string subtitle = "", string iconSet = "CHAR_WE", string icon = "REBOOTBOTTOM", HudColor bgColor = HudColor.NONE, Color flashColor = new(), bool blink = false, NotificationType type = NotificationType.Default, bool showInBrief = true, bool sound = true)
+        public static void ShowAdvancedNotification(string text, string title, string subtitle = "", string iconSet = "CHAR_WE", string icon = "REBOOTBOTTOM", HudColor bgColor = HudColor.NONE, Color flashColor = new(), bool blink = false, TipoNotifica type = TipoNotifica.Default, bool showInBrief = true, bool sound = true)
         {
             BeginTextCommandThefeedPost("STRING");
             AddTextComponentSubstringPlayerName(text);

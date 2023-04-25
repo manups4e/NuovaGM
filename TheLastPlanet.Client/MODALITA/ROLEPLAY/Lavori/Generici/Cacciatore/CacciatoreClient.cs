@@ -86,7 +86,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
             {
                 if (affittatoBianca) p.Weapons.Remove(WeaponHash.Knife);
                 if (affittatoFuoco) p.Weapons.Remove(WeaponHash.SniperRifle);
-                HUD.ShowNotification("Ti sei allontanato dalla zona di caccia senza aver restituito le armi! Pagherai una multa!", NotificationColor.Red, true);
+                HUD.ShowNotification("Ti sei allontanato dalla zona di caccia senza aver restituito le armi! Pagherai una multa!", ColoreNotifica.Red, true);
                 StaCacciando = false;
                 BaseScript.TriggerServerEvent("lprp:removeBank", 1000);
                 if (AreadiCaccia.Exists()) AreadiCaccia.Delete();
@@ -218,7 +218,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
                     Screen.Fading.FadeIn(500);
                     await BaseScript.Delay(501);
                     p.Task.ClearAll();
-                    HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{ConfigShared.SharedConfig.Main.Generici.ItemList[carne].label}~w~.", NotificationColor.GreenDark, true);
+                    HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{ConfigShared.SharedConfig.Main.Generici.ItemList[carne].label}~w~.", ColoreNotifica.GreenDark, true);
                     BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", carne, 2, 0.5f);
                 }
             }
@@ -245,7 +245,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
                         {
                             if ((Cache.PlayerCache.MyPlayer.User.HasWeapon(DaFuoco) || affittatoFuoco) && (Cache.PlayerCache.MyPlayer.User.HasWeapon(Bianca) || affittatoBianca))
                             {
-                                HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
+                                HUD.ShowNotification("Hai già le armi che noi affittiamo.", ColoreNotifica.Red, true);
 
                                 return;
                             }
@@ -306,7 +306,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai una licenza di caccia!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Non hai una licenza di caccia!", ColoreNotifica.Red, true);
                     }
                 };
             }
@@ -318,7 +318,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
                 {
                     if (affittatoBianca) BaseScript.TriggerServerEvent("lprp:removeWeapon", Bianca);
                     if (affittatoFuoco) BaseScript.TriggerServerEvent("lprp:removeWeapon", DaFuoco);
-                    HUD.ShowNotification("Grazie di aver scelto il nostro servizio di gestione caccia!\nTorna presto!", NotificationColor.GreenDark);
+                    HUD.ShowNotification("Grazie di aver scelto il nostro servizio di gestione caccia!\nTorna presto!", ColoreNotifica.GreenDark);
                     StaCacciando = false;
                     Client.Instance.RemoveTick(ControlloBordi);
                     if (AreadiCaccia.Exists()) AreadiCaccia.Delete();

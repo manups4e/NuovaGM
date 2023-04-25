@@ -3,8 +3,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class Timer
+    
+    public class Timer
     {
         public long StartTime;
         public void New(int startTime = 0)

@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
         private async void RiceviMessaggio(int sender, string messaggio)
         {
             Tuple<int, string> mugshot = await Funzioni.GetPedMugshotAsync(new Ped(GetPlayerPed(GetPlayerFromServerId(sender))));
-            HUD.ShowAdvancedNotification("Messaggio Privato", Funzioni.GetPlayerCharFromPlayerId(sender).FullName, messaggio, mugshot.Item2, IconType.ChatBox);
+            HUD.ShowAdvancedNotification("Messaggio Privato", Funzioni.GetPlayerCharFromPlayerId(sender).FullName, messaggio, mugshot.Item2, TipoIcona.ChatBox);
             AddMessage(messageCount, messaggio, Funzioni.GetPlayerCharFromPlayerId(sender).FullName, false);
             messageCount += 1;
         }

@@ -271,13 +271,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 							int result;
 							nome = await HUD.GetUserInput("A chi vuoi inviare?", "Nome Cognome", 50);
 							if (int.TryParse(nome, out result))
-								HUD.ShowNotification("Devi inserire il nome valido di una persona!", NotificationColor.Red, true);
+								HUD.ShowNotification("Devi inserire il nome valido di una persona!", ColoreNotifica.Red, true);
 							else
 							{
 								if (nome.Length < 3)
-									HUD.ShowNotification("Nome inserito troppo corto!", NotificationColor.Red, true);
+									HUD.ShowNotification("Nome inserito troppo corto!", ColoreNotifica.Red, true);
 								else if (!nome.Contains(" "))
-									HUD.ShowNotification("Errore! Devi inserire Nome e Cognome del destinatario!", NotificationColor.Red, true);
+									HUD.ShowNotification("Errore! Devi inserire Nome e Cognome del destinatario!", ColoreNotifica.Red, true);
 								else
 									destinatario.SetRightLabel(nome);
 							}
@@ -1118,7 +1118,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
                     await BaseScript.Delay(SharedMath.GetRandomInt(2500, 4500));
                     var trans = await EventDispatcher.Get<Tuple<bool, string>>("lprp:banking:" + evento, _soldiTransazione);
                     if (trans.Item1)
-                        HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", NotificationColor.GreenLight);
+                        HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", ColoreNotifica.GreenLight);
                     else
                         HUD.ShowNotification(trans.Item2);
                     //BaseScript.TriggerServerEvent("lprp:banking:" + evento, _soldiTransazione);
@@ -1157,7 +1157,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
                     await BaseScript.Delay(SharedMath.GetRandomInt(2500, 4500));
                     trans = await EventDispatcher.Get<Tuple<bool, string>>("lprp:banking:" + evento, _destinatario, _soldiTransazione);
                     if (trans.Item1)
-                        HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", NotificationColor.GreenLight);
+                        HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", ColoreNotifica.GreenLight);
                     else
                         HUD.ShowNotification(trans.Item2);
                     //BaseScript.TriggerServerEvent("lprp:banking:" + evento, _destinatario, _soldiTransazione);

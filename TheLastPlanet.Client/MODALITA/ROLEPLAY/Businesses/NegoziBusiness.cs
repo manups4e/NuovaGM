@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
                         }
                         else
                         {
-                            HUD.ShowNotification("Non hai abbastanza denaro!", NotificationColor.Red, true);
+                            HUD.ShowNotification("Non hai abbastanza denaro!", ColoreNotifica.Red, true);
                         }
                     }
                 }
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 
 			}
 			else
-				Funzioni.ShowNotification("Puoi gestire la stazione una volta al giorno.\nTorna domani alle ore ~r~" + managetime + "~w~.", NotificationColor.Cyan);
+				Funzioni.ShowNotification("Puoi gestire la stazione una volta al giorno.\nTorna domani alle ore ~r~" + managetime + "~w~.", ColoreNotifica.Cyan);
 			interactWait = false;
 		}
 
@@ -151,22 +151,22 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 				string a = "{\"closeManager\":\"true\"}";
 				SendNuiMessage(a);
 				SetNuiFocus(false, false);
-				Funzioni.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", NotificationColor.GreenLight);
+				Funzioni.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", ColoreNotifica.GreenLight);
 			}
 			else
-				Funzioni.ShowNotification(msg, NotificationColor.Red);
+				Funzioni.ShowNotification(msg, ColoreNotifica.Red);
 		}
 
 		public void PurchaseStation(bool success, string msg, int sidx, int sellprice)
 		{
 			if (success)
 			{
-				Funzioni.ShowNotification("Congratulazioni nell'acquisto della tua nuova Stazione!\n~b~ " + sellprice + "$~w~ sono stati prelevati dal tuo conto bancario.", NotificationColor.GreenLight);
+				Funzioni.ShowNotification("Congratulazioni nell'acquisto della tua nuova Stazione!\n~b~ " + sellprice + "$~w~ sono stati prelevati dal tuo conto bancario.", ColoreNotifica.GreenLight);
 				TriggerServerEvent("lprp:businesses:checkcanmanage", sidx);
 			}
 			else
 			{
-				Funzioni.ShowNotification(msg, NotificationColor.Red);
+				Funzioni.ShowNotification(msg, ColoreNotifica.Red);
 				interactWait = false;
 			}
 		}

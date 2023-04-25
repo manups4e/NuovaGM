@@ -3,8 +3,8 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared.Meteo
 {
-    [Serialization]
-    public partial class SharedMeteo
+    
+    public class SharedMeteo
     {
         public bool ss_enable_wind_sync { get; set; }
         public float ss_wind_speed_max { get; set; }

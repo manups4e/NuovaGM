@@ -295,7 +295,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                     }
                     else
                     {
-                        HUD.ShowNotification("Qui non puoi pescare.. prova ad entrare in acqua!", NotificationColor.Red, true);
+                        HUD.ShowNotification("Qui non puoi pescare.. prova ad entrare in acqua!", ColoreNotifica.Red, true);
                     }
                 }
 

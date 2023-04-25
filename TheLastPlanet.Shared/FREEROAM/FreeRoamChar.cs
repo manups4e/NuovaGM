@@ -34,8 +34,8 @@ namespace TheLastPlanet.Shared
         CustomFloat
     }
 
-    [Serialization]
-    public partial class FreeRoamChar
+    
+    public class FreeRoamChar
     {
         public ulong CharID { get; set; }
         public bool is_dead { get; set; }
@@ -76,8 +76,8 @@ namespace TheLastPlanet.Shared
         }
     }
 
-    [Serialization]
-    public partial class FreeRoamStats
+    
+    public class FreeRoamStats
     {
         public float STAMINA { get; set; } = 0;
         public float STRENGTH { get; set; } = 0;
@@ -96,8 +96,8 @@ namespace TheLastPlanet.Shared
         public int EventsWon { get; set; } = 0;
     }
 
-    [Serialization]
-    public partial class PlayerScore
+    
+    public class PlayerScore
     {
         public int EventId { get; set; }
         public float EventXpMultiplier { get; set; } = 1.0f;
@@ -105,8 +105,8 @@ namespace TheLastPlanet.Shared
         public float BestAttempt { get; set; }
     }
 
-    [Serialization]
-    public partial class FreeRoamChar_Metadata
+    
+    public class FreeRoamChar_Metadata
     {
         public int money;/*{ set => Finance.Money = value; }*/
         public int bank;/*{ set => Finance.Bank = value; }*/

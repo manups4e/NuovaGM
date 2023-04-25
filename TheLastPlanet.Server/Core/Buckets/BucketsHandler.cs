@@ -44,7 +44,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         /// </summary>
         /// <param name="player">Player da aggiungere</param>
         /// <param name="id">Id del bucket</param>
-        private static void AddPlayerToBucket(PlayerClient player, ModalitaServer id)
+        private static void AddPlayerToBucket([FromSource] PlayerClient player, ModalitaServer id)
         {
             List<PlayerClient> clients = null;
             RemovePlayerFromBucket(player, player.Status.PlayerStates.Modalita, "");
@@ -71,13 +71,12 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
 
             player.SetState($"{player.Status.PlayerStates._name}:Modalita", id);
-            Server.Logger.Debug("onentrance: " + player.ToJson());
             EventDispatcher.Send(clients, "tlg:onPlayerEntrance", player);
             UpdateBucketsCount();
             player.Status.Clear();
         }
             
-        private static void RemovePlayerFromBucket(PlayerClient player, ModalitaServer id, string reason)
+        private static void RemovePlayerFromBucket([FromSource] PlayerClient player, ModalitaServer id, string reason)
         {
             switch (id)
             {
@@ -122,7 +121,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
         }
 
-        private static async Task<Dictionary<ModalitaServer, int>> CountPlayers(PlayerClient player)
+        private static async Task<Dictionary<ModalitaServer, int>> CountPlayers([FromSource] PlayerClient player)
         {
             Dictionary<ModalitaServer, int> result = new()
             {
@@ -135,7 +134,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return result;
         }
 
-        private static async Task<bool> CheckIn(PlayerClient player, ModalitaServer id)
+        private static async Task<bool> CheckIn([FromSource] PlayerClient player, ModalitaServer id)
         {
             switch (id)
             {

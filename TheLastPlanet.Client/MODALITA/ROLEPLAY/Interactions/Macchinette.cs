@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                                 SetModelAsNoLongerNeeded((uint)ObjectHash.prop_ld_can_01b);
                                 while (GetEntityAnimCurrentTime(PlayerPedId(), anim, "PLYR_BUY_DRINK_PT1") < 0.65f) await BaseScript.Delay(0);
                                 //controllo oggetto quantità massima :)
-                                HUD.ShowNotification("Hai comprato una bibita dissetante", NotificationColor.Cyan);
+                                HUD.ShowNotification("Hai comprato una bibita dissetante", ColoreNotifica.Cyan);
                                 Can.Detach();
                                 Can.Delete();
                                 p.Task.ClearAll();
@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                     }
                     else
                     {
-                        HUD.ShowNotification("Non hai abbastanza contanti!!", NotificationColor.RedDifferent, true);
+                        HUD.ShowNotification("Non hai abbastanza contanti!!", ColoreNotifica.RedDifferent, true);
                     }
                 }
             }

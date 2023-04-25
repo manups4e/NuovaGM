@@ -10,8 +10,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
     public delegate void VendiOggetto(Item oggetto, int quantità);
     public delegate void CompraOggetto(Item oggetto, int quantità);
 
-    [Serialization]
-    public partial class SharedGenerici
+    
+    public class SharedGenerici
     {
         #region ItemList
         public Dictionary<string, Item> ItemList = new Dictionary<string, Item>()
@@ -1468,8 +1468,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
     }
 
 
-    [Serialization]
-    public partial class Arma
+    
+    public class Arma
     {
         public string? name;
         public List<Components> components = new List<Components>();
@@ -1483,8 +1483,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Item
+    
+    public class Item
     {
         public string label;
         public string description;
@@ -1546,8 +1546,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Use
+    
+    public class Use
     {
         public string label;
         public string description;
@@ -1562,8 +1562,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Give
+    
+    public class Give
     {
         public string label;
         public string description;
@@ -1577,8 +1577,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Drop
+    
+    public class Drop
     {
         public string label;
         public string description;
@@ -1593,8 +1593,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Sell
+    
+    public class Sell
     {
         public string label;
         public string description;
@@ -1609,8 +1609,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Buy
+    
+    public class Buy
     {
         public string label;
         public string description;
@@ -1625,8 +1625,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Components
+    
+    public class Components
     {
         public string name { get; set; }
         public bool active { get; set; }
@@ -1643,8 +1643,8 @@ namespace Impostazioni.Shared.Configurazione.Generici
         }
     }
 
-    [Serialization]
-    public partial class Tinte
+    
+    public class Tinte
     {
         public string name { get; set; }
         public int value { get; set; }

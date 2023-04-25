@@ -3,20 +3,18 @@ using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    [Serialization]
-    public partial class ConfigShared
+    public class ConfigShared
     {
         public static SharedConfig SharedConfig = new();
     }
 
-    [Serialization]
-    public partial class SharedConfig
+    public class SharedConfig
     {
         public MainShared Main = new();
     }
 
-    [Serialization]
-    public partial class MainShared
+    
+    public class MainShared
     {
         public SharedConfigVeicoli Veicoli = new();
         public SharedMeteo Meteo = new();

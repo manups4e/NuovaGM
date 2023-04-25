@@ -14,7 +14,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             EventDispatcher.Mount("worldEventsManage.Server:SpawnedEventVehicles", new Action<PlayerClient, List<int>>(OnSpawnedEventVehicles));
         }
 
-        private static void OnSpawnedEventVehicles(PlayerClient client, List<int> dynamicVehicles)
+        private static void OnSpawnedEventVehicles([FromSource] PlayerClient client, List<int> dynamicVehicles)
         {
             try
             {
