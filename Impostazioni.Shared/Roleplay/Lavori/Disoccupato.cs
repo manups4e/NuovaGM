@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Impostazioni.Shared.Roleplay.Lavori
+﻿namespace Impostazioni.Shared.Roleplay.Lavori
 {
     public class Disoccupato
     {

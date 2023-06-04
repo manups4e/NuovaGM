@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FxEvents.Shared.Snowflakes;
+using System;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
-
 using TheLastPlanet.Shared.PlayerChar;
-using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.Cache
 {
@@ -24,7 +19,7 @@ namespace TheLastPlanet.Client.Cache
 
         public static async Task InitPlayer()
         {
-            var pippo = await EventDispatcher.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
+            Tuple<Snowflake, BasePlayerShared> pippo = await EventDispatcher.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
             MyPlayer = new PlayerClient(pippo);
             _checkTimer = new(5000);
             Client.Instance.AddTick(TickStatus);

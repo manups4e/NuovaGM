@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -32,7 +29,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             {
                 if (closest.Item2 > -1 && closest.Item2 < 3f)
                 {
-                    var client = Funzioni.GetPlayerClientFromServerId(closest.Item1.ServerId);
+                    PlayerClient client = Funzioni.GetPlayerClientFromServerId(closest.Item1.ServerId);
                     if (client.Status.RolePlayStates.Svenuto || client.Status.RolePlayStates.FinDiVita)
                     {
                         HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per lootare");

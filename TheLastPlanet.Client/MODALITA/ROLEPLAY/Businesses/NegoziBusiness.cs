@@ -1,7 +1,6 @@
 ﻿using Impostazioni.Client.Configurazione.Negozi.Generici;
 using System.Collections.Generic;
 using System.Linq;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses

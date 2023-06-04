@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheLastPlanet.Client.Core.Utility;
-using FxEvents.Shared.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 
 namespace TheLastPlanet.Client.Core.PlayerChar
@@ -25,19 +23,19 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
         public User() { }
 
-        [Ignore] [JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
+        [JsonIgnore] internal string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-        [Ignore] [JsonIgnore] public string DoB => CurrentChar.Info.dateOfBirth;
+        [JsonIgnore] internal string DoB => CurrentChar.Info.dateOfBirth;
 
-        [Ignore] [JsonIgnore] public bool DeathStatus => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.is_dead : FreeRoamChar.is_dead;
+        [JsonIgnore] internal bool DeathStatus => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.is_dead : FreeRoamChar.is_dead;
 
-        [Ignore] [JsonIgnore] public int Money => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Finance.Money : FreeRoamChar.Finance.Money;
+        [JsonIgnore] internal int Money => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Finance.Money : FreeRoamChar.Finance.Money;
 
-        [Ignore] [JsonIgnore] public int Bank => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Finance.Bank : FreeRoamChar.Finance.Bank;
+        [JsonIgnore] internal int Bank => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Finance.Bank : FreeRoamChar.Finance.Bank;
 
-        [Ignore] [JsonIgnore] public int DirtyCash => CurrentChar.Finance.DirtyCash;
+        [JsonIgnore] internal int DirtyCash => CurrentChar.Finance.DirtyCash;
 
-        [Ignore] [JsonIgnore] public List<Inventory> Inventory => GetCharInventory();
+        [JsonIgnore] internal List<Inventory> Inventory => GetCharInventory();
 
         public Tuple<bool, Inventory, Item> GetInventoryItem(string item)
         {

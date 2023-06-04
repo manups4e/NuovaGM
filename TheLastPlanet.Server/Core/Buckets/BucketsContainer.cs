@@ -1,13 +1,9 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
-using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Core.Buckets;
 
 namespace TheLastPlanet.Server.Core.Buckets
@@ -65,8 +61,8 @@ namespace TheLastPlanet.Server.Core.Buckets
         public void AddPlayer(PlayerClient client)
         {
             Bucket.AddPlayer(client);
-            var highscores = new List<PlayerScore>();
-            foreach (var worldEvent in WorldEventsManager.WorldEvents)
+            List<PlayerScore> highscores = new List<PlayerScore>();
+            foreach (WorldEvent worldEvent in WorldEventsManager.WorldEvents)
                 highscores.Add(new PlayerScore { EventId = worldEvent.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = worldEvent.EventXpMultiplier });
             client.User.PlayerScores = highscores;
             SetPlayerCullingRadius(client.Handle.ToString(), 5000f);
@@ -93,10 +89,10 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             try
             {
-                var player = Bucket.Players.FirstOrDefault(x => x.Id == client.Id);
+                PlayerClient player = Bucket.Players.FirstOrDefault(x => x.Id == client.Id);
                 if (player != null)
                 {
-                    var data = player.User.PlayerScores.FirstOrDefault(x => x.EventId == eventId);
+                    PlayerScore data = player.User.PlayerScores.FirstOrDefault(x => x.EventId == eventId);
                     if (data != null)
                     {
                         data.CurrentAttempt = currentAttempt;
@@ -117,7 +113,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             try
             {
-                foreach (var player in Bucket.Players)
+                foreach (PlayerClient player in Bucket.Players)
                     player.User.PlayerScores.First(x => x.EventId == eventId).CurrentAttempt = 0;
             }
             catch (Exception e)
@@ -130,10 +126,10 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             try
             {
-                var player = Bucket.Players.FirstOrDefault(x => x.Id == client.Id);
+                PlayerClient player = Bucket.Players.FirstOrDefault(x => x.Id == client.Id);
                 if (player != null)
                 {
-                    var score = player.User.PlayerScores.FirstOrDefault(x => x.EventId == eventId);
+                    PlayerScore score = player.User.PlayerScores.FirstOrDefault(x => x.EventId == eventId);
                     if (score != null && score.BestAttempt < bestAttempt)
                         score.BestAttempt = bestAttempt;
                 }
@@ -151,14 +147,14 @@ namespace TheLastPlanet.Server.Core.Buckets
             {
                 if (Bucket.Players.Count == 0) { return; }
 
-                var tempDictionary = new Dictionary<string, float>();
+                Dictionary<string, float> tempDictionary = new Dictionary<string, float>();
 
-                foreach (var player in Bucket.Players)
+                foreach (PlayerClient player in Bucket.Players)
                 {
-                    var score = player.User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
+                    PlayerScore score = player.User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
                     if (score != null && score.CurrentAttempt > 0)
                     {
-                        var xpGain = (int)Math.Min(score.CurrentAttempt * eventMultiplier, Experience.RankRequirement[player.User.FreeRoamChar.Level + 1] - Experience.RankRequirement[player.User.FreeRoamChar.Level]);
+                        int xpGain = (int)Math.Min(score.CurrentAttempt * eventMultiplier, Experience.RankRequirement[player.User.FreeRoamChar.Level + 1] - Experience.RankRequirement[player.User.FreeRoamChar.Level]);
 
                         if (xpGain != 0)
                             ExperienceManager.OnAddExperience(player, xpGain);
@@ -183,9 +179,9 @@ namespace TheLastPlanet.Server.Core.Buckets
                     tempDictionary.Add("-1", 0);
                 }
 
-                var orderByDescending = tempDictionary.OrderByDescending(x => x.Value);
+                IOrderedEnumerable<KeyValuePair<string, float>> orderByDescending = tempDictionary.OrderByDescending(x => x.Value);
 
-                var newerDict = orderByDescending.ToDictionary(x => x.Key, x => x.Value);
+                Dictionary<string, float> newerDict = orderByDescending.ToDictionary(x => x.Key, x => x.Value);
 
                 EventDispatcher.Send(Bucket.Players, "worldEventsManage.Client:FinalTop3", eventId, newerDict.ToJson());
             }
@@ -201,11 +197,11 @@ namespace TheLastPlanet.Server.Core.Buckets
             {
                 if (Bucket.Players.Count == 0) { return; } // should never happen but :shrug:
 
-                var tempDictionary = new Dictionary<string, float>();
+                Dictionary<string, float> tempDictionary = new Dictionary<string, float>();
 
-                foreach (var player in Bucket.Players)
+                foreach (PlayerClient player in Bucket.Players)
                 {
-                    var score = player.User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
+                    PlayerScore score = player.User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
                     if (score != null && score.CurrentAttempt > 0)
                     {
                         if (!tempDictionary.ContainsKey(player.Player.Name))
@@ -223,7 +219,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                     tempDictionary.Add("Player 1", 0);
                 }
 
-                var newDict = tempDictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+                Dictionary<string, float> newDict = tempDictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
                 if (newDict.Count < 3) { return; }
 
@@ -239,11 +235,11 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             try
             {
-                foreach (var p in Bucket.Players)
+                foreach (PlayerClient p in Bucket.Players)
                 {
                     if (p != null)
                     {
-                        var eventData = p.User.PlayerScores.FirstOrDefault(x => x.EventId == eventId);
+                        PlayerScore eventData = p.User.PlayerScores.FirstOrDefault(x => x.EventId == eventId);
                         p.Player.TriggerEvent("worldeventsManager.Client:GetEventData", eventData.EventId, eventData.CurrentAttempt, eventData.BestAttempt);
                     }
                 }
@@ -258,7 +254,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             try
             {
-                var player = Bucket.Players.FirstOrDefault(x => x.Identifiers.License == client.Identifiers.License);
+                PlayerClient player = Bucket.Players.FirstOrDefault(x => x.Identifiers.License == client.Identifiers.License);
 
                 if (player != null)
                 {
@@ -277,7 +273,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             try
             {
-                var player = Bucket.Players.FirstOrDefault(x => x.Identifiers.License == client.Identifiers.License);
+                PlayerClient player = Bucket.Players.FirstOrDefault(x => x.Identifiers.License == client.Identifiers.License);
 
                 if (player != null)
                 {
@@ -296,10 +292,10 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             try
             {
-                var player = Bucket.Players.FirstOrDefault(x => x.Identifiers.License == client.Identifiers.License);
+                PlayerClient player = Bucket.Players.FirstOrDefault(x => x.Identifiers.License == client.Identifiers.License);
                 if (player != null)
                 {
-                    var nextLevelTotalXp = Experience.NextLevelExperiencePoints(player.User.FreeRoamChar.Level);
+                    int nextLevelTotalXp = Experience.NextLevelExperiencePoints(player.User.FreeRoamChar.Level);
 
                     if (player.User.FreeRoamChar.TotalXp + experiencePoints >= nextLevelTotalXp)
                     {
@@ -388,14 +384,14 @@ namespace TheLastPlanet.Server.Core.Buckets
         private static async Task<List<LogInInfo>> LogInfo([FromSource] PlayerClient client)
         {
             string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
-            var info = await MySQL.QueryListAsync(query, new
+            dynamic info = await MySQL.QueryListAsync(query, new
             {
                 client.User.ID
             });
             List<LogInInfo> result = new();
-            foreach (var ii in info)
+            foreach (dynamic ii in info)
             {
-                var p = (ii.info as string).FromJson<Info>();
+                Info p = (ii.info as string).FromJson<Info>();
                 result.Add(new LogInInfo()
                 {
                     ID = ((long)ii.CharID).ToString(),
@@ -433,14 +429,17 @@ namespace TheLastPlanet.Server.Core.Buckets
         private static async Task<Char_data> LoadChar([FromSource] PlayerClient source, ulong id)
         {
             User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
-
-            await BaseScript.Delay(0);
-
-            var data = GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
-            var bytes = data.StringToBytes();
-            user.CurrentChar = bytes.FromBytes<Char_data>();
-
             /*
+            string data = GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
+            Server.Logger.Warning(data);
+
+            byte[] bytes = data.StringToBytes();
+            Char_data pl = bytes.FromBytes<Char_data>();
+            Server.Logger.Warning(pl.ToJson());
+
+            user.CurrentChar = bytes.FromBytes<Char_data>();
+            /*
+            */
             string query = "SELECT * FROM personaggi WHERE CharID = @id";
 
             Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id });
@@ -458,8 +457,8 @@ namespace TheLastPlanet.Server.Core.Buckets
                 res.needs.FromJson<Needs>(),
                 res.statistiche.FromJson<Statistiche>(),
                 res.is_dead
-            ){ Posizione = res.location.FromJson<Position>() };
-            */
+            )
+            { Posizione = res.location.FromJson<Position>() };
             return user.CurrentChar;
         }
 

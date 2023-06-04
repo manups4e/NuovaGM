@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                     // aggiungere controllo se il ped è player?
                     if (Cache.PlayerCache.MyPlayer.Ped.IsInVehicle())
                     {
-                        var x = 0;
+                        int x = 0;
                         StatGetInt(unchecked((uint)PlayerStat), ref x, -1);
                         CurrentAttempt = x;
                         if (CurrentAttempt > BestAttempt)

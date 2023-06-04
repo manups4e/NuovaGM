@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TheLastPlanet.Client.IPLs.dlc_doomsday
 {

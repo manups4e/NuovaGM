@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using FxEvents.Shared.Attributes;
 
 namespace Impostazioni.Client.Configurazione.Negozi.Abiti
 {
-    
+
     public class Completo : Dressing
     {
         public int Price { get; set; }
@@ -16,7 +15,7 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
         }
     }
 
-    
+
     public class Singolo
     {
         public string Title { get; set; }
@@ -26,7 +25,7 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
         public List<int> Text { get; set; } = new List<int>();
     }
 
-    
+
     public class Accessori
     {
         public List<Singolo> Borse { get; set; } = new List<Singolo>();

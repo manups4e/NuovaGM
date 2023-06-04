@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System;
+﻿using System;
 using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions

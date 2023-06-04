@@ -1,6 +1,4 @@
-﻿using CitizenFX.Core.Native;
-
-namespace TheLastPlanet.Client.IPLs.gtav
+﻿namespace TheLastPlanet.Client.IPLs.gtav
 {
     public class FranklinAunt
     {

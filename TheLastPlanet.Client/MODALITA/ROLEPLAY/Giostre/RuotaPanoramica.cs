@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 {
