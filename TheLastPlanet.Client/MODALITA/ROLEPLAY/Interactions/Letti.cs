@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -94,7 +93,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
         private static async void CambiaPers()
         {
-            HUD.MenuPool.CloseAllMenus();
+            MenuHandler.CloseAndClearHistory();
             Vector4 Random = LogIn.LogIn.SelectFirstCoords[new Random(GetGameTimer()).Next(LogIn.LogIn.SelectFirstCoords.Count - 1)];
             int switchType = GetIdealPlayerSwitchType(Cache.PlayerCache.MyPlayer.Ped.Position.X, Cache.PlayerCache.MyPlayer.Ped.Position.Y, Cache.PlayerCache.MyPlayer.Ped.Position.Z, Random.X, Random.Y, Random.Z);
             SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);

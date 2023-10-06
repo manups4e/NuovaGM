@@ -576,7 +576,7 @@ namespace TheLastPlanet.Shared
     {
         public BankTransactionType Type { get; set; }
         public long Amount { get; set; }
-        [Ignore] [JsonIgnore] public DateTime Date { get; set; }
+         [JsonIgnore] public DateTime Date { get; set; }
         public string Information { get; set; }
 
         [JsonProperty("Date")] public string _Date => Date.ToString("MM/dd/yyyy HH:mm:ss");

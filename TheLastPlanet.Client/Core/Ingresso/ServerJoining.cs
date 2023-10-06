@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.MAINLOBBY;
 
 namespace TheLastPlanet.Client.Core.Ingresso
@@ -63,7 +62,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
             PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
             PlayerCache.MyPlayer.Player.IgnoredByPolice = true;
             PlayerCache.MyPlayer.Player.DispatchsCops = false;
-            Screen.Hud.IsRadarVisible = false;
+            //Screen.Hud.IsRadarVisible = false;
+            Screen.Hud.IsRadarVisible = true;
             // TODO: gestire questa parte separatamente per i vari pianeti
             CharSelect();
         }

@@ -1,11 +1,9 @@
-﻿using CitizenFX.Core.Native;
-using Impostazioni.Server.Configurazione.Coda;
+﻿using Impostazioni.Server.Configurazione.Coda;
 using Impostazioni.Server.Configurazione.Main;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Properties;
-using TheLastPlanet.Shared;
 
 
 namespace TheLastPlanet.Server
@@ -49,10 +47,10 @@ namespace TheLastPlanet.Server
                 //return LoadResourceFile(GetCurrentResourceName(), "configs/Client_RolePlay.json");
                 case ModalitaServer.Minigiochi:
                     return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Minigiochi.json");
-                    /*
-                case ModalitaServer.Gare:
-                    return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Gare.json");
-                    */
+                /*
+            case ModalitaServer.Gare:
+                return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Gare.json");
+                */
                 case ModalitaServer.Negozio:
                     return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Negozio.json");
                 case ModalitaServer.FreeRoam:

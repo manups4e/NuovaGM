@@ -1,8 +1,6 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -20,15 +18,15 @@ namespace TheLastPlanet.Server.Core
             try
             {
                 // gestione tempo players da rifare.. sicuramente!
-                await BaseScript.Delay(600000);
+                await BaseScript.Delay(10000);
                 if (Server.Instance.Clients.Count > 0)
                 {
-                    foreach (var user in from user in Server.Instance.Clients where user.User is not null where (user.Status is not null && user.Status.PlayerStates.Spawned) select user)
+                    foreach (PlayerClient user in from user in Server.Instance.Clients where user.User is not null where (user.Status is not null && user.Status.PlayerStates.Spawned) select user)
                     {
-                        user.User.playTime += 600;
+                        user.User.playTime += 10;
                     }
                 }
-                var ora = DateTime.UtcNow - Now;
+                TimeSpan ora = DateTime.UtcNow - Now;
                 SetConvarServerInfo("Attivo da:", $"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
                 //Server.Logger.Debug($"Attivo da: {ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti {ora.Seconds} secondi");
             }

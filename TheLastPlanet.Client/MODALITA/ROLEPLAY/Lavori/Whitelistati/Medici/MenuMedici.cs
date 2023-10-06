@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
@@ -15,7 +13,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         public static async void MenuSpogliatoio()
         {
             UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(spogliatoio);
             UIMenuItem cambio;
             cambio = !Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
             spogliatoio.AddItem(cambio);
@@ -23,7 +20,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
             {
                 Screen.Fading.FadeOut(800);
                 await BaseScript.Delay(1000);
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 NetworkFadeOutEntity(PlayerPedId(), true, false);
 
                 if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio)
@@ -88,7 +85,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         public static async void MenuFarmacia()
         {
             UIMenu farmacia = new("Farmacia e Medicinali", "Con prescrizione o senza?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(farmacia);
             farmacia.Visible = true;
         }
 
@@ -99,7 +95,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         public static async void InteractionMenu()
         {
             UIMenu MenuMedico = new("Menu Medico", "Salviamo qualche vita!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(MenuMedico);
             UIMenuItem controlloFerite = new("Controlla ferite", "Dove fa male?");
             UIMenuItem rianima = new("Tenta rianimazione", "Attenzione: potrebbe fallire!");
             MenuMedico.AddItem(controlloFerite);
@@ -252,7 +247,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         private static async void MenuPiano()
         {
             UIMenu Ascensore = new("Seleziona Piano", "Sali o scendi?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(Ascensore);
             UIMenuItem esci = new("Esci dal Garage");
             Ascensore.AddItem(esci);
             int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade));
@@ -276,7 +270,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                 }
                 else
                 {
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                     Screen.Fading.FadeOut(800);
                     await BaseScript.Delay(1000);
 
@@ -320,7 +314,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
             HeliCam.IsActive = true;
             await BaseScript.Delay(1000);
             UIMenu MenuElicotteri = new("Elicotteri Medici", "Cura le strade con stile!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(MenuElicotteri);
 
             for (int i = 0; i < Stazione.ElicotteriAutorizzati.Count; i++)
             {
@@ -375,44 +368,41 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                 if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle, 1);
                 VeicoloPol veh = new(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.ToJson());
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 PreviewHeli.MarkAsNoLongerNeeded();
                 PreviewHeli.Delete();
             };
-            HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+            MenuElicotteri.OnMenuOpen += async (a, b) =>
             {
-                if (state == MenuState.Opened && newmenu == MenuElicotteri)
-                {
-                    PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
-                    PreviewHeli.IsCollisionEnabled = false;
-                    PreviewHeli.IsPersistent = true;
-                    PreviewHeli.PlaceOnGround();
-                    PreviewHeli.IsPositionFrozen = true;
-                    if (PreviewHeli.Model.Hash == 353883353) SetVehicleLivery(PreviewHeli.Handle, 1); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
-                    PreviewHeli.LockStatus = VehicleLockStatus.Locked;
-                    PreviewHeli.IsInvincible = true;
-                    PreviewHeli.IsEngineRunning = true;
-                    PreviewHeli.IsDriveable = false;
-                    Client.Instance.AddTick(Heading);
-                    HeliCam.PointAt(PreviewHeli);
-                    if (GetInteriorFromEntity(PreviewHeli.Handle) != 0) SetFocusEntity(PreviewHeli.Handle);
-                    while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
-                    RenderScriptCams(true, false, 0, false, false);
-                    Screen.Fading.FadeIn(800);
-                }
-                else if (state == MenuState.Closed && oldmenu == MenuElicotteri)
-                {
-                    Screen.Fading.FadeOut(800);
-                    await BaseScript.Delay(1000);
-                    Client.Instance.RemoveTick(Heading);
-                    HeliCam.IsActive = false;
-                    RenderScriptCams(false, false, 0, false, false);
-                    ClearFocus();
-                    await BaseScript.Delay(1000);
-                    Screen.Fading.FadeIn(800);
-                    PreviewHeli.MarkAsNoLongerNeeded();
-                    PreviewHeli.Delete();
-                }
+                PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
+                PreviewHeli.IsCollisionEnabled = false;
+                PreviewHeli.IsPersistent = true;
+                PreviewHeli.PlaceOnGround();
+                PreviewHeli.IsPositionFrozen = true;
+                if (PreviewHeli.Model.Hash == 353883353) SetVehicleLivery(PreviewHeli.Handle, 1); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
+                PreviewHeli.LockStatus = VehicleLockStatus.Locked;
+                PreviewHeli.IsInvincible = true;
+                PreviewHeli.IsEngineRunning = true;
+                PreviewHeli.IsDriveable = false;
+                Client.Instance.AddTick(Heading);
+                HeliCam.PointAt(PreviewHeli);
+                if (GetInteriorFromEntity(PreviewHeli.Handle) != 0) SetFocusEntity(PreviewHeli.Handle);
+                while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
+                RenderScriptCams(true, false, 0, false, false);
+                Screen.Fading.FadeIn(800);
+            };
+            MenuElicotteri.OnMenuClose += async (a) =>
+            {
+                Screen.Fading.FadeOut(800);
+                await BaseScript.Delay(1000);
+                Client.Instance.RemoveTick(Heading);
+                HeliCam.IsActive = false;
+                RenderScriptCams(false, false, 0, false, false);
+                ClearFocus();
+                await BaseScript.Delay(1000);
+                Screen.Fading.FadeIn(800);
+                PreviewHeli.MarkAsNoLongerNeeded();
+                PreviewHeli.Delete();
             };
             MenuElicotteri.Visible = true;
         }

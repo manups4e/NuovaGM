@@ -1,4 +1,4 @@
-﻿using CitizenFX.Core;
+﻿using FxEvents.Shared.Snowflakes;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.Discord;
-using TheLastPlanet.Shared;
-
 using TheLastPlanet.Shared.PlayerChar;
-using FxEvents.Shared.Snowflakes;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
@@ -35,7 +31,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
             {
                 if (resName == GetCurrentResourceName())
                 {
-                    foreach (var p in Server.Instance.GetPlayers)
+                    foreach (Player p in Server.Instance.GetPlayers)
                     {
                         PlayerJoining(p, "");
                     }
@@ -65,8 +61,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                     {
                         if (Server.Instance.Clients.Any(x => source.Identifiers["license"] == x.Identifiers.License))
                         {
-                            deferrals.done($"Last Planet Shield 2.0\nSiamo spiacenti.. ma  pare che tu stia usando una licenza attualmente già in uso tra i giocatori online.\n" + $"Tu - Lic.: {source.Identifiers["license"].Replace(source.Identifiers["license"].Substring(20), "")}...,\n" + $"altro player - Lic.: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Replace(Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Substring(20), "")}..., nome: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Player.Name}\n" + $"Fai uno screenshot di questo messaggio e contatta gli amministratori del server.\n Grazie");
-
+                            deferrals.done($"Last Planet Shield 2.0\nSiamo spiacenti.. ma pare che tu stia usando una licenza attualmente già in uso tra i giocatori online.\n" + $"Tu - Lic.: {source.Identifiers["license"].Replace(source.Identifiers["license"].Substring(20), "")}...,\n" + $"altro player - Lic.: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Replace(Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Substring(20), "")}..., nome: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Player.Name}\n" + $"Fai uno screenshot di questo messaggio e contatta gli amministratori del server.\n Grazie");
                             return;
                         }
                     }
@@ -162,7 +157,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 };
             try
             {
-                var client = Server.Instance.Clients.FirstOrDefault(x => x.Handle.ToString() == player.Handle);
+                PlayerClient client = Server.Instance.Clients.FirstOrDefault(x => x.Handle.ToString() == player.Handle);
                 User ped = client?.User;
 
                 if (ped != null)

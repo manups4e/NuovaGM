@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 
 using TheLastPlanet.Shared.Veicoli;
@@ -95,24 +92,24 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static User GetPlayerCharFromPlayerId(int id)
         {
-            foreach (var p in from p in Client.Instance.Clients where GetPlayerFromServerId(p.Player.ServerId) == id select p) return p.User;
+            foreach (PlayerClient p in from p in Client.Instance.Clients where GetPlayerFromServerId(p.Player.ServerId) == id select p) return p.User;
             return null;
         }
 
         public static User GetPlayerCharFromServerId(int id)
         {
-            foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId == id select p) return p.User;
+            foreach (PlayerClient p in from p in Client.Instance.Clients where p.Player.ServerId == id select p) return p.User;
             return null;
         }
 
         public static PlayerClient GetPlayerClientFromServerId(int id)
         {
-            foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId == id select p) return p;
+            foreach (PlayerClient p in from p in Client.Instance.Clients where p.Player.ServerId == id select p) return p;
             return null;
         }
         public static PlayerClient GetPlayerClientFromServerId(string id)
         {
-            foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId.ToString() == id select p) return p;
+            foreach (PlayerClient p in from p in Client.Instance.Clients where p.Player.ServerId.ToString() == id select p) return p;
             return null;
         }
 
@@ -264,10 +261,10 @@ namespace TheLastPlanet.Client.Core.Utility
         /// <returns></returns>
         public static async Task<Tuple<int, string>> GetPedMugshotAsync(Ped ped, bool transparent = false)
         {
-            var mugshot = RegisterPedheadshot(ped.Handle);
+            int mugshot = RegisterPedheadshot(ped.Handle);
             if (transparent) mugshot = RegisterPedheadshotTransparent(ped.Handle);
             while (!IsPedheadshotReady(mugshot)) await BaseScript.Delay(1);
-            var txd = GetPedheadshotTxdString(mugshot);
+            string txd = GetPedheadshotTxdString(mugshot);
 
             return new Tuple<int, string>(mugshot, txd);
         }
@@ -378,16 +375,12 @@ namespace TheLastPlanet.Client.Core.Utility
                 if (GetGameTimer() - tempTimer > 1000)
                 {
                     Client.Logger.Warning("Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
-
                     break;
                 }
-
                 await BaseScript.Delay(0);
             }
-
             SetEntityCoords(playerPed.Handle, coords.X, coords.Y, coords.Z, false, false, false, false);
             tempTimer = GetGameTimer();
-
             // Wait for the collision to be loaded around the entity in this new location.
             while (!HasCollisionLoadedAroundEntity(playerPed.Handle))
             {
@@ -395,20 +388,17 @@ namespace TheLastPlanet.Client.Core.Utility
                 if (GetGameTimer() - tempTimer > 1000)
                 {
                     Client.Logger.Warning("Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
-
                     break;
                 }
-
                 await BaseScript.Delay(0);
             }
-
             NetworkFadeInEntity(playerPed.Handle, true);
             playerPed.IsPositionFrozen = false;
             DoScreenFadeIn(500);
             SetGameplayCamRelativePitch(0.0f, 1.0f);
         }
 
-        public static async void TeleportConVeh(Vector3 coords)
+        public static async void TeleportWithVeh(Vector3 coords)
         {
             Ped playerPed = PlayerCache.MyPlayer.Ped;
             ClearPedTasksImmediately(playerPed.Handle);
@@ -485,20 +475,20 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static async Task<Vehicle> SpawnVehicle(string modelName, Vector3 coords, float heading)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await SpawnVehicle(a, coords, heading);
         }
 
         public static async Task<Vehicle> SpawnVehicle(int modelName, Vector3 coords, float heading)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await SpawnVehicle(a, coords, heading);
 
         }
 
         public static async Task<Vehicle> SpawnVehicle(VehicleHash modelName, Vector3 coords, float heading)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await SpawnVehicle(a, coords, heading);
         }
 
@@ -516,7 +506,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
                 int callback =
                     await EventDispatcher.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(coords.X, coords.Y, -190f, heading));
-                var result = (Vehicle)Entity.FromNetworkId(callback);
+                Vehicle result = (Vehicle)Entity.FromNetworkId(callback);
                 while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
                 //Vehicle result = new(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, true, false));
@@ -546,19 +536,19 @@ namespace TheLastPlanet.Client.Core.Utility
         #region spawnaFuori
         public static async Task<Vehicle> SpawnVehicleNoPlayerInside(int modelName, Vector3 coords, float heading)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await SpawnVehicleNoPlayerInside(a, coords, heading);
         }
 
         public static async Task<Vehicle> SpawnVehicleNoPlayerInside(string modelName, Vector3 coords, float heading)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await SpawnVehicleNoPlayerInside(a, coords, heading);
         }
 
         public static async Task<Vehicle> SpawnVehicleNoPlayerInside(VehicleHash modelName, Vector3 coords, float heading)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await SpawnVehicleNoPlayerInside(a, coords, heading);
         }
 
@@ -573,7 +563,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
                 int callback = await EventDispatcher.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(
                     coords.X, coords.Y, coords.Z, heading));
-                var result = (Vehicle)Entity.FromNetworkId(callback);
+                Vehicle result = (Vehicle)Entity.FromNetworkId(callback);
                 while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
                 result.NeedsToBeHotwired = false;
@@ -599,19 +589,19 @@ namespace TheLastPlanet.Client.Core.Utility
         #region spawnaLocal
         public static async Task<Vehicle> SpawnLocalVehicle(int vehicleModel, Vector3 coords, float heading)
         {
-            var a = new Model(vehicleModel);
+            Model a = new Model(vehicleModel);
             return await SpawnLocalVehicle(a, coords, heading);
         }
 
         public static async Task<Vehicle> SpawnLocalVehicle(string vehicleModel, Vector3 coords, float heading)
         {
-            var a = new Model(vehicleModel);
+            Model a = new Model(vehicleModel);
             return await SpawnLocalVehicle(a, coords, heading);
         }
 
         public static async Task<Vehicle> SpawnLocalVehicle(VehicleHash vehicleModel, Vector3 coords, float heading)
         {
-            var a = new Model(vehicleModel);
+            Model a = new Model(vehicleModel);
             return await SpawnLocalVehicle(a, coords, heading);
         }
 
@@ -645,19 +635,19 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static async Task<Prop> CreateProp(int modelName, Vector3 coords, Vector3 rot, bool placeOnGround = true)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await CreateProp(a, coords, rot, placeOnGround);
         }
 
         public static async Task<Prop> CreateProp(string modelName, Vector3 coords, Vector3 rot, bool placeOnGround = true)
         {
-            var a = new Model(modelName);
+            Model a = new Model(modelName);
             return await CreateProp(a, coords, rot, placeOnGround);
         }
 
         public static async Task<Prop> CreateProp(ObjectHash modelName, Vector3 coords, Vector3 rot, bool placeOnGround = true)
         {
-            var a = new Model((int)modelName);
+            Model a = new Model((int)modelName);
             return await CreateProp(a, coords, rot, placeOnGround);
         }
 
@@ -672,7 +662,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
                 int callback = await EventDispatcher.Get<int>("lprp:entity:spawnProp", propModel.Hash,
                     new Position(coords, rot));
-                var result = (Prop)Entity.FromNetworkId(callback);
+                Prop result = (Prop)Entity.FromNetworkId(callback);
                 while (result == null || !result.Exists()) await BaseScript.Delay(50);
                 if (placeOnGround) PlaceObjectOnGroundProperly(result.Handle);
                 result.IsPersistent = true;
@@ -726,21 +716,21 @@ namespace TheLastPlanet.Client.Core.Utility
         /// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
         public static async Task<Ped> SpawnPed(int model, Position position, PedTypes pedType = PedTypes.Mission)
         {
-            var a = new Model(model);
+            Model a = new Model(model);
             return await SpawnPed(a, position, pedType);
 
         }
 
         public static async Task<Ped> SpawnPed(string model, Position position, PedTypes pedType = PedTypes.Mission)
         {
-            var a = new Model(model);
+            Model a = new Model(model);
             return await SpawnPed(a, position, pedType);
 
         }
 
         public static async Task<Ped> SpawnPed(PedHash model, Position position, PedTypes pedType = PedTypes.Mission)
         {
-            var a = new Model(model);
+            Model a = new Model(model);
             return await SpawnPed(a, position, pedType);
         }
 
@@ -756,7 +746,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
             int callback = await EventDispatcher.Get<int>("lprp:entity:spawnPed", (uint)pedModel.Hash, position, (int)pedType);
 
-            var ped = (Ped)Entity.FromNetworkId(callback);
+            Ped ped = (Ped)Entity.FromNetworkId(callback);
             while (!ped.Exists()) await BaseScript.Delay(50);
             ped.IsPersistent = true;
             return ped;
@@ -768,9 +758,9 @@ namespace TheLastPlanet.Client.Core.Utility
         /// <param name="position">The position to spawn the <see cref="Ped"/> at.</param>
         public static async Task<Ped> SpawnRandomPed(Vector3 position)
         {
-            var ped = new Ped(CreateRandomPed(position.X, position.Y, position.Z));
+            Ped ped = new Ped(CreateRandomPed(position.X, position.Y, position.Z));
             while (!ped.Exists()) await BaseScript.Delay(0);
-            ped.SetDecor(Main.decorName, Main.decorInt);
+            ped.SetDecor(MODALITA.ROLEPLAY.Core.Main.decorName, MODALITA.ROLEPLAY.Core.Main.decorInt);
             return ped;
         }
         #endregion
@@ -1043,8 +1033,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
         private static Vector3 PolarSphereToWorld3D(Vector3 center, float radius, float polarAngleDeg, float azimuthAngleDeg)
         {
-            var polarAngleRad = polarAngleDeg * (Math.PI / 180.0f);
-            var azimuthAngleRad = azimuthAngleDeg * (Math.PI / 180.0f);
+            double polarAngleRad = polarAngleDeg * (Math.PI / 180.0f);
+            double azimuthAngleRad = azimuthAngleDeg * (Math.PI / 180.0f);
             return new Vector3(
                 center.X + radius * ((float)Math.Sin(azimuthAngleRad) * (float)Math.Cos(polarAngleRad)),
                 center.Y - radius * ((float)Math.Sin(azimuthAngleRad) * (float)Math.Sin(polarAngleRad)),
@@ -1066,8 +1056,8 @@ namespace TheLastPlanet.Client.Core.Utility
         }
         private static Vector3 RotationToDirection(Vector3 rotation)
         {
-            var z = Deg2rad(rotation.Z);
-            var x = Deg2rad(rotation.X);
+            float z = Deg2rad(rotation.Z);
+            float x = Deg2rad(rotation.X);
             float num = (float)Math.Abs(Math.Cos(x));
             return new((float)-Math.Sin(z) * num, (float)Math.Cos(z) * num, (float)Math.Sin(x));
         }
@@ -1076,8 +1066,8 @@ namespace TheLastPlanet.Client.Core.Utility
         {
             int screenX = 0, screenY = 0;
             GetActiveScreenResolution(ref screenX, ref screenY);
-            var relativeX = 1 - (coords.X / screenX) * 1.0f * 2;
-            var relativeY = 1 - (coords.Y / screenY) * 1.0f * 2;
+            float relativeX = 1 - (coords.X / screenX) * 1.0f * 2;
+            float relativeY = 1 - (coords.Y / screenY) * 1.0f * 2;
             if (relativeX > 0.0f)
                 relativeX = -relativeX;
             else
@@ -1094,41 +1084,41 @@ namespace TheLastPlanet.Client.Core.Utility
 
         private static Vector3 s2w(Vector3 camPos, float relX, float relY)
         {
-            var camRot = GetGameplayCamRot(0);
-            var camForward = RotationToDirection(camRot);
-            var rotUp = Vector3.Add(camRot, new Vector3(10f, 0, 0));
-            var rotDown = Vector3.Add(camRot, new Vector3(-10f, 0, 0));
-            var rotLeft = Vector3.Add(camRot, new Vector3(0f, 0, -10f));
-            var rotRight = Vector3.Add(camRot, new Vector3(0f, 0, 10f));
+            Vector3 camRot = GetGameplayCamRot(0);
+            Vector3 camForward = RotationToDirection(camRot);
+            Vector3 rotUp = Vector3.Add(camRot, new Vector3(10f, 0, 0));
+            Vector3 rotDown = Vector3.Add(camRot, new Vector3(-10f, 0, 0));
+            Vector3 rotLeft = Vector3.Add(camRot, new Vector3(0f, 0, -10f));
+            Vector3 rotRight = Vector3.Add(camRot, new Vector3(0f, 0, 10f));
 
-            var camRight = Vector3.Subtract(RotationToDirection(rotRight), RotationToDirection(rotLeft));
-            var camUp = Vector3.Subtract(RotationToDirection(rotUp), RotationToDirection(rotDown));
+            Vector3 camRight = Vector3.Subtract(RotationToDirection(rotRight), RotationToDirection(rotLeft));
+            Vector3 camUp = Vector3.Subtract(RotationToDirection(rotUp), RotationToDirection(rotDown));
 
 
-            var rollRad = -Deg2rad(camRot.Y);
-            var camRightRoll = Vector3.Subtract(Vector3.Multiply(camRight, (float)Math.Cos(rollRad)), Vector3.Multiply(camUp, (float)Math.Sin(rollRad)));
-            var camUpRoll = Vector3.Add(Vector3.Multiply(camRight, (float)Math.Sin(rollRad)), Vector3.Multiply(camUp, (float)Math.Cos(rollRad)));
+            float rollRad = -Deg2rad(camRot.Y);
+            Vector3 camRightRoll = Vector3.Subtract(Vector3.Multiply(camRight, (float)Math.Cos(rollRad)), Vector3.Multiply(camUp, (float)Math.Sin(rollRad)));
+            Vector3 camUpRoll = Vector3.Add(Vector3.Multiply(camRight, (float)Math.Sin(rollRad)), Vector3.Multiply(camUp, (float)Math.Cos(rollRad)));
 
-            var point3D = Vector3.Add(Vector3.Add(Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f)), camRightRoll), camUpRoll);
-            var point2D = WorldToScreenShifted(point3D);
+            Vector3 point3D = Vector3.Add(Vector3.Add(Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f)), camRightRoll), camUpRoll);
+            PointF point2D = WorldToScreenShifted(point3D);
 
             if (point2D == PointF.Empty)
                 return Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
 
-            var point3DZero = Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
-            var point2DZero = WorldToScreenShifted(point3DZero);
+            Vector3 point3DZero = Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
+            PointF point2DZero = WorldToScreenShifted(point3DZero);
 
             if (point2DZero == PointF.Empty)
                 return Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
 
-            var eps = 0.001;
+            double eps = 0.001;
 
             if (Math.Abs(point2D.X - point2DZero.X) < eps || Math.Abs(point2D.Y - point2DZero.Y) < eps)
                 return Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
 
-            var scaleX = (relX - point2DZero.X) / (point2D.X - point2DZero.X);
-            var scaleY = (relY - point2DZero.Y) / (point2D.Y - point2DZero.Y);
-            var point3Dret = Vector3.Add(Vector3.Add(Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f)), Vector3.Multiply(camRightRoll, scaleX)), Vector3.Multiply(camUpRoll, scaleY));
+            float scaleX = (relX - point2DZero.X) / (point2D.X - point2DZero.X);
+            float scaleY = (relY - point2DZero.Y) / (point2D.Y - point2DZero.Y);
+            Vector3 point3Dret = Vector3.Add(Vector3.Add(Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f)), Vector3.Multiply(camRightRoll, scaleX)), Vector3.Multiply(camUpRoll, scaleY));
             return point3Dret;
         }
 
@@ -1136,16 +1126,16 @@ namespace TheLastPlanet.Client.Core.Utility
         {
             // provare sennò usare funzione simile a NativeUI (MouseInBounds) per avere la posizione del cursore
             Vector3 pos = GetPauseMenuCursorPosition();
-            var absoluteX = Math.Abs(pos.X);
-            var absoluteY = Math.Abs(pos.Y);
+            float absoluteX = Math.Abs(pos.X);
+            float absoluteY = Math.Abs(pos.Y);
 
-            var camPos = GetGameplayCamCoord();
-            var processedCoords = processCoordinates(new(absoluteX, absoluteY));
-            var target = s2w(camPos, absoluteX, absoluteY);
+            Vector3 camPos = GetGameplayCamCoord();
+            PointF processedCoords = processCoordinates(new(absoluteX, absoluteY));
+            Vector3 target = s2w(camPos, absoluteX, absoluteY);
 
-            var dir = Vector3.Subtract(target, camPos);
-            var from = Vector3.Add(camPos, Vector3.Multiply(dir, 0.05f));
-            var to = Vector3.Add(camPos, Vector3.Multiply(dir, 300f));
+            Vector3 dir = Vector3.Subtract(target, camPos);
+            Vector3 from = Vector3.Add(camPos, Vector3.Multiply(dir, 0.05f));
+            Vector3 to = Vector3.Add(camPos, Vector3.Multiply(dir, 300f));
 
             return World.Raycast(from, to, flags, ignore);
         }

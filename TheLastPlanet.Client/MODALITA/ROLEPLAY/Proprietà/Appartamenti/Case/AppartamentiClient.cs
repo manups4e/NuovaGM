@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 using TheLastPlanet.Shared.Veicoli;
 
@@ -55,9 +52,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
             RenderScriptCams(true, true, 1500, true, false);
             dummycam.InterpTo(cam, 1500, 1, 1);
             UIMenu casa = new UIMenu(app.Value.Label, "Appartamenti", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.ControlDisablingEnabled = true;
-            HUD.MenuPool.Add(casa);
-            UIMenu Citofona = casa.AddSubMenu("Citofona ai residenti");
+            UIMenuItem CitofonaItem = new UIMenuItem("Citofona ai residenti");
+            UIMenu Citofona = new("Citofona ai residenti", "");
+            CitofonaItem.BindItemToMenu(Citofona);
+            casa.AddItem(CitofonaItem);
             UIMenuItem entra;
 
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Proprietà.Contains(app.Key))
@@ -69,7 +67,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
                     Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia(app.Key);
                     Screen.Fading.FadeOut(500);
                     while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
 
                     while (cam.IsActive && cam.Exists() && cam != null)
                     {
@@ -88,48 +86,39 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
                 };
             }
 
-            HUD.MenuPool.OnMenuStateChanged += async (a, _menu, c) =>
+            Citofona.OnMenuOpen += (_menu, b) =>
             {
-                switch (c)
+                _menu.Clear();
+                List<PlayerClient> gioc = (from p in Client.Instance.Clients.ToList() where p != PlayerCache.MyPlayer let pl = p where pl.Status.Istanza.Stanziato where pl.Status.Istanza.IsProprietario where pl.Status.Istanza.Instance == app.Key select p).ToList();
+
+                if (gioc.Count > 0)
                 {
-                    case MenuState.ChangeForward when _menu == Citofona:
+                    foreach (PlayerClient p in gioc.ToList())
+                    {
+                        UIMenuItem it = new(p.User.FullName);
+                        _menu.AddItem(it);
+                        it.Activated += (_submenu, _subitem) =>
                         {
-                            _menu.Clear();
-                            List<PlayerClient> gioc = (from p in Client.Instance.Clients.ToList() where p != PlayerCache.MyPlayer let pl = p where pl.Status.Istanza.Stanziato where pl.Status.Istanza.IsProprietario where pl.Status.Istanza.Instance == app.Key select p).ToList();
-
-                            if (gioc.Count > 0)
-                            {
-                                foreach (PlayerClient p in gioc.ToList())
-                                {
-                                    UIMenuItem it = new(p.User.FullName);
-                                    _menu.AddItem(it);
-                                    it.Activated += (_submenu, _subitem) =>
-                                    {
-                                        Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
-                                        BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.Handle.ToString(), app.ToJson()); // params: personaincasa.serverid, fromsource chi suona
-                                        HUD.MenuPool.CloseAllMenus();
-                                    };
-                                }
-                            }
-                            else
-                                _menu.AddItem(new UIMenuItem("Non ci sono persone in casa al momento!"));
-
-                            break;
-                        }
-                    case MenuState.ChangeBackward when _menu == casa:
-                        {
-                            await BaseScript.Delay(100);
-
-                            if (HUD.MenuPool.IsAnyMenuOpen) return;
-                            if (cam.IsActive) RenderScriptCams(false, true, 1500, true, false);
-                            dummycam.Delete();
-                            cam.Delete();
-                            HUD.MenuPool.ControlDisablingEnabled = true;
-
-                            break;
-                        }
+                            Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
+                            BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.Handle.ToString(), app.ToJson()); // params: personaincasa.serverid, fromsource chi suona
+                            MenuHandler.CloseAndClearHistory();
+                        };
+                    }
                 }
+                else
+                    _menu.AddItem(new UIMenuItem("Non ci sono persone in casa al momento!"));
             };
+
+            casa.OnMenuClose += async (a) =>
+            {
+                await BaseScript.Delay(100);
+
+                if (MenuHandler.IsAnyMenuOpen) return;
+                if (cam.IsActive) RenderScriptCams(false, true, 1500, true, false);
+                dummycam.Delete();
+                cam.Delete();
+            };
+
             while (dummycam.IsInterpolating) await BaseScript.Delay(0);
             while (cam.IsInterpolating) await BaseScript.Delay(0);
             casa.Visible = true;
@@ -138,7 +127,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
         public static async void EsciMenu(ConfigCase app, bool inGarage = false, bool inTetto = false)
         {
             UIMenu esci = new UIMenu(app.Label, "Appartamenti", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(esci);
             UIMenuItem escisci = new UIMenuItem("Esci dall'appartamento");
             esci.AddItem(escisci);
             UIMenuItem garage = new UIMenuItem("", "");
@@ -165,7 +153,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
 
             esci.OnItemSelect += async (_menu, _item, _index) =>
             {
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
                 Screen.Fading.FadeOut(500);
                 while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);

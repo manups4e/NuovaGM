@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
@@ -38,7 +37,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                 else
                 {
                     Screen.ShowSubtitle("Effettua più colpi alla testa che puoi con la tua Pistola. Se non ne hai una, puoi acquistarla in qualunque Armeria.", 50);
-                    var x = 0;
+                    int x = 0;
                     API.StatGetInt(unchecked((uint)PlayerStat), ref x, -1);
                     CurrentAttempt = x;
                     if (CurrentAttempt > BestAttempt)

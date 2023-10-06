@@ -1,11 +1,9 @@
-using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Threading.Tasks;
 
 using System.Linq;
@@ -39,22 +37,9 @@ namespace TheLastPlanet.Shared
 
 #if CLIENT
 
-        public static UIMenu AddSubMenu(this UIMenu menu, string text)
+        public static void BindItemToMenu(this UIMenuItem item, UIMenu newmenu)
         {
-            return HUD.MenuPool.AddSubMenu(menu, text);
-        }
-
-        public static UIMenu AddSubMenu(this UIMenu menu, string text, string description)
-        {
-            return HUD.MenuPool.AddSubMenu(menu, text, description);
-        }
-        public static UIMenu AddSubMenu(this UIMenu menu, string text, PointF offset)
-        {
-            return HUD.MenuPool.AddSubMenu(menu, text, offset);
-        }
-        public static UIMenu AddSubMenu(this UIMenu menu, string text, string description, PointF offset)
-        {
-            return HUD.MenuPool.AddSubMenu(menu, text, description, offset);
+            item.Activated += async (a, b) => await a.SwitchTo(newmenu, 0, true);
         }
 
         public static async Task<float> FindGroundZ(this Vector3 position)
@@ -298,7 +283,7 @@ namespace TheLastPlanet.Shared
 
         public static bool IsInMarker(Position markerPos, Position pos, Vector3 Scale)
         {
-            var center = markerPos.ToVector3;
+            Vector3 center = markerPos.ToVector3;
 
             float _xRadius = Scale.X / 2;
             float _yRadius = Scale.Y / 2;

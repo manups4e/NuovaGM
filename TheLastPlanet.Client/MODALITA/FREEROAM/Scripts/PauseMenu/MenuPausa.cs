@@ -1,8 +1,5 @@
-﻿using ScaleformUI.PauseMenu;
-using System;
+﻿using System;
 using TheLastPlanet.Client.Core.Ingresso;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 
 
@@ -20,10 +17,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
 
         public static async void FreeRoamMenu(Ped me, object[] _unused)
         {
-            if (HUD.MenuPool.IsAnyPauseMenuOpen) return;
+            if (MenuHandler.IsAnyPauseMenuOpen) return;
             PlayerClient client = Cache.PlayerCache.MyPlayer;
 
-            var day = GetClockDayOfWeek();
+            int day = GetClockDayOfWeek();
             string giorno = "Lunedì";
             switch (day)
             {
@@ -57,15 +54,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
                 SideStringBottom = "SOLDI: $" + client.User.Money + " BANCA: $" + client.User.Bank,
                 DisplayHeader = true
             };
-            var mugshot = await Funzioni.GetPedMugshotAsync(me);
+            Tuple<int, string> mugshot = await Funzioni.GetPedMugshotAsync(me);
             MainMenu.HeaderPicture = new(mugshot.Item2, mugshot.Item2);
             MainMenu.CrewPicture = new("thelastgalaxy", "serverlogo");
 
-            HUD.MenuPool.Add(MainMenu);
-            SubmenuTab online = new("FREEROAM");
+            SubmenuTab online = new("FREEROAM", SColor.HUD_Freemode);
             TabLeftItem disc = new("disconnettiti", LeftItemType.Info)
             {
-                TextTitle = "ATTENZIONE"
+                Label = "ATTENZIONE"
             };
             BasicTabItem _discinfo = new("⚠ Stai per tornare al pianeta Lobby, tutti i progressi non salvati verranno perduti!");
             disc.AddItem(_discinfo);

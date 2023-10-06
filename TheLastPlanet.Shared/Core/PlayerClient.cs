@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
-#if SERVER
+using TheLastPlanet.Shared.PlayerChar;
+using FxEvents.Shared.Snowflakes;
+using FxEvents.Shared.EventSubsystem;
+#if CLIENT
+using TheLastPlanet.Client.Core.PlayerChar;
+#elif SERVER
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server;
-#elif CLIENT
-using TheLastPlanet.Client.Core.PlayerChar;
 #endif
-using TheLastPlanet.Shared.PlayerChar;
-using FxEvents.Shared.Snowflakes;
-using FxEvents.Shared.Attributes;
-using FxEvents.Shared.EventSubsystem;
-using System.Threading.Tasks;
 
 namespace TheLastPlanet.Shared
 {
-    
+
     public class PlayerClient : ISource
     {
         public Snowflake Id { get; set; }
         public int Handle { get; set; }
         public User User { get; set; }
         public Identifiers Identifiers => User.Identifiers;
-        [Ignore]
+
         internal Status Status { get; set; }
 
         public PlayerClient()
@@ -57,17 +55,17 @@ namespace TheLastPlanet.Shared
         }
 
 #if CLIENT
-        [Ignore]
+        
         [JsonIgnore]
         internal Position Posizione { get; set; }
-        [Ignore]
+        
         [JsonIgnore]
         internal bool Ready => User != null;
-        [Ignore]
+        
         [JsonIgnore]
         internal Player Player { get => new(API.GetPlayerFromServerId(Handle)); }
         private Ped _ped;
-        [Ignore]
+        
         [JsonIgnore]
         internal Ped Ped
         {
@@ -119,11 +117,11 @@ namespace TheLastPlanet.Shared
         }
 
 #elif SERVER
-        [Ignore]
+
         [JsonIgnore]
         internal Player Player { get => Server.Server.Instance.GetPlayers[Handle]; }
 
-        [Ignore]
+
         [JsonIgnore]
         internal Ped Ped { get => Player.Character; }
 
@@ -213,11 +211,11 @@ namespace TheLastPlanet.Shared
             RolePlayStates.InServizio = RolePlayStates._inServizio.State;
             RolePlayStates.Ammanettato = RolePlayStates._ammanettato.State;
             RolePlayStates.FinDiVita = RolePlayStates._finDiVita.State;
-            var p = Istanza._instanceBag.State;
+            InstanceBag p = Istanza._instanceBag.State;
             Istanza.Stanziato = p.Stanziato;
             Istanza.ServerIdProprietario = p.ServerIdProprietario;
-            Istanza.IsProprietario = p.IsProprietario ;
-            Istanza.Instance = p.Instance ;
+            Istanza.IsProprietario = p.IsProprietario;
+            Istanza.Instance = p.Instance;
         }
     }
 }

@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCase
@@ -22,9 +20,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             Handlers.InputHandler.AddInput(input);
         }
 
-        private static void Spawnato(PlayerClient client) 
-        { 
-            Client.Instance.AddTick(Markers); 
+        private static void Spawnato(PlayerClient client)
+        {
+            Client.Instance.AddTick(Markers);
         }
         public static void onPlayerLeft(PlayerClient client)
         {
@@ -81,7 +79,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                 if (p.IsInRangeOf(house.Config.Actions.ToVector3, 1.375f))
                 {
                     HUD.ShowHelp("~INPUT_CONTEXT~ Apri il menu di vendita");
-                    if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuVenditoreCase();
+                    if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) MenuVenditoreCase();
                 }
 
             await Task.FromResult(0);
@@ -90,26 +88,39 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
         private static async void MenuVenditoreCase()
         {
             UIMenu venditore = new UIMenu("Agenzia Immobiliare", "Abbiamo la casa per tutte le esigenze!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(venditore);
             Dictionary<string, ConfigCase> Appartamenti = Client.Impostazioni.RolePlay.Proprieta.Appartamenti;
             Dictionary<string, Garages> Garages = Client.Impostazioni.RolePlay.Proprieta.Garages.Garages;
-            UIMenu appart = venditore.AddSubMenu("Appartamenti");
-            UIMenu gara = venditore.AddSubMenu("Garages");
+            UIMenuItem appartItem = new("Appartamenti");
+            UIMenu appart = new("Appartamenti", "");
+            UIMenuItem garaItem = new("Garages");
+            UIMenu gara = new("Garages", "");
             Camera cam = World.CreateCamera(Vector3.Zero, Vector3.Zero, GameplayCamera.FieldOfView);
+
+            appartItem.BindItemToMenu(appart);
+            garaItem.BindItemToMenu(gara);
+
+            venditore.AddItem(appartItem);
+            venditore.AddItem(garaItem);
+
 
             foreach (KeyValuePair<string, ConfigCase> app in Appartamenti.OrderBy(x => x.Value.Price))
             {
-                UIMenu appartamento = appart.AddSubMenu(app.Value.Label);
-                appartamento.ParentItem.SetRightLabel("Rif. ~g~$" + app.Value.Price);
-                appartamento.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+                UIMenuItem appartamentoItem = new(app.Value.Label);
+                UIMenu appartamento = new(app.Value.Label, "");
+                appartamentoItem.BindItemToMenu(appartamento);
+                appart.AddItem(appartamentoItem);
+                appartamentoItem.SetRightLabel("Rif. ~g~$" + app.Value.Price);
+                appartamento.OnMenuOpen += async (newmenu, b) =>
                 {
-                    if (newmenu != appartamento || state != MenuState.ChangeForward) return;
                     newmenu.Clear();
                     List<Player> players = Funzioni.GetPlayersInArea(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, 3.5f, false);
 
                     foreach (Player p in players)
                     {
-                        UIMenu persona = newmenu.AddSubMenu(p.GetPlayerData().FullName);
+                        UIMenuItem personaItem = new(p.GetPlayerData().FullName);
+                        UIMenu persona = new(p.GetPlayerData().FullName, "");
+                        personaItem.BindItemToMenu(persona);
+                        newmenu.AddItem(personaItem);
                         UIMenuListItem mostra = new("Mostra Appartamento", new List<dynamic>()
                         {
                             "Nulla",
@@ -262,9 +273,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
                             BaseScript.TriggerServerEvent("housedealer:vendi", true, p.ServerId, app.ToJson(), aff);
                         };
-                        persona.OnMenuStateChanged += async (a, _menu, c) =>
+                        persona.OnMenuClose += async (_menu) =>
                         {
-                            if (c != MenuState.ChangeBackward || a != persona) return;
                             if ((!cam.IsActive || GetRenderingCam() != cam.Handle) && cam.Position == Vector3.Zero) return;
                             Screen.Fading.FadeOut(800);
                             await BaseScript.Delay(1000);
@@ -276,7 +286,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                 };
             }
 
-            foreach (UIMenu garage in Garages.Select(gar => gara.AddSubMenu(gar.Value.Label))) { }
+            /*
+                UIMenuItem item = new UIMenuItem(gar.Value.Label);
+                UIMenu menu = new UIMenu(gar.Value.Label, "");
+                item.BindItemToMenu(menu);
+                gara.AddItem(item);
+             */
+            //foreach (UIMenu garage in Garages.Select(gar => gara.AddSubMenu(gar.Value.Label))) { }
 
             venditore.Visible = true;
         }

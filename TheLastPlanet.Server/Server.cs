@@ -45,6 +45,50 @@ namespace TheLastPlanet.Server
             SetGameType("RolePlay");
             SetMapName("The Last Planet");
             StartServer();
+
+            EventDispatcher.Mount("testVector", new Action<Player, Tuple<Snowflake, Vector2>>(testVector));
+
+            Tuple<Snowflake, Vector2> aa = new Tuple<Snowflake, Vector2>(Snowflake.Next(), new Vector2(15, 60));
+            byte[] data = aa.ToBytes();
+            Logger.Warning(data.BytesToString());
+
+            Tuple<Snowflake, Vector2> bb = data.FromBytes<Tuple<Snowflake, Vector2>>();
+            Logger.Warning(bb.ToJson());
+
+
+        }
+
+        private void testVector([FromSource] Player player, Tuple<Snowflake, Vector2> data)
+        {
+            GarageData garageData = new GarageData
+            {
+                Id = Guid.NewGuid(),
+                Name = "Garage 1",
+                VehLimit = 10,
+                MinPermLevel = 2,
+                EntranceSpawnsPed = new List<SpawnLocs>(),
+                EnteranceSpawnsVeh = new List<SpawnLocs>(),
+                ExitSpawnsPed = new List<SpawnLocs>(),
+                ExitSpawnsVeh = new List<SpawnLocs>(),
+                EntranceMarkersPed = new List<CoordsRadius>(),
+                EntranceMarkersVeh = new List<CoordsRadius>(),
+                ExitMarkersPed = new List<CoordsRadius>(),
+                ExitMarkersVeh = new List<CoordsRadius>(),
+                NoParkZones = new List<NoParkZones>()
+            };
+
+            // Add data to the lists
+            garageData.EntranceSpawnsPed.Add(new SpawnLocs { Coords = new Vector3(1, 2, 3), Heading = 90 });
+            garageData.EnteranceSpawnsVeh.Add(new SpawnLocs { Coords = new Vector3(4, 5, 6), Heading = 180 });
+            garageData.ExitSpawnsPed.Add(new SpawnLocs { Coords = new Vector3(7, 8, 9), Heading = 270 });
+            garageData.ExitSpawnsVeh.Add(new SpawnLocs { Coords = new Vector3(10, 11, 12), Heading = 0 });
+            garageData.EntranceMarkersPed.Add(new CoordsRadius { Coords = new Vector3(13, 14, 15), RadiusToCheck = 5 });
+            garageData.EntranceMarkersVeh.Add(new CoordsRadius { Coords = new Vector3(16, 17, 18), RadiusToCheck = 10 });
+            garageData.ExitMarkersPed.Add(new CoordsRadius { Coords = new Vector3(19, 20, 21), RadiusToCheck = 15 });
+            garageData.ExitMarkersVeh.Add(new CoordsRadius { Coords = new Vector3(22, 23, 24), RadiusToCheck = 20 });
+            garageData.NoParkZones.Add(new NoParkZones { Start = new Vector3(25, 26, 27), End = new Vector3(28, 29, 30), Width = 3 });
+
+            Logger.Warning(data.ToJson());
         }
         private async void StartServer()
         {

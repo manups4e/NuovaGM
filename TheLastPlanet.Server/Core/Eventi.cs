@@ -1,14 +1,11 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
-using TheLastPlanet.Shared;
 
 using TheLastPlanet.Shared.PlayerChar;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -47,7 +44,7 @@ namespace TheLastPlanet.Server.Core
                         }
                         return BucketsHandler.RolePlay.Bucket.Players;
                     case ModalitaServer.FreeRoam:
-                        if(a.Status.PlayerStates.Spawned)
+                        if (a.Status.PlayerStates.Spawned)
                             user.FreeRoamChar.Posizione = b;
                         return BucketsHandler.FreeRoam.Bucket.Players;
                     case ModalitaServer.Lobby:
@@ -70,8 +67,6 @@ namespace TheLastPlanet.Server.Core
         }
         public static async Task<List<PlayerClient>> GetAllClients([FromSource] PlayerClient request)
         {
-
-
             switch (request.Status.PlayerStates.Modalita)
             {
                 case ModalitaServer.Roleplay:
@@ -93,9 +88,9 @@ namespace TheLastPlanet.Server.Core
             }
         }
 
-        public static async Task<BasePlayerShared> GetUserFromHandle(int handle) 
+        public static async Task<BasePlayerShared> GetUserFromHandle(int handle)
         {
-            var pla = Server.Instance.Clients.FirstOrDefault(x => handle == x.Handle);
+            PlayerClient pla = Server.Instance.Clients.FirstOrDefault(x => handle == x.Handle);
             if (pla != null)
             {
                 return pla.User.basePlayer;

@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     {
                         World.DrawMarker(MarkerType.CarSymbol, t1.SpawnerMenu.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Blue, false, false, true);
 
-                        if (p.IsInRangeOf(t1.SpawnerMenu.ToVector3, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
+                        if (p.IsInRangeOf(t1.SpawnerMenu.ToVector3, 1.375f) && !MenuHandler.IsAnyMenuOpen)
                         {
                             HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 
@@ -147,7 +147,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                             {
                                 World.DrawMarker(MarkerType.CarSymbol, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 
-                                if (!p.IsInRangeOf(t.ToVector3, 1.375f) || HUD.MenuPool.IsAnyMenuOpen) continue;
+                                if (!p.IsInRangeOf(t.ToVector3, 1.375f) || MenuHandler.IsAnyMenuOpen) continue;
                                 HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 
                                 if (Input.IsControlJustPressed(Control.Context))
@@ -171,7 +171,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     {
                         World.DrawMarker(MarkerType.HelicopterSymbol, t1.SpawnerMenu.ToVector3, new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Blue, false, false, true);
 
-                        if (p.IsInRangeOf(t1.SpawnerMenu.ToVector3, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
+                        if (p.IsInRangeOf(t1.SpawnerMenu.ToVector3, 1.375f) && !MenuHandler.IsAnyMenuOpen)
                         {
                             HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere l'elicottero");
 
@@ -194,7 +194,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                             {
                                 World.DrawMarker(MarkerType.HelicopterSymbol, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 
-                                if (!p.IsInRangeOf(t.ToVector3, 3.375f) || !p.IsInHeli || HUD.MenuPool.IsAnyMenuOpen) continue;
+                                if (!p.IsInRangeOf(t.ToVector3, 3.375f) || !p.IsInHeli || MenuHandler.IsAnyMenuOpen) continue;
                                 HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare l'elicottero nel deposito");
 
                                 if (Input.IsControlJustPressed(Control.Context))
@@ -312,7 +312,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         public static async Task MainTickPolizia()
         {
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name == "Polizia")
-                if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen)
+                if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !MenuHandler.IsAnyMenuOpen)
                     MenuPolizia.MainMenu();
             await Task.FromResult(0);
         }

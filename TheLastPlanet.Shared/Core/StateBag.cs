@@ -65,7 +65,7 @@ namespace TheLastPlanet.Shared
 
     public class BaseBag
     {
-        [Ignore] internal Player player;
+         internal Player player;
 
         internal string _name;
 

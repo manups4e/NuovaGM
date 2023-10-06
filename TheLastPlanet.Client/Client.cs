@@ -4,6 +4,10 @@ global using CitizenFX.Core.UI;
 global using FxEvents;
 global using FxEvents.Shared;
 global using ScaleformUI;
+global using ScaleformUI.Elements;
+global using ScaleformUI.Menu;
+global using ScaleformUI.PauseMenu;
+global using ScaleformUI.Scaleforms;
 global using TheLastPlanet.Client.Cache;
 global using TheLastPlanet.Client.Core.PlayerChar;
 global using TheLastPlanet.Client.Core.Utility;
@@ -45,13 +49,14 @@ namespace TheLastPlanet.Client
             ClientManager.Init();
             DevManager.Init();
             InputHandler.Init();
-            Minimap.Init();
             ListaPlayers.FivemPlayerlist.Init();
             InternalGameEvents.Init();
             StateBagsHandler = new StateBagsHandler();
             GestionePlayersDecors.Init();
             VehicleChecker.Init();
             ServerJoining.Init();
+            Minimap.Init();
+            Logger.Debug("mp_m_freemode_01: " + Funzioni.HashUint("mp_m_freemode_01"));
         }
 
         /// <summary>

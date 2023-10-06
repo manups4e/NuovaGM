@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.Telefono
         {
             Ped ped = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
+            if (!(MenuHandler.IsAnyMenuOpen || Game.IsPaused || BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
             {
                 if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(ped.Handle))
                 {

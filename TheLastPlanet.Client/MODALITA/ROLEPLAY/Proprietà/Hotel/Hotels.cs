@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 
 
@@ -26,7 +24,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 
         public static void Spawnato(PlayerClient client)
         {
-            foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", new((MarkerType)(-1), t.Coords.ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+            foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", new((MarkerType)(-1), t.Coords.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
             InputHandler.AddInputList(hotelInputs);
             RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
             {
@@ -62,7 +60,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
         {
             Hotel hotel = (Hotel)args[0];
             UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(HotelMenu);
             UIMenuItem stanzaPiccola = new UIMenuItem("Stanza Piccola", "Costa poco.. e ha un letto..");
             stanzaPiccola.SetRightLabel((Cache.PlayerCache.MyPlayer.User.Money >= hotel.Prezzi.StanzaPiccola || Cache.PlayerCache.MyPlayer.User.Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);
             UIMenuItem stanzaMedia = new UIMenuItem("Stanza Media", "Costa un po' di più.. ed è un po' più confortevole");
@@ -133,7 +130,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 
         public static async Task GestioneHotel()
         {
-            if (!HUD.MenuPool.IsAnyMenuOpen)
+            if (!MenuHandler.IsAnyMenuOpen)
             {
                 if (IsInPiccola)
                     if (Cache.PlayerCache.MyPlayer.Ped.IsInRangeOf(new Vector3(266.094f, -1007.487f, -101.800f), 1.3f))

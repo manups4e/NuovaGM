@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 
 
@@ -20,7 +17,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             AbitiLav PilotaMaschio = new() { Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0), Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(0, -1, -1, -1, -1, -1, -1, -1, -1) };
             AbitiLav PilotaFemmina = new() { Abiti = new ComponentDrawables(-1, 0, -1, 25, 0, -1, 24, 0, 13, 0, 0, 1), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 1, -1, 0, 0, 0, 0, 0, 4), Accessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) };
             UIMenu Spogliatoio = new UIMenu("Spogliatoio Polizia", "Cambiati ed entra/esci dal servizio", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(Spogliatoio);
 
             UIMenuItem Uniforme = new UIMenuItem("");
             UIMenuItem Giubbotto = new UIMenuItem("");
@@ -61,7 +57,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             {
                 Screen.Fading.FadeOut(800);
                 await BaseScript.Delay(1000);
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 NetworkFadeOutEntity(PlayerPedId(), true, false);
 
                 if (item == Uniforme)
@@ -120,7 +116,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 NetworkFadeInEntity(PlayerPedId(), true);
                 await BaseScript.Delay(500);
                 Screen.Fading.FadeIn(800);
-                menu.RefreshIndex();
                 await Task.FromResult(0);
             };
             Spogliatoio.Visible = true;
@@ -154,6 +149,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         #endregion
 
         #region MenuF6
+        private static UIMenuItem InterazioneCivileItem;
+        private static UIMenuItem InterazioneVeicoloItem;
+        private static UIMenuItem ControlliPersonaRemotoItem;
+        private static UIMenuItem ControlliVeicoloRemotoItem;
+        private static UIMenuItem OggettiItem;
 
         private static UIMenu MenuPoliziaPrincipale = new UIMenu("", "");
         private static UIMenu InterazioneCivile = new UIMenu("", "");
@@ -172,183 +172,218 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             string cognome = "";
             string numero = "";
             MenuPoliziaPrincipale = new UIMenu("Menu Polizia", "IO SONO LA LEGGE!", new Point(50, 200), "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(MenuPoliziaPrincipale);
-            InterazioneCivile = MenuPoliziaPrincipale.AddSubMenu("Interazioni col Cittadino", "Mi faccia vedere i dati!");
-            InterazioneVeicolo = MenuPoliziaPrincipale.AddSubMenu("Interazioni col Veicolo", "Mi faccia controllare il veicolo!");
-            ControlliPersonaRemoto = MenuPoliziaPrincipale.AddSubMenu("S.O.C.P.", "Sistema Online di Controllo Persone!");
-            ControlliVeicoloRemoto = MenuPoliziaPrincipale.AddSubMenu("S.O.C.T.", "Sistema Online di Controllo Veicoli!");
-            Oggetti = HUD.MenuPool.AddSubMenu(MenuPoliziaPrincipale, "Posa a terra un oggetto", "Abbiamo anche le bande chiodate!");
+            InterazioneCivileItem = new("Interazioni col Cittadino", "Mi faccia vedere i dati!");
+            InterazioneCivile = new("Interazioni col Cittadino", "");
+            InterazioneVeicoloItem = new("Interazioni col Veicolo", "Mi faccia controllare il veicolo!");
+            InterazioneVeicolo = new("Interazioni col Veicolo", "");
+            ControlliPersonaRemotoItem = new("S.O.C.P.", "Sistema Online di Controllo Persone!");
+            ControlliPersonaRemoto = new("S.O.C.P.", "");
+            ControlliVeicoloRemotoItem = new("S.O.C.T.", "Sistema Online di Controllo Veicoli!");
+            ControlliVeicoloRemoto = new("S.O.C.T.", "");
+            OggettiItem = new("Posa a terra un oggetto", "Abbiamo anche le bande chiodate!");
+            Oggetti = new("Posa a terra un oggetto", "");
+
+            InterazioneCivileItem.BindItemToMenu(InterazioneCivile);
+            InterazioneVeicoloItem.BindItemToMenu(InterazioneVeicolo);
+            ControlliPersonaRemotoItem.BindItemToMenu(ControlliPersonaRemoto);
+            ControlliVeicoloRemotoItem.BindItemToMenu(ControlliVeicoloRemoto);
+            OggettiItem.BindItemToMenu(Oggetti);
+
+            MenuPoliziaPrincipale.AddItem(InterazioneCivileItem);
+            MenuPoliziaPrincipale.AddItem(InterazioneVeicoloItem);
+            MenuPoliziaPrincipale.AddItem(ControlliPersonaRemotoItem);
+            MenuPoliziaPrincipale.AddItem(ControlliVeicoloRemotoItem);
+            MenuPoliziaPrincipale.AddItem(OggettiItem);
+
 
             #region CIVILE
 
-            UIMenu DatiPlayer = InterazioneCivile.AddSubMenu("Carta d'identità", "Controllino");
-            UIMenu Perquisizione = InterazioneCivile.AddSubMenu("Perquisisci", "Controllino");
+            UIMenuItem DatiPlayerItem = new("Carta d'identità", "Controllino");
+            UIMenu DatiPlayer = new("Carta d'identità", "Controllino");
+            UIMenuItem PerquisizioneItem = new("Perquisisci", "Controllino");
+            UIMenu Perquisizione = new("Perquisisci", "Controllino");
             UIMenuItem ammanetta = new UIMenuItem("Ammanetta / Smanetta"); // CON ANIMAZIONE -- testare
             UIMenuItem accompagna = new UIMenuItem("Accompagna");          // SE RIESCO FACENDO ANCHE CAMMINARE IL PED DELLA PERSONA -- testare
-            UIMenu FedinaPenale = InterazioneCivile.AddSubMenu("Controllo Fedina");
+            UIMenuItem FedinaPenaleItem = new("Controllo Fedina");
+            UIMenu FedinaPenale = new("Controllo Fedina", "");
             UIMenuItem mettiVeicolo = new UIMenuItem("Fai sedere nel veicolo");
             UIMenuItem togliVeicolo = new UIMenuItem("Fai uscire dal veicolo");              // FAI USCIRE FAI ENTRARE CON ANIMAZIONE -- testare
-            UIMenu multa = InterazioneCivile.AddSubMenu("Fai una Multa");                    // CREARE SISTEMA MULTE e aggiungere multa personalizzata 
-            UIMenu fatture = InterazioneCivile.AddSubMenu("Controllo pagamenti in sospeso"); // SALVATAGGIO FATTURE IN DB
+            UIMenuItem multaItem = new("Fai una Multa");                    // CREARE SISTEMA MULTE e aggiungere multa personalizzata 
+            UIMenu multa = new("Fai una Multa", "");
+            UIMenuItem fattureItem = new("Controllo pagamenti in sospeso"); // SALVATAGGIO FATTURE IN DB
+            UIMenu fatture = new("Controllo pagamenti in sospeso", "");
             UIMenuItem incarcera = new UIMenuItem("Incarcera");                              //DEVI ESSERE VICINO ALLA CELLA!
-            UIMenu Licenze = InterazioneCivile.AddSubMenu("Controlla Licenze");              // controllo licenze e patenti
+            UIMenuItem LicenzeItem = new("Controlla Licenze");              // controllo licenze e patenti
+            UIMenu Licenze = new("Controlla Licenze", "");
+
+            DatiPlayerItem.BindItemToMenu(DatiPlayer);
+            PerquisizioneItem.BindItemToMenu(Perquisizione);
+            FedinaPenaleItem.BindItemToMenu(FedinaPenale);
+            multaItem.BindItemToMenu(multa);
+            fattureItem.BindItemToMenu(fatture);
+            LicenzeItem.BindItemToMenu(Licenze);
+
+            InterazioneCivile.AddItem(DatiPlayerItem);
+            InterazioneCivile.AddItem(PerquisizioneItem);
+            InterazioneCivile.AddItem(FedinaPenaleItem);
+            InterazioneCivile.AddItem(multaItem);
+            InterazioneCivile.AddItem(fattureItem);
+            InterazioneCivile.AddItem(LicenzeItem);
+
             InterazioneCivile.AddItem(ammanetta);
             InterazioneCivile.AddItem(accompagna);
             InterazioneCivile.AddItem(mettiVeicolo);
             InterazioneCivile.AddItem(togliVeicolo);
             InterazioneCivile.AddItem(incarcera);
-            HUD.MenuPool.OnMenuStateChanged += async (_oldMenu, _newMenu, state) =>
+
+            DatiPlayer.OnMenuOpen += (_newMenu, b) =>
             {
-                if (_newMenu == DatiPlayer)
+                if (Client.Instance.GetPlayers.ToList().Count > 1)
                 {
-                    _newMenu.Clear();
+                    Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
+                    Ped ClosestPed = Player_Distance.Item1.Character;
+                    int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
+                    User player = Funzioni.GetPlayerCharFromServerId(playerServerId);
+                    float distance = Player_Distance.Item2;
 
-                    if (Client.Instance.GetPlayers.ToList().Count > 1)
+                    if (distance < 3f && ClosestPed != null)
                     {
-                        Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
-                        Ped ClosestPed = Player_Distance.Item1.Character;
-                        int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
-                        User player = Funzioni.GetPlayerCharFromServerId(playerServerId);
-                        float distance = Player_Distance.Item2;
-
-                        if (distance < 3f && ClosestPed != null)
-                        {
-                            UIMenuItem nomeCognome = new("Nome e Cognome");
-                            nomeCognome.SetRightLabel(player.FullName);
-                            UIMenuItem dDN = new("Data di Nascita");
-                            dDN.SetRightLabel(player.DoB);
-                            UIMenuItem sesso = new("Sesso");
-                            sesso.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex);
-                            UIMenuItem altezza = new("Altezza");
-                            altezza.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.height + "cm");
-                            UIMenuItem job = new("Occupazione Attuale");
-                            job.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name);
-                            UIMenuItem telefono = new("N° di Telefono");
-                            telefono.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.phoneNumber);
-                            UIMenuItem assicurazione = new("N° di Assicurazione");
-                            assicurazione.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.insurance);
-                            UIMenuItem nomePlayer = new("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
-                            nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
-                            DatiPlayer.AddItem(nomeCognome);
-                            DatiPlayer.AddItem(dDN);
-                            DatiPlayer.AddItem(sesso);
-                            DatiPlayer.AddItem(altezza);
-                            DatiPlayer.AddItem(job);
-                            DatiPlayer.AddItem(telefono);
-                            DatiPlayer.AddItem(assicurazione);
-                            DatiPlayer.AddItem(nomePlayer);
-                        }
-                        else
-                        {
-                            UIMenuItem noPlayers = new("Non ci sono Player nelle vicinanze!");
-                            DatiPlayer.AddItem(noPlayers);
-                        }
+                        UIMenuItem nomeCognome = new("Nome e Cognome");
+                        nomeCognome.SetRightLabel(player.FullName);
+                        UIMenuItem dDN = new("Data di Nascita");
+                        dDN.SetRightLabel(player.DoB);
+                        UIMenuItem sesso = new("Sesso");
+                        sesso.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex);
+                        UIMenuItem altezza = new("Altezza");
+                        altezza.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.height + "cm");
+                        UIMenuItem job = new("Occupazione Attuale");
+                        job.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name);
+                        UIMenuItem telefono = new("N° di Telefono");
+                        telefono.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.phoneNumber);
+                        UIMenuItem assicurazione = new("N° di Assicurazione");
+                        assicurazione.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.insurance);
+                        UIMenuItem nomePlayer = new("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
+                        nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
+                        DatiPlayer.AddItem(nomeCognome);
+                        DatiPlayer.AddItem(dDN);
+                        DatiPlayer.AddItem(sesso);
+                        DatiPlayer.AddItem(altezza);
+                        DatiPlayer.AddItem(job);
+                        DatiPlayer.AddItem(telefono);
+                        DatiPlayer.AddItem(assicurazione);
+                        DatiPlayer.AddItem(nomePlayer);
                     }
                     else
                     {
-                        UIMenuItem noPlayers = new("Non ci sono altri Player nel server!");
+                        UIMenuItem noPlayers = new("Non ci sono Player nelle vicinanze!");
                         DatiPlayer.AddItem(noPlayers);
                     }
                 }
-                else if (_newMenu == Perquisizione)
+                else
                 {
-                    if (_newMenu.MenuItems.Count > 0) _newMenu.Clear();
+                    UIMenuItem noPlayers = new("Non ci sono altri Player nel server!");
+                    DatiPlayer.AddItem(noPlayers);
+                }
+            };
 
-                    if (Client.Instance.GetPlayers.ToList().Count() > 1)
+            Perquisizione.OnMenuOpen += (_newMenu, b) =>
+            {
+                if (_newMenu.MenuItems.Count > 0) _newMenu.Clear();
+
+                if (Client.Instance.GetPlayers.ToList().Count() > 1)
+                {
+                    Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
+                    Ped ClosestPed = Player_Distance.Item1.Character;
+                    int GetPlayerserverId = GetPlayerServerId(Player_Distance.Item1.Handle);
+                    User player = Funzioni.GetPlayerCharFromServerId(GetPlayerserverId);
+                    float distance = Player_Distance.Item2;
+
+                    if (distance < 3f)
                     {
-                        Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
-                        Ped ClosestPed = Player_Distance.Item1.Character;
-                        int GetPlayerserverId = GetPlayerServerId(Player_Distance.Item1.Handle);
-                        User player = Funzioni.GetPlayerCharFromServerId(GetPlayerserverId);
-                        float distance = Player_Distance.Item2;
+                        List<Inventory> inv = Cache.PlayerCache.MyPlayer.User.Inventory;
 
-                        if (distance < 3f)
+                        if (inv.Count > 0)
                         {
-                            List<Inventory> inv = Cache.PlayerCache.MyPlayer.User.Inventory;
-
-                            if (inv.Count > 0)
-                            {
-                                foreach (Inventory it in inv)
-                                    if (it.Amount > 0)
+                            foreach (Inventory it in inv)
+                                if (it.Amount > 0)
+                                {
+                                    UIMenuItem oggetto = new(it.Item);
+                                    oggetto.SetRightLabel($"Quantità: {it.Amount}");
+                                    _newMenu.AddItem(oggetto);
+                                    oggetto.Activated += async (_menu, item) =>
                                     {
-                                        UIMenuItem oggetto = new(it.Item);
-                                        oggetto.SetRightLabel($"Quantità: {it.Amount}");
-                                        _newMenu.AddItem(oggetto);
-                                        oggetto.Activated += async (_menu, item) =>
-                                        {
-                                            BaseScript.TriggerServerEvent("lprp:polizia:confisca", it.Item, it.Amount);
-                                        };
-                                    }
-                            }
-                            else
-                            {
-                                Perquisizione.AddItem(new UIMenuItem("Questa persona non ha oggetti con se!"));
-                            }
+                                        BaseScript.TriggerServerEvent("lprp:polizia:confisca", it.Item, it.Amount);
+                                    };
+                                }
                         }
                         else
                         {
-                            Perquisizione.AddItem(new UIMenuItem("Non ci sono Player nelle vicinanze!"));
+                            Perquisizione.AddItem(new UIMenuItem("Questa persona non ha oggetti con se!"));
                         }
                     }
                     else
                     {
-                        Perquisizione.AddItem(new UIMenuItem("Non ci sono Players oltre te"));
+                        Perquisizione.AddItem(new UIMenuItem("Non ci sono Player nelle vicinanze!"));
                     }
                 }
-                //else if(_newMenu == FedinaPenale)
-                //else if(_newMenu == multa)
-                //else if(_newMenu == fatture)
-                else if (_newMenu == CercaPers)
+                else
                 {
-                    Dictionary<string, User> players = await Funzioni.GetAllPlayersAndTheirData();
-                    _newMenu.Clear();
-
-                    foreach (KeyValuePair<string, User> pers in players.OrderBy(x => x.Key))
-                    {
-                        foreach (Char_data data in pers.Value.Characters)
-                            if (!string.IsNullOrEmpty(nome) && data.Info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.Info.lastname.Contains(cognome) || numero != "" && numero != null && data.Info.phoneNumber.ToString().Contains(numero))
-                            {
-                                int source = 0;
-                                foreach (Player p in Client.Instance.GetPlayers.ToList().Where(p => p.Name == pers.Key)) source = p.ServerId;
-                                UIMenu Personaggio = CercaPers.AddSubMenu(data.Info.firstname + " " + data.Info.lastname + " [" + pers.Key + "]");
-                                UIMenuItem NomeCognome = new("Nome:", "Il suo Nome");
-                                NomeCognome.SetRightLabel(data.Info.firstname + " " + data.Info.lastname);
-                                Personaggio.AddItem(NomeCognome);
-                                UIMenuItem DDN = new("Data di Nascita:", "La sua data di nascita");
-                                DDN.SetRightLabel(data.Info.dateOfBirth);
-                                Personaggio.AddItem(DDN);
-                                //UIMenuItem Altez = new UIMenuItem("Altezza:");
-                                UIMenuItem job = new("Lavoro: ", "Il suo lavoro");
-                                job.SetRightLabel(data.Job.Name);
-                                Personaggio.AddItem(job);
-                                //UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
-                                UIMenuItem bank = new("Banca: ", "I soldi in banca");
-                                bank.SetRightLabel("$" + data.Finance.Bank);
-                                Personaggio.AddItem(bank);
-                                Pos = new UIMenuItem("Ultima Posizione conosciuta");
-                                if (source != 0)
-                                    GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
-                                else
-                                    GetStreetNameAtCoord(data.Posizione.X, data.Posizione.Y, data.Posizione.Z, ref StreetA, ref StreetB);
-                                Pos.Description = GetStreetNameFromHashKey(StreetA);
-                                if (StreetB != 0) Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
-                                Personaggio.AddItem(Pos);
-                                UIMenu fedinaPenale = Personaggio.AddSubMenu("Fedina Penale");
-                                UIMenu Fatture = Personaggio.AddSubMenu("Multe / Insoluti");
-                            }
-                    }
+                    Perquisizione.AddItem(new UIMenuItem("Non ci sono Players oltre te"));
                 }
-                else if (_newMenu == MenuPoliziaPrincipale && state == MenuState.Opened)
-                {
-                    Client.Instance.AddTick(ControlloMenu);
-                }
-                else if (state == MenuState.Closed && _oldMenu == MenuPoliziaPrincipale)
-                {
-                    Client.Instance.RemoveTick(ControlloMenu);
-                }
-
-                ;
             };
+            CercaPers.OnMenuOpen += async (_newMenu, b) =>
+            {
+                Dictionary<string, User> players = await Funzioni.GetAllPlayersAndTheirData();
+                _newMenu.Clear();
+
+                foreach (KeyValuePair<string, User> pers in players.OrderBy(x => x.Key))
+                {
+                    foreach (Char_data data in pers.Value.Characters)
+                        if (!string.IsNullOrEmpty(nome) && data.Info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.Info.lastname.Contains(cognome) || numero != "" && numero != null && data.Info.phoneNumber.ToString().Contains(numero))
+                        {
+                            int source = 0;
+                            foreach (Player p in Client.Instance.GetPlayers.ToList().Where(p => p.Name == pers.Key)) source = p.ServerId;
+                            UIMenuItem PersonaggioItem = new UIMenuItem(data.Info.firstname + " " + data.Info.lastname + " [" + pers.Key + "]");
+                            UIMenu Personaggio = new(data.Info.firstname + " " + data.Info.lastname + " [" + pers.Key + "]", "");
+                            PersonaggioItem.BindItemToMenu(Personaggio);
+                            CercaPers.AddItem(PersonaggioItem);
+                            UIMenuItem NomeCognome = new("Nome:", "Il suo Nome");
+                            NomeCognome.SetRightLabel(data.Info.firstname + " " + data.Info.lastname);
+                            Personaggio.AddItem(NomeCognome);
+                            UIMenuItem DDN = new("Data di Nascita:", "La sua data di nascita");
+                            DDN.SetRightLabel(data.Info.dateOfBirth);
+                            Personaggio.AddItem(DDN);
+                            //UIMenuItem Altez = new UIMenuItem("Altezza:");
+                            UIMenuItem job = new("Lavoro: ", "Il suo lavoro");
+                            job.SetRightLabel(data.Job.Name);
+                            Personaggio.AddItem(job);
+                            //UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
+                            UIMenuItem bank = new("Banca: ", "I soldi in banca");
+                            bank.SetRightLabel("$" + data.Finance.Bank);
+                            Personaggio.AddItem(bank);
+                            Pos = new UIMenuItem("Ultima Posizione conosciuta");
+                            if (source != 0)
+                                GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
+                            else
+                                GetStreetNameAtCoord(data.Posizione.X, data.Posizione.Y, data.Posizione.Z, ref StreetA, ref StreetB);
+                            Pos.Description = GetStreetNameFromHashKey(StreetA);
+                            if (StreetB != 0) Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
+                            Personaggio.AddItem(Pos);
+                            UIMenuItem fedinaPenaleItem = new UIMenuItem("Fedina Penale");
+                            UIMenuItem FattureItem = new UIMenuItem("Multe / Insoluti");
+                            UIMenu fedinaPenale = new("Fedina Penale", "");
+                            UIMenu Fatture = new("Multe / Insoluti", "");
+                            fedinaPenaleItem.BindItemToMenu(fedinaPenale);
+                            FattureItem.BindItemToMenu(Fatture);
+                            Personaggio.AddItem(fedinaPenaleItem);
+                            Personaggio.AddItem(FattureItem);
+
+                        }
+                }
+            };
+            MenuPoliziaPrincipale.OnMenuOpen += (a, b) => Client.Instance.AddTick(ControlloMenu);
+            MenuPoliziaPrincipale.OnMenuClose += (a) => Client.Instance.RemoveTick(ControlloMenu);
+
             InterazioneCivile.OnItemSelect += async (menu, item, index) =>
             {
                 if (Client.Instance.Clients.ToList().Count() > 1)
@@ -402,7 +437,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
             #region VEICOLO
 
-            UIMenu Controllo = InterazioneVeicolo.AddSubMenu("Controlla stato veicolo");
+            UIMenuItem ControlloItem = new("Controlla stato veicolo");
+            UIMenu Controllo = new("Controlla stato veicolo", "");
+            ControlloItem.BindItemToMenu(Controllo);
+            InterazioneVeicolo.AddItem(ControlloItem);
             UIMenuItem PickLock = new UIMenuItem("Apri veicolo chiuso", "Qualcuno lo ha chiuso?");
             UIMenuItem requisizione = new UIMenuItem("Requisisci Veicolo");
             InterazioneVeicolo.AddItem(PickLock);
@@ -446,7 +484,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             ControlliPersonaRemoto.AddItem(cercaNome);
             ControlliPersonaRemoto.AddItem(cercaCognome);
             ControlliPersonaRemoto.AddItem(cercaNTelefono);
-            CercaPers = ControlliPersonaRemoto.AddSubMenu("Effettua ricerca");
+
+            UIMenuItem CercaPersItem = new("Effettua ricerca");
+            CercaPers = new("Effettua ricerca", "");
+            CercaPersItem.BindItemToMenu(Controllo);
+            ControlliPersonaRemoto.AddItem(CercaPersItem);
+
             UIMenuItem cercaModello = new UIMenuItem("Cerca per Modello");
             UIMenuItem cercaTarga = new UIMenuItem("Cerca per Targa");
             // COME SOPRA
@@ -505,7 +548,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             HeliCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { Position = new Vector3(-1268.174f, -2999.561f, -44.215f), IsActive = true };
             await BaseScript.Delay(1000);
             UIMenu MenuElicotteri = new UIMenu("Elicotteri Polizia", "Pattuglia le strade con stile!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(MenuElicotteri);
 
             foreach (Autorizzati t in Stazione.ElicotteriAutorizzati)
             {
@@ -560,47 +602,41 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
                 VeicoloPol veh = new VeicoloPol(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.ToJson());
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 PreviewHeli.MarkAsNoLongerNeeded();
                 PreviewHeli.Delete();
             };
-            HUD.MenuPool.OnMenuStateChanged += async (_oldmenu, _newmenu, _state) =>
+            MenuElicotteri.OnMenuOpen += async (a, b) =>
             {
-                if (_newmenu == MenuElicotteri)
-                {
-                    if (_state == MenuState.Opened)
-                    {
-                        PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
-                        PreviewHeli.IsCollisionEnabled = false;
-                        PreviewHeli.IsPersistent = true;
-                        PreviewHeli.PlaceOnGround();
-                        PreviewHeli.IsPositionFrozen = true;
-                        if (PreviewHeli.Model.Hash == 353883353) SetVehicleLivery(PreviewHeli.Handle, 0); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
-                        PreviewHeli.LockStatus = VehicleLockStatus.Locked;
-                        PreviewHeli.IsInvincible = true;
-                        PreviewHeli.IsEngineRunning = true;
-                        PreviewHeli.IsDriveable = false;
-                        Client.Instance.AddTick(Heading);
-                        HeliCam.PointAt(PreviewHeli);
-                        if (GetInteriorFromEntity(PreviewHeli.Handle) != 0) SetFocusEntity(PreviewHeli.Handle);
-                        while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
-                        RenderScriptCams(true, false, 0, false, false);
-                        Screen.Fading.FadeIn(800);
-                    }
-                }
-                else if (_state == MenuState.Closed && _oldmenu == MenuElicotteri)
-                {
-                    Screen.Fading.FadeOut(800);
-                    await BaseScript.Delay(1000);
-                    Client.Instance.RemoveTick(Heading);
-                    HeliCam.IsActive = false;
-                    RenderScriptCams(false, false, 0, false, false);
-                    ClearFocus();
-                    await BaseScript.Delay(1000);
-                    Screen.Fading.FadeIn(800);
-                    PreviewHeli.MarkAsNoLongerNeeded();
-                    PreviewHeli.Delete();
-                }
+                PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
+                PreviewHeli.IsCollisionEnabled = false;
+                PreviewHeli.IsPersistent = true;
+                PreviewHeli.PlaceOnGround();
+                PreviewHeli.IsPositionFrozen = true;
+                if (PreviewHeli.Model.Hash == 353883353) SetVehicleLivery(PreviewHeli.Handle, 0); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
+                PreviewHeli.LockStatus = VehicleLockStatus.Locked;
+                PreviewHeli.IsInvincible = true;
+                PreviewHeli.IsEngineRunning = true;
+                PreviewHeli.IsDriveable = false;
+                Client.Instance.AddTick(Heading);
+                HeliCam.PointAt(PreviewHeli);
+                if (GetInteriorFromEntity(PreviewHeli.Handle) != 0) SetFocusEntity(PreviewHeli.Handle);
+                while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
+                RenderScriptCams(true, false, 0, false, false);
+                Screen.Fading.FadeIn(800);
+            };
+            MenuElicotteri.OnMenuClose += async (a) =>
+            {
+                Screen.Fading.FadeOut(800);
+                await BaseScript.Delay(1000);
+                Client.Instance.RemoveTick(Heading);
+                HeliCam.IsActive = false;
+                RenderScriptCams(false, false, 0, false, false);
+                ClearFocus();
+                await BaseScript.Delay(1000);
+                Screen.Fading.FadeIn(800);
+                PreviewHeli.MarkAsNoLongerNeeded();
+                PreviewHeli.Delete();
             };
             MenuElicotteri.Visible = true;
         }
@@ -758,7 +794,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         private static async void MenuPiano()
         {
             UIMenu Ascensore = new UIMenu("Seleziona Piano", "Sali o scendi?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(Ascensore);
             UIMenuItem esci = new UIMenuItem("Esci dal Garage");
             Ascensore.AddItem(esci);
             int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade));
@@ -782,7 +817,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 }
                 else
                 {
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                     Screen.Fading.FadeOut(800);
                     await BaseScript.Delay(1000);
 
@@ -817,77 +852,77 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             {
                 if (p.CurrentVehicle.Driver == Cache.PlayerCache.MyPlayer.Ped && p.CurrentVehicle.Speed < 2 || p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == Cache.PlayerCache.MyPlayer.Ped)
                 {
-                    if (InterazioneCivile.ParentItem.Enabled)
+                    if (InterazioneCivileItem.Enabled)
                     {
-                        InterazioneCivile.ParentItem.Enabled = false;
-                        InterazioneCivile.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                        InterazioneCivile.ParentItem.Description = InterazioneCivile.ParentItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
+                        InterazioneCivileItem.Enabled = false;
+                        InterazioneCivileItem.SetRightBadge(BadgeIcon.LOCK);
+                        InterazioneCivileItem.Description = InterazioneCivileItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
                     }
 
-                    if (InterazioneVeicolo.ParentItem.Enabled)
+                    if (InterazioneVeicoloItem.Enabled)
                     {
-                        InterazioneVeicolo.ParentItem.Enabled = false;
-                        InterazioneVeicolo.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                        InterazioneVeicolo.ParentItem.Description = InterazioneVeicolo.ParentItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
+                        InterazioneVeicoloItem.Enabled = false;
+                        InterazioneVeicoloItem.SetRightBadge(BadgeIcon.LOCK);
+                        InterazioneVeicoloItem.Description = InterazioneVeicoloItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
                     }
 
-                    if (Oggetti.ParentItem.Enabled)
+                    if (OggettiItem.Enabled)
                     {
-                        Oggetti.ParentItem.Enabled = false;
-                        Oggetti.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                        Oggetti.ParentItem.Description = Oggetti.ParentItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
+                        OggettiItem.Enabled = false;
+                        OggettiItem.SetRightBadge(BadgeIcon.LOCK);
+                        OggettiItem.Description = OggettiItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
                     }
 
-                    if (!ControlliPersonaRemoto.ParentItem.Enabled)
+                    if (!ControlliPersonaRemotoItem.Enabled)
                     {
-                        ControlliPersonaRemoto.ParentItem.Enabled = true;
-                        ControlliPersonaRemoto.ParentItem.SetRightBadge(BadgeIcon.NONE);
-                        ControlliPersonaRemoto.ParentItem.Description = "Sistema Online di Controllo Persone!";
+                        ControlliPersonaRemotoItem.Enabled = true;
+                        ControlliPersonaRemotoItem.SetRightBadge(BadgeIcon.NONE);
+                        ControlliPersonaRemotoItem.Description = "Sistema Online di Controllo Persone!";
                     }
 
-                    if (!ControlliVeicoloRemoto.ParentItem.Enabled)
+                    if (!ControlliVeicoloRemotoItem.Enabled)
                     {
-                        ControlliVeicoloRemoto.ParentItem.Enabled = true;
-                        ControlliVeicoloRemoto.ParentItem.SetRightBadge(BadgeIcon.NONE);
-                        ControlliVeicoloRemoto.ParentItem.Description = "Sistema Online di Controllo Veicoli!";
+                        ControlliVeicoloRemotoItem.Enabled = true;
+                        ControlliVeicoloRemotoItem.SetRightBadge(BadgeIcon.NONE);
+                        ControlliVeicoloRemotoItem.Description = "Sistema Online di Controllo Veicoli!";
                     }
                 }
             }
             else
             {
-                if (!InterazioneCivile.ParentItem.Enabled)
+                if (!InterazioneCivileItem.Enabled)
                 {
-                    InterazioneCivile.ParentItem.Enabled = true;
-                    InterazioneCivile.ParentItem.SetRightBadge(BadgeIcon.NONE);
-                    InterazioneCivile.ParentItem.Description = "Mi faccia vedere i dati!";
+                    InterazioneCivileItem.Enabled = true;
+                    InterazioneCivileItem.SetRightBadge(BadgeIcon.NONE);
+                    InterazioneCivileItem.Description = "Mi faccia vedere i dati!";
                 }
 
-                if (!InterazioneVeicolo.ParentItem.Enabled)
+                if (!InterazioneVeicoloItem.Enabled)
                 {
-                    InterazioneVeicolo.ParentItem.Enabled = true;
-                    InterazioneVeicolo.ParentItem.SetRightBadge(BadgeIcon.NONE);
-                    InterazioneVeicolo.ParentItem.Description = "Mi faccia controllare il veicolo!";
+                    InterazioneVeicoloItem.Enabled = true;
+                    InterazioneVeicoloItem.SetRightBadge(BadgeIcon.NONE);
+                    InterazioneVeicoloItem.Description = "Mi faccia controllare il veicolo!";
                 }
 
-                if (!Oggetti.ParentItem.Enabled)
+                if (!OggettiItem.Enabled)
                 {
-                    Oggetti.ParentItem.Enabled = true;
-                    Oggetti.ParentItem.SetRightBadge(BadgeIcon.NONE);
-                    Oggetti.ParentItem.Description = "Abbiamo anche le bande chiodate!";
+                    OggettiItem.Enabled = true;
+                    OggettiItem.SetRightBadge(BadgeIcon.NONE);
+                    OggettiItem.Description = "Abbiamo anche le bande chiodate!";
                 }
 
-                if (ControlliPersonaRemoto.ParentItem.Enabled)
+                if (ControlliPersonaRemotoItem.Enabled)
                 {
-                    ControlliPersonaRemoto.ParentItem.Enabled = false;
-                    ControlliPersonaRemoto.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                    ControlliPersonaRemoto.ParentItem.Description = ControlliPersonaRemoto.ParentItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
+                    ControlliPersonaRemotoItem.Enabled = false;
+                    ControlliPersonaRemotoItem.SetRightBadge(BadgeIcon.LOCK);
+                    ControlliPersonaRemotoItem.Description = ControlliPersonaRemotoItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
                 }
 
-                if (ControlliVeicoloRemoto.ParentItem.Enabled)
+                if (ControlliVeicoloRemotoItem.Enabled)
                 {
-                    ControlliVeicoloRemoto.ParentItem.Enabled = false;
-                    ControlliVeicoloRemoto.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                    ControlliVeicoloRemoto.ParentItem.Description = ControlliVeicoloRemoto.ParentItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
+                    ControlliVeicoloRemotoItem.Enabled = false;
+                    ControlliVeicoloRemotoItem.SetRightBadge(BadgeIcon.LOCK);
+                    ControlliVeicoloRemotoItem.Description = ControlliVeicoloRemotoItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
                 }
             }
 
@@ -898,31 +933,31 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
                 if (distance < 3)
                 {
-                    if (!InterazioneCivile.ParentItem.Enabled)
+                    if (!InterazioneCivileItem.Enabled)
                     {
-                        InterazioneCivile.ParentItem.Enabled = true;
-                        InterazioneCivile.ParentItem.SetRightBadge(BadgeIcon.NONE);
-                        InterazioneCivile.ParentItem.Description = "Mi faccia vedere i dati!";
+                        InterazioneCivileItem.Enabled = true;
+                        InterazioneCivileItem.SetRightBadge(BadgeIcon.NONE);
+                        InterazioneCivileItem.Description = "Mi faccia vedere i dati!";
                     }
                 }
                 else
                 {
-                    if (InterazioneCivile.ParentItem.Enabled)
+                    if (InterazioneCivileItem.Enabled)
                     {
-                        InterazioneCivile.ParentItem.Enabled = false;
-                        InterazioneCivile.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                        InterazioneCivile.ParentItem.Description += "- ~r~NON~w~ ci sono player vicini";
+                        InterazioneCivileItem.Enabled = false;
+                        InterazioneCivileItem.SetRightBadge(BadgeIcon.LOCK);
+                        InterazioneCivileItem.Description += "- ~r~NON~w~ ci sono player vicini";
                         if (InterazioneCivile.Visible) InterazioneCivile.Visible = false;
                     }
                 }
             }
             else
             {
-                if (InterazioneCivile.ParentItem.Enabled)
+                if (InterazioneCivileItem.Enabled)
                 {
-                    InterazioneCivile.ParentItem.Enabled = false;
-                    InterazioneCivile.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                    InterazioneCivile.ParentItem.Description += "- ~r~NON~w~ ci sono player vicini";
+                    InterazioneCivileItem.Enabled = false;
+                    InterazioneCivileItem.SetRightBadge(BadgeIcon.LOCK);
+                    InterazioneCivileItem.Description += "- ~r~NON~w~ ci sono player vicini";
                     if (InterazioneCivile.Visible) InterazioneCivile.Visible = false;
                 }
             }

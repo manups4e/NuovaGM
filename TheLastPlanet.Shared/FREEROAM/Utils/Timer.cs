@@ -1,9 +1,6 @@
-﻿using CitizenFX.Core.Native;
-using FxEvents.Shared.Attributes;
-
-namespace TheLastPlanet.Shared
+﻿namespace TheLastPlanet.Shared
 {
-    
+
     public class Timer
     {
         public long StartTime;
@@ -21,7 +18,7 @@ namespace TheLastPlanet.Shared
 
         public long Restart()
         {
-            var elapsed = Elapsed();
+            long elapsed = Elapsed();
             StartTime = API.GetGameTimer();
             return elapsed;
         }

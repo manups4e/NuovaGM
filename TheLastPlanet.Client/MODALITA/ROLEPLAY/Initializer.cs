@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿global using Main = TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Main;
+using System.Threading.Tasks;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.IPLs;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;

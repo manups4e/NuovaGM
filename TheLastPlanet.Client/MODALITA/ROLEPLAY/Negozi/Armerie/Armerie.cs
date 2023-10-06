@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
     internal static class Armerie
     {
-        private static MenuPool pool = HUD.MenuPool;
         private static List<ArmiLicenza> armi1 = new List<ArmiLicenza>()
         {
             new ArmiLicenza("WEAPON_PISTOL", 300),
@@ -59,352 +55,305 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         public static async void NuovaArmeria(Ped playerPed, object[] args)
         {
-            UIMenu Armeria = new UIMenu(" ", "La drogheria delle armi", new System.Drawing.Point(0, 0), Main.Textures["AmmuNation"].Key, Main.Textures["AmmuNation"].Value);
-            HUD.MenuPool.Add(Armeria);
-            UIMenu ArmiLic1 = pool.AddSubMenu(Armeria, "Armi Licenza Base", "Scegli l'arma che preferisci");
-            UIMenu ArmiLic2 = pool.AddSubMenu(Armeria, "Armi Licenza Intermedia", "Scegli l'arma che preferisci");
-            UIMenu ArmiLic3 = pool.AddSubMenu(Armeria, "Armi Licenza Avanzata", "Scegli l'arma che preferisci");
-            UIMenu component = pool.AddSubMenu(Armeria, "Componenti", "Scegli il componente giusto!\nNB: Caricatori, silenziatori e mirini avanzati non sono in vendita!");
-            UIMenu Tinte = pool.AddSubMenu(Armeria, "Colori", "Scegli il colore per le tue armi!");
-            HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+            UIMenu Armeria = new UIMenu(" ", "La drogheria delle armi", new PointF(0, 0), Main.Textures["AmmuNation"].Key, Main.Textures["AmmuNation"].Value);
+
+            UIMenuItem ArmiLic1Item = new("Armi Licenza Base", "Scegli l'arma che preferisci");
+            UIMenu ArmiLic1 = new("Armi Licenza Base", "");
+            UIMenuItem ArmiLic2Item = new("Armi Licenza Intermedia", "Scegli l'arma che preferisci");
+            UIMenu ArmiLic2 = new("Armi Licenza Intermedia", "");
+            UIMenuItem ArmiLic3Item = new("Armi Licenza Avanzata", "Scegli l'arma che preferisci");
+            UIMenu ArmiLic3 = new("Armi Licenza Avanzata", "");
+            UIMenuItem componentItem = new("Componenti", "Scegli il componente giusto!\nNB: Caricatori, silenziatori e mirini avanzati non sono in vendita!");
+            UIMenu component = new("Componenti", "");
+            UIMenuItem TinteItem = new("Colori", "Scegli il colore per le tue armi!");
+            UIMenu Tinte = new("Colori", "");
+
+            ArmiLic1Item.Activated += async (a, b) => await a.SwitchTo(ArmiLic1, 0, true);
+            ArmiLic2Item.Activated += async (a, b) => await a.SwitchTo(ArmiLic2, 0, true);
+            ArmiLic3Item.Activated += async (a, b) => await a.SwitchTo(ArmiLic3, 0, true);
+            componentItem.Activated += async (a, b) => await a.SwitchTo(component, 0, true);
+            TinteItem.Activated += async (a, b) => await a.SwitchTo(Tinte, 0, true);
+
+            Armeria.AddItem(ArmiLic1Item);
+            Armeria.AddItem(ArmiLic2Item);
+            Armeria.AddItem(ArmiLic3Item);
+            Armeria.AddItem(componentItem);
+            Armeria.AddItem(TinteItem);
+
+            Armeria.OnMenuOpen += (a, b) =>
             {
-                if (state == MenuState.Opened)
+                if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi1"))
                 {
-                    if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi1"))
-                    {
-                        ArmiLic1.ParentItem.Enabled = false;
-                        ArmiLic1.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                    }
-
-                    if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi2"))
-                    {
-                        ArmiLic2.ParentItem.Enabled = false;
-                        ArmiLic2.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                    }
-
-                    if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi3"))
-                    {
-                        ArmiLic3.ParentItem.Enabled = false;
-                        ArmiLic3.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                    }
-
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons.Count != 0) return;
-                    component.ParentItem.Enabled = false;
-                    component.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                    Tinte.ParentItem.Enabled = false;
-                    Tinte.ParentItem.SetRightBadge(BadgeIcon.LOCK);
+                    ArmiLic1Item.Enabled = false;
+                    ArmiLic1Item.SetRightBadge(BadgeIcon.LOCK);
                 }
 
-                #region ArmiBase
-
-                else if (state == MenuState.ChangeForward && newmenu == ArmiLic1)
+                if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi2"))
                 {
-                    ArmiLic1.Clear();
+                    ArmiLic2Item.Enabled = false;
+                    ArmiLic2Item.SetRightBadge(BadgeIcon.LOCK);
+                }
 
-                    for (int i = 0; i < armi1.Count; i++)
-                    {
-                        UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[i].name)));
-                        if (Cache.PlayerCache.MyPlayer.User.Money >= armi1[i].price || Cache.PlayerCache.MyPlayer.User.Bank >= armi1[i].price)
-                            arma.SetRightLabel("~g~" + armi1[i].price + "$");
-                        else
-                            arma.SetRightLabel("~r~" + armi1[i].price + "$");
-                        if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
-                        ArmiLic1.AddItem(arma);
-                    }
+                if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi3"))
+                {
+                    ArmiLic3Item.Enabled = false;
+                    ArmiLic3Item.SetRightBadge(BadgeIcon.LOCK);
+                }
 
-                    ArmiLic1.OnItemSelect += (_menu, _item, _index) =>
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons.Count != 0) return;
+                componentItem.Enabled = false;
+                componentItem.SetRightBadge(BadgeIcon.LOCK);
+                TinteItem.Enabled = false;
+                TinteItem.SetRightBadge(BadgeIcon.LOCK);
+            };
+
+            ArmiLic1.OnMenuOpen += (a, b) =>
+            {
+                ArmiLic1.Clear();
+
+                for (int i = 0; i < armi1.Count; i++)
+                {
+                    UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[i].name)));
+                    if (Cache.PlayerCache.MyPlayer.User.Money >= armi1[i].price || Cache.PlayerCache.MyPlayer.User.Bank >= armi1[i].price)
+                        arma.SetRightLabel("~g~" + armi1[i].price + "$");
+                    else
+                        arma.SetRightLabel("~r~" + armi1[i].price + "$");
+                    if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
+                    ArmiLic1.AddItem(arma);
+                }
+
+                ArmiLic1.OnItemSelect += (_menu, _item, _index) =>
+                {
+                    if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[_index].name)))
                     {
-                        if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[_index].name)))
+                        if (Cache.PlayerCache.MyPlayer.User.Money >= 150)
                         {
-                            if (Cache.PlayerCache.MyPlayer.User.Money >= 150)
+                            AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi1[_index].name), 250);
+                            HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
+                            EventDispatcher.Send("lprp:removemoney", 150);
+                        }
+                        else
+                        {
+                            if (Cache.PlayerCache.MyPlayer.User.Bank >= 150)
                             {
                                 AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi1[_index].name), 250);
                                 HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                EventDispatcher.Send("lprp:removemoney", 150);
+                                EventDispatcher.Send("lprp:removebank", 150);
                             }
                             else
                             {
-                                if (Cache.PlayerCache.MyPlayer.User.Bank >= 150)
-                                {
-                                    AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi1[_index].name), 250);
-                                    HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                    EventDispatcher.Send("lprp:removebank", 150);
-                                }
-                                else
-                                {
-                                    HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
-                                }
+                                HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
                             }
+                        }
+                    }
+                    else
+                    {
+                        if (Cache.PlayerCache.MyPlayer.User.Money >= armi1[_index].price)
+                        {
+                            EventDispatcher.Send("lprp:addWeapon", armi1[_index].name, 250);
+                            EventDispatcher.Send("lprp:removemoney", armi1[_index].price);
+                            HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
+                            _item.SetRightBadge(BadgeIcon.GUN);
                         }
                         else
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Money >= armi1[_index].price)
                             {
                                 EventDispatcher.Send("lprp:addWeapon", armi1[_index].name, 250);
-                                EventDispatcher.Send("lprp:removemoney", armi1[_index].price);
+                                EventDispatcher.Send("lprp:removebank", armi1[_index].price);
                                 HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
                                 _item.SetRightBadge(BadgeIcon.GUN);
                             }
                             else
                             {
-                                if (Cache.PlayerCache.MyPlayer.User.Money >= armi1[_index].price)
-                                {
-                                    EventDispatcher.Send("lprp:addWeapon", armi1[_index].name, 250);
-                                    EventDispatcher.Send("lprp:removebank", armi1[_index].price);
-                                    HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
-                                    _item.SetRightBadge(BadgeIcon.GUN);
-                                }
-                                else
-                                {
-                                    HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
-                                }
+                                HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
                             }
                         }
-                    };
+                    }
+                };
+            };
+
+            ArmiLic2.OnMenuOpen += (a, b) =>
+            {
+                ArmiLic2.Clear();
+
+                for (int i = 0; i < armi2.Count; i++)
+                {
+                    UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[i].name)));
+                    if (Cache.PlayerCache.MyPlayer.User.Money >= armi2[i].price || Cache.PlayerCache.MyPlayer.User.Bank >= armi2[i].price)
+                        arma.SetRightLabel("~g~" + armi2[i].price + "$");
+                    else
+                        arma.SetRightLabel("~r~" + armi2[i].price + "$");
+                    if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
+                    ArmiLic2.AddItem(arma);
                 }
 
-                #endregion
-
-                #region ArmiMedie
-
-                else if (state == MenuState.ChangeForward && newmenu == ArmiLic2)
+                ArmiLic2.OnItemSelect += (_menu, _item, _index) =>
                 {
-                    ArmiLic2.Clear();
-
-                    for (int i = 0; i < armi2.Count; i++)
+                    if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[_index].name)))
                     {
-                        UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[i].name)));
-                        if (Cache.PlayerCache.MyPlayer.User.Money >= armi2[i].price || Cache.PlayerCache.MyPlayer.User.Bank >= armi2[i].price)
-                            arma.SetRightLabel("~g~" + armi2[i].price + "$");
-                        else
-                            arma.SetRightLabel("~r~" + armi2[i].price + "$");
-                        if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
-                        ArmiLic2.AddItem(arma);
-                    }
-
-                    ArmiLic2.OnItemSelect += (_menu, _item, _index) =>
-                    {
-                        if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[_index].name)))
+                        if (Cache.PlayerCache.MyPlayer.User.Money >= 150)
                         {
-                            if (Cache.PlayerCache.MyPlayer.User.Money >= 150)
+                            AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi2[_index].name), 250);
+                            HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
+                            EventDispatcher.Send("lprp:removemoney", 150);
+                        }
+                        else
+                        {
+                            if (Cache.PlayerCache.MyPlayer.User.Bank >= 150)
                             {
                                 AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi2[_index].name), 250);
                                 HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                EventDispatcher.Send("lprp:removemoney", 150);
+                                EventDispatcher.Send("lprp:removebank", 150);
                             }
                             else
                             {
-                                if (Cache.PlayerCache.MyPlayer.User.Bank >= 150)
-                                {
-                                    AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi2[_index].name), 250);
-                                    HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                    EventDispatcher.Send("lprp:removebank", 150);
-                                }
-                                else
-                                {
-                                    HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
-                                }
+                                HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
                             }
+                        }
+                    }
+                    else
+                    {
+                        if (Cache.PlayerCache.MyPlayer.User.Money >= armi2[_index].price)
+                        {
+                            EventDispatcher.Send("lprp:addWeapon", armi2[_index].name, 250);
+                            EventDispatcher.Send("lprp:removemoney", armi2[_index].price);
+                            HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
+                            _item.SetRightBadge(BadgeIcon.GUN);
                         }
                         else
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Money >= armi2[_index].price)
                             {
                                 EventDispatcher.Send("lprp:addWeapon", armi2[_index].name, 250);
-                                EventDispatcher.Send("lprp:removemoney", armi2[_index].price);
+                                EventDispatcher.Send("lprp:removebank", armi2[_index].price);
                                 HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
                                 _item.SetRightBadge(BadgeIcon.GUN);
                             }
                             else
                             {
-                                if (Cache.PlayerCache.MyPlayer.User.Money >= armi2[_index].price)
-                                {
-                                    EventDispatcher.Send("lprp:addWeapon", armi2[_index].name, 250);
-                                    EventDispatcher.Send("lprp:removebank", armi2[_index].price);
-                                    HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
-                                    _item.SetRightBadge(BadgeIcon.GUN);
-                                }
-                                else
-                                {
-                                    HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
-                                }
+                                HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
                             }
                         }
-                    };
+                    }
+                };
+            };
+
+            ArmiLic3.OnMenuOpen += (a, b) =>
+            {
+                ArmiLic3.Clear();
+
+                for (int i = 0; i < armi3.Count; i++)
+                {
+                    UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[i].name)));
+                    if (Cache.PlayerCache.MyPlayer.User.Money >= armi3[i].price || Cache.PlayerCache.MyPlayer.User.Bank >= armi3[i].price)
+                        arma.SetRightLabel("~g~" + armi3[i].price + "$");
+                    else
+                        arma.SetRightLabel("~r~" + armi3[i].price + "$");
+                    if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
+                    ArmiLic3.AddItem(arma);
                 }
 
-                #endregion
-
-                #region ArmiAvanzate
-
-                else if (state == MenuState.ChangeForward && newmenu == ArmiLic3)
+                ArmiLic3.OnItemSelect += (_menu, _item, _index) =>
                 {
-                    ArmiLic3.Clear();
-
-                    for (int i = 0; i < armi3.Count; i++)
+                    if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[_index].name)))
                     {
-                        UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[i].name)));
-                        if (Cache.PlayerCache.MyPlayer.User.Money >= armi3[i].price || Cache.PlayerCache.MyPlayer.User.Bank >= armi3[i].price)
-                            arma.SetRightLabel("~g~" + armi3[i].price + "$");
-                        else
-                            arma.SetRightLabel("~r~" + armi3[i].price + "$");
-                        if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
-                        ArmiLic3.AddItem(arma);
-                    }
-
-                    ArmiLic3.OnItemSelect += (_menu, _item, _index) =>
-                    {
-                        if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[_index].name)))
+                        if (Cache.PlayerCache.MyPlayer.User.Money >= 150)
                         {
-                            if (Cache.PlayerCache.MyPlayer.User.Money >= 150)
+                            AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi3[_index].name), 250);
+                            HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
+                            EventDispatcher.Send("lprp:removemoney", 150);
+                        }
+                        else
+                        {
+                            if (Cache.PlayerCache.MyPlayer.User.Bank >= 150)
                             {
                                 AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi3[_index].name), 250);
                                 HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                EventDispatcher.Send("lprp:removemoney", 150);
+                                EventDispatcher.Send("lprp:removebank", 150);
                             }
                             else
                             {
-                                if (Cache.PlayerCache.MyPlayer.User.Bank >= 150)
-                                {
-                                    AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi3[_index].name), 250);
-                                    HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                    EventDispatcher.Send("lprp:removebank", 150);
-                                }
-                                else
-                                {
-                                    HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
-                                }
+                                HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
                             }
+                        }
+                    }
+                    else
+                    {
+                        if (Cache.PlayerCache.MyPlayer.User.Money >= armi3[_index].price)
+                        {
+                            EventDispatcher.Send("lprp:addWeapon", armi3[_index].name, 250);
+                            EventDispatcher.Send("lprp:removemoney", armi3[_index].price);
+                            HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
+                            _item.SetRightBadge(BadgeIcon.GUN);
                         }
                         else
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Money >= armi3[_index].price)
                             {
                                 EventDispatcher.Send("lprp:addWeapon", armi3[_index].name, 250);
-                                EventDispatcher.Send("lprp:removemoney", armi3[_index].price);
+                                EventDispatcher.Send("lprp:removebank", armi3[_index].price);
                                 HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
                                 _item.SetRightBadge(BadgeIcon.GUN);
                             }
                             else
                             {
-                                if (Cache.PlayerCache.MyPlayer.User.Money >= armi3[_index].price)
-                                {
-                                    EventDispatcher.Send("lprp:addWeapon", armi3[_index].name, 250);
-                                    EventDispatcher.Send("lprp:removebank", armi3[_index].price);
-                                    HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
-                                    _item.SetRightBadge(BadgeIcon.GUN);
-                                }
-                                else
-                                {
-                                    HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
-                                }
+                                HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
                             }
                         }
-                    };
-                }
+                    }
+                };
+            };
 
-                #endregion
+            Tinte.OnMenuOpen += (a, b) =>
+            {
+                Tinte.Clear();
 
-                #region Componenti
-
-                else if (state == MenuState.ChangeForward && newmenu == component)
+                foreach (Weapons armi in Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons)
                 {
-                    component.Clear();
+                    bool Hastints = SharedScript.hasTints(armi.name);
 
-                    foreach (Weapons armi in Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons)
-                        if (SharedScript.hasComponents(armi.name))
-                        {
-                            UIMenu Arma = pool.AddSubMenu(component, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i componenti acquistabili per la tua arma");
+                    if (!Hastints) continue;
+                    UIMenuItem TntItem = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i colori acquistabili per la tua arma");
+                    UIMenu Tnt = new(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "");
+                    TntItem.Activated += async (a, b) => await Tinte.SwitchTo(Tnt, 0, true);
+                    Tinte.AddItem(TntItem);
 
-                            foreach (ArmiLicenza co in componenti)
-                                if (SharedScript.hasWeaponComponent(armi.name, co.name))
-                                {
-                                    UIMenuItem compon = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(co.name)));
-                                    Arma.AddItem(compon);
-                                    if (Cache.PlayerCache.MyPlayer.User.Money >= co.price || Cache.PlayerCache.MyPlayer.User.Bank >= co.price)
-                                        compon.SetRightLabel("~g~" + co.price + "$");
-                                    else
-                                        compon.SetRightLabel("~r~" + co.price + "$");
-                                    for (int k = 0; k < armi.components.Count; k++)
-                                        if (armi.components[k].name == co.name)
-                                            compon.SetRightBadge(BadgeIcon.AMMO);
-                                }
-
-                            Arma.OnItemSelect += async (_menu, _item, _index) =>
-                            {
-                                if (_item.RightBadge == BadgeIcon.AMMO)
-                                {
-                                    HUD.ShowNotification("Hai già acquistato questo componente!!", true);
-                                }
-                                else
-                                {
-                                    ArmiLicenza arm = componenti.FirstOrDefault(x => Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name)) == _item.Label);
-                                    Client.Logger.Debug("Prezzo = " + arm.price);
-                                    Client.Logger.Debug("name = " + arm.name);
-
-                                    if (Cache.PlayerCache.MyPlayer.User.Money >= arm.price)
-                                    {
-                                        EventDispatcher.Send("lprp:addWeaponComponent", armi.name, arm.name);
-                                        EventDispatcher.Send("lprp:removemoney", arm.price);
-                                        HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
-                                        _item.SetRightBadge(BadgeIcon.AMMO);
-                                    }
-                                    else
-                                    {
-                                        if (Cache.PlayerCache.MyPlayer.User.Bank >= arm.price)
-                                        {
-                                            EventDispatcher.Send("lprp:addWeaponComponent", armi.name, arm.name);
-                                            EventDispatcher.Send("lprp:removebank", arm.price);
-                                            HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
-                                            _item.SetRightBadge(BadgeIcon.AMMO);
-                                        }
-                                        else
-                                        {
-                                            HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare questo componente!", true);
-                                        }
-                                    }
-                                }
-                            };
-                        }
-                }
-
-                #endregion
-
-                #region Tinte
-
-                else if (state == MenuState.ChangeForward && newmenu == Tinte)
-                {
-                    Tinte.Clear();
-
-                    foreach (Weapons armi in Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons)
+                    foreach (ArmiLicenza tin in tinte)
                     {
-                        bool Hastints = SharedScript.hasTints(armi.name);
+                        UIMenuItem tintina = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name)));
+                        Tnt.AddItem(tintina);
+                        if (Cache.PlayerCache.MyPlayer.User.Money >= tin.price || Cache.PlayerCache.MyPlayer.User.Bank >= tin.price)
+                            tintina.SetRightLabel("~g~" + tin.price + "$");
+                        else
+                            tintina.SetRightLabel("~r~" + tin.price + "$");
+                        if (Cache.PlayerCache.MyPlayer.User.HasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7)))) tintina.SetRightBadge(BadgeIcon.AMMO);
+                    }
 
-                        if (!Hastints) continue;
-                        UIMenu Tnt = pool.AddSubMenu(Tinte, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i colori acquistabili per la tua arma");
-
-                        foreach (ArmiLicenza tin in tinte)
+                    Tnt.OnItemSelect += async (_menu, _item, _index) =>
+                    {
+                        if (_item.RightBadge == BadgeIcon.AMMO)
                         {
-                            UIMenuItem tintina = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name)));
-                            Tnt.AddItem(tintina);
-                            if (Cache.PlayerCache.MyPlayer.User.Money >= tin.price || Cache.PlayerCache.MyPlayer.User.Bank >= tin.price)
-                                tintina.SetRightLabel("~g~" + tin.price + "$");
-                            else
-                                tintina.SetRightLabel("~r~" + tin.price + "$");
-                            if (Cache.PlayerCache.MyPlayer.User.HasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7)))) tintina.SetRightBadge(BadgeIcon.AMMO);
+                            HUD.ShowNotification("Hai già acquistato questo colore!!", true);
                         }
-
-                        Tnt.OnItemSelect += async (_menu, _item, _index) =>
+                        else
                         {
-                            if (_item.RightBadge == BadgeIcon.AMMO)
+                            if (Cache.PlayerCache.MyPlayer.User.Money >= tinte[_index].price)
                             {
-                                HUD.ShowNotification("Hai già acquistato questo colore!!", true);
+                                EventDispatcher.Send("lprp:removemoney", tinte[_index].price);
+                                EventDispatcher.Send("lprp:addWeaponTint", armi.name, _index);
+                                HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
+                                _menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
+                                //attTi.SetRightBadge(BadgeIcon.NONE);
+                                //attTi = _item;
+                                _item.SetRightBadge(BadgeIcon.AMMO);
+                                armi.tint = _index;
                             }
                             else
                             {
-                                if (Cache.PlayerCache.MyPlayer.User.Money >= tinte[_index].price)
+                                if (Cache.PlayerCache.MyPlayer.User.Bank >= tinte[_index].price)
                                 {
-                                    EventDispatcher.Send("lprp:removemoney", tinte[_index].price);
+                                    EventDispatcher.Send("lprp:removebank", tinte[_index].price);
                                     EventDispatcher.Send("lprp:addWeaponTint", armi.name, _index);
                                     HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
                                     _menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
@@ -415,29 +364,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 }
                                 else
                                 {
-                                    if (Cache.PlayerCache.MyPlayer.User.Bank >= tinte[_index].price)
-                                    {
-                                        EventDispatcher.Send("lprp:removebank", tinte[_index].price);
-                                        EventDispatcher.Send("lprp:addWeaponTint", armi.name, _index);
-                                        HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
-                                        _menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
-                                        //attTi.SetRightBadge(BadgeIcon.NONE);
-                                        //attTi = _item;
-                                        _item.SetRightBadge(BadgeIcon.AMMO);
-                                        armi.tint = _index;
-                                    }
-                                    else
-                                    {
-                                        HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare questo colore!", true);
-                                    }
+                                    HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare questo colore!", true);
                                 }
                             }
-                        };
-                    }
+                        }
+                    };
                 }
-
-                #endregion
             };
+
             Armeria.Visible = true;
         }
     }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
-using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
 
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
@@ -51,7 +50,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             WorldEvents.Add(new FarthestJumpDistance(7, "Salto in lungo", 60, 270));
             WorldEvents.Add(new HighestJumpDistance(8, "Salto in alto", 60, 270));
             WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
-            var status = await EventDispatcher.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
+            Tuple<int, int, int, int, bool> status = await EventDispatcher.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
             OnGetStatus(status.Item1, status.Item2, status.Item3, status.Item4, status.Item5);
         }
 
@@ -75,15 +74,15 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             await BaseScript.Delay(600000); // 600000
             EventDispatcher.Send("tlg:freeroam:SaveMe");
-            if (!ScaleformUI.ScaleformUI.InstructionalButtons.IsSaving)
-                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
+            if (!ScaleformUI.Main.InstructionalButtons.IsSaving)
+                ScaleformUI.Main.InstructionalButtons.AddSavingText(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
 
         }
 
         public static void ShowDialog(int type, string txt, int time)
         {
-            if (!ScaleformUI.ScaleformUI.InstructionalButtons.IsSaving)
-                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText((LoadingSpinnerType)type, txt, time);
+            if (!ScaleformUI.Main.InstructionalButtons.IsSaving)
+                ScaleformUI.Main.InstructionalButtons.AddSavingText((LoadingSpinnerType)type, txt, time);
         }
 
         private static async Task OnWaitTick()
@@ -135,10 +134,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             try
             {
                 Client.Logger.Debug("Primi 3  = " + json);
-                var top3 = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
+                Dictionary<string, float> top3 = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
 
-                var xp = 0;
-                var place = 0;
+                int xp = 0;
+                int place = 0;
 
                 // Winner
                 if (top3.ElementAt(0).Key == Cache.PlayerCache.MyPlayer.Player.Name)
@@ -173,14 +172,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                     place = 0;
                 }
 
-                var title = "Fine";
-                var score = "";
+                string title = "Fine";
+                string score = "";
                 if (ActiveWorldEvent.PlayerStatType == PlayerStatType.Int)
                     score = Math.Round(ActiveWorldEvent.CurrentAttempt, 0).ToString();
                 else if (ActiveWorldEvent.PlayerStatType == PlayerStatType.Float)
                     score = Math.Round(ActiveWorldEvent.CurrentAttempt, 2).ToString();
 
-                var description = $"{top3.ElementAt(0).Key} ha vinto la sfida {ActiveWorldEvent.Name} con un punteggio di {top3.ElementAt(2).Value}{ActiveWorldEvent.StatUnit}";
+                string description = $"{top3.ElementAt(0).Key} ha vinto la sfida {ActiveWorldEvent.Name} con un punteggio di {top3.ElementAt(2).Value}{ActiveWorldEvent.StatUnit}";
                 if (top3.All(x => x.Key.StartsWith("-")))
                     description = $"Nessuno ha partecipato alla sfida, non ci sono vincitori!";
                 switch (place)
@@ -205,7 +204,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                         break;
                 }
 
-                ScaleformUI.ScaleformUI.MedMessageInstance.ShowColoredShard(title, description, HudColor.HUD_COLOUR_PURPLE, true, false, 7500);
+                ScaleformUI.Main.MedMessageInstance.ShowColoredShard(title, description, HudColor.HUD_COLOUR_PURPLE, HudColor.HUD_COLOUR_PURPLE, true, false, 7500);
             }
             catch (Exception e)
             {
@@ -224,7 +223,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                     return;
                 }
 
-                var top3Players = JsonConvert.DeserializeObject<Dictionary<string, float>>(top3);
+                Dictionary<string, float> top3Players = JsonConvert.DeserializeObject<Dictionary<string, float>>(top3);
 
                 if (top3Players.Count < 3) { return; }
 
@@ -255,7 +254,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             DownTime = seconds;
 
-            if (DownTime > 0 && DownTime < 60) { ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento"); }
+            if (DownTime > 0 && DownTime < 60) { ScaleformUI.Main.InstructionalButtons.AddSavingText(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento"); }
         }
 
 
@@ -269,7 +268,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
             if (DownTime > 0 && DownTime < 60)
             {
-                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento");
+                ScaleformUI.Main.InstructionalButtons.AddSavingText(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento");
                 return;
             }
 

@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -7,9 +6,6 @@ using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode;
-using TheLastPlanet.Shared;
-
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -210,7 +206,7 @@ namespace TheLastPlanet.Server.Core
         {
             try
             {
-                var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+                PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
                 if (client != null)
                 {
                     User player = client.User;
@@ -232,7 +228,7 @@ namespace TheLastPlanet.Server.Core
         {
             try
             {
-                var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+                PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
                 if (client != null)
                 {
                     User player = client.User;
@@ -254,7 +250,7 @@ namespace TheLastPlanet.Server.Core
         {
             try
             {
-                var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+                PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
                 if (client != null)
                 {
                     User player = client.User;
@@ -275,7 +271,7 @@ namespace TheLastPlanet.Server.Core
         {
             try
             {
-                var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+                PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
                 if (client != null)
                 {
                     User player = client.User;
@@ -296,7 +292,7 @@ namespace TheLastPlanet.Server.Core
         // GESTIONE DELLE FINANZE
         public static void GiveMoney(PlayerClient sender, List<string> args, string rawCommand)
         {
-            var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+            PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
             if (client != null)
                 client.User.Money += Convert.ToInt32(args[1]);
             else
@@ -305,7 +301,7 @@ namespace TheLastPlanet.Server.Core
 
         public static void GiveBank(PlayerClient sender, List<string> args, string rawCommand)
         {
-            var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+            PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
             if (client != null)
                 client.User.Bank += Convert.ToInt32(args[1]);
             else
@@ -314,7 +310,7 @@ namespace TheLastPlanet.Server.Core
 
         public static void GiveDirty(PlayerClient sender, List<string> args, string rawCommand)
         {
-            var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+            PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
             if (client != null)
                 client.User.DirtCash += Convert.ToInt32(args[1]);
             else
@@ -323,7 +319,7 @@ namespace TheLastPlanet.Server.Core
 
         public static void RemoveMoney(PlayerClient sender, List<string> args, string rawCommand)
         {
-            var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+            PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
             if (client != null)
                 client.User.Money -= Convert.ToInt32(args[1]);
             else
@@ -332,7 +328,7 @@ namespace TheLastPlanet.Server.Core
 
         public static void RemoveBank(PlayerClient sender, List<string> args, string rawCommand)
         {
-            var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+            PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
             if (client != null)
                 client.User.Bank -= Convert.ToInt32(args[1]);
             else
@@ -341,7 +337,7 @@ namespace TheLastPlanet.Server.Core
 
         public static void RemoveDirty(PlayerClient sender, List<string> args, string rawCommand)
         {
-            var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+            PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
             if (client != null)
                 client.User.DirtCash -= Convert.ToInt32(args[1]);
             else
@@ -350,10 +346,10 @@ namespace TheLastPlanet.Server.Core
 
         public static void SetFinances(PlayerClient sender, List<string> args, string rawCommand)
         {
-            var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+            PlayerClient client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
             if (client != null)
             {
-                var player = client.User;
+                User player = client.User;
                 if (args[1] == "soldi")
                 {
                     player.Money -= player.Money;
@@ -508,9 +504,9 @@ namespace TheLastPlanet.Server.Core
         {
             try
             {
-                var now = DateTime.Now;
+                DateTime now = DateTime.Now;
 
-                foreach (var player in Server.Instance.Clients)
+                foreach (PlayerClient player in Server.Instance.Clients)
                 {
                     int freer = 0;
                     int rp = 0;
@@ -591,7 +587,7 @@ namespace TheLastPlanet.Server.Core
         {
             if (sender.Handle == 0)
             {
-                if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
+                if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !args[0].All(o => char.IsDigit(o)))
                 {
                     Server.Logger.Error("/weather <weathertype>\nCurrent Weather: " + TimeWeather.MeteoServer.Meteo.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
 
@@ -607,7 +603,7 @@ namespace TheLastPlanet.Server.Core
             }
             else
             {
-                if (args.Count < 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
+                if (args.Count < 1 || Convert.ToInt32(args[0]) > 14 || !args[0].All(o => char.IsDigit(o)))
                 {
                     sender.Player.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO weather] = ", "Errore weather, argomenti disponibili: ~n~0 = EXTRASUNNY, 1 = CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, ~n~9 = NEUTRAL, 10 = SNOW, 11 = BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN!" }, color = new[] { 255, 0, 0 } });
                 }
@@ -700,9 +696,9 @@ namespace TheLastPlanet.Server.Core
             }
             else
             {
-                if (!string.IsNullOrEmpty(args[0] as string))
+                if (!string.IsNullOrEmpty(args[0]))
                 {
-                    if (!string.IsNullOrEmpty(args[1] as string))
+                    if (!string.IsNullOrEmpty(args[1]))
                     {
                         User pers = Funzioni.GetUserFromPlayerId(args[0]);
                         pers.giveLicense(args[1], GetPlayerName("" + sender));
@@ -727,9 +723,9 @@ namespace TheLastPlanet.Server.Core
             }
             else
             {
-                if (!string.IsNullOrEmpty(args[0] as string))
+                if (!string.IsNullOrEmpty(args[0]))
                 {
-                    if (!string.IsNullOrEmpty(args[1] as string))
+                    if (!string.IsNullOrEmpty(args[1]))
                     {
                         User pers = Funzioni.GetUserFromPlayerId(args[0]);
                         pers.removeLicense(args[1]);

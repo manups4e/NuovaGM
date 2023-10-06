@@ -37,9 +37,9 @@ namespace TheLastPlanet.Client.ListaPlayers
         /// <returns></returns>
         private static async Task DisplayController()
         {
-            if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !IsPedRunningMobilePhoneTask(PlayerPedId()))
+            if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !MenuHandler.IsAnyMenuOpen && !IsPedRunningMobilePhoneTask(PlayerPedId()))
             {
-                ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Clear();
+                ScaleformUI.Main.PlayerListInstance.PlayerRows.Clear();
                 var num = await EventDispatcher.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
                 var list = await EventDispatcher.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
                 if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.ListaPlayers
                 {
                     Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetPlayerClientFromServerId(p.ServerId)?.Ped;
                     var mug = await Funzioni.GetPedMugshotAsync(ped);
-                    if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Any<PlayerRow>(x => x.ServerId == p.ServerId)) continue;
+                    if (ScaleformUI.Main.PlayerListInstance.PlayerRows.Any<PlayerRow>(x => x.ServerId == p.ServerId)) continue;
                     var row = new PlayerRow()
                     {
                         Color = p.Color,
@@ -67,25 +67,25 @@ namespace TheLastPlanet.Client.ListaPlayers
                         ServerId = p.ServerId,
                         TextureString = mug.Item2
                     };
-                    ScaleformUI.ScaleformUI.PlayerListInstance.AddRow(row);
+                    ScaleformUI.Main.PlayerListInstance.AddRow(row);
                     UnregisterPedheadshot(mug.Item1);
                 }
-                ScaleformUI.ScaleformUI.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ModalitàAttuale} (online {num})", $"{(ScaleformUI.ScaleformUI.PlayerListInstance.CurrentPage + 1)} / {ScaleformUI.ScaleformUI.PlayerListInstance.MaxPages}", 2);
-                ScaleformUI.ScaleformUI.PlayerListInstance.CurrentPage++;
+                ScaleformUI.Main.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ModalitàAttuale} (online {num})", $"{(ScaleformUI.Main.PlayerListInstance.CurrentPage + 1)} / {ScaleformUI.Main.PlayerListInstance.MaxPages}", 2);
+                ScaleformUI.Main.PlayerListInstance.CurrentPage++;
             }
-            if (ScaleformUI.ScaleformUI.PlayerListInstance.Enabled)
+            if (ScaleformUI.Main.PlayerListInstance.Enabled)
             {
                 if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) MostraMoney();
-                if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Count > 0)
+                if (ScaleformUI.Main.PlayerListInstance.PlayerRows.Count > 0)
                 {
-                    foreach (var p in ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows)
+                    foreach (var p in ScaleformUI.Main.PlayerListInstance.PlayerRows)
                     {
                         var player = GetPlayerFromServerId(p.ServerId);
-                        var index = ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.IndexOf(p);
+                        var index = ScaleformUI.Main.PlayerListInstance.PlayerRows.IndexOf(p);
                         if (NetworkIsPlayerTalking(player) || MumbleIsPlayerTalking(player))
-                            ScaleformUI.ScaleformUI.PlayerListInstance.SetIcon(index, ScoreRightIconType.ACTIVE_HEADSET, "");
+                            ScaleformUI.Main.PlayerListInstance.SetIcon(index, ScoreRightIconType.ACTIVE_HEADSET, "");
                         else
-                            ScaleformUI.ScaleformUI.PlayerListInstance.SetIcon(index, p.RightIcon, p.RightText);
+                            ScaleformUI.Main.PlayerListInstance.SetIcon(index, p.RightIcon, p.RightText);
                     }
                 }
             }

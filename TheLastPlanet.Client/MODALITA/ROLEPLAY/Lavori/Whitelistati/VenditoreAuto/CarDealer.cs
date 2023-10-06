@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 using TheLastPlanet.Shared.Veicoli;
 
@@ -53,7 +51,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                 if (p.IsInRangeOf(carDealer.Config.MenuVendita.ToVector3, 1.375f))
                 {
                     HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu del venditore");
-                    if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuVenditore();
+                    if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) MenuVenditore();
                 }
 
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade > 1)
@@ -61,14 +59,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                 if (p.IsInRangeOf(carDealer.Config.BossActions.ToVector3, 1.375f))
                 {
                     HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu boss");
-                    if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuBoss();
+                    if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) MenuBoss();
                 }
         }
 
         private static async void MenuVenditore()
         {
             UIMenu menuVenditore = new UIMenu("Menu Venditore", "Tutto l'occorrente a portata di click", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(menuVenditore);
 
             // la fattura sarà automatica all'acquisto da parte dell'acquirente (magari non ci sarà fattura ma acquisto automatico)
             // non sarà disponibile per l'affitto che partirà dalla consegna del veicolo
@@ -80,29 +77,32 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                 await BaseScript.Delay(1000);
                 MostraAMe();
             };
-            UIMenu mostraCatalogo = menuVenditore.AddSubMenu("Mostra catalogo", "Scegli a chi");
+            UIMenuItem mostraCatalogoItem = new UIMenuItem("Mostra catalogo", "Scegli a chi");
+            UIMenu mostraCatalogo = new("Catalogo", "");
+            menuVenditore.AddItem(mostraCatalogoItem);
+            mostraCatalogoItem.Activated += async (a, b) => await menuVenditore.SwitchTo(mostraCatalogo, 0, true);
             List<Player> players = new();
-            HUD.MenuPool.OnMenuStateChanged += async (_oldmenu, _newmenu, _state) =>
+            mostraCatalogo.OnMenuOpen += (a, b) =>
             {
-                if (_newmenu != mostraCatalogo) return;
-                _newmenu.Clear();
+                a.Clear();
                 players.Clear();
                 players = Funzioni.GetPlayersInArea(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, 3f);
                 List<string> texts = players.Select(x => x.GetPlayerData().FullName).ToList();
                 string txt = "";
                 foreach (string t in texts) txt = t + "~n~";
-                UIMenu mostraCatalogoAlcuni = mostraCatalogo.AddSubMenu("Mostra a scelta");
-
+                UIMenuItem mostraCatalogoAlcuniItem = new UIMenuItem("Mostra a scelta");
+                UIMenu mostraCatalogoAlcuni = new("Mostra a scelta", "");
+                mostraCatalogo.AddItem(mostraCatalogoAlcuniItem);
+                mostraCatalogoAlcuniItem.Activated += async (a, b) => await mostraCatalogo.SwitchTo(mostraCatalogoAlcuni, 0, true);
                 if (players.Count == 0)
                 {
-                    mostraCatalogoAlcuni.ParentItem.Enabled = false;
-                    mostraCatalogoAlcuni.ParentItem.Description = "Non hai persone vicino!";
+                    mostraCatalogoAlcuniItem.Enabled = false;
+                    mostraCatalogoAlcuniItem.Description = "Non hai persone vicino!";
                 }
 
-                mostraCatalogo.OnMenuStateChanged += async (_oldsubmenu, _newsubmenu, _substate) =>
+                mostraCatalogo.OnMenuOpen += async (a, b) =>
                 {
-                    if (_substate != MenuState.ChangeForward) return;
-                    _newsubmenu.Clear();
+                    a.Clear();
                     List<int> persone = new List<int>();
 
                     foreach (Player p in players)
@@ -117,8 +117,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                         };
                     }
 
-                    UIMenuItem mostra = new UIMenuItem("Mostra a selezionati", "", HudColor.HUD_COLOUR_GREENDARK, HudColor.HUD_COLOUR_GREEN);
-                    _newsubmenu.AddItem(mostra);
+                    UIMenuItem mostra = new UIMenuItem("Mostra a selezionati", "", SColor.HUD_Greendark, SColor.HUD_Green);
+                    a.AddItem(mostra);
                     mostra.Activated += (menu, item) =>
                     {
                         if (persone.Count == 0)
@@ -132,12 +132,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                     };
                 };
             };
-            UIMenu riacquista = menuVenditore.AddSubMenu("Acquista veicolo usato");
 
+            UIMenuItem riacquistaItem = new UIMenuItem("Acquista veicolo usato");
+            UIMenu riacquista = new("Acquista veicolo usato", "");
+            menuVenditore.AddItem(riacquistaItem);
+            riacquistaItem.Activated += async (a, b) => await menuVenditore.SwitchTo(riacquista, 0, true);
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade < 2)
             {
-                riacquista.ParentItem.Enabled = false;
-                riacquista.ParentItem.Description = "Solo i capi possono acquistare i veicoli usati!";
+                riacquistaItem.Enabled = false;
+                riacquistaItem.Description = "Solo i capi possono acquistare i veicoli usati!";
             }
 
             menuVenditore.Visible = true;
@@ -147,7 +150,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 
         private static async void MostraAMe()
         {
-            HUD.MenuPool.CloseAllMenus();
+            MenuHandler.CloseAndClearHistory();
             LoadInterior(146433);
             SetInteriorActive(146433, true);
             RequestCollisionAtCoord(230.2893f, -996.1444f, -96.08697f);
@@ -156,23 +159,38 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
             cam.Position = new Vector3(230.2893f, -996.1444f, -98.08697f);
             cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
             UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(catalogo);
             Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
             string SelectedVeh = "";
 
             foreach (KeyValuePair<string, List<VeicoloCatalogoVenditore>> p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
             {
-                UIMenu sezione = catalogo.AddSubMenu(p.Key);
+                UIMenuItem sezioneItem = new UIMenuItem(p.Key);
+                UIMenu sezione = new(p.Key, "");
+                sezioneItem.Activated += async (a, b) => await catalogo.SwitchTo(sezione, 0, true);
+                catalogo.AddItem(sezioneItem);
                 sezione.InstructionalButtons.Add(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
                 List<VeicoloCatalogoVenditore> vehs = new();
 
                 foreach (VeicoloCatalogoVenditore i in p.Value.OrderBy(x => x.price))
                 {
-                    UIMenu vah = sezione.AddSubMenu(Game.GetGXTEntry(i.name), i.description);
-                    vah.ParentItem.SetRightLabel("~g~$" + i.price);
+                    UIMenuItem vahItem = new UIMenuItem(Game.GetGXTEntry(i.name), i.description);
+                    vahItem.SetRightLabel("~g~$" + i.price);
+                    UIMenu vah = new(Game.GetGXTEntry(i.name), "");
+                    vahItem.Activated += async (a, b) => await sezione.SwitchTo(vah, 0, true);
+                    sezione.AddItem(vahItem);
                     vehs.Add(i);
-                    UIMenu colore1 = vah.AddSubMenu("Colore primario");
-                    UIMenu colore2 = vah.AddSubMenu("Colore secondario");
+
+                    UIMenuItem colore1Item = new("Colore primario");
+                    UIMenuItem colore2Item = new("Colore secondario");
+
+                    UIMenu colore1 = new("Colore primario", "");
+                    UIMenu colore2 = new("Colore secondario", "");
+
+                    vah.AddItem(colore1Item);
+                    vah.AddItem(colore2Item);
+
+                    colore1Item.Activated += async (a, b) => await vah.SwitchTo(colore1, 0, true);
+                    colore2Item.Activated += async (a, b) => await vah.SwitchTo(colore2, 0, true);
 
                     for (int l = 0; l < Enum.GetValues(typeof(VehicleColor)).Length; l++)
                     {
@@ -181,12 +199,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                         colore2.AddItem(colo);
                     }
 
-                    colore1.OnIndexChange += async (menu, index) => PreviewVeh.Mods.PrimaryColor = (VehicleColor)index;
-                    colore2.OnIndexChange += async (menu, index) => PreviewVeh.Mods.SecondaryColor = (VehicleColor)index;
-                    UIMenu prendi = vah.AddSubMenu("Prendi");
-                    prendi.OnMenuStateChanged += async (_oldsubmenu, _newsubmenu, _substate) =>
+                    colore1.OnIndexChange += (menu, index) => PreviewVeh.Mods.PrimaryColor = (VehicleColor)index;
+                    colore2.OnIndexChange += (menu, index) => PreviewVeh.Mods.SecondaryColor = (VehicleColor)index;
+
+                    UIMenuItem prendiItem = new("Prendi");
+                    UIMenu prendi = new("Prendi", "");
+                    vah.AddItem(prendiItem);
+                    prendiItem.Activated += async (a, b) => vah.SwitchTo(prendi, 0, true);
+                    prendi.OnMenuOpen += async (_newsubmenu, b) =>
                     {
-                        if (_newsubmenu != prendi) return;
                         _newsubmenu.Clear();
 
                         if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Proprietà.Any(x => Client.Impostazioni.RolePlay.Proprieta.Garages.Garages.ContainsKey(x) || Client.Impostazioni.RolePlay.Proprieta.Appartamenti.ContainsKey(x)))
@@ -207,8 +228,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                                             VehProp prop = await PreviewVeh.GetVehicleProperties();
                                             OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.insurance, prop, false), new VehGarage(true, pro.Key, Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
                                             BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes));
-                                            HUD.MenuPool.CloseAllMenus();
-                                            HUD.ShowNotification($"Hai comprato il veicolo: ~y~{veicolo.DatiVeicolo.props.Name}~w~ al prezzo di ~g~${prendi.ParentMenu.ParentItem.RightLabel}~w~.");
+                                            MenuHandler.CloseAndClearHistory();
+                                            HUD.ShowNotification($"Hai comprato il veicolo: ~y~{veicolo.DatiVeicolo.props.Name}~w~ al prezzo di ~g~${prendiItem.RightLabel}~w~.");
                                             Screen.Fading.FadeOut(800);
                                             await BaseScript.Delay(1000);
                                             World.RenderingCamera = null;
@@ -237,42 +258,32 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                     PreviewVeh.IsRightIndicatorLightOn = true;
                 };
                 sezione.OnItemSelect += async (menu, item, index) => SelectedVeh = vehs[index].name;
-                HUD.MenuPool.OnMenuStateChanged += async delegate (UIMenu oldmenu, UIMenu newmenu, MenuState state)
+
+                sezione.OnMenuOpen += (a, b) => Client.Instance.AddTick(RuotaVeh);
+                sezione.OnMenuClose += async (a) =>
                 {
-                    switch (state)
+                    await BaseScript.Delay(100);
+
+                    if (catalogo.Visible)
                     {
-                        case MenuState.Opened when newmenu == sezione:
-                            Client.Instance.AddTick(RuotaVeh);
-
-                            break;
-                        case MenuState.Closed when oldmenu == sezione:
-                            {
-                                await BaseScript.Delay(100);
-
-                                if (catalogo.Visible)
-                                {
-                                    Client.Instance.RemoveTick(RuotaVeh);
-                                    PreviewVeh.Delete();
-                                    cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
-                                }
-
-                                break;
-                            }
+                        Client.Instance.RemoveTick(RuotaVeh);
+                        PreviewVeh.Delete();
+                        cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
                     }
                 };
             }
 
-            catalogo.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+            catalogo.OnMenuClose += async (a) =>
             {
-                if (state != MenuState.Closed || oldmenu != catalogo) return;
                 await BaseScript.Delay(100);
 
-                if (HUD.MenuPool.IsAnyMenuOpen) return;
+                if (MenuHandler.IsAnyMenuOpen) return;
                 Screen.Fading.FadeOut(800);
                 await BaseScript.Delay(1000);
                 World.RenderingCamera = null;
                 cam.Delete();
                 Screen.Fading.FadeIn(800);
+
             };
             Screen.Fading.FadeIn(800);
             catalogo.Visible = true;
@@ -280,7 +291,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 
         private static async void CatalogoAlcuni(bool venditore, List<int> players)
         {
-            HUD.MenuPool.CloseAllMenus();
+            MenuHandler.CloseAndClearHistory();
             LoadInterior(146433);
             SetInteriorActive(146433, true);
             RequestCollisionAtCoord(230.2893f, -996.1444f, -96.08697f);
@@ -292,25 +303,34 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
             if (venditore)
             {
                 UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-                HUD.MenuPool.Add(catalogo);
                 Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
 
                 foreach (KeyValuePair<string, List<VeicoloCatalogoVenditore>> p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
                 {
-                    UIMenu sezione = catalogo.AddSubMenu(p.Key);
+
+                    UIMenuItem sezioneItem = new UIMenuItem(p.Key);
+                    UIMenu sezione = new(p.Key, "");
+                    sezioneItem.Activated += async (a, b) => await catalogo.SwitchTo(sezione, 0, true);
+                    catalogo.AddItem(sezioneItem);
                     sezione.InstructionalButtons.Add(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
                     List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
 
                     foreach (VeicoloCatalogoVenditore i in p.Value.OrderBy(x => x.price))
                     {
-                        UIMenu vah = sezione.AddSubMenu(Game.GetGXTEntry(i.name), i.description);
-                        vah.ParentItem.SetRightLabel("~g~$" + i.price);
+                        UIMenuItem vahItem = new UIMenuItem(Game.GetGXTEntry(i.name), i.description);
+                        vahItem.SetRightLabel("~g~$" + i.price);
+                        UIMenu vah = new(Game.GetGXTEntry(i.name), "");
+                        vahItem.Activated += async (a, b) => await sezione.SwitchTo(vah, 0, true);
+                        sezione.AddItem(vahItem);
                         vehs.Add(i);
 
                         foreach (int pl in players)
                         {
                             Player user = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == pl);
-                            UIMenu player = vah.AddSubMenu(user.GetPlayerData().FullName);
+                            UIMenuItem playerItem = new(user.GetPlayerData().FullName);
+                            UIMenu player = new(user.GetPlayerData().FullName, "");
+                            vah.AddItem(playerItem);
+                            playerItem.Activated += async (a, b) => vah.SwitchTo(player, 0, true);
 
                             if (user.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.RolePlay.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.RolePlay.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
                             {
@@ -334,28 +354,26 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                             }
                             else
                             {
-                                player.ParentItem.Enabled = false;
-                                player.ParentItem.Description = "Questa persona non ha proprietà con garage!";
+                                playerItem.Enabled = false;
+                                playerItem.Description = "Questa persona non ha proprietà con garage!";
                             }
                         }
                     }
 
                     sezione.OnIndexChange += (menu, index) => BaseScript.TriggerServerEvent("lprp:cardealer:cambiaVehCatalogo", players, vehs[index].name);
-                    sezione.OnMenuStateChanged += (oldmenu, newmenu, state) =>
+                    sezione.OnMenuClose += (a) =>
                     {
-                        if (state != MenuState.ChangeBackward || oldmenu != sezione) return;
                         Client.Instance.RemoveTick(RuotaVeh);
                         PreviewVeh.Delete();
                         cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
                     };
                 }
 
-                catalogo.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+                catalogo.OnMenuClose += async (a) =>
                 {
-                    if (state != MenuState.Closed || oldmenu != catalogo) return;
                     await BaseScript.Delay(100);
 
-                    if (HUD.MenuPool.IsAnyMenuOpen) return;
+                    if (MenuHandler.IsAnyMenuOpen) return;
                     Screen.Fading.FadeOut(800);
                     await BaseScript.Delay(1000);
                     World.RenderingCamera = null;

@@ -1,13 +1,8 @@
-﻿using ScaleformUI.PauseMenu;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TheLastPlanet.Client.Core.Ingresso;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 
 namespace TheLastPlanet.Client.RolePlay.MenuPausa
@@ -136,13 +131,11 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             User pl = Cache.PlayerCache.MyPlayer.User;
 
             TabView MainMenu = new("The Last Galaxy", "Pianeta RP") { SideStringTop = Cache.PlayerCache.MyPlayer.Player.Name, SideStringMiddle = DateTime.Now.ToString(), SideStringBottom = "Portafoglio: $" + pl.Money + " Soldi Sporchi: $" + pl.DirtyCash, DisplayHeader = true };
-            var mugshot = await Funzioni.GetPedMugshotAsync(playerPed);
+            Tuple<int, string> mugshot = await Funzioni.GetPedMugshotAsync(playerPed);
             MainMenu.HeaderPicture = new(mugshot.Item2, mugshot.Item2);
             MainMenu.CrewPicture = new("thelastgalaxy", "serverlogo");
 
-            HUD.MenuPool.Add(MainMenu);
-
-            TextTab intro = new("INTRODUZIONE", "Benvenuto su The Last Galaxy");
+            TextTab intro = new("INTRODUZIONE", "Benvenuto su The Last Galaxy", SColor.HUD_Freemode);
             BasicTabItem a1 = new("~BLIP_INFO_ICON~ Questa pagina ti accompagnerà nella gestione delle tue ~y~impostazioni personali~w~ e come ~y~enciclopedia~w~ nel server.");
             BasicTabItem a2 = new("~BLIP_INFO_ICON~ Qui potrai trovare i comandi che il nostro server utilizza per farti giocare.");
             BasicTabItem a3 = new("~BLIP_INFO_ICON~ Potrai in ogni mento riaprire questo menu di pausa premendo i tasti ~INPUT_SPRINT~ + ~INPUT_DROP_WEAPON~ oppure con il comando /help.");
@@ -150,10 +143,10 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             intro.AddItem(a2);
             intro.AddItem(a3);
 
-            SubmenuTab online = new("ROLEPLAY");
+            SubmenuTab online = new("ROLEPLAY", SColor.HUD_Freemode);
             TabLeftItem disc = new("Torna alla Lobby", LeftItemType.Info)
             {
-                TextTitle = "ATTENZIONE"
+                Label = "ATTENZIONE"
             };
             BasicTabItem _discinfo = new("⚠ Stai per tornare al pianeta Lobby, tutti i progressi non salvati verranno perduti!");
             disc.AddItem(_discinfo);
@@ -168,7 +161,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             };
 
 
-            SubmenuTab impostazioni = new("IMPOSTAZIONI");
+            SubmenuTab impostazioni = new("IMPOSTAZIONI", SColor.HUD_Freemode);
             TabLeftItem hud = new("HUD", LeftItemType.Settings);
             TabLeftItem Telecamere = new("Telecamere", LeftItemType.Settings);
             impostazioni.AddLeftItem(hud);
@@ -179,9 +172,9 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             #region cinema
 
             SettingsCheckboxItem aa = new("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema);
-            SettingsProgressItem ab = new("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox, false);
+            SettingsProgressItem ab = new("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox, false, SColor.HUD_Freemode);
             SettingsListItem ac = new("Filtro cinema", filtri, filtri.IndexOf(Main.ImpostazioniClient.Filtro));
-            SettingsProgressItem ad = new("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FiltroStrenght * 100), false);
+            SettingsProgressItem ad = new("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FiltroStrenght * 100), false, SColor.HUD_Freemode);
             aa.OnCheckboxChange += (item, attiva) => Main.ImpostazioniClient.ModCinema = attiva;
             ab.OnBarChanged += (item, index) => Main.ImpostazioniClient.LetterBox = index;
             ad.OnBarChanged += (item, index) =>
@@ -261,27 +254,27 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             #endregion
 
             #region comandi
-            SubmenuTab comandi = new("COMANDI");
+            SubmenuTab comandi = new("COMANDI", SColor.HUD_Freemode);
 
             TabLeftItem generici = new("Generici (sempre validi)", LeftItemType.Keymap);
-            generici.TextTitle = GetLabelText("MAPPING_HDR");
+            generici.Label = GetLabelText("MAPPING_HDR");
             generici.KeymapRightLabel_1 = "TASTIERA";
             generici.KeymapRightLabel_2 = "GAMEPAD";
 
-            KeymapItem g1 = new("Menu Personale", "~INPUT_INTERACTION_MENU~", "","", "~INPUT_INTERACTION_MENU~");
+            KeymapItem g1 = new("Menu Personale", "~INPUT_INTERACTION_MENU~", "", "", "~INPUT_INTERACTION_MENU~");
             KeymapItem g2 = new("Lista Giocatori e Portafoglio", "~INPUT_MULTIPLAYER_INFO~", "", "", "~INPUT_MULTIPLAYER_INFO~");
             generici.AddItem(g1);
             generici.AddItem(g2);
 
             TabLeftItem piedi = new("A piedi", LeftItemType.Keymap);
-            piedi.TextTitle = GetLabelText("MAPPING_HDR");
+            piedi.Label = GetLabelText("MAPPING_HDR");
             piedi.KeymapRightLabel_1 = "TASTIERA";
             piedi.KeymapRightLabel_2 = "GAMEPAD";
             KeymapItem p1 = new("Azione", "~INPUT_CONTEXT~", "", "", "~INPUT_CONTEXT~");
             piedi.AddItem(p1);
 
             TabLeftItem veicolo = new("Su veicolo", LeftItemType.Keymap);
-            veicolo.TextTitle = GetLabelText("MAPPING_HDR");
+            veicolo.Label = GetLabelText("MAPPING_HDR");
             veicolo.KeymapRightLabel_1 = "TASTIERA";
             veicolo.KeymapRightLabel_2 = "GAMEPAD";
             KeymapItem v1 = new("Accendi veicolo", "~INPUT_DROP_AMMO~", "", "", "~INPUT_FRONTEND_LB~ + ~INPUT_FRONTEND_ACCEPT~");
@@ -290,7 +283,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             veicolo.AddItem(v2);
 
             TabLeftItem Lavoro = new("Lavoro", LeftItemType.Keymap);
-            Lavoro.TextTitle = GetLabelText("MAPPING_HDR");
+            Lavoro.Label = GetLabelText("MAPPING_HDR");
             Lavoro.KeymapRightLabel_1 = "TASTIERA";
             Lavoro.KeymapRightLabel_2 = "GAMEPAD";
             KeymapItem l1 = new("Menu lavorativo (solo alcuni lavori)", "~INPUT_SELECT_CHARACTER_FRANKLIN~", "", "", "Menu personale");

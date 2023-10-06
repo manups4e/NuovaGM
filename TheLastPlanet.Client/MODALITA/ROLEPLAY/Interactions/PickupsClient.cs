@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                             letSleep = false;
 
                             if (dist < 1.5)
-                                if (Cache.PlayerCache.MyPlayer.Ped.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen)
+                                if (Cache.PlayerCache.MyPlayer.Ped.IsOnFoot && !MenuHandler.IsAnyMenuOpen)
                                 {
                                     HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per raccogliere");
 

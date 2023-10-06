@@ -8,11 +8,11 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
     {
         public static Dictionary<ModalitaServer, int> Bucket_n_Players { get; set; }
 
-        private static BucketMarker RP_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1266.863f, -3013.068f, -49.0f), new Vector3(10f, 10f, 1f), Colors.RoyalBlue), "", "mp_mission_name_freemode_199");
-        private static BucketMarker Mini_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1280.206f, -3021.234f, -49.0f), new Vector3(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");
-        private static BucketMarker Gare_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1267.147f, -3032.353f, -49.0f), new Vector3(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
-        private static BucketMarker Nego_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1251.566f, -3032.304f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
-        private static BucketMarker Roam_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1250.61f, -3007.73f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Indigo), "", "mp_mission_name_freemode_1999999");
+        private static BucketMarker RP_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1266.863f, -3013.068f, -49.0f), new Vector3(10f, 10f, 1f), SColor.RoyalBlue), "", "mp_mission_name_freemode_199");
+        private static BucketMarker Mini_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1280.206f, -3021.234f, -49.0f), new Vector3(10f, 10f, 1f), SColor.ForestGreen), "", "mp_mission_name_freemode_1999");
+        private static BucketMarker Gare_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1267.147f, -3032.353f, -49.0f), new Vector3(10f, 10f, 1f), SColor.MediumPurple), "", "mp_mission_name_freemode_19999");
+        private static BucketMarker Nego_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1251.566f, -3032.304f, -49.0f), new Vector3(10f, 10f, 1f), SColor.Orange), "", "mp_mission_name_freemode_199999");
+        private static BucketMarker Roam_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1250.61f, -3007.73f, -49.0f), new Vector3(10f, 10f, 1f), SColor.Indigo), "", "mp_mission_name_freemode_1999999");
 
         private static ParticleEffectsAssetNetworked DespawnParticle = new("scr_powerplay");
         public static void Init()
@@ -208,7 +208,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
         {
             Screen.Fading.FadeOut(500);
             await BaseScript.Delay(600);
-            ScaleformUI.ScaleformUI.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", "Attendi...");
+            ScaleformUI.Main.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", "Attendi...");
             await BaseScript.Delay(100);
             Screen.Fading.FadeIn(0);
             await BaseScript.Delay(3000);
@@ -216,10 +216,10 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
             if (dentro)
             {
-                ScaleformUI.ScaleformUI.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
+                ScaleformUI.Main.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
                 ServerJoining.ReturnToLobby();
                 await BaseScript.Delay(3000);
-                ScaleformUI.ScaleformUI.Warning.Dispose();
+                ScaleformUI.Main.Warning.Dispose();
 
                 return;
             }
@@ -231,14 +231,14 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 ConfigShared.SharedConfig = sharedSettings.FromJson<SharedConfig>();
             }
             Client.Impostazioni.LoadConfig(modalita, settings);
-            ScaleformUI.ScaleformUI.Warning.UpdateWarning(nome, "Caricamento completato!");
+            ScaleformUI.Main.Warning.UpdateWarning(nome, "Caricamento completato!");
             Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = modalita;
             Cache.PlayerCache.ModalitàAttuale = modalita;
             Cache.PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = false;
             await BaseScript.Delay(2000);
             Screen.Fading.FadeOut(0);
             await BaseScript.Delay(100);
-            ScaleformUI.ScaleformUI.Warning.Dispose();
+            ScaleformUI.Main.Warning.Dispose();
         }
 
         private static void PassiveMode(int userId, string type, bool active)

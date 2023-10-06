@@ -1,24 +1,23 @@
 using System.Collections.Generic;
-using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    
+
     public class FreeRoamSettings
     {
     }
 
-    
+
     public class WeaponTintSettings
     {
-        public int Index;
-        public string Name;
-        public int Kills;
-        public int Cash;
+        public int Index { get; set; }
+        public string Name { get; set; }
+        public int Kills { get; set; }
+        public int Cash { get; set; }
     }
 
 
-    
+
     public class CratesSettings
     {
         public int Cash;
@@ -28,21 +27,21 @@ namespace TheLastPlanet.Shared
         public List<CratesWeapon> Weapons = new List<CratesWeapon>();
         public List<CrateLocations> Locations = new List<CrateLocations>();
     }
-    
+
     public class CratesWeapon
     {
         public string Id;
         public string Name;
         public int Ammo;
     }
-    
+
     public class CrateLocations
     {
         public float[] Blip = new float[3];
         public List<float[]> Positions = new List<float[]>();
     }
 
-    
+
     public class HeadHunterSettings
     {
         public int Time;
@@ -52,34 +51,34 @@ namespace TheLastPlanet.Shared
         public int WantedLevel;
         public AssetRecoveryRewards Rewards = new AssetRecoveryRewards();
     }
-    
+
     public class HeadHunterTarget
     {
         public string PedModel;
         public float[] Location = new float[3];
     }
 
-    
+
     public class AssetRecoveryMissionSettings
     {
         public int Time;
         public List<AssetRecoveryVariant> Variants = new List<AssetRecoveryVariant>();
         public float DropRadius;
     }
-    
+
     public class AssetRecoveryVariant
     {
         public string Vehicle;
         public float[] VehicleLocation = new float[4];
         public float[] DropOffLocation = new float[3];
     }
-    
+
     public class AssetRecoveryRewards
     {
         public AssetRecoveryReward Cash = new AssetRecoveryReward();
         public AssetRecoveryReward Exp = new AssetRecoveryReward();
     }
-    
+
     public class AssetRecoveryReward
     {
         public int Min;
@@ -87,20 +86,20 @@ namespace TheLastPlanet.Shared
     }
 
 
-    
+
     public class MostWantedSettings
     {
         public int Time;
         public MostWantedRewards Rewards = new MostWantedRewards();
     }
-    
+
     public class MostWantedRewards
     {
         public int MaxCash;
         public int MaxExp;
     }
 
-    
+
     public class VelocityMissionSettings
     {
         public int EnterVehicleTime;
@@ -112,14 +111,14 @@ namespace TheLastPlanet.Shared
         public VelocityMissionRewards Rewards = new VelocityMissionRewards();
     }
 
-    
+
     public class VelocityMissionRewards
     {
         public VelocityMissionReward Cash = new VelocityMissionReward();
         public VelocityMissionReward Exp = new VelocityMissionReward();
     }
 
-    
+
     public class VelocityMissionReward
     {
         public int Min;
@@ -127,7 +126,7 @@ namespace TheLastPlanet.Shared
         public int PerAboutToDetonate;
     }
 
-    
+
     public class HeistMissionSettings
     {
         public int Time;
@@ -136,19 +135,19 @@ namespace TheLastPlanet.Shared
         public HeistTake Take = new HeistTake();
     }
 
-    
+
     public class HeistTake
     {
         public int Inverval;
         public HeistRate Rate = new HeistRate();
     }
-    
+
     public class HeistRate
     {
         public HeistCash Cash = new HeistCash();
         public float Exp;
     }
-    
+
     public class HeistCash
     {
         public int Min;
@@ -156,7 +155,7 @@ namespace TheLastPlanet.Shared
         public int Limit;
     }
 
-    
+
     public class SpecialCargoMissionSettings
     {
         public string MissionName;
@@ -171,7 +170,7 @@ namespace TheLastPlanet.Shared
         public List<float[]> WareHouses = new List<float[]>();
     }
 
-    
+
     public class CargoMissionLocation
     {
         public float[] Pos = new float[3];
@@ -179,7 +178,7 @@ namespace TheLastPlanet.Shared
         public bool Wanted;
     }
 
-    
+
     public class MissionCrate
     {
         public string Name;
@@ -187,7 +186,7 @@ namespace TheLastPlanet.Shared
         public EventReward Reward = new EventReward();
     }
 
-    
+
     public class MissionsSettings
     {
         public int ResetTimeInterval;
@@ -196,21 +195,21 @@ namespace TheLastPlanet.Shared
         public EventReward FactionRewards = new EventReward();
     }
 
-    
+
     public class AmmunationSpecialAmmoSettings
     {
         public int Ammo;
         public int Price;
         public string Type;
     }
-    
+
     public class AmmunationRefillingWeaponsSettings
     {
         public List<string> Weapons = new List<string>();
         public int Ammo;
         public int Price;
     }
-    
+
     public class HuntTheBeastSettings
     {
         public int Duration;
@@ -220,14 +219,14 @@ namespace TheLastPlanet.Shared
         public float Radius;
         public BeastRewardsSettings Rewards = new BeastRewardsSettings();
     }
-    
+
     public class BeastRewardsSettings
     {
         public EventReward BeastLandmark = new EventReward();
         public EventReward Killer = new EventReward();
     }
 
-    
+
     public class HotPropertySettings
     {
         public int Duration;
@@ -235,7 +234,7 @@ namespace TheLastPlanet.Shared
         public EventRewards Rewards = new EventRewards();
     }
 
-    
+
     public class KingOfTheCastleSettings
     {
         public int Duration;
@@ -244,14 +243,14 @@ namespace TheLastPlanet.Shared
         public EventRewards Rewards = new EventRewards();
     }
 
-    
+
     public class SharpShooterSettings
     {
         public int Duration;
         public EventRewards Rewards = new EventRewards();
     }
 
-    
+
     public class StockPilingSettings
     {
         public int Duration;
@@ -260,38 +259,38 @@ namespace TheLastPlanet.Shared
         public EventRewards Rewards = new EventRewards();
     }
 
-    
+
     public class GunSettings
     {
         public int Duration;
         public List<string> Categories = new List<string>();
         public EventRewards Rewards = new EventRewards();
     }
-    
+
     public class EventRewards
     {
         public List<EventReward> Top = new List<EventReward>();
         public EventReward Point = new EventReward();
     }
-    
+
     public class EventReward
     {
         public int Cash;
         public int Exp;
     }
-    
+
     public class EventSettings
     {
         public int Interval;
         public int MinPlayers;
     }
-    
+
     public class MarkerSettings
     {
         public float Radius;
         public int Opacity;
     }
-    
+
     public class GTA2Cam
     {
         public float Min;
@@ -301,7 +300,7 @@ namespace TheLastPlanet.Shared
         public int Key = 212; // home // INPUT_FRONTEND_SOCIAL_CLUB
     }
 
-    
+
     public class SettingsSpawn
     {
         public List<float[]> SpawnPoints = new List<float[]>();
@@ -312,7 +311,7 @@ namespace TheLastPlanet.Shared
         public SpawnRadius Radius = new SpawnRadius();
     }
 
-    
+
     public class SpawnRadius
     {
         public float Min;

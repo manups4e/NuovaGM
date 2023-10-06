@@ -1,12 +1,7 @@
 ﻿using Impostazioni.Client.Configurazione.Negozi.Barbieri;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
@@ -357,7 +352,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             List<dynamic> capcombo = Tipo.capelli.beach.Select(b => b.Name).Cast<dynamic>().ToList();
             List<dynamic> capmulet = Tipo.capelli.mulet.Select(b => b.Name).Cast<dynamic>().ToList();
             MenuPrincipale = new UIMenu("", title, pos, Main.Textures[NomeNegozio].Key, Main.Textures[NomeNegozio].Value);
-            HUD.MenuPool.Add(MenuPrincipale);
             MenuPrincipale.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
             UIMenuListItem Capelli = new UIMenuListItem("Capelli", new List<dynamic>() { 0 }, 0);
 
@@ -519,8 +513,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         item.Description = "Stile ~b~Attuale~w~!";
                     else
                         item.Description = obj[index].Description + " - Prezzo: ~g~$" + obj[index].price;
-                    colorecap1 = (capCol1 as UIMenuColorPanel).CurrentSelection;
-                    colorecap2 = (capCol2 as UIMenuColorPanel).CurrentSelection;
+                    colorecap1 = capCol1.CurrentSelection;
+                    colorecap2 = capCol2.CurrentSelection;
                     capvar = obj[index].var;
                     SetPedComponentVariation(PlayerPedId(), 2, obj[index].var, 0, 2);
                     SetPedHairColor(PlayerPedId(), colorecap1, colorecap2);
@@ -917,9 +911,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
             #endregion
 
-            MenuPrincipale.OnMenuStateChanged += async (a, b, c) =>
+            MenuPrincipale.OnMenuClose += (a) =>
             {
-                if (c != MenuState.Closed || a != MenuPrincipale) return;
                 ClearPedTasks(PlayerPedId());
                 Funzioni.UpdateFace(PlayerPedId(), skin);
                 RenderScriptCams(false, true, 1000, true, false);

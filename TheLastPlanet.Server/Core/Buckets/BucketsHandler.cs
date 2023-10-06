@@ -1,9 +1,7 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Core.Buckets;
 
 
@@ -31,7 +29,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             EventDispatcher.Mount("tlg:checkSeGiaDentro", new Func<PlayerClient, ModalitaServer, Task<bool>>(CheckIn));
             EventDispatcher.Mount("tlg:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
             EventDispatcher.Mount("tlg:richiediContoBuckets", new Func<PlayerClient, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
-            Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.inactive, PopulationEnabled = false });
+            Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
             Negozio = new(ModalitaServer.Negozio, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
             RolePlay = new(ModalitaServer.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
             FreeRoam = new(ModalitaServer.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
@@ -75,7 +73,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             UpdateBucketsCount();
             player.Status.Clear();
         }
-            
+
         private static void RemovePlayerFromBucket([FromSource] PlayerClient player, ModalitaServer id, string reason)
         {
             switch (id)

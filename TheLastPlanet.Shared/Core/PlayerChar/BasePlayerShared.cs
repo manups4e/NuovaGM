@@ -18,7 +18,7 @@ namespace TheLastPlanet.Shared.PlayerChar
     {
         public int ID { get; set; }
 
-        [Ignore]
+        
         [JsonIgnore]
         private ulong UserID
         {
@@ -31,7 +31,7 @@ namespace TheLastPlanet.Shared.PlayerChar
         public UserGroup group_level { get; set; }
         public long playTime { get; set; }
 
-        [Ignore] [JsonIgnore] internal Player Player;
+         [JsonIgnore] internal Player Player;
         public Identifiers Identifiers { get; set; }
 
         public List<Char_data> Characters { get; set; } = new();
@@ -53,7 +53,7 @@ namespace TheLastPlanet.Shared.PlayerChar
         public List<PlayerScore> PlayerScores { get; set; } = new();
 
 
-        [Ignore]
+        
         [JsonIgnore]
         internal string char_data
         {

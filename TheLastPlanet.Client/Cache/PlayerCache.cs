@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Cache
 
             if (!_inPausa)
             {
-                if (Game.IsPaused || HUD.MenuPool.IsAnyPauseMenuOpen)
+                if (Game.IsPaused || MenuHandler.IsAnyPauseMenuOpen)
                 {
                     _inPausa = true;
                     MyPlayer.Status.PlayerStates.InPausa = true;
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.Cache
             }
             else
             {
-                if (!Game.IsPaused & !HUD.MenuPool.IsAnyPauseMenuOpen)
+                if (!Game.IsPaused & !MenuHandler.IsAnyPauseMenuOpen)
                 {
                     _inPausa = false;
                     MyPlayer.Status.PlayerStates.InPausa = false;

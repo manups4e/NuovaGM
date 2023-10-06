@@ -1,7 +1,6 @@
 ﻿using Impostazioni.Client.Configurazione.Negozi.Generici;
 using System.Collections.Generic;
 using System.Linq;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 {
@@ -54,7 +53,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
             }
 
             UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
-            HUD.MenuPool.Add(Negozio);
 
             foreach (OggettoVendita ogg in oggettiDaAggiungere)
             {

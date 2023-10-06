@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                     // da rimuovere
                     World.DrawMarker(MarkerType.ChevronUpx1, bonepos, new Vector3(0), new Vector3(0), new Vector3(0.5f, 0.5f, 1f), Colors.Cyan, false, false, true);
 
-                    if (!trunkOpen && !Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && !HUD.MenuPool.IsAnyMenuOpen)
+                    if (!trunkOpen && !Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && !MenuHandler.IsAnyMenuOpen)
                     {
                         HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il bagagliaio");
 

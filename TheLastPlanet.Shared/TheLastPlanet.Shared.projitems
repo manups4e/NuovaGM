@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Chat\Buckets\Bucket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Chat\ChatShared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AccessingEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Encryption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ClientList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\GameLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ModalitàServer.cs" />

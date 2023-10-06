@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
@@ -362,7 +360,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
         public static async Task MostramiStatus()
         {
-            if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
+            if (!MenuHandler.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
                 if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
                 {
                     if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.Ped.IsWalking || Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && !Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))

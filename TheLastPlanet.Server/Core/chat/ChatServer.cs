@@ -1,11 +1,8 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
-using TheLastPlanet.Shared;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -25,8 +22,8 @@ namespace TheLastPlanet.Server.Core
         {
             try
             {
-                var p = Funzioni.GetClientFromPlayerId(id);
-                var currentMode = p.Status.PlayerStates.Modalita;
+                PlayerClient p = Funzioni.GetClientFromPlayerId(id);
+                ModalitaServer currentMode = p.Status.PlayerStates.Modalita;
                 if ((int)p.User.group_level < 0) return;
 
                 if (message.StartsWith("/"))
@@ -63,7 +60,7 @@ namespace TheLastPlanet.Server.Core
                             BucketsHandler.RolePlay.Bucket.TriggerClientEvent("lprp:triggerProximityDisplay", p.Handle, p.User.FullName + ":", message);
                             break;
                         case ModalitaServer.Lobby:
-                            foreach (var player in BucketsHandler.Lobby.Bucket.Players)
+                            foreach (PlayerClient player in BucketsHandler.Lobby.Bucket.Players)
                             {
                                 p.Player.TriggerEvent("chat:addMessage", new
                                 {
@@ -74,7 +71,7 @@ namespace TheLastPlanet.Server.Core
                             }
                             break;
                         case ModalitaServer.FreeRoam:
-                            foreach (var player in BucketsHandler.FreeRoam.Bucket.Players)
+                            foreach (PlayerClient player in BucketsHandler.FreeRoam.Bucket.Players)
                             {
                                 p.Player.TriggerEvent("chat:addMessage", new
                                 {

@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
@@ -67,18 +65,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen)
+            if (BinClosest != null && !MenuHandler.IsAnyMenuOpen)
             {
                 HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
 
-                if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
+                if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen)
                 {
                     List<Inventory> inv = Cache.PlayerCache.MyPlayer.User.Inventory;
 
                     if (inv.Count > 0)
                     {
                         UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-                        HUD.MenuPool.Add(GettaMenu);
 
                         foreach (Inventory it in inv)
                             if (it.Amount > 0)
@@ -102,7 +99,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                         HUD.ShowNotification("Non hai oggetti nell'inventario!!", ColoreNotifica.Red, true);
                     }
                 }
-                else if (Input.IsControlJustPressed(Control.Detonate) && !HUD.MenuPool.IsAnyMenuOpen)
+                else if (Input.IsControlJustPressed(Control.Detonate) && !MenuHandler.IsAnyMenuOpen)
                 {
                     Vector3 offset = GetOffsetFromEntityInWorldCoords(BinClosest.Handle, 0f, -0.97f, 0.05f);
                     p.Task.LookAt(BinClosest);

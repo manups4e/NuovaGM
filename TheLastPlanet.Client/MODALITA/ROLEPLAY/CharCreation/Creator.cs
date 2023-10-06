@@ -1,13 +1,10 @@
-﻿using CitizenFX.Core.Native;
+﻿using FxEvents.Shared.Snowflakes;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
-using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 {
@@ -517,28 +514,44 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                 Screen.Fading.FadeIn(800);
                 Point offset = new Point(50, 50);
-                HUD.MenuPool.MouseEdgeEnabled = false;
                 Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset, "thelastgalaxy", "bannerbackground", false, true);
                 Creazione.ControlDisablingEnabled = true;
-                HUD.MenuPool.Add(Creazione);
                 UIMenuListItem Sesso;
                 Sesso = _selezionato == "Maschio" ? new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 0, "Decidi il Sesso") : new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 1, "Decidi il Sesso");
                 Creazione.AddItem(Sesso);
-                Info = HUD.MenuPool.AddSubMenu(Creazione, "Info Personaggio", "Nome.. Cognome..");
+                UIMenuItem InfoItem = new UIMenuItem("Info Personaggio", "Nome.. Cognome..");
+                Info = new("Info Personaggio", "Nome.. Cognome..");
                 Info.ControlDisablingEnabled = true;
-                Genitori = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
+                UIMenuItem GenitoriItem = new UIMenuItem(GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
+                Genitori = new(GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
                 Genitori.ControlDisablingEnabled = true;
-                Dettagli = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
+                UIMenuItem DettagliItem = new UIMenuItem(GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
+                Dettagli = new(GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
                 Dettagli.ControlDisablingEnabled = true;
-                Apparenze = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_APP"), GetLabelText("FACE_MM_H6"));
+                UIMenuItem ApparenzeItem = new UIMenuItem(GetLabelText("FACE_APP"), GetLabelText("FACE_MM_H6"));
+                Apparenze = new(GetLabelText("FACE_APP"), GetLabelText("FACE_MM_H6"));
                 Apparenze.ControlDisablingEnabled = true;
-                Apparel = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_APPA"), GetLabelText("FACE_APPA_H"));
+                UIMenuItem ApparelItem = new UIMenuItem(GetLabelText("FACE_APPA"), GetLabelText("FACE_APPA_H"));
+                Apparel = new(GetLabelText("FACE_APPA"), GetLabelText("FACE_APPA_H"));
                 Apparel.ControlDisablingEnabled = true;
+
+                InfoItem.BindItemToMenu(Info);
+                GenitoriItem.BindItemToMenu(Genitori);
+                DettagliItem.BindItemToMenu(Dettagli);
+                ApparenzeItem.BindItemToMenu(Apparenze);
+                ApparelItem.BindItemToMenu(Apparel);
+
+                Creazione.AddItem(InfoItem);
+                Creazione.AddItem(GenitoriItem);
+                Creazione.AddItem(DettagliItem);
+                Creazione.AddItem(ApparenzeItem);
+                Creazione.AddItem(ApparelItem);
+
                 InstructionalButton button1 = new InstructionalButton(Control.LookLeftRight, "Guarda a Destra/Sinistra");
                 InstructionalButton button2 = new InstructionalButton(Control.FrontendLb, "Guarda a Sinistra");
                 InstructionalButton button3 = new InstructionalButton(Control.FrontendRb, "Guarda a Destra");
                 InstructionalButton button4 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Cambia dettagli");
-                InstructionalButton button5 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Gestisci Panelli", ScaleformUI.PadCheck.Keyboard);
+                InstructionalButton button5 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Gestisci Panelli", ScaleformUI.Scaleforms.PadCheck.Keyboard);
                 Creazione.InstructionalButtons.Add(button3);
                 Creazione.InstructionalButtons.Add(button2);
                 Genitori.InstructionalButtons.Add(button3);
@@ -691,12 +704,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                 Sesso.OnListChanged += async (item, _newIndex) =>
                 {
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                     Screen.Effects.Start(ScreenEffect.MpCelebWin);
                     await BaseScript.Delay(1000);
                     Screen.Fading.FadeOut(1000);
                     await BaseScript.Delay(1000);
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                     Creazione.Clear();
                     Screen.Effects.Stop(ScreenEffect.MpCelebWin);
 
@@ -887,7 +900,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 };
                 Apparenze.OnPercentagePanelChange += (a, b, c) =>
                 {
-                    var perc = c / 100;
+                    float perc = c / 100;
                     if (a == sopracciglia)
                     {
                         if (b == a.Panels[2])
@@ -1430,141 +1443,129 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                 #region ControlloAperturaChiusura
 
-                HUD.MenuPool.OnMenuStateChanged += async (_oldMenu, _newMenu, state) =>
+                Info.OnMenuOpen += (a, b) => AnimateGameplayCamZoom(true, _ncam);
+                Genitori.OnMenuOpen += (a, b) => AnimateGameplayCamZoom(true, _ncam);
+                Dettagli.OnMenuOpen += (a, b) => AnimateGameplayCamZoom(true, _ncam);
+                Apparenze.OnMenuOpen += (a, b) =>
                 {
-                    switch (state)
+                    AnimateGameplayCamZoom(true, _ncam);
+                    Apparenze.Clear();
+
+                    if (_selezionato == "Maschio")
                     {
-                        case MenuState.ChangeForward:
-                            {
-                                if (_newMenu == Info || _newMenu == Genitori || _newMenu == Dettagli || _newMenu == Apparenze) AnimateGameplayCamZoom(true, _ncam);
-
-                                if (_newMenu == Apparenze)
-                                {
-                                    Apparenze.Clear();
-
-                                    if (_selezionato == "Maschio")
-                                    {
-                                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                                        Apparenze.AddItem(Capelli);
-                                        Apparenze.AddItem(sopracciglia);
-                                        Apparenze.AddItem(Barba);
-                                        Apparenze.AddItem(SkinBlemishes);
-                                        Apparenze.AddItem(SkinAgeing);
-                                        Apparenze.AddItem(SkinComplexion);
-                                        Apparenze.AddItem(SkinMoles);
-                                        Apparenze.AddItem(SkinDamage);
-                                        Apparenze.AddItem(EyeColor);
-                                        Apparenze.AddItem(EyeMakup);
-                                        Apparenze.AddItem(LipStick);
-                                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
-                                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
-                                        Capelli.AddPanel(CapelCol1);
-                                        Capelli.AddPanel(CapelCol2);
-                                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
-                                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
-                                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
-                                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-                                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
-                                        BarbaCol1.CurrentSelection = _data.Skin.facialHair.beard.color[0];
-                                        BarbaCol2.CurrentSelection = _data.Skin.facialHair.beard.color[1];
-                                        BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity * 100;
-                                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
-                                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
-                                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
-                                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
-                                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
-                                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
-                                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
-                                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-                                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
-                                    }
-                                    else
-                                    {
-                                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                                        Apparenze.AddItem(Capelli);
-                                        Apparenze.AddItem(sopracciglia);
-                                        Apparenze.AddItem(SkinBlemishes);
-                                        Apparenze.AddItem(SkinAgeing);
-                                        Apparenze.AddItem(SkinComplexion);
-                                        Apparenze.AddItem(SkinMoles);
-                                        Apparenze.AddItem(SkinDamage);
-                                        Apparenze.AddItem(EyeColor);
-                                        Apparenze.AddItem(EyeMakup);
-                                        Apparenze.AddItem(Blusher);
-                                        Apparenze.AddItem(LipStick);
-                                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
-                                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
-                                        Capelli.AddPanel(CapelCol1);
-                                        Capelli.AddPanel(CapelCol2);
-                                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
-                                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
-                                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
-                                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-                                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
-                                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
-                                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
-                                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
-                                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
-                                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
-                                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
-                                        BlushCol1.CurrentSelection = _data.Skin.blusher.color[0];
-                                        BlushCol2.CurrentSelection = _data.Skin.blusher.color[1];
-                                        BlushOp.Percentage = _data.Skin.blusher.opacity * 100;
-                                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
-                                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-                                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
-                                    }
-                                }
-                                else if (_newMenu == Apparel)
-                                {
-                                    TaskCreaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
-
-                                    if (_selezionato == "Maschio")
-                                    {
-                                        for (int i = 0; i < CompletiMaschio.Count; i++)
-                                        {
-                                            UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
-                                            Apparel.AddItem(abito);
-                                        }
-
-                                        UpdateDress(PlayerPedId(), CompletiMaschio[0]);
-                                    }
-                                    else
-                                    {
-                                        for (int i = 0; i < CompletiFemmina.Count; i++)
-                                        {
-                                            UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
-                                            Apparel.AddItem(abito);
-                                        }
-
-                                        UpdateDress(PlayerPedId(), CompletiFemmina[0]);
-                                    }
-                                }
-
-                                break;
-                            }
-                        case MenuState.ChangeBackward when _oldMenu == Info || _oldMenu == Genitori || _oldMenu == Dettagli || _oldMenu == Apparenze:
-                            AnimateGameplayCamZoom(false, _ncam);
-
-                            break;
-                        case MenuState.ChangeBackward:
-                            {
-                                if (_oldMenu == Apparel)
-                                {
-                                    Apparel.Clear();
-                                    TaskClothesALoop(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
-                                }
-
-                                break;
-                            }
+                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                        Apparenze.AddItem(Capelli);
+                        Apparenze.AddItem(sopracciglia);
+                        Apparenze.AddItem(Barba);
+                        Apparenze.AddItem(SkinBlemishes);
+                        Apparenze.AddItem(SkinAgeing);
+                        Apparenze.AddItem(SkinComplexion);
+                        Apparenze.AddItem(SkinMoles);
+                        Apparenze.AddItem(SkinDamage);
+                        Apparenze.AddItem(EyeColor);
+                        Apparenze.AddItem(EyeMakup);
+                        Apparenze.AddItem(LipStick);
+                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
+                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
+                        Capelli.AddPanel(CapelCol1);
+                        Capelli.AddPanel(CapelCol2);
+                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
+                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
+                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
+                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
+                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
+                        BarbaCol1.CurrentSelection = _data.Skin.facialHair.beard.color[0];
+                        BarbaCol2.CurrentSelection = _data.Skin.facialHair.beard.color[1];
+                        BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity * 100;
+                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
+                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
+                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
+                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
+                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
+                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
+                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
+                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
+                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
+                    }
+                    else
+                    {
+                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                        Apparenze.AddItem(Capelli);
+                        Apparenze.AddItem(sopracciglia);
+                        Apparenze.AddItem(SkinBlemishes);
+                        Apparenze.AddItem(SkinAgeing);
+                        Apparenze.AddItem(SkinComplexion);
+                        Apparenze.AddItem(SkinMoles);
+                        Apparenze.AddItem(SkinDamage);
+                        Apparenze.AddItem(EyeColor);
+                        Apparenze.AddItem(EyeMakup);
+                        Apparenze.AddItem(Blusher);
+                        Apparenze.AddItem(LipStick);
+                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
+                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
+                        Capelli.AddPanel(CapelCol1);
+                        Capelli.AddPanel(CapelCol2);
+                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
+                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
+                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
+                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
+                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
+                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
+                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
+                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
+                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
+                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
+                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
+                        BlushCol1.CurrentSelection = _data.Skin.blusher.color[0];
+                        BlushCol2.CurrentSelection = _data.Skin.blusher.color[1];
+                        BlushOp.Percentage = _data.Skin.blusher.opacity * 100;
+                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
+                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
+                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
                     }
                 };
+                Apparel.OnMenuOpen += (a, b) =>
+                {
+                    TaskCreaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
+
+                    if (_selezionato == "Maschio")
+                    {
+                        for (int i = 0; i < CompletiMaschio.Count; i++)
+                        {
+                            UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
+                            Apparel.AddItem(abito);
+                        }
+
+                        UpdateDress(PlayerPedId(), CompletiMaschio[0]);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < CompletiFemmina.Count; i++)
+                        {
+                            UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
+                            Apparel.AddItem(abito);
+                        }
+
+                        UpdateDress(PlayerPedId(), CompletiFemmina[0]);
+                    }
+                };
+
+                Info.OnMenuClose += (a) => AnimateGameplayCamZoom(false, _ncam);
+                Genitori.OnMenuClose += (a) => AnimateGameplayCamZoom(false, _ncam);
+                Dettagli.OnMenuClose += (a) => AnimateGameplayCamZoom(false, _ncam);
+                Apparenze.OnMenuClose += (a) => AnimateGameplayCamZoom(false, _ncam);
+                Apparel.OnMenuClose += (a) =>
+                {
+                    Apparel.Clear();
+                    TaskClothesALoop(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
+                };
+
 
                 #endregion
 
                 #region CREA_BUTTON_FINISH
 
-                UIMenuItem Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", HudColor.HUD_COLOUR_FREEMODE_DARK, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuItem Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", SColor.HUD_Freemode_dark, SColor.HUD_Freemode);
                 Salva.SetRightBadge(BadgeIcon.TICK);
                 Creazione.AddItem(Salva);
                 Salva.Activated += async (_selectedItem, _index) =>
@@ -1575,7 +1576,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         if (_dummyPed.Exists())
                             _dummyPed.Delete();
                     Creazione.Visible = false;
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                     BD1.Detach();
                     BD1.Delete();
                     Cache.PlayerCache.MyPlayer.Ped.Detach();
@@ -2230,13 +2231,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
             if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
             {
-                HUD.MenuPool.CloseAllMenus();
-                ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
+                MenuHandler.CloseAndClearHistory();
+                ScaleformUI.Main.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
                 {
                     new InstructionalButton(Control.FrontendCancel, "No"),
                     new InstructionalButton(Control.FrontendAccept, "Si"),
                 });
-                ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
+                ScaleformUI.Main.Warning.OnButtonPressed += async (a) =>
                 {
                     if (a.GamepadButton == Control.FrontendCancel)
                     {

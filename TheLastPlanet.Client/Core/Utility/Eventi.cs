@@ -120,7 +120,7 @@ namespace TheLastPlanet.Client.Core.Utility
         public static async void announce(string msg)
         {
             Game.PlaySound("DELETE", "HUD_DEATHMATCH_SOUNDSET");
-            ScaleformUI.ScaleformUI.BigMessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
+            ScaleformUI.Main.BigMessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
         }
 
         public static async void Revive()

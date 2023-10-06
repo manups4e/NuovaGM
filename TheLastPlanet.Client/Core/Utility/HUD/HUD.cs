@@ -68,11 +68,9 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
     public static class HUD
     {
         public static TimerBarPool TimerBarPool = new();
-        public static MenuPool MenuPool = new();
 
         public static void Init()
         {
-            MenuPool.RefreshIndex();
             ProximityChat.Init();
             Client.Instance.AddTick(Menus);
         }
@@ -80,7 +78,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         public static async Task Menus()
         {
             if (Game.IsPaused) return;
-            //MenuPool.ProcessMenus();
+            //MenuHandler.ProcessMenus();
             if (TimerBarPool.ToList().Count > 0) TimerBarPool.Draw();
             await Task.FromResult(0);
         }
@@ -121,7 +119,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         /// <param name="helpText">Testo da mostrare</param>
         public static void ShowHelp(string helpText)
         {
-            if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen && !LogIn.GuiEnabled)
+            if (!IsPlayerSwitchInProgress() && !MenuHandler.IsAnyMenuOpen && !LogIn.GuiEnabled)
             {
                 AddTextEntry("LastGalaxyHelpText", helpText);
                 DisplayHelpTextThisFrame("LastGalaxyHelpText", false);
@@ -139,7 +137,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
         public static void ShowHelpLabel(string label)
         {
-            if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen && !LogIn.GuiEnabled)
+            if (!IsPlayerSwitchInProgress() && !MenuHandler.IsAnyMenuOpen && !LogIn.GuiEnabled)
             {
                 DisplayHelpTextThisFrame(label, false);
             }
@@ -163,7 +161,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         {
             if (tempo > 5000) tempo = 5000;
 
-            if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen)
+            if (!IsPlayerSwitchInProgress() && !MenuHandler.IsAnyMenuOpen)
             {
                 AddTextEntry("LastGalaxyHelpText", helpText);
                 BeginTextCommandDisplayHelp("LastGalaxyHelpText");

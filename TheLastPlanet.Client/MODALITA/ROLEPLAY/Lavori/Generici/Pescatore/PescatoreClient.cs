@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Lavoro;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
@@ -78,7 +75,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
                 AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
                 TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -91,7 +88,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
                 AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
                 TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -104,7 +101,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
                 AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
                 TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -122,7 +119,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
                 AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
                 TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -135,7 +132,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
                 AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
                 TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -148,7 +145,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
                 AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
                 TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -192,7 +189,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 
                         if (!p.IsInRangeOf(punto, 2)) continue;
                         HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per vendere il pesce che possiedi");
-                        if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) ApriMenuVenditaPesce();
+                        if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) ApriMenuVenditaPesce();
                     }
                 }
                 else
@@ -224,7 +221,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             if (oggi.DayOfWeek == DayOfWeek.Monday || oggi.DayOfWeek == DayOfWeek.Wednesday || oggi.DayOfWeek == DayOfWeek.Friday)
             {
                 UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-                HUD.MenuPool.Add(venditaPesce);
                 List<Inventory> inventario = Cache.PlayerCache.MyPlayer.User.CurrentChar.Inventory;
 
                 foreach (Inventory inv in inventario)
@@ -417,7 +413,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
         private async void MenuBarche()
         {
             UIMenu Barche = new UIMenu("Pescatore", "Scegli la barca", new System.Drawing.PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(Barche);
             foreach (UIMenuItem boat in PuntiPesca.Barche.Select(barca => new UIMenuItem(GetLabelText(barca), "~y~Se sei in compagnia dei tuoi amici~w~ potete usare una barca sola insieme e risparmiare nell'affitto!"))) Barche.AddItem(boat);
             Vehicle veh = new Vehicle(0);
             Barche.OnIndexChange += async (menu, index) =>
@@ -427,7 +422,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             };
             Barche.OnItemSelect += async (menu, item, index) =>
             {
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 if (veh.Exists()) veh.Delete();
                 Vehicle newveh = await Funzioni.SpawnVehicleNoPlayerInside(PuntiPesca.Barche[index], new Vector3(PuntiPesca.SpawnBarca[0], PuntiPesca.SpawnBarca[1], PuntiPesca.SpawnBarca[2]), PuntiPesca.SpawnBarca[3]);
                 VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, Cache.PlayerCache.MyPlayer.User.FullName);

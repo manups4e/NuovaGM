@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 
 
@@ -72,7 +70,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
             if (Cache.PlayerCache.MyPlayer.Ped.IsInRangeOf(Cacciatore.inizioCaccia, 1.375f))
             {
                 HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu di caccia");
-                if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) ApriMenuAffittoArmi();
+                if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) ApriMenuAffittoArmi();
             }
 
             await Task.FromResult(0);
@@ -229,7 +227,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
         private static async void ApriMenuAffittoArmi()
         {
             UIMenu affittoArmi = new UIMenu("Menu dei cacciatori", "Per i veri amanti di un nobile sport", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(affittoArmi);
 
             if (!StaCacciando)
             {
@@ -297,7 +294,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
                             Client.Instance.AddTick(ControlloBordi);
                             Client.Instance.AddTick(ControlloUccisi);
                             SetBlipDisplay(AreadiCaccia.Handle, 4);
-                            HUD.MenuPool.CloseAllMenus();
+                            MenuHandler.CloseAndClearHistory();
                             await BaseScript.Delay(10000);
                             HUD.ShowHelp("Hai iniziato a cacciare, non allontanarti dalla zona segnata in mappa o perderai le armi affittate e pagherai una multa!!", 5000);
                             await BaseScript.Delay(10000);
@@ -325,7 +322,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
                     foreach (string s in animalGroups) Cache.PlayerCache.MyPlayer.Ped.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
                     animaliUccisi.Clear();
                     Cache.PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                 };
             }
 

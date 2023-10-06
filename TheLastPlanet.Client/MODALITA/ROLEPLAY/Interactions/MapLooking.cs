@@ -18,13 +18,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
         public static async Task Mappina()
         {
             var InPausa = PlayerCache.MyPlayer.Status.PlayerStates.InPausa;
-            if ((InPausa || HUD.MenuPool.IsAnyPauseMenuOpen) && !wasmenuopen)
+            if ((InPausa || MenuHandler.IsAnyPauseMenuOpen) && !wasmenuopen)
             {
                 PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
                 TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_TOURIST_MAP", 0, false);
                 wasmenuopen = true;
             }
-            else if (!(InPausa || HUD.MenuPool.IsAnyPauseMenuOpen) && wasmenuopen)
+            else if (!(InPausa || MenuHandler.IsAnyPauseMenuOpen) && wasmenuopen)
             {
                 PlayerCache.MyPlayer.Ped.Task.ClearAll();
                 PlayerCache.MyPlayer.Ped.Task.ClearSecondary();

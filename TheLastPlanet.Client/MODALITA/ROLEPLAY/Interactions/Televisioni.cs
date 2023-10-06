@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -200,7 +199,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 new InstructionalButton((Control)219, GetLabelText("HUD_INPUT77")),
                 new InstructionalButton((Control)236, GetLabelText("HUD_INPUT87")),
             };
-            ScaleformUI.ScaleformUI.InstructionalButtons.SetInstructionalButtons(buttons);
+            ScaleformUI.Main.InstructionalButtons.SetInstructionalButtons(buttons);
             Game.DisableControlThisFrame(0, Control.MoveLeftOnly);
             Game.DisableControlThisFrame(0, Control.MoveRightOnly);
             Game.DisableControlThisFrame(0, Control.MoveUpOnly);

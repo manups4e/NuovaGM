@@ -1,8 +1,6 @@
-﻿using FxEvents.Shared.Attributes;
-
-namespace TheLastPlanet.Shared
+﻿namespace TheLastPlanet.Shared
 {
-    
+
     public class LogInInfo
     {
         public string ID { get; set; }
@@ -11,9 +9,11 @@ namespace TheLastPlanet.Shared
         public string dateOfBirth { get; set; }
         public int Money { get; set; }
         public int Bank { get; set; }
+        public float Test = 54.3214f;
+
     }
 
-    
+
     public class SkinAndDress
     {
         public Skin Skin { get; set; }

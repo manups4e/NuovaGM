@@ -1,13 +1,9 @@
 ﻿using System;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
     internal static class MenuAffittoVeicoli
     {
-        private static MenuPool pool = HUD.MenuPool;
         public static VeicoloAffitto veicoloInAffitto = null;
         public static Impostazioni.Client.Configurazione.Veicoli.VeicoliAffitto veicoliAff = Client.Impostazioni.RolePlay.Veicoli.veicoliAff;
         public static bool affittato = false;
@@ -17,17 +13,43 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             Vehicle[] vehs = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 5f);
             foreach (Vehicle v in vehs) v.Delete();
             UIMenu MenuAffitto = new UIMenu("LastPlanet Garages", "~b~Affittasi veicoli di tutte le marche!!", new System.Drawing.Point(0, 0), Main.Textures["ModGarage"].Key, Main.Textures["ModGarage"].Value);
-            pool.Add(MenuAffitto);
             UIMenuItem rest = new UIMenuItem("Restituisci Veicolo", "E' inutile pagarlo se non ti serve più... ridaccelo!");
-            UIMenu affittaVeh = pool.AddSubMenu(MenuAffitto, "Affitta Veicolo", "Si lo abbiamo!");
+            UIMenuItem affittaVehItem = new("Affitta Veicolo", "Si lo abbiamo!");
+            UIMenu affittaVeh = new("Affitta Veicolo", "Si lo abbiamo!");
+            affittaVehItem.BindItemToMenu(affittaVeh);
+            MenuAffitto.AddItem(affittaVehItem);
             MenuAffitto.AddItem(rest);
-            UIMenu Bikes = pool.AddSubMenu(affittaVeh, "Biciclette", "Per tenersi in forma.. funziona davvero!");
-            UIMenu GenericCars = pool.AddSubMenu(affittaVeh, "Car Sharing Generico", "Auto generiche per il cittadino di tutti i giorni.");
-            UIMenu MediumCars = pool.AddSubMenu(affittaVeh, "Car Sharing Medio", "Auto di media portata per il cittadino che vuole di più.");
-            UIMenu SuperCars = pool.AddSubMenu(affittaVeh, "Car Sharing Super", "Super Auto per il cittadino che vuole tutto.");
-            UIMenu GenericMoto = pool.AddSubMenu(affittaVeh, "Bike Sharing Generico", "Moto generiche per il cittadino di tutti i giorni");
-            UIMenu MediumMoto = pool.AddSubMenu(affittaVeh, "Bike Sharing Medio", "Moto di media portata per il cittadino che vuole di più");
-            UIMenu SuperMoto = pool.AddSubMenu(affittaVeh, "Bike Sharing Super", "Super Moto per il cittadino che vuole tutto");
+            UIMenuItem BikesItem = new("Biciclette", "Per tenersi in forma.. funziona davvero!");
+            UIMenu Bikes = new("Biciclette", "Per tenersi in forma.. funziona davvero!");
+            UIMenuItem GenericCarsItem = new("Car Sharing Generico", "Auto generiche per il cittadino di tutti i giorni.");
+            UIMenu GenericCars = new("Car Sharing Generico", "Auto generiche per il cittadino di tutti i giorni.");
+            UIMenuItem MediumCarsItem = new("Car Sharing Medio", "Auto di media portata per il cittadino che vuole di più.");
+            UIMenu MediumCars = new("Car Sharing Medio", "Auto di media portata per il cittadino che vuole di più.");
+            UIMenuItem SuperCarsItem = new("Car Sharing Super", "Super Auto per il cittadino che vuole tutto.");
+            UIMenu SuperCars = new("Car Sharing Super", "Super Auto per il cittadino che vuole tutto.");
+            UIMenuItem GenericMotoItem = new("Bike Sharing Generico", "Moto generiche per il cittadino di tutti i giorni");
+            UIMenu GenericMoto = new("Bike Sharing Generico", "Moto generiche per il cittadino di tutti i giorni");
+            UIMenuItem MediumMotoItem = new("Bike Sharing Medio", "Moto di media portata per il cittadino che vuole di più");
+            UIMenu MediumMoto = new("Bike Sharing Medio", "Moto di media portata per il cittadino che vuole di più");
+            UIMenuItem SuperMotoItem = new("Bike Sharing Super", "Super Moto per il cittadino che vuole tutto");
+            UIMenu SuperMoto = new("Bike Sharing Super", "Super Moto per il cittadino che vuole tutto");
+
+            BikesItem.BindItemToMenu(Bikes);
+            GenericCarsItem.BindItemToMenu(GenericCars);
+            MediumCarsItem.BindItemToMenu(MediumCars);
+            SuperCarsItem.BindItemToMenu(SuperCars);
+            GenericMotoItem.BindItemToMenu(GenericMoto);
+            MediumMotoItem.BindItemToMenu(MediumMoto);
+            SuperMotoItem.BindItemToMenu(SuperMoto);
+
+            affittaVeh.AddItem(BikesItem);
+            affittaVeh.AddItem(GenericCarsItem);
+            affittaVeh.AddItem(MediumCarsItem);
+            affittaVeh.AddItem(SuperCarsItem);
+            affittaVeh.AddItem(GenericMotoItem);
+            affittaVeh.AddItem(MediumMotoItem);
+            affittaVeh.AddItem(SuperMotoItem);
+
 
             for (int i = 0; i < veicoliAff.biciclette.Count; i++)
             {
@@ -442,27 +464,26 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             {
                 VeicoliClient.SpawnVehiclePreview(veicoliAff.motoSuper[_newIndex].model, new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), VeicoliClient.carGaragePrev[num].W);
             };
-            pool.OnMenuStateChanged += async (a, b, c) =>
+
+            affittaVeh.OnMenuOpen += async (a, b) =>
             {
-                if (c == MenuState.ChangeForward && b == affittaVeh)
+                await BaseScript.Delay(100);
+                Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
+                foreach (Vehicle v in ves) v.Delete();
+                VeicoliClient.setupGarageCamera(true, num);
+            };
+            MenuAffitto.OnMenuClose += async (a) =>
+            {
+                await BaseScript.Delay(100);
+
+                if (!Bikes.Visible && !GenericCars.Visible && !MediumCars.Visible && !SuperCars.Visible && !GenericMoto.Visible && !MediumMoto.Visible && !SuperMoto.Visible)
                 {
-                    await BaseScript.Delay(100);
+                    if (!affittaVeh.Visible) VeicoliClient.setupGarageCamera(false, 0);
                     Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
                     foreach (Vehicle v in ves) v.Delete();
-                    VeicoliClient.setupGarageCamera(true, num);
-                }
-                else if (c == MenuState.Closed && b == MenuAffitto)
-                {
-                    await BaseScript.Delay(100);
-
-                    if (!Bikes.Visible && !GenericCars.Visible && !MediumCars.Visible && !SuperCars.Visible && !GenericMoto.Visible && !MediumMoto.Visible && !SuperMoto.Visible)
-                    {
-                        if (!affittaVeh.Visible) VeicoliClient.setupGarageCamera(false, 0);
-                        Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
-                        foreach (Vehicle v in ves) v.Delete();
-                    }
                 }
             };
+
             MenuAffitto.OnItemSelect += async (_menu, _item, _index) =>
             {
                 if (_item == rest)

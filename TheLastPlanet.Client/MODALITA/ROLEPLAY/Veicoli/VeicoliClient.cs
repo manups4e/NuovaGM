@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -94,7 +90,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
             for (int i = 0; i < carGarageSpots.Count; i++)
             {
-                inputs.Add(new InputController(Control.Context, carGarageSpots[i].ToPosition(), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", new((MarkerType)(-1), carGarageSpots[i].ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
+                inputs.Add(new InputController(Control.Context, carGarageSpots[i].ToPosition(), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", new((MarkerType)(-1), carGarageSpots[i].ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
                 {
                     MenuAffittoVeicoli.MenuAffitto((int)a[0]);
                 }), i));
@@ -497,7 +493,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                 spawn = carGarageSpawn[num];
             }
 
-            HUD.MenuPool.CloseAllMenus();
+            MenuHandler.CloseAndClearHistory();
             Vehicle veicolo = await Funzioni.SpawnVehicleNoPlayerInside(model, new Vector3(spawn.X, spawn.Y, spawn.Z), spawn.W);
             veicolo.DirtLevel = 0f;
             veicolo.MarkAsNoLongerNeeded();
@@ -597,14 +593,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 		public static async Task MostraMenuAffitto()
 		{
 			Ped playerPed = Cache.PlayerPed;
-			if (!HUD.MenuPool.IsAnyMenuOpen)
+			if (!MenuHandler.IsAnyMenuOpen)
 			{
 				for (int i = 0; i < carGarageSpots.Count; i++)
 				{
 					if (playerPed.IsInRangeOf(carGarageSpots[i], 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per affittare un veicolo");
-						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
+						if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen)
 						{
 							MenuAffittoVeicoli.MenuAffitto(i);
 						}

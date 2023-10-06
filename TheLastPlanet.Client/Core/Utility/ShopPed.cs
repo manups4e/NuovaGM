@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using TheLastPlanet.Client.IPLs.dlc_doomsday;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -240,9 +238,9 @@ namespace TheLastPlanet.Client.Core.Utility
                 ptr = new IntPtr(&data).ToInt64();
                 CitizenFX.Core.Native.Function.Call(CitizenFX.Core.Native.Hash.INIT_SHOP_PED_COMPONENT, ptr);
             }
-            
+
             int max = CitizenFX.Core.Native.Function.Call<int>(CitizenFX.Core.Native.Hash._GET_NUM_PROPS_FROM_OUTFIT, characterType, 0, -1, 0/*0=component/1=props*/, -1, componentType);
-            
+
             if (componentId > max)
                 return new PedComponentData();
 
@@ -262,9 +260,9 @@ namespace TheLastPlanet.Client.Core.Utility
                 ptr = new IntPtr(&data).ToInt64();
                 CitizenFX.Core.Native.Function.Call(CitizenFX.Core.Native.Hash.INIT_SHOP_PED_COMPONENT, ptr);
             }
-            
+
             int max = CitizenFX.Core.Native.Function.Call<int>(CitizenFX.Core.Native.Hash._GET_NUM_PROPS_FROM_OUTFIT, characterType, 0, locate, 0/*0=component/1=props*/, -1/*propreleated?*/, componentType);
-            
+
             if (max == 0)
                 return null;
             PedComponentData[] items = new PedComponentData[max];
@@ -320,7 +318,7 @@ namespace TheLastPlanet.Client.Core.Utility
             //return _GetShopPedQueryComponents(componentType, characterType, locate);
             List<PedComponentData> comps = new();
             dynamic obj = Client.Instance.GetExports["tlp"].GetShopPedQueryComponents(componentType, characterType, locate);
-            foreach (var o in obj) comps.Add(new(o));
+            foreach (dynamic o in obj) comps.Add(new(o));
             return comps.ToArray();
         }
         public static int QueryGetComponentIndex(uint nameHash, int characterType, int componentType)
@@ -417,7 +415,7 @@ namespace TheLastPlanet.Client.Core.Utility
             //return _GetShopPedQueryProps(characterType);
             List<PedComponentData> comps = new();
             dynamic obj = Client.Instance.GetExports["tlp"].GetShopPedQueryProps(characterType);
-            foreach (var o in obj) comps.Add(new(o));
+            foreach (dynamic o in obj) comps.Add(new(o));
             return comps.ToArray();
         }
         public static int QueryGetPropIndex(uint nameHash, int characterType)
@@ -470,9 +468,14 @@ namespace TheLastPlanet.Client.Core.Utility
         public static PedOutfitData[] GetShopPedQueryOutfits(int characterType)
         {
             //return _GetShopPedQueryOutfits(characterType);
-            string json = Client.Instance.GetExports["tlp"].GetShopPedQueryOutfit(characterType);
-            PedOutfitData[] data = json.FromJson<PedOutfitData[]>();
-            return data;
+            List<object> obj = Client.Instance.GetExports["tlp"].GetShopPedQueryOutfits(characterType);
+            PedOutfitData[] result = new PedOutfitData[obj.Count];
+            for (int i = 0; i < obj.Count; i++)
+            {
+                dynamic o = obj[i];
+                result[i] = new PedOutfitData((int)o.LockHash, (int)o.Hash, (int)o.Price, (int)o.TotalProps, (int)o.TotalComponents, (int)o.Unk2, (int)o.Unk3, (string)o.Label);
+            }
+            return result;
         }
 
         // -------

@@ -72,7 +72,7 @@ namespace TheLastPlanet.Client.Races.Creator
             PlayerCache.MyPlayer.Ped.DiesInstantlyInWater = false;
             PlayerCache.MyPlayer.Ped.Position = new Vector3(0, 0, 1000);
             Screen.Hud.IsRadarVisible = false;
-            placeMarker ??= new MarkerEx(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new Vector3(6.7f), 100f, Colors.GreyDark);
+            placeMarker ??= new MarkerEx(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new Vector3(6.7f), 100f, SColor.HUD_Greydark);
 
             if (cross == null)
             {
@@ -94,15 +94,21 @@ namespace TheLastPlanet.Client.Races.Creator
             Screen.Fading.FadeIn(10);
         }
 
+        static UIMenu propPlacing;
         public static async void CreatorMainMenu()
         {
             Creator = new("Creatore Gare", "Lo strumento dei creativi", new PointF(0, 0), "thelastgalaxy", "bannerbackground", false, true);
             Creator.MouseControlsEnabled = false;
             Creator.MouseWheelControlEnabled = false;
-            HUD.MenuPool.Add(Creator);
-            UIMenu Dettagli = Creator.AddSubMenu("Dettagli");
-            UIMenu Posizionamento = Creator.AddSubMenu("Posizionamento");
+            UIMenuItem DettagliItem = new("Dettagli");
+            UIMenu Dettagli = new("Dettagli", "");
+            UIMenuItem PosizionamentoItem = new("Posizionamento");
+            UIMenu Posizionamento = new("Posizionamento", "");
 
+            DettagliItem.Activated += async (a, b) => await Creator.SwitchTo(Dettagli, 0, true);
+            PosizionamentoItem.Activated += async (a, b) => await Creator.SwitchTo(Posizionamento, 0, true);
+            Creator.AddItem(DettagliItem);
+            Creator.AddItem(PosizionamentoItem);
             #region Dettagli
 
             UIMenuItem titolo = new("Titolo");
@@ -121,8 +127,10 @@ namespace TheLastPlanet.Client.Races.Creator
             Dettagli.AddItem(tipoDiGiri);
             Dettagli.AddItem(numeroLaps);
             Dettagli.AddItem(numPlayers);
-            UIMenu veicoliDisponibili = Dettagli.AddSubMenu("Veicoli Disponibili", "Attenzione, se si sceglie la griglia piccola saranno disponibili solo le MOTO"); // aggiungere le classi dei veicoli e premendo espandi scegliamo i singoli veicoli
-            veicoliDisponibili.ParentItem.SetRightBadge(BadgeIcon.CAR);
+            UIMenuItem veicoliDisponibiliItem = new UIMenuItem("Veicoli Disponibili", "Attenzione, se si sceglie la griglia piccola saranno disponibili solo le MOTO"); // aggiungere le classi dei veicoli e premendo espandi scegliamo i singoli veicoli
+            UIMenu veicoliDisponibili = new("Veicoli Disponibili", "");
+            veicoliDisponibiliItem.SetRightBadge(BadgeIcon.CAR);
+            veicoliDisponibiliItem.Activated += async (a, b) => await Dettagli.SwitchTo(veicoliDisponibili, 0, true);
             #region veicoliDisponibili
             UIMenuCheckboxItem Compacts = new UIMenuCheckboxItem("Compacts", UIMenuCheckboxStyle.Tick, false, "");
             veicoliDisponibili.AddItem(Compacts);
@@ -331,7 +339,6 @@ namespace TheLastPlanet.Client.Races.Creator
                         Enum.TryParse((string)veicoloDefault.Items.First(), out poppo);
                         data.ClasseDefault = pippo;
                         data.VeicoloDefault = poppo;
-                        Dettagli.RefreshIndex();
                     }
                 }
                 catch (Exception e)
@@ -345,14 +352,29 @@ namespace TheLastPlanet.Client.Races.Creator
 
             #region Posizionamento
 
-            UIMenu checkpointsEGriglia = Posizionamento.AddSubMenu("Checkpoints");
-            UIMenu propPlacing = Posizionamento.AddSubMenu("Posizionamento tracciato");
+            UIMenuItem checkpointsEGrigliaItem = new("Checkpoints");
+            UIMenu checkpointsEGriglia = new("Checkpoints", "");
+            UIMenuItem propPlacingItem = new("Posizionamento tracciato");
+            propPlacing = new("Posizionamento tracciato", "");
 
+            checkpointsEGrigliaItem.Activated += async (a, b) => await Posizionamento.SwitchTo(checkpointsEGriglia, 0, true);
+            propPlacingItem.Activated += async (a, b) => await Posizionamento.SwitchTo(propPlacing, 0, true);
+
+            Posizionamento.AddItem(checkpointsEGrigliaItem);
+            Posizionamento.AddItem(propPlacingItem);
 
             #region CHECKPOINTS E GRIGLIA
+            UIMenuItem grigliaDiPartenzaItem = new("Griglia di partenza");
+            UIMenuItem checkPointsItem = new("Posiziona Checkpoint");
 
-            UIMenu grigliaDiPartenza = checkpointsEGriglia.AddSubMenu("Griglia di partenza");
-            UIMenu checkPoints = checkpointsEGriglia.AddSubMenu("Posiziona Checkpoint");
+            UIMenu grigliaDiPartenza = new("Griglia di partenza", "");
+            UIMenu checkPoints = new("Posiziona Checkpoint", "");
+
+            grigliaDiPartenzaItem.Activated += async (a, b) => await checkpointsEGriglia.SwitchTo(checkpointsEGriglia, 0, true);
+            checkPointsItem.Activated += async (a, b) => await checkpointsEGriglia.SwitchTo(propPlacing, 0, true);
+
+            checkpointsEGriglia.AddItem(grigliaDiPartenzaItem);
+            checkpointsEGriglia.AddItem(checkPointsItem);
 
             #region GRIGLIA DI PARTENZA
 
@@ -491,12 +513,29 @@ namespace TheLastPlanet.Client.Races.Creator
             };
 
 
-            UIMenu opzioniAvanzate = propPlacing.AddSubMenu("Opzioni Avanzate");
+            UIMenuItem opzioniAvanzateItem = new UIMenuItem("Opzioni Avanzate");
+            UIMenu opzioniAvanzate = new("Opzioni Avanzate", "");
+            opzioniAvanzateItem.Activated += async (a, b) => await propPlacing.SwitchTo(opzioniAvanzate, 0, true);
+            propPlacing.AddItem(opzioniAvanzateItem);
             #region opzioniAvanzate
 
-            UIMenu overridePos = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~posizionare~w~ i componenti nelle esatte posizioni");
-            UIMenu overrideRot = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~ruotare~w~ i componenti nelle esatte posizioni");
-            UIMenu snapOptions = opzioniAvanzate.AddSubMenu(Game.GetGXTEntry("FMMC_PRP_SNPO"));
+            UIMenuItem overridePosItem = new("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~posizionare~w~ i componenti nelle esatte posizioni");
+            UIMenu overridePos = new("Override Posizione", "");
+            UIMenuItem overrideRotItem = new("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~ruotare~w~ i componenti nelle esatte posizioni");
+            UIMenu overrideRot = new("Override Posizione", "");
+            UIMenuItem snapOptionsItem = new(Game.GetGXTEntry("FMMC_PRP_SNPO"));
+            UIMenu snapOptions = new(Game.GetGXTEntry("FMMC_PRP_SNPO"), "");
+
+            overridePosItem.Activated += async (a, b) => await opzioniAvanzate.SwitchTo(overridePos, 0, true);
+            overrideRotItem.Activated += async (a, b) => await opzioniAvanzate.SwitchTo(overrideRot, 0, true);
+            snapOptionsItem.Activated += async (a, b) => await opzioniAvanzate.SwitchTo(snapOptions, 0, true);
+
+
+            opzioniAvanzate.AddItem(overridePosItem);
+            opzioniAvanzate.AddItem(overrideRotItem);
+            opzioniAvanzate.AddItem(snapOptionsItem);
+
+
             #region override pos e rot
             UIMenuCheckboxItem useOverride = new UIMenuCheckboxItem("Usa Override", UIMenuCheckboxStyle.Tick, false, "");
             UIMenuListItem alignment = new UIMenuListItem("Allineamento", new List<dynamic>() { "Mondo", "Locale" }, 0);
@@ -561,7 +600,13 @@ namespace TheLastPlanet.Client.Races.Creator
             propPlacing.AddItem(speedPadIntensity);
             UIMenuListItem slowPadIntensity = new UIMenuListItem("Intensità Pad Rallentamento", new List<dynamic>() { "Debole", "Normale", "Forte", "Extra Forte", "Ultra Forte" }, 1);
             propPlacing.AddItem(slowPadIntensity);
-            UIMenu soundTriggerMenu = propPlacing.AddSubMenu("Menu Attivazione Suoni");
+
+            UIMenuItem soundTriggerMenuItem = new UIMenuItem("Menu Attivazione Suoni");
+            UIMenu soundTriggerMenu = new("Menu Attivazione Suoni", "");
+
+            soundTriggerMenuItem.Activated += async (a, b) => await propPlacing.SwitchTo(soundTriggerMenu, 0, true);
+            propPlacing.AddItem(soundTriggerMenuItem);
+
             #region soundTriggerMenu
 
             UIMenuListItem soundId = new UIMenuListItem("Sound ID", new List<dynamic>() { "Airhorn", "Roar", "Chitarra 01", "Chitarra 02", "Clacson", "Tuono", "Allarme" }, 0);
@@ -585,7 +630,16 @@ namespace TheLastPlanet.Client.Races.Creator
             Creator.AddItem(Esci);
             Creator.Visible = true;
 
-            HUD.MenuPool.OnMenuStateChanged += async (a, b, c) =>
+            propPlacing.OnMenuClose += (a) =>
+            {
+                if (DummyProp.Exists())
+                {
+                    DummyProp.Delete();
+                    DummyProp = null;
+                }
+            };
+            /*
+            MenuHandler.OnMenuStateChanged += async (a, b, c) =>
             {
                 if (c == MenuState.ChangeForward)
                 {
@@ -594,18 +648,8 @@ namespace TheLastPlanet.Client.Races.Creator
                         //var aa = await categoria.Callback(categoria, UIMenuDynamicListItem.ChangeDirection.None);
                     }
                 }
-                if (c == MenuState.ChangeBackward)
-                {
-                    if (a == propPlacing)
-                    {
-                        if (DummyProp.Exists())
-                        {
-                            DummyProp.Delete();
-                            DummyProp = null;
-                        }
-                    }
-                }
             };
+            */
         }
 
         #region	METODI
@@ -954,20 +998,20 @@ namespace TheLastPlanet.Client.Races.Creator
                     if (rotationDummyType == RotationDummyType.Pitch)
                     {
                         Vector3 vVar5 = GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 1f, 0f, 0f) - curLocation;
-                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, vVar3.X + fVar8, 0f, 0f), vVar5, vVar6, vVar7, Colors.Purple);
-                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, vVar2.X - fVar8, 0f, 0f), -vVar5, vVar6, vVar7, Colors.Purple);
+                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, vVar3.X + fVar8, 0f, 0f), vVar5, vVar6, vVar7, SColor.Purple.ToColor());
+                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, vVar2.X - fVar8, 0f, 0f), -vVar5, vVar6, vVar7, SColor.Purple.ToColor());
                     }
                     if (rotationDummyType == RotationDummyType.Roll)
                     {
                         Vector3 vVar5 = GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 1f, 0f) - curLocation;
-                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, vVar3.Y + fVar8, 0f), vVar5, vVar6, vVar7, Colors.Purple);
-                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, vVar2.Y - fVar8, 0f), -vVar5, vVar6, vVar7, Colors.Purple);
+                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, vVar3.Y + fVar8, 0f), vVar5, vVar6, vVar7, SColor.Purple.ToColor());
+                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, vVar2.Y - fVar8, 0f), -vVar5, vVar6, vVar7, SColor.Purple.ToColor());
                     }
                     if (rotationDummyType == RotationDummyType.Yaw)
                     {
                         Vector3 vVar5 = GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, 1f) - curLocation;
-                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar3.Z + fVar8), vVar5, vVar6, vVar7, Colors.Purple);
-                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar2.Z - fVar8), -vVar5, vVar6, vVar7, Colors.Purple);
+                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar3.Z + fVar8), vVar5, vVar6, vVar7, SColor.Purple.ToColor());
+                        World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar2.Z - fVar8), -vVar5, vVar6, vVar7, SColor.Purple.ToColor());
                     }
                 }
                 int timer = Game.GameTime;
@@ -977,11 +1021,13 @@ namespace TheLastPlanet.Client.Races.Creator
                         dummyRot = new Vector3(0, 0, dummyRot.Z);
                 }
                 DummyProp.Rotation = dummyRot;
+                //TODO: FIND SOLUTION FOR Creator.Children!!!
 
                 #region CreaProp
                 if (Input.IsControlJustPressed(Control.FrontendAccept))
                 {
-                    bool submenuselected = Creator.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento").Value.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento tracciato").Value.Children.Values.Any(x => x.ParentItem.Selected);
+                    bool submenuselected = propPlacing.MenuItems.Any(x => x.Selected);
+
                     if (submenuselected) return;
                     // controllo che non ho selezionato i submenu
                     int model = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);

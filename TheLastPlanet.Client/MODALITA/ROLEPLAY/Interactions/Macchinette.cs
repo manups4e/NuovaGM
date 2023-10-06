@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
             if (VendingMachineClosest != null)
             {
-                if (!p.IsDead && !HUD.MenuPool.IsAnyMenuOpen)
+                if (!p.IsDead && !MenuHandler.IsAnyMenuOpen)
                 {
                     if (Cache.PlayerCache.MyPlayer.User.Money > 5)
                     {

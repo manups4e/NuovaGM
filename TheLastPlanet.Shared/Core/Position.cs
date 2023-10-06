@@ -1,8 +1,6 @@
-﻿using CitizenFX.Core;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
-using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
@@ -148,23 +146,23 @@ namespace TheLastPlanet.Shared
 
         public override string ToString() => $"X:{X}, Y:{Y}, Z:{Z} [Yaw(X):{Yaw}, Pitch(Y):{Pitch}, Roll(Z):{Roll}]";
 
-        [Ignore]
+
         [JsonIgnore]
         public bool IsZero => X == 0 && Y == 0 && Z == 0 && Yaw == 0 && Pitch == 0 && Roll == 0;
 
         public float[] ToArray() => new[] { X, Y, Z, Yaw, Pitch, Roll };
 
-        [Ignore]
+
+        [JsonIgnore]
+        public Vector2 ToVector2 => new(X, Y);
         [JsonIgnore]
         public Vector3 ToVector3 => new(X, Y, Z);
-
-        [Ignore]
         [JsonIgnore]
-        public Vector3 ToRotationVector => new(Yaw, Pitch, Roll);
+        public Vector4 ToVector4 => new(X, Y, Z, Yaw);
 
-        [Ignore]
+
         [JsonIgnore]
-        public Vector4 ToVector4 => new(X, Y, Z, Roll);
+        public Vector3 ToRotationVector => new(Roll, Pitch, Yaw);
 
         public float Distance(Vector3 value)
         {
@@ -260,7 +258,7 @@ namespace TheLastPlanet.Shared
             if ((value is not Position || value is null))
                 return false;
 
-            var strongValue = (Position)value;
+            Position strongValue = (Position)value;
             return Equals(ref strongValue);
         }
 

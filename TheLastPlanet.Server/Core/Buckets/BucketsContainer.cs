@@ -71,6 +71,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         public async void RemovePlayer(PlayerClient client, string reason = "")
         {
+            SetPlayerCullingRadius(client.Handle.ToString(), 0f);
             Bucket.RemovePlayer(client, reason);
             SavePlayerData(client);
             if (Bucket.Players.Count > 0)
@@ -82,7 +83,6 @@ namespace TheLastPlanet.Server.Core.Buckets
                 });
             }
             Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta FreeRoam.");
-            SetPlayerCullingRadius(client.Handle.ToString(), 0f);
         }
 
         public void UpdateCurrentAttempt(PlayerClient client, int eventId, float currentAttempt)

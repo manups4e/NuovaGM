@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 mangia.AddTask.PlayAnimation("mp_player_inteat@burger", "mp_player_int_eat_burger_fp");
                 mangia.AddTask.PlayAnimation("mp_player_inteat@burger", "mp_player_int_eat_exit_burger");
                 mangia.Close();
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 Prop burg = new Prop(CreateObject((int)item.prop, 0, 0, 0, true, true, true));
                 burg.AttachTo(p.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
                 while (burg == null && !burg.Exists() && !burg.IsAttachedTo(p)) await BaseScript.Delay(0);
@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             {
                 RequestAnimDict("mp_player_intdrink");
                 while (!HasAnimDictLoaded("mp_player_intdrink")) await BaseScript.Delay(0);
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 Prop water = new Prop(CreateObject((int)item.prop, 0, 0, 0, true, true, true));
                 water.AttachTo(p.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
                 //				AttachEntityToEntity(water.Handle, p.Handle, GetPedBoneIndex(PlayerPedId(), 18905), 0.12f, 0.028f, 0.001f, 10.0f, 175.0f, 0.0f, true, true, false, true, 1, true);
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 mangia.AddTask.PlayAnimation("mp_player_inteat@burger", "mp_player_int_eat_burger_fp");
                 mangia.AddTask.PlayAnimation("mp_player_inteat@burger", "mp_player_int_eat_exit_burger");
                 mangia.Close();
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 Prop burg = new(CreateObject((int)item.prop, 0, 0, 0, true, true, true));
                 burg.AttachTo(p.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
                 while (burg == null && !burg.Exists() && !burg.IsAttachedTo(p)) await BaseScript.Delay(0);
@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             {
                 RequestAnimDict("mp_player_intdrink");
                 while (!HasAnimDictLoaded("mp_player_intdrink")) await BaseScript.Delay(0);
-                HUD.MenuPool.CloseAllMenus();
+                MenuHandler.CloseAndClearHistory();
                 Prop water = new(CreateObject((int)item.prop, 0, 0, 0, true, true, true));
                 water.AttachTo(p.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
                 //				AttachEntityToEntity(water.Handle, p.Handle, GetPedBoneIndex(PlayerPedId(), 18905), 0.12f, 0.028f, 0.001f, 10.0f, 175.0f, 0.0f, true, true, false, true, 1, true);

@@ -87,7 +87,7 @@ namespace TheLastPlanet.Client.Handlers
                                 }
 
                                 input.Marker.Draw();
-                                if (input.Marker.IsInMarker && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
+                                if (input.Marker.IsInMarker && !MenuHandler.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
                                 {
                                     if (!string.IsNullOrWhiteSpace(input.InputMessage)) HUD.ShowHelp(input.InputMessage);
 
@@ -113,7 +113,7 @@ namespace TheLastPlanet.Client.Handlers
                         }
                         else
                         {
-                            if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier) && !HUD.MenuPool.IsAnyMenuOpen)
+                            if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier) && !MenuHandler.IsAnyMenuOpen)
                             {
                                 switch (input.Check)
                                 {

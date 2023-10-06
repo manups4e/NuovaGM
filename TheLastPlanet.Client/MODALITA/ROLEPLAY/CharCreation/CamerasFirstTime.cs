@@ -32,12 +32,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 await SiComincia();
             else
             {
-                ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", "", new List<InstructionalButton>
+                ScaleformUI.Main.Warning.ShowWarningWithButtons("Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", "", new List<InstructionalButton>
                 {
                     new InstructionalButton(Control.FrontendCancel, "No"),
                     new InstructionalButton(Control.FrontendAccept, "Si"),
                 });
-                ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
+                ScaleformUI.Main.Warning.OnButtonPressed += async (a) =>
                 {
                     if (a.GamepadButton == Control.FrontendCancel)
                         await SiComincia();
@@ -132,7 +132,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
             Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
             Cam7.InterpTo(Cam8, 10000, 0, 1);
             await BaseScript.Delay(3000);
-            ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage(Client.Impostazioni.RolePlay.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
+            ScaleformUI.Main.BigMessageInstance.ShowMpWastedMessage(Client.Impostazioni.RolePlay.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
             await BaseScript.Delay(4000);
             await BaseScript.Delay(1000);
             Cam7.Delete();

@@ -1,11 +1,8 @@
-﻿using CitizenFX.Core;
-using Impostazioni.Shared.Configurazione.Generici;
+﻿using Impostazioni.Shared.Configurazione.Generici;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheLastPlanet.Shared;
-using FxEvents.Shared.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 
@@ -13,11 +10,9 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 {
     public class User : BasePlayerShared
     {
-        [Ignore] [JsonIgnore] internal string source;
-
-        [Ignore] [JsonIgnore] internal DateTime LastSaved;
-
-        [Ignore] [JsonIgnore] internal BasePlayerShared basePlayer;
+        [JsonIgnore] internal string source;
+        [JsonIgnore] internal DateTime LastSaved;
+        [JsonIgnore] internal BasePlayerShared basePlayer;
 
         public User() { }
         public User(Player player, BasePlayerShared result)
@@ -65,11 +60,11 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             LastSaved = DateTime.Now;
         }
 
-        [Ignore] [JsonIgnore] internal string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
+        [JsonIgnore] internal string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-        [Ignore] [JsonIgnore] internal string DOB => CurrentChar.Info.dateOfBirth;
+        [JsonIgnore] internal string DOB => CurrentChar.Info.dateOfBirth;
 
-        [Ignore]
+
         [JsonIgnore]
         internal bool DeathStatus
         {
@@ -81,7 +76,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             }
         }
 
-        [Ignore]
+
         [JsonIgnore]
         internal int Money
         {
@@ -97,7 +92,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             }
         }
 
-        [Ignore]
+
         [JsonIgnore]
         internal int Bank
         {
@@ -110,7 +105,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             }
         }
 
-        [Ignore]
+
         [JsonIgnore]
         internal int DirtCash
         {
@@ -308,7 +303,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
         }
 
-        [Ignore] [JsonIgnore] internal Vector3 getCoords => CurrentChar.Posizione.ToVector3;
+        [JsonIgnore] internal Vector3 getCoords => CurrentChar.Posizione.ToVector3;
 
         public void giveLicense(string license, string mittente)
         {
@@ -332,7 +327,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
         public void AddExperience(int experiencePoints)
         {
-            var nextLevelTotalXp = Experience.NextLevelExperiencePoints(FreeRoamChar.Level);
+            int nextLevelTotalXp = Experience.NextLevelExperiencePoints(FreeRoamChar.Level);
 
             if (FreeRoamChar.TotalXp + experiencePoints >= nextLevelTotalXp)
             {
@@ -351,7 +346,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
         {
             try
             {
-                var data = PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
+                PlayerScore data = PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
                 if (data != null)
                 {
                     data.CurrentAttempt = currentAttempt;

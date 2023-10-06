@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.AdminAC
@@ -38,7 +36,7 @@ namespace TheLastPlanet.Client.AdminAC
 
         private static void AdminMenu(Ped p, object[] args)
         {
-            if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(Cache.PlayerCache.MyPlayer.User.group_level);
+            if (!MenuHandler.IsAnyMenuOpen) ManagerMenu.AdminMenu(Cache.PlayerCache.MyPlayer.User.group_level);
         }
 
         private static void Teleport(Ped p, object[] args)
@@ -79,12 +77,10 @@ namespace TheLastPlanet.Client.AdminAC
                     new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
                     new InstructionalButton(Control.FrontendX, "Cambia velocità")
                 };
-                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = true;
-                ScaleformUI.ScaleformUI.InstructionalButtons.SetInstructionalButtons(istr);
+                ScaleformUI.Main.InstructionalButtons.SetInstructionalButtons(istr);
             }
             else
             {
-                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = false;
                 Client.Instance.RemoveTick(noClip);
 
                 while (p.IsInvincible)
@@ -242,13 +238,11 @@ namespace TheLastPlanet.Client.AdminAC
                     new InstructionalButton(Control.FrontendX, "Cambia velocità"),
                     new InstructionalButton(Control.NextCamera, "Save Camera")
                 };
-                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = true;
-                ScaleformUI.ScaleformUI.InstructionalButtons.SetInstructionalButtons(istr);
+                ScaleformUI.Main.InstructionalButtons.SetInstructionalButtons(istr);
                 RenderScriptCams(true, true, 2000, true, false);
             }
             else
             {
-                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = false;
                 Client.Instance.RemoveTick(NoClipCamera);
                 RenderScriptCams(false, true, 2000, true, false);
                 noClipCamera = null;

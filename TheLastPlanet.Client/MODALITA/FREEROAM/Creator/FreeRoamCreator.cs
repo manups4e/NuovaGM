@@ -1,13 +1,10 @@
-﻿using CitizenFX.Core.Native;
+﻿using FxEvents.Shared.Snowflakes;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Ingresso;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 {
@@ -802,16 +799,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
         private static async void AggiornaModel(string JsonData)
         {
             FreeRoamChar plpl = JsonData.FromJson<FreeRoamChar>();
-            uint hash = (uint)plpl.Skin.model;
+            uint hash = plpl.Skin.model;
             RequestModel(hash);
             while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
             SetPlayerModel(PlayerId(), hash);
-            var id = PlayerCache.MyPlayer.Ped.Handle;
+            int id = PlayerCache.MyPlayer.Ped.Handle;
             int[][] aa = func_1278(_selezionato == "Maschio", 0);
-            var comp = new ComponentDrawables(aa[0][0], aa[0][1], aa[0][2], aa[0][3], aa[0][4], aa[0][5], aa[0][6], aa[0][7], aa[0][8], aa[0][9], aa[0][10], aa[0][11]);
-            var text = new ComponentDrawables(aa[1][0], aa[1][1], aa[1][2], aa[1][3], aa[1][4], aa[1][5], aa[1][6], aa[1][7], aa[1][8], aa[1][9], aa[1][10], aa[1][11]);
-            var _prop = new PropIndices(GetPedPropIndex(id, 0), GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
-            var _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
+            ComponentDrawables comp = new ComponentDrawables(aa[0][0], aa[0][1], aa[0][2], aa[0][3], aa[0][4], aa[0][5], aa[0][6], aa[0][7], aa[0][8], aa[0][9], aa[0][10], aa[0][11]);
+            ComponentDrawables text = new ComponentDrawables(aa[1][0], aa[1][1], aa[1][2], aa[1][3], aa[1][4], aa[1][5], aa[1][6], aa[1][7], aa[1][8], aa[1][9], aa[1][10], aa[1][11]);
+            PropIndices _prop = new PropIndices(GetPedPropIndex(id, 0), GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
+            PropIndices _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
             plpl.Dressing = new("", "", comp, text, _prop, _proptxt);
             UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, plpl.Skin);
             UpdateDress(Cache.PlayerCache.MyPlayer.Ped.Handle, plpl.Dressing);
@@ -923,28 +920,52 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
                 Screen.Fading.FadeIn(800);
                 Point offset = new Point(50, 50);
-                HUD.MenuPool.MouseEdgeEnabled = false;
                 Creazione = new("FreeRoam Creator", "Crea un nuovo Personaggio", offset, "thelastgalaxy", "bannerbackground", false, true)
                 {
                     ControlDisablingEnabled = true
                 };
-                HUD.MenuPool.Add(Creazione);
                 UIMenuListItem Sesso = _selezionato == "Maschio" ? new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 0, "Decidi il Sesso") : new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 1, "Decidi il Sesso");
                 Creazione.AddItem(Sesso);
-                Genitori = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
-                Genitori.ControlDisablingEnabled = true;
-                Dettagli = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
-                Dettagli.ControlDisablingEnabled = true;
-                Apparenze = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_APP"), GetLabelText("FACE_MM_H6"));
-                Apparenze.ControlDisablingEnabled = true;
-                Apparel = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_APPA"), GetLabelText("FACE_APPA_H"));
-                Apparel.ControlDisablingEnabled = true;
-                Statistiche = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_STATS"), GetLabelText("FACE_MM_H5"));
+                UIMenuItem GenitoriItem = new UIMenuItem(GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
+                Genitori = new(GetLabelText("FACE_HERI"), "Crea un nuovo Personaggio")
+                {
+                    ControlDisablingEnabled = true
+                };
+                UIMenuItem DettagliItem = new UIMenuItem(GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
+                Dettagli = new(GetLabelText("FACE_FEAT"), "Crea un nuovo Personaggio")
+                {
+                    ControlDisablingEnabled = true
+                };
+                UIMenuItem ApparenzeItem = new UIMenuItem(GetLabelText("FACE_APP"), GetLabelText("FACE_MM_H6"));
+                Apparenze = new(GetLabelText("FACE_APP"), "Crea un nuovo Personaggio")
+                {
+                    ControlDisablingEnabled = true
+                };
+                UIMenuItem ApparelItem = new UIMenuItem(GetLabelText("FACE_APPA"), GetLabelText("FACE_APPA_H"));
+                Apparel = new(GetLabelText("FACE_APPA"), "Crea un nuovo Personaggio")
+                {
+                    ControlDisablingEnabled = true
+                };
+                UIMenuItem StatisticheItem = new UIMenuItem(GetLabelText("FACE_STATS"), GetLabelText("FACE_MM_H5"));
+                Statistiche = new(GetLabelText("FACE_STATS"), "Crea un nuovo Personaggio");
+
+                GenitoriItem.Activated += async (a, b) => await Creazione.SwitchTo(Genitori, 0, true);
+                DettagliItem.Activated += async (a, b) => await Creazione.SwitchTo(Dettagli, 0, true);
+                ApparenzeItem.Activated += async (a, b) => await Creazione.SwitchTo(Apparenze, 0, true);
+                ApparelItem.Activated += async (a, b) => await Creazione.SwitchTo(Apparel, 0, true);
+                StatisticheItem.Activated += async (a, b) => await Creazione.SwitchTo(Statistiche, 0, true);
+
+                Creazione.AddItem(GenitoriItem);
+                Creazione.AddItem(DettagliItem);
+                Creazione.AddItem(ApparenzeItem);
+                Creazione.AddItem(ApparelItem);
+                Creazione.AddItem(StatisticheItem);
+
                 InstructionalButton button1 = new InstructionalButton(Control.LookLeftRight, "Guarda a Destra/Sinistra");
                 InstructionalButton button2 = new InstructionalButton(Control.FrontendLb, "Guarda a Sinistra");
                 InstructionalButton button3 = new InstructionalButton(Control.FrontendRb, "Guarda a Destra");
                 InstructionalButton button4 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Cambia dettagli");
-                InstructionalButton button5 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Gestisci Panelli", ScaleformUI.PadCheck.Keyboard);
+                InstructionalButton button5 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Gestisci Panelli", ScaleformUI.Scaleforms.PadCheck.Keyboard);
                 Creazione.InstructionalButtons.Add(button3);
                 Creazione.InstructionalButtons.Add(button2);
                 Genitori.InstructionalButtons.Add(button3);
@@ -1084,28 +1105,39 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 //  SetPedHeadOverlayColor(playerPed, 10, 1, Character['chest_3'])-- Torso Color
                 //	SetPedHeadOverlay(playerPed, 11, Character['bodyb_1'], (Character['bodyb_2'] / 10) + 0.0)-- Body Blemishes +opacity
 
+                Apparenze.AddItem(Capelli);
+                Apparenze.AddItem(sopracciglia);
+                Apparenze.AddItem(Barba);
+                Apparenze.AddItem(SkinBlemishes);
+                Apparenze.AddItem(SkinAgeing);
+                Apparenze.AddItem(SkinComplexion);
+                Apparenze.AddItem(SkinMoles);
+                Apparenze.AddItem(SkinDamage);
+                Apparenze.AddItem(EyeColor);
+                Apparenze.AddItem(EyeMakup);
+                Apparenze.AddItem(LipStick);
                 #endregion
 
                 #region VESTITI
-                var styleList = new List<dynamic>();
+                List<dynamic> styleList = new List<dynamic>();
                 for (int i = 0; i < 8; i++) styleList.Add(GetLabelText("FACE_A_STY_" + i));
 
-                var outfitList = new List<dynamic>();
+                List<dynamic> outfitList = new List<dynamic>();
                 for (int i = 0; i < 8; i++) outfitList.Add(GetLabelText(getOutfit(i, _selezionato == "Maschio")));
 
                 List<dynamic> hatList = new() { GetLabelText("FACE_OFF") };
 
-                var glassesList = new List<dynamic>() { GetLabelText("FACE_OFF") };
+                List<dynamic> glassesList = new List<dynamic>() { GetLabelText("FACE_OFF") };
 
                 if (_selezionato == "Maschio")
                 {
-                    foreach (var _hat in MaleHats) hatList.Add(GetLabelText(_hat.Label));
-                    foreach (var _glas in MaleGlasses) glassesList.Add(GetLabelText(_glas.Label));
+                    foreach (ShopPed.PedComponentData _hat in MaleHats) hatList.Add(GetLabelText(_hat.Label));
+                    foreach (ShopPed.PedComponentData _glas in MaleGlasses) glassesList.Add(GetLabelText(_glas.Label));
                 }
                 else
                 {
-                    foreach (var _hat in FemaleHats) hatList.Add(GetLabelText(_hat.Label));
-                    foreach (var _glas in FemaleGlasses) glassesList.Add(GetLabelText(_glas.Label));
+                    foreach (ShopPed.PedComponentData _hat in FemaleHats) hatList.Add(GetLabelText(_hat.Label));
+                    foreach (ShopPed.PedComponentData _glas in FemaleGlasses) glassesList.Add(GetLabelText(_glas.Label));
                 }
 
                 UIMenuListItem stile = new(GetLabelText("FACE_APP_STY"), styleList, 0, GetLabelText("FACE_APPA_H"));
@@ -1124,25 +1156,25 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
                 #region Stats
                 int StatMax = 100;
-                UIMenuStatsItem stamina = new UIMenuStatsItem(GetLabelText("FACE_STAM"), GetLabelText("FACE_H_STA"), 0, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuStatsItem stamina = new UIMenuStatsItem(GetLabelText("FACE_STAM"), GetLabelText("FACE_H_STA"), 0, SColor.HUD_Freemode);
                 UIMenuPercentagePanel maxstat = new("Punti Rimanenti", "0", "100", StatMax);
                 stamina.AddPanel(maxstat);
-                UIMenuStatsItem shooting = new UIMenuStatsItem(GetLabelText("FACE_SHOOT"), GetLabelText("FACE_H_SHO"), 0, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuStatsItem shooting = new UIMenuStatsItem(GetLabelText("FACE_SHOOT"), GetLabelText("FACE_H_SHO"), 0, SColor.HUD_Freemode);
                 UIMenuPercentagePanel maxstat1 = new("Punti Rimanenti", "0", "100", StatMax);
                 shooting.AddPanel(maxstat1);
-                UIMenuStatsItem strength = new UIMenuStatsItem(GetLabelText("FACE_STR"), GetLabelText("FACE_H_STR"), 0, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuStatsItem strength = new UIMenuStatsItem(GetLabelText("FACE_STR"), GetLabelText("FACE_H_STR"), 0, SColor.HUD_Freemode);
                 UIMenuPercentagePanel maxstat2 = new("Punti Rimanenti", "0", "100", StatMax);
                 strength.AddPanel(maxstat2);
-                UIMenuStatsItem stealth = new UIMenuStatsItem(GetLabelText("FACE_STEALTH"), GetLabelText("FACE_H_STE"), 0, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuStatsItem stealth = new UIMenuStatsItem(GetLabelText("FACE_STEALTH"), GetLabelText("FACE_H_STE"), 0, SColor.HUD_Freemode);
                 UIMenuPercentagePanel maxstat3 = new("Punti Rimanenti", "0", "100", StatMax);
                 stealth.AddPanel(maxstat3);
-                UIMenuStatsItem flying = new UIMenuStatsItem(GetLabelText("FACE_FLY"), GetLabelText("FACE_H_FLY"), 0, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuStatsItem flying = new UIMenuStatsItem(GetLabelText("FACE_FLY"), GetLabelText("FACE_H_FLY"), 0, SColor.HUD_Freemode);
                 UIMenuPercentagePanel maxstat4 = new("Punti Rimanenti", "0", "100", StatMax);
                 flying.AddPanel(maxstat4);
-                UIMenuStatsItem driving = new UIMenuStatsItem(GetLabelText("FACE_DRIV"), GetLabelText("FACE_H_DRI"), 0, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuStatsItem driving = new UIMenuStatsItem(GetLabelText("FACE_DRIV"), GetLabelText("FACE_H_DRI"), 0, SColor.HUD_Freemode);
                 UIMenuPercentagePanel maxstat5 = new("Punti Rimanenti", "0", "100", StatMax);
                 driving.AddPanel(maxstat5);
-                UIMenuStatsItem lungs = new UIMenuStatsItem(GetLabelText("FACE_LUNG"), GetLabelText("FACE_H_LCP"), 0, HudColor.HUD_COLOUR_FREEMODE);
+                UIMenuStatsItem lungs = new UIMenuStatsItem(GetLabelText("FACE_LUNG"), GetLabelText("FACE_H_LCP"), 0, SColor.HUD_Freemode);
                 UIMenuPercentagePanel maxstat6 = new("Punti Rimanenti", "0", "100", StatMax);
                 lungs.AddPanel(maxstat6);
 
@@ -1164,12 +1196,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
                 Sesso.OnListChanged += async (item, _newIndex) =>
                 {
-                    HUD.MenuPool.CloseAllMenus();
+                    /*
+                    MenuHandler.CloseAndClearHistory();
                     Screen.Effects.Start(ScreenEffect.MpCelebWin);
                     await BaseScript.Delay(1000);
                     Screen.Fading.FadeOut(1000);
                     await BaseScript.Delay(1000);
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                     Creazione.Clear();
                     Screen.Effects.Stop(ScreenEffect.MpCelebWin);
 
@@ -1195,6 +1228,29 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                     foreach (Prop obj in World.GetAllProps())
                         if (obj.Model.Hash == GetHashKey("prop_police_id_board") || obj.Model.Hash == GetHashKey("prop_police_id_text"))
                             CharCreationMenu(_data.Skin.sex);
+                    */
+
+                    switch (_newIndex)
+                    {
+                        case 0:
+                            _dataFemmina = _data;
+                            _data = _dataMaschio;
+                            _boardScalep1.CallFunction("SET_BOARD", GetLabelText("FACE_N_CHAR"), _data.CharID.ToString(), "THE LAST GALAXY BY MANUPS4E", "", 0, 1, 0);
+                            _selezionato = "Maschio";
+
+                            break;
+                        case 1:
+                            _dataMaschio = _data;
+                            _data = _dataFemmina;
+                            _boardScalep1.CallFunction("SET_BOARD", GetLabelText("FACE_N_CHAR"), _data.CharID.ToString(), "THE LAST GALAXY BY MANUPS4E", "", 0, 1, 0);
+                            _selezionato = "Femmina";
+
+                            break;
+                    }
+                    AggiornaModel(_data.ToJson());
+                    PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
+                    BD1.AttachTo(Cache.PlayerCache.MyPlayer.Ped.Bones[Bone.PH_R_Hand], Vector3.Zero, Vector3.Zero);
+                    TaskPlayAnim(PlayerPedId(), sub_7dd83(1, 0, _selezionato), "Loop", 8f, -4f, -1, 513, 0, false, false, false);
                 };
 
                 #endregion
@@ -1277,7 +1333,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 };
                 Apparenze.OnPercentagePanelChange += (a, b, c) =>
                 {
-                    var perc = c / 100;
+                    float perc = c / 100;
                     if (a == sopracciglia)
                     {
                         if (b == a.Panels[2])
@@ -1798,7 +1854,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 int first = 0;
                 Apparel.OnListChange += async (sender, item, index) =>
                 {
-                    var id = PlayerPedId();
+                    int id = PlayerPedId();
                     if (item == stile)
                     {
                         List<dynamic> list = new();
@@ -1809,20 +1865,20 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         }
                         outfit.ChangeList(list, 0);
                         int[][] aa = func_1278(_selezionato == "Maschio", first);
-                        var comp = new ComponentDrawables(aa[0][0], aa[0][1], aa[0][2], aa[0][3], aa[0][4], aa[0][5], aa[0][6], aa[0][7], aa[0][8], aa[0][9], aa[0][10], aa[0][11]);
-                        var text = new ComponentDrawables(aa[1][0], aa[1][1], aa[1][2], aa[1][3], aa[1][4], aa[1][5], aa[1][6], aa[1][7], aa[1][8], aa[1][9], aa[1][10], aa[1][11]);
-                        var _prop = new PropIndices(GetPedPropIndex(id, 0), GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
-                        var _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
+                        ComponentDrawables comp = new ComponentDrawables(aa[0][0], aa[0][1], aa[0][2], aa[0][3], aa[0][4], aa[0][5], aa[0][6], aa[0][7], aa[0][8], aa[0][9], aa[0][10], aa[0][11]);
+                        ComponentDrawables text = new ComponentDrawables(aa[1][0], aa[1][1], aa[1][2], aa[1][3], aa[1][4], aa[1][5], aa[1][6], aa[1][7], aa[1][8], aa[1][9], aa[1][10], aa[1][11]);
+                        PropIndices _prop = new PropIndices(GetPedPropIndex(id, 0), GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
+                        PropIndices _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
                         _data.Dressing = new("", "", comp, text, _prop, _proptxt);
 
                     }
                     else if (item == outfit)
                     {
                         int[][] aa = func_1278(_selezionato == "Maschio", (index + first));
-                        var comp = new ComponentDrawables(aa[0][0], aa[0][1], aa[0][2], aa[0][3], aa[0][4], aa[0][5], aa[0][6], aa[0][7], aa[0][8], aa[0][9], aa[0][10], aa[0][11]);
-                        var text = new ComponentDrawables(aa[1][0], aa[1][1], aa[1][2], aa[1][3], aa[1][4], aa[1][5], aa[1][6], aa[1][7], aa[1][8], aa[1][9], aa[1][10], aa[1][11]);
-                        var _prop = new PropIndices(GetPedPropIndex(id, 0), GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
-                        var _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
+                        ComponentDrawables comp = new ComponentDrawables(aa[0][0], aa[0][1], aa[0][2], aa[0][3], aa[0][4], aa[0][5], aa[0][6], aa[0][7], aa[0][8], aa[0][9], aa[0][10], aa[0][11]);
+                        ComponentDrawables text = new ComponentDrawables(aa[1][0], aa[1][1], aa[1][2], aa[1][3], aa[1][4], aa[1][5], aa[1][6], aa[1][7], aa[1][8], aa[1][9], aa[1][10], aa[1][11]);
+                        PropIndices _prop = new PropIndices(GetPedPropIndex(id, 0), GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
+                        PropIndices _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
                         _data.Dressing = new("", "", comp, text, _prop, _proptxt);
                     }
 
@@ -1837,10 +1893,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                                 prop = MaleHats[index - 1];
                             else
                                 prop = FemaleHats[index - 1];
-                            var comp = new ComponentDrawables(GetPedDrawableVariation(id, 0), GetPedDrawableVariation(id, 1), GetPedDrawableVariation(id, 2), GetPedDrawableVariation(id, 3), GetPedDrawableVariation(id, 4), GetPedDrawableVariation(id, 5), GetPedDrawableVariation(id, 6), GetPedDrawableVariation(id, 7), GetPedDrawableVariation(id, 8), GetPedDrawableVariation(id, 9), GetPedDrawableVariation(id, 10), GetPedDrawableVariation(id, 11));
-                            var text = new ComponentDrawables(GetPedTextureVariation(id, 0), GetPedTextureVariation(id, 1), GetPedTextureVariation(id, 2), GetPedTextureVariation(id, 3), GetPedTextureVariation(id, 4), GetPedTextureVariation(id, 5), GetPedTextureVariation(id, 6), GetPedTextureVariation(id, 7), GetPedTextureVariation(id, 8), GetPedTextureVariation(id, 9), GetPedTextureVariation(id, 10), GetPedTextureVariation(id, 11));
-                            var _prop = new PropIndices(prop.Drawable, GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
-                            var _proptxt = new PropIndices(prop.Texture, GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
+                            ComponentDrawables comp = new ComponentDrawables(GetPedDrawableVariation(id, 0), GetPedDrawableVariation(id, 1), GetPedDrawableVariation(id, 2), GetPedDrawableVariation(id, 3), GetPedDrawableVariation(id, 4), GetPedDrawableVariation(id, 5), GetPedDrawableVariation(id, 6), GetPedDrawableVariation(id, 7), GetPedDrawableVariation(id, 8), GetPedDrawableVariation(id, 9), GetPedDrawableVariation(id, 10), GetPedDrawableVariation(id, 11));
+                            ComponentDrawables text = new ComponentDrawables(GetPedTextureVariation(id, 0), GetPedTextureVariation(id, 1), GetPedTextureVariation(id, 2), GetPedTextureVariation(id, 3), GetPedTextureVariation(id, 4), GetPedTextureVariation(id, 5), GetPedTextureVariation(id, 6), GetPedTextureVariation(id, 7), GetPedTextureVariation(id, 8), GetPedTextureVariation(id, 9), GetPedTextureVariation(id, 10), GetPedTextureVariation(id, 11));
+                            PropIndices _prop = new PropIndices(prop.Drawable, GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
+                            PropIndices _proptxt = new PropIndices(prop.Texture, GetPedPropTextureIndex(id, 1), GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
                             _data.Dressing = new("", "", comp, text, _prop, _proptxt);
                         }
                     }
@@ -1857,10 +1913,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                                 prop = FemaleGlasses[index - 1];
                             }
 
-                            var comp = new ComponentDrawables(GetPedDrawableVariation(id, 0), GetPedDrawableVariation(id, 1), GetPedDrawableVariation(id, 2), GetPedDrawableVariation(id, 3), GetPedDrawableVariation(id, 4), GetPedDrawableVariation(id, 5), GetPedDrawableVariation(id, 6), GetPedDrawableVariation(id, 7), GetPedDrawableVariation(id, 8), GetPedDrawableVariation(id, 9), GetPedDrawableVariation(id, 10), GetPedDrawableVariation(id, 11));
-                            var text = new ComponentDrawables(GetPedTextureVariation(id, 0), GetPedTextureVariation(id, 1), GetPedTextureVariation(id, 2), GetPedTextureVariation(id, 3), GetPedTextureVariation(id, 4), GetPedTextureVariation(id, 5), GetPedTextureVariation(id, 6), GetPedTextureVariation(id, 7), GetPedTextureVariation(id, 8), GetPedTextureVariation(id, 9), GetPedTextureVariation(id, 10), GetPedTextureVariation(id, 11));
-                            var _prop = new PropIndices(GetPedPropIndex(id, 0), prop.Drawable, GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
-                            var _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), prop.Texture, GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
+                            ComponentDrawables comp = new ComponentDrawables(GetPedDrawableVariation(id, 0), GetPedDrawableVariation(id, 1), GetPedDrawableVariation(id, 2), GetPedDrawableVariation(id, 3), GetPedDrawableVariation(id, 4), GetPedDrawableVariation(id, 5), GetPedDrawableVariation(id, 6), GetPedDrawableVariation(id, 7), GetPedDrawableVariation(id, 8), GetPedDrawableVariation(id, 9), GetPedDrawableVariation(id, 10), GetPedDrawableVariation(id, 11));
+                            ComponentDrawables text = new ComponentDrawables(GetPedTextureVariation(id, 0), GetPedTextureVariation(id, 1), GetPedTextureVariation(id, 2), GetPedTextureVariation(id, 3), GetPedTextureVariation(id, 4), GetPedTextureVariation(id, 5), GetPedTextureVariation(id, 6), GetPedTextureVariation(id, 7), GetPedTextureVariation(id, 8), GetPedTextureVariation(id, 9), GetPedTextureVariation(id, 10), GetPedTextureVariation(id, 11));
+                            PropIndices _prop = new PropIndices(GetPedPropIndex(id, 0), prop.Drawable, GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
+                            PropIndices _proptxt = new PropIndices(GetPedPropTextureIndex(id, 0), prop.Texture, GetPedPropTextureIndex(id, 2), GetPedPropTextureIndex(id, 3), GetPedPropTextureIndex(id, 4), GetPedPropTextureIndex(id, 5), GetPedPropTextureIndex(id, 6), GetPedPropTextureIndex(id, 7), GetPedPropTextureIndex(id, 8));
                             _data.Dressing = new("", "", comp, text, _prop, _proptxt);
                         }
                     }
@@ -1874,13 +1930,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 int _stamina = 0, _shooting = 0, _strength = 0, _stealth = 0, _flying = 0, _driving = 0, _lungs = 0;
                 Statistiche.OnStatsItemChanged += (a, b, c) =>
                 {
-                    var max = 0;
-                    foreach (var item in a.MenuItems)
+                    int max = 0;
+                    foreach (UIMenuItem item in a.MenuItems)
                     {
                         max += (item as UIMenuStatsItem).Value;
                     }
                     StatMax = 100 - max;
-                    foreach (var item in a.MenuItems)
+                    foreach (UIMenuItem item in a.MenuItems)
                     {
                         (item.Panels[0] as UIMenuPercentagePanel).Percentage = StatMax;
                     }
@@ -1951,119 +2007,124 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
                 #region ControlloAperturaChiusura
 
-                HUD.MenuPool.OnMenuStateChanged += async (_oldMenu, _newMenu, state) =>
+                Apparenze.OnMenuOpen += (a, b) =>
                 {
-                    switch (state)
+                    Apparenze.Clear();
+
+                    if (_selezionato == "Maschio")
                     {
-                        case MenuState.ChangeForward:
-                            {
-                                if (_newMenu == Genitori || _newMenu == Dettagli || _newMenu == Apparenze) AnimateGameplayCamZoom(true, _ncam);
-
-                                if (_newMenu == Apparenze)
-                                {
-                                    Apparenze.Clear();
-
-                                    if (_selezionato == "Maschio")
-                                    {
-                                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                                        Apparenze.AddItem(Capelli);
-                                        Apparenze.AddItem(sopracciglia);
-                                        Apparenze.AddItem(Barba);
-                                        Apparenze.AddItem(SkinBlemishes);
-                                        Apparenze.AddItem(SkinAgeing);
-                                        Apparenze.AddItem(SkinComplexion);
-                                        Apparenze.AddItem(SkinMoles);
-                                        Apparenze.AddItem(SkinDamage);
-                                        Apparenze.AddItem(EyeColor);
-                                        Apparenze.AddItem(EyeMakup);
-                                        Apparenze.AddItem(LipStick);
-                                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
-                                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
-                                        Capelli.AddPanel(CapelCol1);
-                                        Capelli.AddPanel(CapelCol2);
-                                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
-                                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
-                                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
-                                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-                                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
-                                        BarbaCol1.CurrentSelection = _data.Skin.facialHair.beard.color[0];
-                                        BarbaCol2.CurrentSelection = _data.Skin.facialHair.beard.color[1];
-                                        BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity * 100;
-                                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
-                                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
-                                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
-                                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
-                                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
-                                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
-                                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
-                                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-                                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
-                                    }
-                                    else
-                                    {
-                                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                                        Apparenze.AddItem(Capelli);
-                                        Apparenze.AddItem(sopracciglia);
-                                        Apparenze.AddItem(SkinBlemishes);
-                                        Apparenze.AddItem(SkinAgeing);
-                                        Apparenze.AddItem(SkinComplexion);
-                                        Apparenze.AddItem(SkinMoles);
-                                        Apparenze.AddItem(SkinDamage);
-                                        Apparenze.AddItem(EyeColor);
-                                        Apparenze.AddItem(EyeMakup);
-                                        Apparenze.AddItem(Blusher);
-                                        Apparenze.AddItem(LipStick);
-                                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
-                                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
-                                        Capelli.AddPanel(CapelCol1);
-                                        Capelli.AddPanel(CapelCol2);
-                                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
-                                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
-                                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
-                                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-                                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
-                                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
-                                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
-                                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
-                                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
-                                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
-                                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
-                                        BlushCol1.CurrentSelection = _data.Skin.blusher.color[0];
-                                        BlushCol2.CurrentSelection = _data.Skin.blusher.color[1];
-                                        BlushOp.Percentage = _data.Skin.blusher.opacity * 100;
-                                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
-                                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-                                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
-                                    }
-                                }
-                                else if (_newMenu == Apparel)
-                                {
-                                    TaskCreaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
-                                }
-
-                                break;
-                            }
-                        case MenuState.ChangeBackward when _oldMenu == Genitori || _oldMenu == Dettagli || _oldMenu == Apparenze:
-                            AnimateGameplayCamZoom(false, _ncam);
-
-                            break;
-                        case MenuState.ChangeBackward:
-                            {
-                                if (_oldMenu == Apparel)
-                                {
-                                    TaskClothesALoop(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
-                                }
-
-                                break;
-                            }
+                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                        Apparenze.AddItem(Capelli);
+                        Apparenze.AddItem(sopracciglia);
+                        Apparenze.AddItem(Barba);
+                        Apparenze.AddItem(SkinBlemishes);
+                        Apparenze.AddItem(SkinAgeing);
+                        Apparenze.AddItem(SkinComplexion);
+                        Apparenze.AddItem(SkinMoles);
+                        Apparenze.AddItem(SkinDamage);
+                        Apparenze.AddItem(EyeColor);
+                        Apparenze.AddItem(EyeMakup);
+                        Apparenze.AddItem(LipStick);
+                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
+                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
+                        Capelli.AddPanel(CapelCol1);
+                        Capelli.AddPanel(CapelCol2);
+                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
+                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
+                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
+                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
+                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
+                        BarbaCol1.CurrentSelection = _data.Skin.facialHair.beard.color[0];
+                        BarbaCol2.CurrentSelection = _data.Skin.facialHair.beard.color[1];
+                        BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity * 100;
+                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
+                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
+                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
+                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
+                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
+                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
+                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
+                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
+                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
                     }
+                    else
+                    {
+                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                        Apparenze.AddItem(Capelli);
+                        Apparenze.AddItem(sopracciglia);
+                        Apparenze.AddItem(SkinBlemishes);
+                        Apparenze.AddItem(SkinAgeing);
+                        Apparenze.AddItem(SkinComplexion);
+                        Apparenze.AddItem(SkinMoles);
+                        Apparenze.AddItem(SkinDamage);
+                        Apparenze.AddItem(EyeColor);
+                        Apparenze.AddItem(EyeMakup);
+                        Apparenze.AddItem(Blusher);
+                        Apparenze.AddItem(LipStick);
+                        UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", ColorPanelType.Hair);
+                        UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
+                        Capelli.AddPanel(CapelCol1);
+                        Capelli.AddPanel(CapelCol2);
+                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
+                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
+                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
+                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
+                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
+                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
+                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
+                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
+                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
+                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
+                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
+                        BlushCol1.CurrentSelection = _data.Skin.blusher.color[0];
+                        BlushCol2.CurrentSelection = _data.Skin.blusher.color[1];
+                        BlushOp.Percentage = _data.Skin.blusher.opacity * 100;
+                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
+                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
+                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
+                    }
+                };
+
+                Apparel.OnMenuOpen += (a, b) =>
+                {
+                    TaskCreaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
+                };
+
+                Genitori.OnMenuOpen += (a, _) =>
+                {
+                    AnimateGameplayCamZoom(true, _ncam);
+                };
+                Dettagli.OnMenuOpen += (a, _) =>
+                {
+                    AnimateGameplayCamZoom(true, _ncam);
+                };
+                Apparenze.OnMenuOpen += (a, _) =>
+                {
+                    AnimateGameplayCamZoom(true, _ncam);
+                };
+
+                Genitori.OnMenuClose += (a) =>
+                {
+                    AnimateGameplayCamZoom(false, _ncam);
+                };
+                Dettagli.OnMenuClose += (a) =>
+                {
+                    AnimateGameplayCamZoom(false, _ncam);
+                };
+                Apparenze.OnMenuClose += (a) =>
+                {
+                    AnimateGameplayCamZoom(false, _ncam);
+                };
+                Apparel.OnMenuClose += (a) =>
+                {
+                    TaskClothesALoop(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
                 };
 
                 #endregion
 
                 #region CREA_BUTTON_FINISH
 
-                Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", HudColor.HUD_COLOUR_FREEMODE_DARK, HudColor.HUD_COLOUR_FREEMODE);
+                Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", SColor.HUD_Freemode_dark, SColor.HUD_Freemode);
                 Salva.SetRightBadge(BadgeIcon.TICK);
                 Salva.Activated += async (_selectedItem, _index) =>
                 {
@@ -2073,7 +2134,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         if (_dummyPed.Exists())
                             _dummyPed.Delete();
                     Creazione.Visible = false;
-                    HUD.MenuPool.CloseAllMenus();
+                    MenuHandler.CloseAndClearHistory();
                     BD1.Detach();
                     BD1.Delete();
                     PlayerCache.MyPlayer.Ped.Detach();
@@ -2743,13 +2804,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
             if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
             {
-                HUD.MenuPool.CloseAllMenus();
-                ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
+                MenuHandler.CloseAndClearHistory();
+                ScaleformUI.Main.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
                 {
                     new InstructionalButton(Control.FrontendCancel, "No"),
                     new InstructionalButton(Control.FrontendAccept, "Si"),
                 });
-                ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
+                ScaleformUI.Main.Warning.OnButtonPressed += async (a) =>
                 {
                     if (a.GamepadButton == Control.FrontendCancel)
                     {
@@ -2765,7 +2826,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                             if (_dummyPed.Exists())
                                 _dummyPed.Delete();
                         Creazione.Visible = false;
-                        HUD.MenuPool.CloseAllMenus();
+                        MenuHandler.CloseAndClearHistory();
                         BD1.Detach();
                         BD1.Delete();
                         Cache.PlayerCache.MyPlayer.Ped.Detach();
@@ -3414,8 +3475,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
         {
             ShopPed.PedComponentData Var1;
 
-            var components = new int[12];
-            var textures = new int[12];
+            int[] components = new int[12];
+            int[] textures = new int[12];
 
             for (int i = 0; i < 12; i++)
             {

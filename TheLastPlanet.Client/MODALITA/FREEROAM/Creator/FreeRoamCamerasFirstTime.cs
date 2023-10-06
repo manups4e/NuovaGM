@@ -34,14 +34,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
         public static async void FirstTimeTransition()
         {
             PlayerCache.MyPlayer.Ped.Detach();
-            ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("Vuoi vedere il video introduttivo?", "Premi NO e potrai entrare direttamente nel mondo di gioco.", "", new List<InstructionalButton>
+            ScaleformUI.Main.Warning.ShowWarningWithButtons("Vuoi vedere il video introduttivo?", "Premi NO e potrai entrare direttamente nel mondo di gioco.", "", new List<InstructionalButton>
             {
                 new InstructionalButton(Control.FrontendCancel, "No"),
                 new InstructionalButton(Control.FrontendAccept, "Si"),
             });
             await BaseScript.Delay(100);
             Screen.Fading.FadeIn(0);
-            ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
+            ScaleformUI.Main.Warning.OnButtonPressed += async (a) =>
             {
                 if (a.GamepadButton == Control.FrontendCancel)
                     SiFinisce();
@@ -140,7 +140,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
             Cam7.InterpTo(Cam8, 10000, 0, 1);
             await BaseScript.Delay(3000);
-            ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage("The Last Galaxy!", "Benvenuto, nel Pianeta del Free-Roam!");
+            ScaleformUI.Main.BigMessageInstance.ShowMpWastedMessage("The Last Galaxy!", "Benvenuto, nel Pianeta del Free-Roam!");
             await BaseScript.Delay(4000);
             await BaseScript.Delay(1000);
             Cam7.Delete();

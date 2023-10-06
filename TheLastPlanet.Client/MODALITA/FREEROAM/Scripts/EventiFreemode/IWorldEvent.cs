@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
@@ -169,7 +168,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                 if (CountdownTime == TimeSpan.Zero)
                 {
                     StartEventTimerBars();
-                    ScaleformUI.ScaleformUI.MedMessageInstance.ShowColoredShard("Sfida Iniziata", ChallengeStartedLabelText, HudColor.HUD_COLOUR_PURPLE, true);
+                    ScaleformUI.Main.MedMessageInstance.ShowColoredShard("Sfida Iniziata", ChallengeStartedLabelText, HudColor.HUD_COLOUR_PURPLE, HudColor.HUD_COLOUR_PURPLE, true);
                     Audio.PlaySoundFrontend("FLIGHT_SCHOOL_LESSON_PASSED", "HUD_AWARDS");
                     IsStarted = true;
                     CountdownStarted = false;
@@ -200,7 +199,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public void ActivateEventTimerBars(bool isCountdown = true)
         {
-            foreach (var bar in TimerBars)
+            foreach (TimerBarBase bar in TimerBars)
             {
                 TimerBarPool.Remove(bar);
             }
@@ -239,7 +238,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public virtual void ResetEvent()
         {
-            foreach (var bar in TimerBars)
+            foreach (TimerBarBase bar in TimerBars)
             {
                 TimerBarPool.Remove(bar);
             }

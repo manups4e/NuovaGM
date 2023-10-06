@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
                 if (playerPed.IsInRangeOf(app.Value.MarkerEntrata.ToVector3, 1.375f))
                 {
                     HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare o citofonare~w~.");
-                    if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) AppartamentiClient.EntraMenu(app); // da fare e agg. controllo se è casa mia o no per il menu
+                    if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) AppartamentiClient.EntraMenu(app); // da fare e agg. controllo se è casa mia o no per il menu
                 }
 
                 if (!playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno.ToVector3, 3f)) continue;
@@ -137,13 +137,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
                     if (playerPed.IsInRangeOf(app.MarkerUscita.ToVector3, 1.375f))
                     {
                         HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
-                        if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) AppartamentiClient.EsciMenu(app);
+                        if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) AppartamentiClient.EsciMenu(app);
                     }
 
                     if (playerPed.IsInRangeOf(app.MarkerGarageInterno.ToVector3, 1.375f))
                     {
                         HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
-                        if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) AppartamentiClient.EsciMenu(app, true);
+                        if (Input.IsControlJustPressed(Control.Context) && !MenuHandler.IsAnyMenuOpen) AppartamentiClient.EsciMenu(app, true);
                     }
                 }
         }

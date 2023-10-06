@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 
 
@@ -120,7 +118,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
             Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
             Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
             Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
-            foreach (Position pos in _atmpos) atmInputs.Add(new InputController(Control.Context, pos, "Premi ~INPUT_CONTEXT~ per gestire il conto", new((MarkerType)(-1), pos, ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
+            foreach (Position pos in _atmpos) atmInputs.Add(new InputController(Control.Context, pos, "Premi ~INPUT_CONTEXT~ per gestire il conto", new((MarkerType)(-1), pos, SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
             InputHandler.AddInputList(atmInputs);
             AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
         }
@@ -174,7 +172,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
         /*		public static async void BankMenu()
 				{
 					UIMenu Banca = new UIMenu(" ", "~y~Desanta Banking, Benvenuto!", new Point(0, 0), Main.Textures["Michael"].Key, Main.Textures["Michael"].Value);
-					HUD.MenuPool.Add(Banca);
+					MenuHandler.Add(Banca);
 					int saldoBanca = Cache.Char.Bank;
 
 					UIMenuItem Saldo = new UIMenuItem("Saldo Bancario", "I tuoi soldi in banca");
@@ -254,7 +252,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 						}
 					};
 
-					UIMenu Bonifico = HUD.MenuPool.AddSubMenu(Banca, "Bonifico", "Bonifico istantaneo verso chiunque");
+					UIMenu Bonifico = MenuHandler.AddSubMenu(Banca, "Bonifico", "Bonifico istantaneo verso chiunque");
 					UIMenuItem destinatario = new UIMenuItem("Nome Intestatario", "A chi vuoi inviare i soldi?");
 					UIMenuItem importo = new UIMenuItem("Importo da inviare", "Quanto??");
 					UIMenuItem conferma = new UIMenuItem("~g~Invia~w~", "Confermi?");
@@ -1116,7 +1114,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
                     EndScaleformMovieMethod();
                     atm.CallFunction("DISPLAY_MESSAGE");
                     await BaseScript.Delay(SharedMath.GetRandomInt(2500, 4500));
-                    var trans = await EventDispatcher.Get<Tuple<bool, string>>("lprp:banking:" + evento, _soldiTransazione);
+                    Tuple<bool, string> trans = await EventDispatcher.Get<Tuple<bool, string>>("lprp:banking:" + evento, _soldiTransazione);
                     if (trans.Item1)
                         HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", ColoreNotifica.GreenLight);
                     else

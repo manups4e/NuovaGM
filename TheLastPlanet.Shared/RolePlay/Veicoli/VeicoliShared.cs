@@ -1,15 +1,13 @@
-﻿using CitizenFX.Core;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Drawing;
-using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared.Veicoli
 {
-    
+
     public class OwnedVehicle
     {
-        [Ignore]
+
         [JsonIgnore]
         Vehicle Vehicle = null;
         [JsonProperty("targa")]
@@ -54,7 +52,7 @@ namespace TheLastPlanet.Shared.Veicoli
         }
     }
 
-    
+
     public class VehGarage
     {
         public bool InGarage { get; set; }
@@ -77,10 +75,10 @@ namespace TheLastPlanet.Shared.Veicoli
 
     public class VehicleData
     {
-        [Ignore]
+
         [JsonIgnore]
         public long Assicurazione;
-        [Ignore]
+
         [JsonIgnore]
         public VehProp props = new VehProp();
         public bool Rubato { get; set; }
@@ -105,10 +103,8 @@ namespace TheLastPlanet.Shared.Veicoli
         public float DirtLevel { get; set; }
         public int PrimaryColor { get; set; }
         public int SecondaryColor { get; set; }
-        [Force] public int CustomPrimaryColorInt { get => CustomPrimaryColor.ToArgb(); set { CustomPrimaryColor = Color.FromArgb(value); } }
-        [Force] public int CustomSecondaryColorInt { get => CustomSecondaryColor.ToArgb(); set { CustomSecondaryColor = Color.FromArgb(value); } }
-        [Ignore] public Color CustomPrimaryColor { get; set; }
-        [Ignore] public Color CustomSecondaryColor { get; set; }
+        public Color CustomPrimaryColor { get; set; }
+        public Color CustomSecondaryColor { get; set; }
         public bool HasCustomPrimaryColor { get; set; }
         public bool HasCustomSecondaryColor { get; set; }
         public int PearlescentColor { get; set; }
@@ -117,10 +113,8 @@ namespace TheLastPlanet.Shared.Veicoli
         public int WindowTint { get; set; }
         public bool[] NeonEnabled = new bool[4];
         public bool[] Extras = new bool[13];
-        [Force] public int NeonColorInt { get => NeonColor.ToArgb(); set { NeonColor = Color.FromArgb(value); } }
-        [Force] public int TireSmokeColorInt { get => TireSmokeColor.ToArgb(); set { TireSmokeColor = Color.FromArgb(value); } }
-        [Ignore] public Color NeonColor { get; set; }
-        [Ignore] public Color TireSmokeColor { get; set; }
+        public Color NeonColor { get; set; }
+        public Color TireSmokeColor { get; set; }
         public List<VehMod> Mods { get; set; }
         public bool ModKitInstalled { get; set; }
         public int ModLivery { get; set; }
@@ -167,7 +161,7 @@ namespace TheLastPlanet.Shared.Veicoli
         }
     }
 
-    
+
     public class Veicoloaff
     {
         public string name { get; set; }

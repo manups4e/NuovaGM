@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.AdminAC
 {
@@ -18,17 +15,36 @@ namespace TheLastPlanet.Client.AdminAC
         public static async void AdminMenu(UserGroup group_level)
         {
             UIMenu AdminMenu = new("Admin menu", "Il menu di chi comanda!", new PointF(950, 50), "thelastgalaxy", "bannerbackground", false, true);
-            HUD.MenuPool.Add(AdminMenu);
-            UIMenu MenuPlayers = AdminMenu.AddSubMenu("Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi).\n~o~FAI ATTENZIONE!~w~");
-            UIMenu MenuVehicles = AdminMenu.AddSubMenu("Menu Veicoli");
-            UIMenu Oggetti = AdminMenu.AddSubMenu("Menu Oggetti");
-            UIMenu MenuArmi = AdminMenu.AddSubMenu("Menu Armi");
-            UIMenu Meteo = AdminMenu.AddSubMenu("Cambia Meteo");
-            UIMenu Orario = AdminMenu.AddSubMenu("Cambia Ora del Server");
+            UIMenuItem playersItem = new UIMenuItem("Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi).~n~o~FAI ATTENZIONE!~w~");
+            UIMenu MenuPlayers = new UIMenu("Gestione Giocatori", "");
+            UIMenuItem MenuVehiclesItem = new UIMenuItem("Gestione Giocatori");
+            UIMenu MenuVehicles = new("Menu Veicoli", "");
+            UIMenuItem OggettiItem = new UIMenuItem("Gestione Giocatori");
+            UIMenu Oggetti = new("Menu Oggetti", "");
+            UIMenuItem MenuArmiItem = new UIMenuItem("Gestione Giocatori");
+            UIMenu MenuArmi = new("Menu Armi", "");
+            UIMenuItem MeteoItem = new UIMenuItem("Gestione Giocatori");
+            UIMenu Meteo = new("Cambia Meteo", "");
+            UIMenuItem OrarioItem = new UIMenuItem("Gestione Giocatori");
+            UIMenu Orario = new("Cambia Ora del Server", "");
+
+            playersItem.Activated += async (a, b) => await a.SwitchTo(MenuPlayers, 0, true);
+            MenuVehiclesItem.Activated += async (a, b) => await a.SwitchTo(MenuVehicles, 0, true);
+            OggettiItem.Activated += async (a, b) => await a.SwitchTo(Oggetti, 0, true);
+            MenuArmiItem.Activated += async (a, b) => await a.SwitchTo(MenuArmi, 0, true);
+            MeteoItem.Activated += async (a, b) => await a.SwitchTo(Meteo, 0, true);
+            OrarioItem.Activated += async (a, b) => await a.SwitchTo(Orario, 0, true);
+
+            AdminMenu.AddItem(playersItem);
+            AdminMenu.AddItem(MenuVehiclesItem);
+            AdminMenu.AddItem(OggettiItem);
+            AdminMenu.AddItem(MenuArmiItem);
+            AdminMenu.AddItem(MeteoItem);
+            AdminMenu.AddItem(OrarioItem);
 
             #region Players
 
-            MenuPlayers.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+            MenuPlayers.OnMenuOpen += async (a, b) =>
             {
                 //if (state != MenuState.Opened) return;
                 MenuPlayers.Clear();
@@ -42,7 +58,7 @@ namespace TheLastPlanet.Client.AdminAC
 					}
 					*/
 
-                var players = await EventDispatcher.Get<List<Player>>("tlg:getPlayers");
+                global::System.Collections.Generic.List<global::CitizenFX.Core.Player> players = await EventDispatcher.Get<List<Player>>("tlg:getPlayers");
 
                 foreach (PlayerClient p in Client.Instance.Clients)
                 {
@@ -53,7 +69,10 @@ namespace TheLastPlanet.Client.AdminAC
                         charscount = "1 personaggio";
                     else
                         charscount = player.Characters.Count + " personaggi";
-                    UIMenu Giocatore = MenuPlayers.AddSubMenu(p.Player.Name, charscount);
+                    UIMenuItem playerItem = new UIMenuItem(p.Player.Name, charscount);
+                    MenuPlayers.AddItem(playerItem);
+                    UIMenu Giocatore = new(p.Player.Name, "");
+                    playerItem.Activated += async (a, b) => await MenuPlayers.SwitchTo(Giocatore, 0, true);
                     UIMenuItem Teletrasportami = new("Teletrasportati alla sua posizione");
                     UIMenuItem Teletrasportalo = new("Teletrasporta il player alla tua posizione");
                     UIMenuItem Specta = new("Specta Player");
@@ -106,10 +125,13 @@ namespace TheLastPlanet.Client.AdminAC
                         "1 anno",
                         "100 anni (Perma-ban)"
                     };
-                    UIMenu Ban = Giocatore.AddSubMenu("~r~Banna Player~w~");
+                    UIMenuItem banItem = new UIMenuItem("~r~Banna Player~w~");
+                    UIMenu Ban = new UIMenu("Banna Player " + p.Player.Name, "");
+                    banItem.Activated += async (a, b) => await Giocatore.SwitchTo(Ban, 0, true);
+                    Giocatore.AddItem(banItem);
                     UIMenuItem motivazioneBan = new("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
                     UIMenuListItem TempoBan = new("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
-                    UIMenuItem Banna = new("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
+                    UIMenuItem Banna = new("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", SColor.HUD_Reddark, SColor.HUD_Red);
                     UIMenuCheckboxItem temp = new("Temporaneo", UIMenuCheckboxStyle.Tick, false, "Temporaneo?");
                     Ban.AddItem(motivazioneBan);
                     Ban.AddItem(TempoBan);
@@ -221,7 +243,11 @@ namespace TheLastPlanet.Client.AdminAC
                     #region Kick
 
                     string motivazionekick = "";
-                    UIMenu Kick = Giocatore.AddSubMenu("~y~Kicka Player~w~");
+                    UIMenuItem kickItem = new UIMenuItem("~y~Kicka Player~w~");
+                    UIMenu Kick = new UIMenu("Kicka Player " + p.Player.Name, "");
+                    Giocatore.AddItem(kickItem);
+                    kickItem.Activated += async (a, b) => await Giocatore.SwitchTo(Kick, 0, true);
+
                     UIMenuItem motivazioneKick = new("Motivazione");
                     UIMenuItem Kicka = new("Kicka fuori dal server", "NB: ATTENZIONE! IL TUO NOME SARA' INSERITO ALLA FINE DELLA MOTIVAZIONE!");
                     Kick.AddItem(motivazioneKick);
@@ -242,18 +268,46 @@ namespace TheLastPlanet.Client.AdminAC
 
                     #endregion
 
-                    UIMenu Personaggi = Giocatore.AddSubMenu("~b~Gestione Personaggi~w~", charscount);
+                    UIMenuItem persItem = new UIMenuItem("~b~Gestione Personaggi~w~", charscount);
+                    UIMenu Personaggi = new UIMenu("Gestione Personaggi", "");
+                    Giocatore.AddItem(persItem);
+                    persItem.Activated += async (a, b) => await Giocatore.SwitchTo(Personaggi, 0, true);
 
                     foreach (Char_data chars in player.Characters)
                     {
-                        UIMenu Character = Personaggi.AddSubMenu(chars.Info.firstname + " " + chars.Info.lastname);
-                        UIMenu DatiPersonali = Character.AddSubMenu("Dati Personali", "Nome, cognome, lavoro, gangs");
-                        UIMenu Inventario = Character.AddSubMenu("Inventario");
-                        UIMenu Armi = Character.AddSubMenu("Armi");
-                        UIMenu Finanze = Character.AddSubMenu("Finanze");
-                        UIMenu VeicoliPersonali = Character.AddSubMenu("Veicoli Personali");
-                        UIMenu Immobili = Character.AddSubMenu("Proprietà Possedute");
-                        UIMenu DatiGenerici = Character.AddSubMenu("Dati Generici", "Fedina Penale, Multe..");
+                        UIMenuItem CharacterItem = new UIMenuItem(chars.Info.firstname + " " + chars.Info.lastname);
+                        UIMenu Character = new(chars.Info.firstname + " " + chars.Info.lastname, "");
+                        Personaggi.AddItem(CharacterItem);
+                        UIMenuItem DatiPersonaliItem = new UIMenuItem("Dati Personali", "Nome, cognome, lavoro, gangs");
+                        UIMenu DatiPersonali = new("Dati Personali", "Nome, cognome, lavoro, gangs");
+                        Personaggi.AddItem(DatiPersonaliItem);
+                        UIMenuItem InventarioItem = new UIMenuItem("Inventario");
+                        UIMenu Inventario = new("Inventario", "");
+                        Personaggi.AddItem(InventarioItem);
+                        UIMenuItem ArmiItem = new UIMenuItem("Armi");
+                        UIMenu Armi = new("Armi", "");
+                        Personaggi.AddItem(ArmiItem);
+                        UIMenuItem FinanzeItem = new UIMenuItem("Finanze");
+                        UIMenu Finanze = new("Finanze", "");
+                        Personaggi.AddItem(FinanzeItem);
+                        UIMenuItem VeicoliPersonaliItem = new UIMenuItem("Veicoli Personali");
+                        UIMenu VeicoliPersonali = new("Veicoli Personali", "");
+                        Personaggi.AddItem(VeicoliPersonaliItem);
+                        UIMenuItem ImmobiliItem = new UIMenuItem("Proprietà Possedute");
+                        UIMenu Immobili = new("Proprietà Possedute", "");
+                        Personaggi.AddItem(ImmobiliItem);
+                        UIMenuItem DatiGenericiItem = new UIMenuItem("Dati Generici", "Fedina Penale, Multe..");
+                        UIMenu DatiGenerici = new("Dati Generici", "Fedina Penale, Multe..");
+                        Personaggi.AddItem(DatiGenericiItem);
+
+                        CharacterItem.Activated += async (a, b) => await Personaggi.SwitchTo(Character, 0, true);
+                        DatiPersonaliItem.Activated += async (a, b) => await Personaggi.SwitchTo(DatiPersonali, 0, true);
+                        InventarioItem.Activated += async (a, b) => await Personaggi.SwitchTo(Inventario, 0, true);
+                        ArmiItem.Activated += async (a, b) => await Personaggi.SwitchTo(Armi, 0, true);
+                        FinanzeItem.Activated += async (a, b) => await Personaggi.SwitchTo(Finanze, 0, true);
+                        VeicoliPersonaliItem.Activated += async (a, b) => await Personaggi.SwitchTo(VeicoliPersonali, 0, true);
+                        ImmobiliItem.Activated += async (a, b) => await Personaggi.SwitchTo(Immobili, 0, true);
+                        DatiGenericiItem.Activated += async (a, b) => await Personaggi.SwitchTo(DatiGenerici, 0, true);
 
                         #region Dati Personali
 
@@ -290,7 +344,11 @@ namespace TheLastPlanet.Client.AdminAC
                             foreach (Inventory item in chars.Inventory)
                             {
                                 if (item.Amount <= 0) continue;
-                                UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].label, "[Quantità: " + item.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].description);
+                                UIMenuItem newItemMenuItem = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].label, "[Quantità: " + item.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].description);
+                                UIMenu newItemMenu = new UIMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].label, "Inventario");
+                                newItemMenuItem.Activated += async (a, b) => await Inventario.SwitchTo(newItemMenu, 0, true);
+                                Inventario.AddItem(newItemMenuItem);
+
                                 UIMenuItem add = new("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?");
                                 UIMenuItem rem = new("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?");
                                 newItemMenu.AddItem(add);
@@ -314,8 +372,6 @@ namespace TheLastPlanet.Client.AdminAC
                                         else
                                             HUD.ShowNotification("Quantità non valida!", ColoreNotifica.Red, true);
                                     }
-
-                                    menu.ParentMenu.RefreshIndex();
                                 };
                             }
 
@@ -327,7 +383,6 @@ namespace TheLastPlanet.Client.AdminAC
                                 BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.Handle, chars.CharID, oggetto, quantita);
                             else
                                 HUD.ShowNotification("Quantità non valida!", ColoreNotifica.Red, true);
-                            menu.RefreshIndex();
                         };
 
                         #endregion
@@ -361,7 +416,10 @@ namespace TheLastPlanet.Client.AdminAC
 
             UIMenuItem NomeVeh = new("Nome veicolo da spawnare");
             MenuVehicles.AddItem(NomeVeh);
-            UIMenu VehOptions = MenuVehicles.AddSubMenu("Opzioni di spawn");
+            UIMenuItem vehOptionsItem = new UIMenuItem("Opzioni di spawn");
+            UIMenu VehOptions = new("Opzioni di spawn", "");
+            MenuVehicles.AddItem(vehOptionsItem);
+            vehOptionsItem.Activated += async (a, b) => await MenuVehicles.SwitchTo(VehOptions, 0, true);
             UIMenuCheckboxItem spawn = new("Spawna nel veicolo", UIMenuCheckboxStyle.Tick, SpawnaNelVeicolo, "");
             UIMenuCheckboxItem deletepreviousveh = new("Cancella vecchio veicolo", UIMenuCheckboxStyle.Tick, CancellaVecchioVeh, "");
             VehOptions.AddItem(spawn);
@@ -448,8 +506,11 @@ namespace TheLastPlanet.Client.AdminAC
 
             #region Meteo
 
-            UIMenu metei = Meteo.AddSubMenu("Seleziona Meteo");
-            var meteo = (Client.Instance.ServerState.Get("Meteo") as byte[]).FromBytes<SharedWeather>();
+            UIMenuItem meteiItem = new UIMenuItem("Seleziona Meteo");
+            UIMenu metei = new("Seleziona Meteo", "");
+            Meteo.AddItem(meteiItem);
+            meteiItem.Activated += async (a, b) => await Meteo.SwitchTo(metei, 0, true);
+            SharedWeather meteo = (Client.Instance.ServerState.Get("Meteo") as byte[]).FromBytes<SharedWeather>();
             UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, meteo.Blackout, "BlackOut di tutte le luci in mappa");
             UIMenuCheckboxItem dinamico = new("Meteo Dinamico", UIMenuCheckboxStyle.Tick, meteo.DynamicMeteo, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
             Meteo.AddItem(blackout);
@@ -602,23 +663,23 @@ namespace TheLastPlanet.Client.AdminAC
 
             if ((int)group_level < 2)
             {
-                Meteo.ParentItem.Enabled = false;
-                Meteo.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
-                Meteo.ParentItem.SetRightBadge(BadgeIcon.LOCK);
-                Orario.ParentItem.Enabled = false;
-                Orario.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
-                Orario.ParentItem.SetRightBadge(BadgeIcon.LOCK);
+                MeteoItem.Enabled = false;
+                MeteoItem.Description = "NON HAI I PERMESSI NECESSARI";
+                MeteoItem.SetRightBadge(BadgeIcon.LOCK);
+                OrarioItem.Enabled = false;
+                OrarioItem.Description = "NON HAI I PERMESSI NECESSARI";
+                OrarioItem.SetRightBadge(BadgeIcon.LOCK);
             }
             else
             {
-                Meteo.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
-                Orario.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
+                MeteoItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
+                OrarioItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
             }
 
             if ((int)group_level < 5)
             {
-                Oggetti.ParentItem.Enabled = false;
-                Oggetti.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
+                OggettiItem.Enabled = false;
+                OggettiItem.Description = "NON HAI I PERMESSI NECESSARI";
             }
 
             AdminMenu.Visible = true;

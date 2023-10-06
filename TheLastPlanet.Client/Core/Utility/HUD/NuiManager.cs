@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -77,8 +78,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
         public void RegisterCallback(string @event, Action action)
         {
-            RegisterNuiCallbackType(@event);
-            Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
+            API.RegisterNuiCallback(@event, new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
             {
                 Client.Logger.Debug($"Chiamato NUI Callback [{@event}] con Payload {data.ToJson()}");
                 action();
@@ -88,8 +88,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
         public void RegisterCallback<T>(string @event, Action<T> action)
         {
-            RegisterNuiCallbackType(@event);
-            Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
+            API.RegisterNuiCallback(@event, new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
             {
                 Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()} di tipo {typeof(T)}");
                 T typedData = data.Count == 1 ? Shared.TypeCache<T>.IsSimpleType ? (T)data.Values.ElementAt(0) : data.Values.ElementAt(0).ToJson().FromJson<T>() : data.ToJson().FromJson<T>();
@@ -98,25 +97,23 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
             }));
         }
 
-        public void RegisterCallback<TReturn>(string @event, Func<TReturn> action)
+        public void RegisterCallback<TReturn>(string @event, Func<Task<TReturn>> action)
         {
-            RegisterNuiCallbackType(@event);
-            Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
+            API.RegisterNuiCallback(@event, new Action<IDictionary<string, object>, CallbackDelegate>(async (data, callback) =>
             {
                 Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()}");
-                TReturn result = action();
+                TReturn result = await action();
                 callback(result.ToJson());
             }));
         }
 
-        public void RegisterCallback<T, TReturn>(string @event, Func<T, TReturn> action)
+        public void RegisterCallback<T, TReturn>(string @event, Func<T, Task<TReturn>> action)
         {
-            RegisterNuiCallbackType(@event);
-            Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
+            API.RegisterNuiCallback(@event, new Action<IDictionary<string, object>, CallbackDelegate>(async (data, callback) =>
             {
                 Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()}");
-                T typedData = data.Count == 1 ? TypeCache<T>.IsSimpleType ? (T)data.Values.ElementAt(0) : data.Values.ElementAt(0).ToJson().FromJson<T>() : data.ToJson().FromJson<T>();
-                TReturn result = action(typedData);
+                T typedData = data.Count == 1 ? FxEvents.Shared.TypeExtensions.TypeCache<T>.IsSimpleType ? (T)data.Values.ElementAt(0) : data.Values.ElementAt(0).ToJson().FromJson<T>() : data.ToJson().FromJson<T>();
+                TReturn result = await action(typedData);
                 callback(result.ToJson());
             }));
         }

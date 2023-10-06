@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using FxEvents.Shared.Snowflakes;
+using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using MarkerEx = TheLastPlanet.Client.Core.Utility.HUD.MarkerEx;
 
@@ -10,15 +12,16 @@ namespace TheLastPlanet.Client
         public static async void Init()
         {
             Client.Instance.AddTick(TestTick);
+            EventDispatcher.Send("testVector", new Tuple<Snowflake, Vector2>(Snowflake.Next(), new Vector2(2f, 4f)));
         }
 
 
         static bool pp = false;
-        static MarkerEx dummyMarker = new(MarkerType.VerticalCylinder, WorldProbe.CrossairRaycastResult.HitPosition.ToPosition(), Colors.Blue);
+        static MarkerEx dummyMarker = new(MarkerType.VerticalCylinder, WorldProbe.CrossairRaycastResult.HitPosition.ToPosition(), SColor.Blue);
         private static async Task TestTick()
         {
             //Client.Logger.Debug(IplManager.Global.ToJson());
-            if (Input.IsControlJustPressed(Control.Detonate, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
+            if (Input.IsControlJustPressed(Control.Detonate, PadCheck.Keyboard, ControlModifier.Shift) && !MenuHandler.IsAnyMenuOpen)
             {
                 //await PlayerCache.InitPlayer();
 
@@ -53,7 +56,6 @@ namespace TheLastPlanet.Client
             UIMenu menu = new UIMenu("🐌", "test", new PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
             UIMenuItem item = new("😐", "~BLIP_INFO_ICON~ Potrai in ogni mento riaprire questo menu di pausa premendo i tasti ~INPUT_SPRINT~ + ~INPUT_DROP_WEAPON~ oppure con il comando /help.");
             menu.AddItem(item);
-            HUD.MenuPool.Add(menu);
             menu.Visible = true;
         }
     }

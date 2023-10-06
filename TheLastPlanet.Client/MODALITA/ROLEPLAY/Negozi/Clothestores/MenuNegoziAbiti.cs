@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
     internal static class MenuNegoziAbiti
     {
-        private static MenuPool pool = HUD.MenuPool;
         private static bool AccessoriAttivo = false;
         private static List<UIMenu> _menuVestiti = new();
 
@@ -389,7 +386,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             _menuVestiti.Clear();
             UIMenuItem ciao = new("");
             UIMenu MenuVest = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
-            pool.Add(MenuVest);
             MenuVest.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
             SetPedAlternateMovementAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, 0, anim, "try_shirt_base", 4.0f, true);
@@ -462,13 +458,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     }
                 }
             };
-            MenuVest.OnMenuStateChanged += async (oldmenu, _menu, state) =>
+            MenuVest.OnMenuClose += async (a) =>
             {
-                if (state != MenuState.Closed) return;
                 await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
                 NegozioAbitiClient.Esci();
                 Client.Instance.RemoveTick(CameraVest);
             };
+
             MenuVest.Visible = true;
             Client.Instance.AddTick(CameraVest);
         }
@@ -483,7 +479,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             UIMenuItem ciao = new("");
             UIMenuItem ciaone = new("");
             UIMenu MenuPant = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
-            pool.Add(MenuPant);
             MenuPant.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
             _menuVestiti.Add(MenuPant);
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
@@ -496,7 +491,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
             foreach (Singolo v in completi)
             {
-                UIMenu Pant = pool.AddSubMenu(MenuPant, v.Title, v.Description);
+                UIMenuItem pantItem = new(v.Title, v.Description);
+                UIMenu Pant = new(v.Title, "");
+                pantItem.Activated += async (a, b) => await MenuPant.SwitchTo(Pant, 0, true);
+                MenuPant.AddItem(pantItem);
                 Pant.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
                 _menuVestiti.Add(Pant);
 
@@ -538,33 +536,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     }
 
                     if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni != texture) continue;
-                    Pant.ParentItem.SetRightBadge(BadgeIcon.CLOTHING);
-                    ciao = Pant.ParentItem;
+                    pantItem.SetRightBadge(BadgeIcon.CLOTHING);
+                    ciao = pantItem;
                     pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
                     ciaone = pant;
                 }
 
-                Pant.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+                Pant.OnMenuOpen += async (a, b) =>
                 {
-                    switch (state)
-                    {
-                        case MenuState.ChangeForward:
-                            {
-                                SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
-                                string random = GetRandomAnim(anim, false);
-                                SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
-                                await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                                mod = v.Modello;
-                                text = v.Text[0];
-
-                                break;
-                            }
-                        case MenuState.ChangeBackward:
-                            await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-
-                            break;
-                    }
+                    SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
+                    string random = GetRandomAnim(anim, false);
+                    SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
+                    await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+                    mod = v.Modello;
+                    text = v.Text[0];
                 };
+                Pant.OnMenuClose += async (a) => await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+
                 Pant.OnIndexChange += async (sender, index) =>
                 {
                     string random = GetRandomAnim(anim, false);
@@ -629,9 +617,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 };
             }
 
-            MenuPant.OnMenuStateChanged += async (oldmenu, _menu, state) =>
+            MenuPant.OnMenuClose += async (a) =>
             {
-                if (state != MenuState.Closed) return;
                 await BaseScript.Delay(100);
 
                 if (_menuVestiti.Any(t => t.Visible)) return;
@@ -653,7 +640,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             UIMenuItem ciao = new("");
             UIMenuItem ciaone = new("");
             UIMenu MenuScarpe = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
-            pool.Add(MenuScarpe);
             _menuVestiti.Add(MenuScarpe);
             MenuScarpe.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
@@ -666,7 +652,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
             foreach (Singolo v in completi)
             {
-                UIMenu Scarp = pool.AddSubMenu(MenuScarpe, v.Title, v.Description);
+                UIMenuItem ScarpItem = new(v.Title, v.Description);
+                UIMenu Scarp = new(v.Title, "");
+                ScarpItem.BindItemToMenu(Scarp);
+                MenuScarpe.AddItem(ScarpItem);
                 Scarp.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
                 _menuVestiti.Add(Scarp);
 
@@ -708,32 +697,22 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     }
 
                     if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe != texture) continue;
-                    Scarp.ParentItem.SetRightBadge(BadgeIcon.CLOTHING);
-                    ciao = Scarp.ParentItem;
+                    ScarpItem.SetRightBadge(BadgeIcon.CLOTHING);
+                    ciao = ScarpItem;
                     pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
                     ciaone = pant;
                 }
 
-                Scarp.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+                Scarp.OnMenuOpen += async (a, b) =>
                 {
-                    switch (state)
-                    {
-                        case MenuState.ChangeForward:
-                            {
-                                string random = GetRandomAnim(anim, false);
-                                SetPedComponentVariation(PlayerPedId(), 6, v.Modello, v.Text[0], 2);
-                                await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                                mod = v.Modello;
-                                text = v.Text[0];
-
-                                break;
-                            }
-                        case MenuState.ChangeBackward:
-                            await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-
-                            break;
-                    }
+                    string random = GetRandomAnim(anim, false);
+                    SetPedComponentVariation(PlayerPedId(), 6, v.Modello, v.Text[0], 2);
+                    await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+                    mod = v.Modello;
+                    text = v.Text[0];
                 };
+                Scarp.OnMenuClose += async (a) => await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+
                 Scarp.OnIndexChange += async (sender, index) =>
                 {
                     string random = GetRandomAnim(anim, false);
@@ -798,9 +777,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 };
             }
 
-            MenuScarpe.OnMenuStateChanged += async (oldmenu, _menu, state) =>
+            MenuScarpe.OnMenuClose += async (a) =>
             {
-                if (state != MenuState.Closed) return;
                 await BaseScript.Delay(100);
 
                 foreach (UIMenu t in _menuVestiti)
@@ -824,7 +802,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             UIMenuItem ciao = new("");
             UIMenuItem ciaone = new("");
             UIMenu MenuOcchiali = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
-            pool.Add(MenuOcchiali);
             _menuVestiti.Add(MenuOcchiali);
             MenuOcchiali.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
@@ -837,7 +814,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
             foreach (Singolo v in completi)
             {
-                UIMenu Scarp = pool.AddSubMenu(MenuOcchiali, v.Title, v.Description);
+                UIMenuItem ScarpItem = new(v.Title, v.Description);
+                UIMenu Scarp = new(v.Title, "");
+                ScarpItem.BindItemToMenu(Scarp);
+                MenuOcchiali.AddItem(ScarpItem);
                 Scarp.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
                 _menuVestiti.Add(Scarp);
 
@@ -879,32 +859,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     }
 
                     if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie != texture) continue;
-                    Scarp.ParentItem.SetRightBadge(BadgeIcon.CLOTHING);
-                    ciao = Scarp.ParentItem;
+                    ScarpItem.SetRightBadge(BadgeIcon.CLOTHING);
+                    ciao = ScarpItem;
                     pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
                     ciaone = pant;
                 }
 
-                Scarp.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+                Scarp.OnMenuOpen += async (a, b) =>
                 {
-                    switch (state)
-                    {
-                        case MenuState.ChangeForward:
-                            {
-                                string random = GetRandomAnim(anim, false);
-                                SetPedPropIndex(PlayerPedId(), 1, v.Modello, v.Text[0], false);
-                                await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                                mod = v.Modello;
-                                text = v.Text[0];
-
-                                break;
-                            }
-                        case MenuState.ChangeBackward:
-                            await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-
-                            break;
-                    }
+                    string random = GetRandomAnim(anim, false);
+                    SetPedPropIndex(PlayerPedId(), 1, v.Modello, v.Text[0], false);
+                    await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+                    mod = v.Modello;
+                    text = v.Text[0];
                 };
+
+                Scarp.OnMenuClose += async (a) => await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+
                 Scarp.OnIndexChange += async (menu, index) =>
                 {
                     string random = GetRandomAnim(anim, false);
@@ -969,9 +940,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 };
             }
 
-            MenuOcchiali.OnMenuStateChanged += async (oldmenu, _menu, state) =>
+            MenuOcchiali.OnMenuClose += async (a) =>
             {
-                if (state != MenuState.Closed) return;
                 await BaseScript.Delay(100);
 
                 foreach (UIMenu t in _menuVestiti)
@@ -1014,7 +984,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             UIMenuItem BorsAtt = new("");
             UIMenuItem CappRim = new("");
             UIMenu MenuAccessori = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
-            pool.Add(MenuAccessori);
+
             MenuAccessori.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
             SetPedAlternateMovementAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, 0, anim, "try_shirt_base", 4.0f, true);
@@ -1033,18 +1003,42 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
             #region sottomenu
 
-            Borse = pool.AddSubMenu(MenuAccessori, "Borse", "Scegli qui tra le borse disponibili!");
+            UIMenuItem BorseItem = new("Borse", "Scegli qui tra le borse disponibili!");
+            Borse = new("Borse", "");
             Borse.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
-            Capp = pool.AddSubMenu(MenuAccessori, "Cappellini", "Scegli qui i tuoi accessori preferiti!");
+            UIMenuItem CappItem = new("Cappellini", "Scegli qui i tuoi accessori preferiti!");
+            Capp = new("Cappellini", "");
             Capp.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
-            Orecc = pool.AddSubMenu(MenuAccessori, "Orecchini e Auricolari", "Scegli qui i tuoi pendagli preferiti!");
+            UIMenuItem OreccItem = new("Orecchini e Auricolari", "Scegli qui i tuoi pendagli preferiti!");
+            Orecc = new("Orecchini e Auricolari", "");
             Orecc.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
-            Polso = pool.AddSubMenu(MenuAccessori, "Orologi e Braccialetti", "Scegli qui tra orologi e braccialetti!");
+            UIMenuItem PolsoItem = new("Orologi e Braccialetti", "Scegli qui tra orologi e braccialetti!");
+            Polso = new("Orologi e Braccialetti", "");
             Polso.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
-            Orol = pool.AddSubMenu(Polso, "Orologi", "Scegli qui i tuoi orologi!");
+            UIMenuItem OrolItem = new("Orologi", "Scegli qui i tuoi orologi!");
+            Orol = new("Orologi", "");
             Orol.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
-            Brac = pool.AddSubMenu(Polso, "Braccialetti", "Scegli qui i tuoi braccialetti!");
+            UIMenuItem BracItem = new("Braccialetti", "Scegli qui i tuoi braccialetti!");
+            Brac = new("Braccialetti", "");
             Brac.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
+
+            BorseItem.BindItemToMenu(MenuAccessori);
+            CappItem.BindItemToMenu(MenuAccessori);
+            OreccItem.BindItemToMenu(MenuAccessori);
+            PolsoItem.BindItemToMenu(MenuAccessori);
+            OrolItem.BindItemToMenu(Polso);
+            BracItem.BindItemToMenu(Polso);
+
+
+            MenuAccessori.AddItem(BorseItem);
+            MenuAccessori.AddItem(CappItem);
+            MenuAccessori.AddItem(OreccItem);
+            MenuAccessori.AddItem(PolsoItem);
+            Polso.AddItem(OrolItem);
+            Polso.AddItem(BracItem);
+
+
+
             SubMenusPolso.Add(Orol);
             SubMenusPolso.Add(Brac);
 
@@ -1145,7 +1139,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 if (Accessorio.Testa.Cappellini.IndexOf(cappellino) != 0)
                 {
-                    Capelino = pool.AddSubMenu(Capp, cappellino.Title + " " + Accessorio.Testa.Cappellini.IndexOf(cappellino), cappellino.Description);
+                    UIMenuItem CapelinoItem = new UIMenuItem(cappellino.Title + " " + Accessorio.Testa.Cappellini.IndexOf(cappellino), cappellino.Description);
+                    Capelino = new(cappellino.Title + " " + Accessorio.Testa.Cappellini.IndexOf(cappellino), "");
+                    CapelinoItem.BindItemToMenu(Capelino);
+                    Capp.AddItem(CapelinoItem);
                     Capelino.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
                     SubMenusCapp.Add(Capelino);
                 }
@@ -1273,9 +1270,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         }
                     }
                 };
-                Capelino.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+                Capelino.OnMenuOpen += async (a, b) =>
                 {
-                    if (state != MenuState.ChangeBackward || newmenu != Capp) return;
                     PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
                     await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
                 };
@@ -1477,7 +1473,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 if (Accessorio.Orologi.IndexOf(orologio) != 0)
                 {
-                    Orologino = pool.AddSubMenu(Orol, orologio.Title, orologio.Description);
+                    UIMenuItem _OrologinoItem = new(orologio.Title, orologio.Description);
+                    Orologino = new(orologio.Title, "");
+                    _OrologinoItem.BindItemToMenu(Orologino);
+                    Orol.AddItem(_OrologinoItem);
                     Orologino.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
                     SubMenusPolso.Add(Orologino);
                 }
@@ -1554,14 +1553,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             NewOrol.SetRightLabel("~r~$" + money);
                     }
 
-                    Orologino.OnMenuStateChanged += (oldmenu, newmenu, state) =>
+                    Orologino.OnMenuOpen += (a, b) =>
                     {
-                        if (state == MenuState.ChangeForward)
-                        {
-                            SetPedPropIndex(PlayerPedId(), 6, orologio.Modello, 0, false);
-                            IntOrolAtt = orologio.Modello;
-                            IntOrolMod = 0;
-                        }
+                        SetPedPropIndex(PlayerPedId(), 6, orologio.Modello, 0, false);
+                        IntOrolAtt = orologio.Modello;
+                        IntOrolMod = 0;
                     };
                     Orologino.OnIndexChange += async (_menu, _newIndex) =>
                     {
@@ -1735,129 +1731,121 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     }
                 }
             };
-            HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+
+            MenuAccessori.OnMenuClose += async (a) =>
             {
-                if (state == MenuState.Closed && oldmenu == MenuAccessori)
+                await BaseScript.Delay(200);
+
+                for (int i = 0; i < SubMenusCapp.Count; i++)
+                    if (SubMenusCapp[i].Visible)
+                        return;
+
+                for (int i = 0; i < SubMenusPolso.Count; i++)
+                    if (SubMenusPolso[i].Visible)
+                        return;
+
+                if (Borse.Visible || Orecc.Visible || Brac.Visible || Polso.Visible || Orol.Visible || Capp.Visible || Orologino.Visible) return;
+                await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+                NegozioAbitiClient.Esci();
+                AccessoriAttivo = false;
+                Client.Instance.RemoveTick(CameraAcc);
+            };
+
+            Brac.OnMenuOpen += async (a, b) => PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 28422, 0.0f, 0.0f, 0.0f, true);
+            Borse.OnMenuOpen += async (a, b) =>
+            {
+                float newheading = Cache.PlayerCache.MyPlayer.Ped.Heading - 180f;
+                Cache.PlayerCache.MyPlayer.Ped.Task.AchieveHeading(newheading, 1000);
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+            };
+            Orecc.OnMenuOpen += async (a, b) =>
+            {
+                ClearPedProp(PlayerPedId(), 2);
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 19336, 0.0f, 0.0f, 0.0f, true);
+
+                do
                 {
-                    await BaseScript.Delay(200);
+                    await BaseScript.Delay(0);
+                    fov -= .7f;
+                    if (fov < 15f) fov = 15f;
+                    NegozioAbitiClient.camm.FieldOfView = fov;
+                } while (fov > 15f);
 
-                    for (int i = 0; i < SubMenusCapp.Count; i++)
-                        if (SubMenusCapp[i].Visible)
-                            return;
+                Cache.PlayerCache.MyPlayer.Ped.Task.LookAt(new Vector3(NegozioAbitiClient.camm.Position.X + 5f, NegozioAbitiClient.camm.Position.Y, NegozioAbitiClient.camm.Position.Z));
+            };
+            Orol.OnMenuOpen += async (a, b) =>
+            {
+                StartAnim("anim@random@shop_clothes@watches", "base");
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 60309, 0.0f, 0.0f, 0.0f, true);
 
-                    for (int i = 0; i < SubMenusPolso.Count; i++)
-                        if (SubMenusPolso[i].Visible)
-                            return;
-
-                    if (Borse.Visible || Orecc.Visible || Brac.Visible || Polso.Visible || Orol.Visible || Capp.Visible || Orologino.Visible) return;
-                    await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-                    NegozioAbitiClient.Esci();
-                    AccessoriAttivo = false;
-                    Client.Instance.RemoveTick(CameraAcc);
-                }
-                else if (state == MenuState.ChangeForward)
+                do
                 {
-                    if (newmenu == Brac)
-                    {
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 28422, 0.0f, 0.0f, 0.0f, true);
-                    }
-                    else if (newmenu == Borse)
-                    {
-                        float newheading = Cache.PlayerCache.MyPlayer.Ped.Heading - 180f;
-                        Cache.PlayerCache.MyPlayer.Ped.Task.AchieveHeading(newheading, 1000);
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-                    }
-                    else if (newmenu == Orecc)
-                    {
-                        ClearPedProp(PlayerPedId(), 2);
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 19336, 0.0f, 0.0f, 0.0f, true);
+                    await BaseScript.Delay(0);
+                    fov -= .7f;
+                    if (fov < 15f) fov = 15f;
+                    NegozioAbitiClient.camm.FieldOfView = fov;
+                } while (fov > 15f);
+            };
 
-                        do
-                        {
-                            await BaseScript.Delay(0);
-                            fov -= .7f;
-                            if (fov < 15f) fov = 15f;
-                            NegozioAbitiClient.camm.FieldOfView = fov;
-                        } while (fov > 15f);
 
-                        Cache.PlayerCache.MyPlayer.Ped.Task.LookAt(new Vector3(NegozioAbitiClient.camm.Position.X + 5f, NegozioAbitiClient.camm.Position.Y, NegozioAbitiClient.camm.Position.Z));
-                    }
-                    else if (newmenu == Orol)
-                    {
-                        StartAnim("anim@random@shop_clothes@watches", "base");
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 60309, 0.0f, 0.0f, 0.0f, true);
+            Borse.OnMenuClose += async (a) =>
+            {
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+                float newheading = Cache.PlayerCache.MyPlayer.Ped.Heading + 180f;
+                Cache.PlayerCache.MyPlayer.Ped.Task.AchieveHeading(newheading, 1000);
+                await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+            };
+            Orecc.OnMenuClose += async (a) =>
+            {
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
 
-                        do
-                        {
-                            await BaseScript.Delay(0);
-                            fov -= .7f;
-                            if (fov < 15f) fov = 15f;
-                            NegozioAbitiClient.camm.FieldOfView = fov;
-                        } while (fov > 15f);
-                    }
-                }
-                else if (state == MenuState.ChangeBackward)
+                do
                 {
-                    if (oldmenu == Borse)
-                    {
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-                        float newheading = Cache.PlayerCache.MyPlayer.Ped.Heading + 180f;
-                        Cache.PlayerCache.MyPlayer.Ped.Task.AchieveHeading(newheading, 1000);
-                        await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-                    }
-                    else if (oldmenu == Orecc)
-                    {
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+                    await BaseScript.Delay(0);
+                    fov += .7f;
+                    if (fov > 45f) fov = 45f;
+                    NegozioAbitiClient.camm.FieldOfView = fov;
+                } while (fov < 45f);
 
-                        do
-                        {
-                            await BaseScript.Delay(0);
-                            fov += .7f;
-                            if (fov > 45f) fov = 45f;
-                            NegozioAbitiClient.camm.FieldOfView = fov;
-                        } while (fov < 45f);
+                await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+                Cache.PlayerCache.MyPlayer.Ped.Task.LookAt(NegozioAbitiClient.camm.Position);
+            };
+            Brac.OnMenuClose += async (a) =>
+            {
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+                await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+                StartAnim(anim, "try_shirt_base");
+            };
+            Orol.OnMenuClose += async (a) =>
+            {
+                await BaseScript.Delay(200);
 
-                        await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-                        Cache.PlayerCache.MyPlayer.Ped.Task.LookAt(NegozioAbitiClient.camm.Position);
-                    }
-                    else if (oldmenu == Brac)
-                    {
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-                        await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-                        StartAnim(anim, "try_shirt_base");
-                    }
-                    else if (oldmenu == Orol)
-                    {
-                        await BaseScript.Delay(200);
+                for (int i = 0; i < SubMenusPolso.Count; i++)
+                    if (SubMenusPolso[i].Visible)
+                        return;
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+                await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+                StartAnim(anim, "try_shirt_base");
+            };
+            Polso.OnMenuClose += async (a) =>
+            {
+                PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+                await BaseScript.Delay(100);
 
-                        for (int i = 0; i < SubMenusPolso.Count; i++)
-                            if (SubMenusPolso[i].Visible)
-                                return;
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-                        await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-                        StartAnim(anim, "try_shirt_base");
-                    }
-                    else if (oldmenu == Polso)
-                    {
-                        PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-                        await BaseScript.Delay(100);
+                for (int i = 0; i < SubMenusPolso.Count; i++)
+                    if (SubMenusPolso[i].Visible)
+                        return;
 
-                        for (int i = 0; i < SubMenusPolso.Count; i++)
-                            if (SubMenusPolso[i].Visible)
-                                return;
+                do
+                {
+                    await BaseScript.Delay(0);
+                    fov += .7f;
+                    if (fov > 45f) fov = 45f;
+                    NegozioAbitiClient.camm.FieldOfView = fov;
+                } while (fov < 45f);
 
-                        do
-                        {
-                            await BaseScript.Delay(0);
-                            fov += .7f;
-                            if (fov > 45f) fov = 45f;
-                            NegozioAbitiClient.camm.FieldOfView = fov;
-                        } while (fov < 45f);
-
-                        StartAnim(anim, "try_shirt_base");
-                        await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-                    }
-                }
+                StartAnim(anim, "try_shirt_base");
+                await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
             };
             MenuAccessori.Visible = true;
             Client.Instance.AddTick(CameraAcc);

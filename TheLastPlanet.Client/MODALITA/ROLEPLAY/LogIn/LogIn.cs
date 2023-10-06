@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 {
@@ -247,7 +245,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
             ToggleMenu(false);
             Screen.Fading.FadeOut(800);
             await BaseScript.Delay(1000);
-            HUD.MenuPool.CloseAllMenus();
+            MenuHandler.CloseAndClearHistory();
             Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
             await BaseScript.Delay(3000);
             /*
@@ -293,7 +291,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
             await BaseScript.Delay(5000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-            Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli = await EventDispatcher.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
+            //Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli = await EventDispatcher.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
             //EnableSwitchPauseBeforeDescent();
             SwitchInPlayer(Cache.PlayerCache.MyPlayer.Ped.Handle);
             //Position pos = await Data.Posizione.FindGroundZ();
@@ -397,8 +395,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
         {
             GuiEnabled = false;
             ToggleMenu(false);
-            ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Pianeta RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, "", WarningPopupType.Classic);
-            ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
+            ScaleformUI.Main.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Pianeta RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, "", WarningPopupType.Classic);
+            ScaleformUI.Main.Warning.OnButtonPressed += async (a) =>
             {
                 if (a.GamepadButton == Control.FrontendCancel)
                     Attiva();
