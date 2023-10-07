@@ -1,6 +1,4 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 #if SERVER
@@ -124,24 +122,24 @@ namespace TheLastPlanet.Shared.Core.Buckets
             API.SetRoutingBucketPopulationEnabled(ID, enabled);
         }
 #endif
-        public ModalitaServer GetBucketGameMode()
+        public ServerMode GetBucketGameMode()
         {
             switch (ID)
             {
                 case var n when (n >= 0 && n <= 999):
-                    return ModalitaServer.Lobby;
+                    return ServerMode.Lobby;
                 case var n when (n >= 1000 && n <= 1999):
-                    return ModalitaServer.Roleplay;
+                    return ServerMode.Roleplay;
                 case var n when (n >= 2000 && n <= 2999):
-                    return ModalitaServer.Minigiochi;
+                    return ServerMode.Minigames;
                 case var n when (n >= 3000 && n <= 3999):
-                    return ModalitaServer.Gare;
+                    return ServerMode.Races;
                 case var n when (n >= 4000 && n <= 4999):
-                    return ModalitaServer.Negozio;
+                    return ServerMode.Store;
                 case var n when (n >= 5000 && n <= 5999):
-                    return ModalitaServer.FreeRoam;
+                    return ServerMode.FreeRoam;
                 default:
-                    return ModalitaServer.UNKNOWN;
+                    return ServerMode.UNKNOWN;
             }
         }
 

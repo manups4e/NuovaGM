@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Roleplay.Lavori.WhiteList;
+﻿using Settings.Shared.Roleplay.Jobs.WhiteList;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,12 +11,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
     internal static class HouseDealer
     {
         private static ConfigVenditoriCase house;
-        private static InputController input = new InputController(Control.Context, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test));
+        private static InputController input = new InputController(Control.Context, ServerMode.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test));
         public static void Init()
         {
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
-            house = Client.Impostazioni.RolePlay.Lavori.VenditoriCase;
+            house = Client.Impostazioni.RolePlay.Jobs.RealEstate;
             Handlers.InputHandler.AddInput(input);
         }
 
@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (!PlayerCache.MyPlayer.Status.Istanza.Stanziato)
+            if (!PlayerCache.MyPlayer.Status.Instance.Instanced)
             {
                 World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso.ToVector3, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);
 
@@ -51,13 +51,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                     if (Input.IsControlJustPressed(Control.Context))
                     {
                         Funzioni.Teleport(house.Config.Dentro.ToVector3);
-                        Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("VenditoreCase");
+                        Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("VenditoreCase");
                     }
                 }
             }
             else
             {
-                if (Cache.PlayerCache.MyPlayer.Status.Istanza.Instance == "VenditoreCase")
+                if (Cache.PlayerCache.MyPlayer.Status.Instance.Instance == "VenditoreCase")
                 {
                     World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita.ToVector3, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
 
@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                         if (Input.IsControlJustPressed(Control.Context))
                         {
                             Funzioni.Teleport(house.Config.Fuori.ToVector3);
-                            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+                            Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
                         }
                     }
                 }
@@ -88,8 +88,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
         private static async void MenuVenditoreCase()
         {
             UIMenu venditore = new UIMenu("Agenzia Immobiliare", "Abbiamo la casa per tutte le esigenze!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
-            Dictionary<string, ConfigCase> Appartamenti = Client.Impostazioni.RolePlay.Proprieta.Appartamenti;
-            Dictionary<string, Garages> Garages = Client.Impostazioni.RolePlay.Proprieta.Garages.Garages;
+            Dictionary<string, ConfigHouses> Appartamenti = Client.Impostazioni.RolePlay.Properties.Apartments;
+            Dictionary<string, Garages> Garages = Client.Impostazioni.RolePlay.Properties.Garages.Garages;
             UIMenuItem appartItem = new("Appartamenti");
             UIMenu appart = new("Appartamenti", "");
             UIMenuItem garaItem = new("Garages");
@@ -103,7 +103,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             venditore.AddItem(garaItem);
 
 
-            foreach (KeyValuePair<string, ConfigCase> app in Appartamenti.OrderBy(x => x.Value.Price))
+            foreach (KeyValuePair<string, ConfigHouses> app in Appartamenti.OrderBy(x => x.Value.Price))
             {
                 UIMenuItem appartamentoItem = new(app.Value.Label);
                 UIMenu appartamento = new(app.Value.Label, "");
@@ -151,9 +151,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 case 1:
                                     Screen.Fading.FadeOut(500);
                                     await BaseScript.Delay(600);
-                                    RequestCollisionAtCoord(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z);
-                                    RequestAdditionalCollisionAtCoord(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z);
-                                    NewLoadSceneStart(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z, app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z, 50f, 0);
+                                    RequestCollisionAtCoord(app.Value.CameraOutside.Pos.X, app.Value.CameraOutside.Pos.Y, app.Value.CameraOutside.Pos.Z);
+                                    RequestAdditionalCollisionAtCoord(app.Value.CameraOutside.Pos.X, app.Value.CameraOutside.Pos.Y, app.Value.CameraOutside.Pos.Z);
+                                    NewLoadSceneStart(app.Value.CameraOutside.Pos.X, app.Value.CameraOutside.Pos.Y, app.Value.CameraOutside.Pos.Z, app.Value.CameraOutside.Pos.X, app.Value.CameraOutside.Pos.Y, app.Value.CameraOutside.Pos.Z, 50f, 0);
                                     int tempTimer0 = GetGameTimer();
 
                                     while (IsNetworkLoadingScene())
@@ -162,8 +162,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                         await BaseScript.Delay(0);
                                     }
 
-                                    cam.Position = app.Value.TelecameraFuori.pos.ToVector3;
-                                    cam.PointAt(app.Value.TelecameraFuori.guarda.ToVector3);
+                                    cam.Position = app.Value.CameraOutside.Pos.ToVector3;
+                                    cam.PointAt(app.Value.CameraOutside.Rotation.ToVector3);
                                     RenderScriptCams(true, false, 1000, false, false);
                                     Screen.Fading.FadeIn(500);
 
@@ -171,9 +171,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 case 2:
                                     Screen.Fading.FadeOut(500);
                                     await BaseScript.Delay(600);
-                                    RequestCollisionAtCoord(app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z);
-                                    RequestAdditionalCollisionAtCoord(app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z);
-                                    NewLoadSceneStart(app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z, app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z, 50f, 0);
+                                    RequestCollisionAtCoord(app.Value.CameraInside.Inside.Pos.X, app.Value.CameraInside.Inside.Pos.Y, app.Value.CameraInside.Inside.Pos.Z);
+                                    RequestAdditionalCollisionAtCoord(app.Value.CameraInside.Inside.Pos.X, app.Value.CameraInside.Inside.Pos.Y, app.Value.CameraInside.Inside.Pos.Z);
+                                    NewLoadSceneStart(app.Value.CameraInside.Inside.Pos.X, app.Value.CameraInside.Inside.Pos.Y, app.Value.CameraInside.Inside.Pos.Z, app.Value.CameraInside.Inside.Pos.X, app.Value.CameraInside.Inside.Pos.Y, app.Value.CameraInside.Inside.Pos.Z, 50f, 0);
                                     int tempTimer1 = GetGameTimer();
 
                                     while (IsNetworkLoadingScene())
@@ -182,17 +182,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                         await BaseScript.Delay(0);
                                     }
 
-                                    cam.Position = Vector3.Add(app.Value.TelecameraDentro.Interno.pos.ToVector3, new Vector3(0, 0, 1f));
-                                    cam.PointAt(app.Value.TelecameraDentro.Interno.guarda.ToVector3);
+                                    cam.Position = Vector3.Add(app.Value.CameraInside.Inside.Pos.ToVector3, new Vector3(0, 0, 1f));
+                                    cam.PointAt(app.Value.CameraInside.Inside.Rotation.ToVector3);
                                     Screen.Fading.FadeIn(500);
 
                                     break;
                                 case 3:
                                     Screen.Fading.FadeOut(500);
                                     await BaseScript.Delay(600);
-                                    RequestCollisionAtCoord(app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z);
-                                    RequestAdditionalCollisionAtCoord(app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z);
-                                    NewLoadSceneStart(app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z, app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z, 50f, 0);
+                                    RequestCollisionAtCoord(app.Value.CameraInside.Bathroom.Pos.X, app.Value.CameraInside.Bathroom.Pos.Y, app.Value.CameraInside.Bathroom.Pos.Z);
+                                    RequestAdditionalCollisionAtCoord(app.Value.CameraInside.Bathroom.Pos.X, app.Value.CameraInside.Bathroom.Pos.Y, app.Value.CameraInside.Bathroom.Pos.Z);
+                                    NewLoadSceneStart(app.Value.CameraInside.Bathroom.Pos.X, app.Value.CameraInside.Bathroom.Pos.Y, app.Value.CameraInside.Bathroom.Pos.Z, app.Value.CameraInside.Bathroom.Pos.X, app.Value.CameraInside.Bathroom.Pos.Y, app.Value.CameraInside.Bathroom.Pos.Z, 50f, 0);
                                     int tempTimer2 = GetGameTimer();
 
                                     while (IsNetworkLoadingScene())
@@ -201,8 +201,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                         await BaseScript.Delay(0);
                                     }
 
-                                    cam.Position = Vector3.Add(app.Value.TelecameraDentro.Bagno.pos.ToVector3, new Vector3(0, 0, 1f));
-                                    cam.PointAt(app.Value.TelecameraDentro.Bagno.guarda.ToVector3);
+                                    cam.Position = Vector3.Add(app.Value.CameraInside.Bathroom.Pos.ToVector3, new Vector3(0, 0, 1f));
+                                    cam.PointAt(app.Value.CameraInside.Bathroom.Rotation.ToVector3);
                                     RenderScriptCams(true, false, 1000, false, false);
                                     Screen.Fading.FadeIn(500);
 
@@ -210,9 +210,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 case 4:
                                     Screen.Fading.FadeOut(500);
                                     await BaseScript.Delay(600);
-                                    RequestCollisionAtCoord(app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z);
-                                    RequestAdditionalCollisionAtCoord(app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z);
-                                    NewLoadSceneStart(app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z, app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z, 50f, 0);
+                                    RequestCollisionAtCoord(app.Value.CameraInside.Garage.Pos.X, app.Value.CameraInside.Garage.Pos.Y, app.Value.CameraInside.Garage.Pos.Z);
+                                    RequestAdditionalCollisionAtCoord(app.Value.CameraInside.Garage.Pos.X, app.Value.CameraInside.Garage.Pos.Y, app.Value.CameraInside.Garage.Pos.Z);
+                                    NewLoadSceneStart(app.Value.CameraInside.Garage.Pos.X, app.Value.CameraInside.Garage.Pos.Y, app.Value.CameraInside.Garage.Pos.Z, app.Value.CameraInside.Garage.Pos.X, app.Value.CameraInside.Garage.Pos.Y, app.Value.CameraInside.Garage.Pos.Z, 50f, 0);
                                     int tempTimer3 = GetGameTimer();
 
                                     while (IsNetworkLoadingScene())
@@ -221,8 +221,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                         await BaseScript.Delay(0);
                                     }
 
-                                    cam.Position = app.Value.TelecameraDentro.Garage.pos.ToVector3;
-                                    cam.PointAt(app.Value.TelecameraDentro.Garage.guarda.ToVector3);
+                                    cam.Position = app.Value.CameraInside.Garage.Pos.ToVector3;
+                                    cam.PointAt(app.Value.CameraInside.Garage.Rotation.ToVector3);
                                     RenderScriptCams(true, false, 1000, false, false);
                                     Screen.Fading.FadeIn(500);
 

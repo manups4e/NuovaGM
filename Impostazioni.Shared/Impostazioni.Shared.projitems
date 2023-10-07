@@ -9,18 +9,18 @@
     <Import_RootNamespace>Impostazioni.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Generici\Generici.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Meteo\Meteo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Disoccupato.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generics\Generics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weather\SharedWeatherSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Unemployed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Cacciatore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Pescatore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Tassista.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Towing.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Medici.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Polizia.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\VenditoreAuto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\VenditoreCase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Veicoli\Businesses.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Veicoli\GasStations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Medics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Police.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\CarDealer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\RealEstate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vehicles\Businesses.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Vehicles\GasStations.cs" />
   </ItemGroup>
 </Project>

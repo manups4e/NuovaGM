@@ -25,12 +25,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 _checkTimer = Game.GameTime;
             }
 
-            if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio)
+            if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty)
             {
                 if (closest.Item2 > -1 && closest.Item2 < 3f)
                 {
                     PlayerClient client = Funzioni.GetPlayerClientFromServerId(closest.Item1.ServerId);
-                    if (client.Status.RolePlayStates.Svenuto || client.Status.RolePlayStates.FinDiVita)
+                    if (client.Status.RolePlayStates.Fainted || client.Status.RolePlayStates.Dying)
                     {
                         HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per lootare");
                         if (Input.IsControlJustPressed(Control.Context)) LootMenu(closest.Item1);

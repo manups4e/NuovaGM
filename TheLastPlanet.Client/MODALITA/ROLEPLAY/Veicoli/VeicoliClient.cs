@@ -90,7 +90,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
             for (int i = 0; i < carGarageSpots.Count; i++)
             {
-                inputs.Add(new InputController(Control.Context, carGarageSpots[i].ToPosition(), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", new((MarkerType)(-1), carGarageSpots[i].ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
+                inputs.Add(new InputController(Control.Context, carGarageSpots[i].ToPosition(), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", new((MarkerType)(-1), carGarageSpots[i].ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
                 {
                     MenuAffittoVeicoli.MenuAffitto((int)a[0]);
                 }), i));
@@ -125,7 +125,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         {
             Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && Main.spawned)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && Main.spawned)
             {
                 Vehicle veh = playerPed.CurrentVehicle;
 
@@ -427,7 +427,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             {
                 DisableControlAction(2, 80, true);
 
-                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                 {
                     Vehicle veh = playerPed.CurrentVehicle;
 
@@ -448,7 +448,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         {
             Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 Vehicle p = playerPed.CurrentVehicle;
 

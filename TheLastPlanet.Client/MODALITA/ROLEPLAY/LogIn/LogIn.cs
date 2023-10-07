@@ -120,7 +120,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                     p.Style.SetDefaultClothes();
                     p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
                     await Cache.PlayerCache.Loaded();
-                    Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("IngressoRoleplay");
+                    Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("IngressoRoleplay");
                     await BaseScript.Delay(100);
                     //Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
                     p.IsVisible = false;
@@ -182,7 +182,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                 PedHash f = PedHash.FreemodeFemale01;
                 SkinAndDress pers = await EventDispatcher.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
                 if (p1 != null) p1.Delete();
-                p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, pers.Position.ToVector3, pers.Position.Heading);
+                p1 = await Funzioni.CreatePedLocally(pers.Skin.Sex == "Maschio" ? m : f, pers.Position.ToVector3, pers.Position.Heading);
                 p1.Style.SetDefaultClothes();
                 await SetSkinAndClothes(p1, pers);
                 while (!cambiato) await BaseScript.Delay(0);
@@ -267,7 +267,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
             await BaseScript.Delay(1000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
-            Cache.PlayerCache.MyPlayer.Ped.Position = await Cache.PlayerCache.MyPlayer.User.CurrentChar.Posizione.ToVector3.GetVector3WithGroundZ();
+            Cache.PlayerCache.MyPlayer.Ped.Position = await Cache.PlayerCache.MyPlayer.User.CurrentChar.Position.ToVector3.GetVector3WithGroundZ();
             if (p1 != null)
                 if (p1.Exists())
                     p1.Delete();
@@ -276,9 +276,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                     dummyPed.Delete();
             Eventi.LoadModel();
             if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
-            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+            Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
             Cache.PlayerCache.MyPlayer.Ped.SetDecor("TheLastPlanet2019fighissimo!yeah!", Cache.PlayerCache.MyPlayer.Ped.Handle);
-            Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("Ingresso");
+            Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("Ingresso");
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
             NetworkClearClockTimeOverride();
@@ -319,49 +319,49 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 
         public static async Task SetSkinAndClothes(Ped p, SkinAndDress data)
         {
-            SetPedHeadBlendData(p.Handle, data.Skin.face.mom, data.Skin.face.dad, 0, data.Skin.face.mom, data.Skin.face.dad, 0, data.Skin.resemblance, data.Skin.skinmix, 0f, false);
-            SetPedHeadOverlay(p.Handle, 0, data.Skin.blemishes.style, data.Skin.blemishes.opacity);
-            SetPedHeadOverlay(p.Handle, 1, data.Skin.facialHair.beard.style, data.Skin.facialHair.beard.opacity);
-            SetPedHeadOverlayColor(p.Handle, 1, 1, data.Skin.facialHair.beard.color[0], data.Skin.facialHair.beard.color[1]);
-            SetPedHeadOverlay(p.Handle, 2, data.Skin.facialHair.eyebrow.style, data.Skin.facialHair.eyebrow.opacity);
-            SetPedHeadOverlayColor(p.Handle, 2, 1, data.Skin.facialHair.eyebrow.color[0], data.Skin.facialHair.eyebrow.color[1]);
-            SetPedHeadOverlay(p.Handle, 3, data.Skin.ageing.style, data.Skin.ageing.opacity);
-            SetPedHeadOverlay(p.Handle, 4, data.Skin.makeup.style, data.Skin.makeup.opacity);
-            SetPedHeadOverlay(p.Handle, 5, data.Skin.blusher.style, data.Skin.blusher.opacity);
-            SetPedHeadOverlayColor(p.Handle, 5, 2, data.Skin.blusher.color[0], data.Skin.blusher.color[1]);
-            SetPedHeadOverlay(p.Handle, 6, data.Skin.complexion.style, data.Skin.complexion.opacity);
-            SetPedHeadOverlay(p.Handle, 7, data.Skin.skinDamage.style, data.Skin.skinDamage.opacity);
-            SetPedHeadOverlay(p.Handle, 8, data.Skin.lipstick.style, data.Skin.lipstick.opacity);
-            SetPedHeadOverlayColor(p.Handle, 8, 2, data.Skin.lipstick.color[0], data.Skin.lipstick.color[1]);
-            SetPedHeadOverlay(p.Handle, 9, data.Skin.freckles.style, data.Skin.freckles.opacity);
-            SetPedEyeColor(p.Handle, data.Skin.eye.style);
-            SetPedComponentVariation(p.Handle, 2, data.Skin.hair.style, 0, 0);
-            SetPedHairColor(p.Handle, data.Skin.hair.color[0], data.Skin.hair.color[1]);
-            SetPedPropIndex(p.Handle, 2, data.Skin.ears.style, data.Skin.ears.color, false);
-            for (int i = 0; i < data.Skin.face.tratti.Length; i++) SetPedFaceFeature(p.Handle, i, data.Skin.face.tratti[i]);
-            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Faccia, data.Dressing.ComponentDrawables.Faccia, data.Dressing.ComponentTextures.Faccia, 2);
-            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Maschera, data.Dressing.ComponentDrawables.Maschera, data.Dressing.ComponentTextures.Maschera, 2);
+            SetPedHeadBlendData(p.Handle, data.Skin.Face.Mom, data.Skin.Face.Dad, 0, data.Skin.Face.Mom, data.Skin.Face.Dad, 0, data.Skin.Resemblance, data.Skin.Skinmix, 0f, false);
+            SetPedHeadOverlay(p.Handle, 0, data.Skin.Blemishes.Style, data.Skin.Blemishes.Opacity);
+            SetPedHeadOverlay(p.Handle, 1, data.Skin.FacialHair.Beard.Style, data.Skin.FacialHair.Beard.Opacity);
+            SetPedHeadOverlayColor(p.Handle, 1, 1, data.Skin.FacialHair.Beard.Color[0], data.Skin.FacialHair.Beard.Color[1]);
+            SetPedHeadOverlay(p.Handle, 2, data.Skin.FacialHair.Eyebrow.Style, data.Skin.FacialHair.Eyebrow.Opacity);
+            SetPedHeadOverlayColor(p.Handle, 2, 1, data.Skin.FacialHair.Eyebrow.Color[0], data.Skin.FacialHair.Eyebrow.Color[1]);
+            SetPedHeadOverlay(p.Handle, 3, data.Skin.Ageing.Style, data.Skin.Ageing.Opacity);
+            SetPedHeadOverlay(p.Handle, 4, data.Skin.Makeup.Style, data.Skin.Makeup.Opacity);
+            SetPedHeadOverlay(p.Handle, 5, data.Skin.Blusher.Style, data.Skin.Blusher.Opacity);
+            SetPedHeadOverlayColor(p.Handle, 5, 2, data.Skin.Blusher.Color[0], data.Skin.Blusher.Color[1]);
+            SetPedHeadOverlay(p.Handle, 6, data.Skin.Complexion.Style, data.Skin.Complexion.Opacity);
+            SetPedHeadOverlay(p.Handle, 7, data.Skin.SkinDamage.Style, data.Skin.SkinDamage.Opacity);
+            SetPedHeadOverlay(p.Handle, 8, data.Skin.Lipstick.Style, data.Skin.Lipstick.Opacity);
+            SetPedHeadOverlayColor(p.Handle, 8, 2, data.Skin.Lipstick.Color[0], data.Skin.Lipstick.Color[1]);
+            SetPedHeadOverlay(p.Handle, 9, data.Skin.Freckles.Style, data.Skin.Freckles.Opacity);
+            SetPedEyeColor(p.Handle, data.Skin.Eye.Style);
+            SetPedComponentVariation(p.Handle, 2, data.Skin.Hair.Style, 0, 0);
+            SetPedHairColor(p.Handle, data.Skin.Hair.Color[0], data.Skin.Hair.Color[1]);
+            SetPedPropIndex(p.Handle, 2, data.Skin.Ears.Style, data.Skin.Ears.Color, false);
+            for (int i = 0; i < data.Skin.Face.Traits.Length; i++) SetPedFaceFeature(p.Handle, i, data.Skin.Face.Traits[i]);
+            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Face, data.Dressing.ComponentDrawables.Face, data.Dressing.ComponentTextures.Face, 2);
+            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Mask, data.Dressing.ComponentDrawables.Mask, data.Dressing.ComponentTextures.Mask, 2);
             SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso, data.Dressing.ComponentDrawables.Torso, data.Dressing.ComponentTextures.Torso, 2);
-            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Pantaloni, data.Dressing.ComponentDrawables.Pantaloni, data.Dressing.ComponentTextures.Pantaloni, 2);
-            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Borsa_Paracadute, data.Dressing.ComponentDrawables.Borsa_Paracadute, data.Dressing.ComponentTextures.Borsa_Paracadute, 2);
-            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Scarpe, data.Dressing.ComponentDrawables.Scarpe, data.Dressing.ComponentTextures.Scarpe, 2);
-            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Accessori, data.Dressing.ComponentDrawables.Accessori, data.Dressing.ComponentTextures.Accessori, 2);
-            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Sottomaglia, data.Dressing.ComponentDrawables.Sottomaglia, data.Dressing.ComponentTextures.Sottomaglia, 2);
+            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Pants, data.Dressing.ComponentDrawables.Pants, data.Dressing.ComponentTextures.Pants, 2);
+            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Bag_Parachute, data.Dressing.ComponentDrawables.Bag_Parachute, data.Dressing.ComponentTextures.Bag_Parachute, 2);
+            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Shoes, data.Dressing.ComponentDrawables.Shoes, data.Dressing.ComponentTextures.Shoes, 2);
+            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Accessories, data.Dressing.ComponentDrawables.Accessories, data.Dressing.ComponentTextures.Accessories, 2);
+            SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Undershirt, data.Dressing.ComponentDrawables.Undershirt, data.Dressing.ComponentTextures.Undershirt, 2);
             SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Kevlar, data.Dressing.ComponentDrawables.Kevlar, data.Dressing.ComponentTextures.Kevlar, 2);
             SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Badge, data.Dressing.ComponentDrawables.Badge, data.Dressing.ComponentTextures.Badge, 2);
             SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso_2, data.Dressing.ComponentDrawables.Torso_2, data.Dressing.ComponentTextures.Torso_2, 2);
-            if (data.Dressing.PropIndices.Cappelli_Maschere == -1)
+            if (data.Dressing.PropIndices.Hats_masks == -1)
                 ClearPedProp(p.Handle, 0);
             else
-                SetPedPropIndex(p.Handle, (int)PropIndexes.Cappelli_Maschere, data.Dressing.PropIndices.Cappelli_Maschere, data.Dressing.PropTextures.Cappelli_Maschere, false);
-            if (data.Dressing.PropIndices.Orecchie == -1)
+                SetPedPropIndex(p.Handle, (int)PropIndexes.Hats_Masks, data.Dressing.PropIndices.Hats_masks, data.Dressing.PropTextures.Hats_masks, false);
+            if (data.Dressing.PropIndices.Ears == -1)
                 ClearPedProp(p.Handle, 2);
             else
-                SetPedPropIndex(p.Handle, (int)PropIndexes.Orecchie, data.Dressing.PropIndices.Orecchie, data.Dressing.PropTextures.Orecchie, false);
-            if (data.Dressing.PropIndices.Occhiali_Occhi == -1)
+                SetPedPropIndex(p.Handle, (int)PropIndexes.Ears, data.Dressing.PropIndices.Ears, data.Dressing.PropTextures.Ears, false);
+            if (data.Dressing.PropIndices.Glasses == -1)
                 ClearPedProp(p.Handle, 1);
             else
-                SetPedPropIndex(p.Handle, (int)PropIndexes.Occhiali_Occhi, data.Dressing.PropIndices.Occhiali_Occhi, data.Dressing.PropTextures.Occhiali_Occhi, true);
+                SetPedPropIndex(p.Handle, (int)PropIndexes.Glasses, data.Dressing.PropIndices.Glasses, data.Dressing.PropTextures.Glasses, true);
             if (data.Dressing.PropIndices.Unk_3 == -1)
                 ClearPedProp(p.Handle, 3);
             else
@@ -374,14 +374,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                 ClearPedProp(p.Handle, 5);
             else
                 SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_5, data.Dressing.PropIndices.Unk_5, data.Dressing.PropTextures.Unk_5, true);
-            if (data.Dressing.PropIndices.Orologi == -1)
+            if (data.Dressing.PropIndices.Watches == -1)
                 ClearPedProp(p.Handle, 6);
             else
-                SetPedPropIndex(p.Handle, (int)PropIndexes.Orologi, data.Dressing.PropIndices.Orologi, data.Dressing.PropTextures.Orologi, true);
-            if (data.Dressing.PropIndices.Bracciali == -1)
+                SetPedPropIndex(p.Handle, (int)PropIndexes.Watches, data.Dressing.PropIndices.Watches, data.Dressing.PropTextures.Watches, true);
+            if (data.Dressing.PropIndices.Bracelets == -1)
                 ClearPedProp(p.Handle, 7);
             else
-                SetPedPropIndex(p.Handle, (int)PropIndexes.Bracciali, data.Dressing.PropIndices.Bracciali, data.Dressing.PropTextures.Bracciali, true);
+                SetPedPropIndex(p.Handle, (int)PropIndexes.Bracelets, data.Dressing.PropIndices.Bracelets, data.Dressing.PropTextures.Bracelets, true);
             if (data.Dressing.PropIndices.Unk_8 == -1)
                 ClearPedProp(p.Handle, 8);
             else

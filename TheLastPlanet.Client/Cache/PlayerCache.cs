@@ -14,7 +14,7 @@ namespace TheLastPlanet.Client.Cache
 
         public static PlayerClient MyPlayer { get; private set; }
         public static Char_data CurrentChar => MyPlayer.User.CurrentChar;
-        public static ModalitaServer ModalitàAttuale = ModalitaServer.Lobby;
+        public static ServerMode ModalitàAttuale = ServerMode.Lobby;
 
 
         public static async Task InitPlayer()
@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client.Cache
         {
             if (ped.Handle == MyPlayer.Ped.Handle)
             {
-                MyPlayer.Status.PlayerStates.InVeicolo = false;
+                MyPlayer.Status.PlayerStates.InVehicle = false;
                 _inVeh = false;
             }
         }
@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.Cache
         {
             if (ped.Handle == MyPlayer.Ped.Handle)
             {
-                MyPlayer.Status.PlayerStates.InVeicolo = true;
+                MyPlayer.Status.PlayerStates.InVehicle = true;
                 _inVeh = true;
             }
         }
@@ -66,7 +66,7 @@ namespace TheLastPlanet.Client.Cache
                 if (Game.IsPaused || MenuHandler.IsAnyPauseMenuOpen)
                 {
                     _inPausa = true;
-                    MyPlayer.Status.PlayerStates.InPausa = true;
+                    MyPlayer.Status.PlayerStates.Paused = true;
                 }
             }
             else
@@ -74,7 +74,7 @@ namespace TheLastPlanet.Client.Cache
                 if (!Game.IsPaused & !MenuHandler.IsAnyPauseMenuOpen)
                 {
                     _inPausa = false;
-                    MyPlayer.Status.PlayerStates.InPausa = false;
+                    MyPlayer.Status.PlayerStates.Paused = false;
                 }
             }
 

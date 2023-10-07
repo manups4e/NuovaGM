@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
         public static void Spawnato(PlayerClient client)
         {
-            foreach (StazioniDiPolizia stazione in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
+            foreach (StazioniDiPolizia stazione in Client.Impostazioni.RolePlay.Jobs.Police.Config.Stazioni)
             {
                 Blip blip = new Blip(AddBlipForCoord(stazione.Blip.Coords.X, stazione.Blip.Coords.Y, stazione.Blip.Coords.Z))
                 {
@@ -51,11 +51,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
         private static async void AmmanettaSmanetta()
         {
-            PlayerCache.MyPlayer.Status.RolePlayStates.Ammanettato = !PlayerCache.MyPlayer.Status.RolePlayStates.Ammanettato;
+            PlayerCache.MyPlayer.Status.RolePlayStates.Cuffed = !PlayerCache.MyPlayer.Status.RolePlayStates.Cuffed;
             RequestAnimDict("mp_arresting");
             while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
 
-            if (PlayerCache.MyPlayer.Status.RolePlayStates.Ammanettato)
+            if (PlayerCache.MyPlayer.Status.RolePlayStates.Cuffed)
             {
                 PlayerCache.MyPlayer.Ped.Task.ClearAll();
                 PlayerCache.MyPlayer.Ped.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 SetEnableHandcuffs(PlayerPedId(), true);
                 DisablePlayerFiring(PlayerId(), true);
                 PlayerCache.MyPlayer.Ped.CanPlayGestures = false;
-                if (PlayerCache.MyPlayer.User.CurrentChar.Skin.sex.ToLower() == "femmina")
+                if (PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex.ToLower() == "femmina")
                     SetPedComponentVariation(PlayerCache.MyPlayer.Ped.Handle, 7, 25, 0, 0);
                 else
                     SetPedComponentVariation(PlayerCache.MyPlayer.Ped.Handle, 7, 41, 0, 0);
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 Cache.PlayerCache.MyPlayer.Ped.Task.ClearAll();
                 SetEnableHandcuffs(PlayerPedId(), false);
                 UncuffPed(PlayerPedId());
-                SetPedComponentVariation(Cache.PlayerCache.MyPlayer.Ped.Handle, Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Accessori, Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Accessori, 0, 0);
+                SetPedComponentVariation(Cache.PlayerCache.MyPlayer.Ped.Handle, Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Accessories, Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Accessories, 0, 0);
                 SetEnableHandcuffs(PlayerPedId(), false);
                 DisablePlayerFiring(PlayerId(), false);
                 Cache.PlayerCache.MyPlayer.Ped.CanPlayGestures = true;
@@ -87,19 +87,19 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         private static async void Accompagna(int ped)
         {
             Ped pol = (Ped)Entity.FromNetworkId(ped);
-            if (PlayerCache.MyPlayer.Status.RolePlayStates.Ammanettato) PlayerCache.MyPlayer.Ped.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
+            if (PlayerCache.MyPlayer.Status.RolePlayStates.Cuffed) PlayerCache.MyPlayer.Ped.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
         }
 
         private static async void TogliVeh()
         {
-            if (PlayerCache.MyPlayer.Status.RolePlayStates.Ammanettato)
-                if (PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (PlayerCache.MyPlayer.Status.RolePlayStates.Cuffed)
+                if (PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                     PlayerCache.MyPlayer.Ped.Task.LeaveVehicle();
         }
 
         private static async void MettiVeh()
         {
-            if (Cache.PlayerCache.MyPlayer.Status.RolePlayStates.Ammanettato)
+            if (Cache.PlayerCache.MyPlayer.Status.RolePlayStates.Cuffed)
             {
                 Vehicle closestVeh = Cache.PlayerCache.MyPlayer.Ped.GetClosestVehicle();
                 if (closestVeh.IsSeatFree(VehicleSeat.LeftRear))
@@ -113,7 +113,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "polizia")
-                foreach (StazioniDiPolizia t2 in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
+                foreach (StazioniDiPolizia t2 in Client.Impostazioni.RolePlay.Jobs.Police.Config.Stazioni)
                 {
                     foreach (Position t in t2.Spogliatoio)
                     {
@@ -143,7 +143,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                         }
 
                         foreach (Position t in t1.Deleters)
-                            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                             {
                                 World.DrawMarker(MarkerType.CarSymbol, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 
@@ -152,9 +152,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
                                 if (Input.IsControlJustPressed(Control.Context))
                                 {
-                                    if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
+                                    if (p.CurrentVehicle.HasDecor("VehiclePoliceizia"))
                                     {
-                                        VeicoloPol vehicle = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
+                                        VehiclePolice vehicle = new VehiclePolice(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
                                         BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", vehicle.ToJson());
                                         p.CurrentVehicle.Delete();
                                         VeicoloAttuale = new Vehicle(0);
@@ -187,7 +187,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                         {
                             if (!Funzioni.IsSpawnPointClear(t.ToVector3, 2f))
                                 foreach (Vehicle veh in Funzioni.GetVehiclesInArea(t.ToVector3, 2f))
-                                    if (!veh.HasDecor("VeicoloPolizia"))
+                                    if (!veh.HasDecor("VehiclePoliceizia"))
                                         veh.Delete();
 
                             if (!p.IsInHeli) continue;
@@ -199,9 +199,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
                                 if (Input.IsControlJustPressed(Control.Context))
                                 {
-                                    if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
+                                    if (p.CurrentVehicle.HasDecor("VehiclePoliceizia"))
                                     {
-                                        VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
+                                        VehiclePolice veh = new VehiclePolice(p.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
                                         BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.ToJson());
                                         Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Delete();
                                         ElicotteroAttuale = new Vehicle(0);
@@ -215,7 +215,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                         }
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade != Client.Impostazioni.RolePlay.Lavori.Polizia.Gradi.Count - 1) continue;
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade != Client.Impostazioni.RolePlay.Jobs.Police.Grades.Count - 1) continue;
                     foreach (Position t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
                 }
             else
@@ -228,7 +228,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         {
             await BaseScript.Delay(1000);
 
-            if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti)
+            if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti)
             {
                 foreach (var p in Client.Instance.Clients)
                 {
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
                         if (playerPed.IsInVehicle())
                         {
-                            if (!playerPed.CurrentVehicle.HasDecor("VeicoloPolizia")) continue;
+                            if (!playerPed.CurrentVehicle.HasDecor("VehiclePoliceizia")) continue;
 
                             if (!CopsBlips.ContainsKey(playerPed))
                             {

@@ -53,7 +53,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 List<string> PlayerTokens = new();
                 int tokensNum = GetNumPlayerTokens(source.Handle);
                 for (int i = 0; i < tokensNum; i++) PlayerTokens.Add(GetPlayerToken(source.Handle, i));
-                IngressoResponse puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(source.GetLicense(Identifier.Discord), Server.Impostazioni.Coda.permessi, PlayerTokens);
+                IngressoResponse puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(source.GetLicense(Identifier.Discord), Server.Impostazioni.Coda.Permissions, PlayerTokens);
 
                 if (puoentrare.permesso)
                 {
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                     }
                     else
                     {
-                        if (Server.Impostazioni.Coda.whitelistonly)
+                        if (Server.Impostazioni.Coda.Whitelistonly)
                         {
                             /*
 							deferrals.presentCard(NoWhitelist, new Action<dynamic>(async (var) =>
@@ -163,15 +163,15 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 if (ped != null)
                 {
                     string disc = ped.Identifiers.Discord;
-                    if (client?.Status.PlayerStates.Modalita == ModalitaServer.Lobby)
+                    if (client?.Status.PlayerStates.Mode == ServerMode.Lobby)
                     {
                         Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
                     }
-                    else if (client?.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
+                    else if (client?.Status.PlayerStates.Mode == ServerMode.Roleplay)
                     {
                         BucketsHandler.RolePlay.RemovePlayer(client, reason);
                     }
-                    else if (client?.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
+                    else if (client?.Status.PlayerStates.Mode == ServerMode.FreeRoam)
                     {
                         BucketsHandler.FreeRoam.RemovePlayer(client, reason);
                     }

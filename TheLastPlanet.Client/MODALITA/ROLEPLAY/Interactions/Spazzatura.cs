@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
                         foreach (Inventory it in inv)
                             if (it.Amount > 0)
-                                if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.drop)
+                                if (ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].drop.drop)
                                 {
                                     List<dynamic> list = new List<dynamic>();
                                     for (int obj = 1; obj < it.Amount + 1; obj++) list.Add(obj);

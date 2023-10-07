@@ -33,12 +33,12 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
             switch (Cache.PlayerCache.ModalitàAttuale)
             {
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     if (Screen.Hud.IsRadarVisible)
                         Screen.Hud.IsRadarVisible = false;
                     break;
-                case ModalitaServer.FreeRoam:
-                    if (PlayerCache.MyPlayer.Status.Istanza.Instance == "CreazionePersonaggio")
+                case ServerMode.FreeRoam:
+                    if (PlayerCache.MyPlayer.Status.Instance.Instance == "CreazionePersonaggio")
                     {
                         if (Screen.Hud.IsRadarVisible)
                             Screen.Hud.IsRadarVisible = false;
@@ -47,15 +47,15 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
                     if (!Screen.Hud.IsRadarVisible)
                         Screen.Hud.IsRadarVisible = true;
                     break;
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     // SE NON STO NASCONDENDO L'HUD (cinematica)
-                    if (!MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.ModCinema)
+                    if (!MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.CinemaMode)
                     {
-                        if (MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.MiniMappaAttiva)
+                        if (MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.EnableMinimap)
                         {
                             if (!IsRadarEnabled()) Screen.Hud.IsRadarVisible = true;
 
-                            switch (MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.DimensioniMinimappa)
+                            switch (MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.MinimapSize)
                             {
                                 // se ho settato la minimappa piccina
                                 case 0:
@@ -75,14 +75,14 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
                                     }
                             }
 
-                            switch (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                            switch (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                             {
                                 //se non sono su un veicolo e non ho il menu di pausa attivo.
                                 case false when !IsPauseMenuActive():
                                     ////DisableRadarThisFrame(); // lascia la minimappa attiva, ma nasconda la mappa se non sono in un veicolo
 
                                     break;
-                                case true when MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.MiniMappaInAuto:
+                                case true when MODALITA.ROLEPLAY.Core.Main.ImpostazioniClient.InCarMinimap:
                                     {
                                         Vehicle veh = p.CurrentVehicle;
 

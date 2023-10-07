@@ -4,13 +4,11 @@
     public class LogInInfo
     {
         public string ID { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string dateOfBirth { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string DateOfBirth { get; set; }
         public int Money { get; set; }
         public int Bank { get; set; }
-        public float Test = 54.3214f;
-
     }
 
 

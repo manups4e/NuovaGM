@@ -24,14 +24,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 
         public static void Spawnato(PlayerClient client)
         {
-            foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", new((MarkerType)(-1), t.Coords.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+            foreach (Hotel t in Client.Impostazioni.RolePlay.Properties.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", new((MarkerType)(-1), t.Coords.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
             InputHandler.AddInputList(hotelInputs);
             RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
             {
                 Client.Logger.Debug("Hash = " + GetHashKey(hash[0] + ""));
             }), false);
 
-            foreach (Blip p in Client.Impostazioni.RolePlay.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
+            foreach (Blip p in Client.Impostazioni.RolePlay.Properties.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
             {
                 Sprite = BlipSprite.Heist,
                 Scale = 1.0f,
@@ -120,8 +120,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                 RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
                 Cache.PlayerCache.MyPlayer.Ped.Position = pos;
                 await BaseScript.Delay(2000);
-                Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("Hotel");
-                Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InCasa = true;
+                Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("Hotel");
+                Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InHome = true;
                 Screen.Fading.FadeIn(800);
                 Client.Instance.AddTick(GestioneHotel);
             };
@@ -147,8 +147,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                             Funzioni.RevealAllPlayers();
                             Screen.Fading.FadeIn(800);
                             IsInPiccola = false;
-                            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
-                            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InCasa = false;
+                            Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
+                            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InHome = false;
                             Client.Instance.RemoveTick(GestioneHotel);
                             BaseScript.TriggerEvent("lprp:StartLocationSave");
                         }
@@ -169,8 +169,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                             Funzioni.RevealAllPlayers();
                             Screen.Fading.FadeIn(800);
                             IsInMedia = false;
-                            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
-                            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InCasa = false;
+                            Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
+                            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InHome = false;
                             Client.Instance.RemoveTick(GestioneHotel);
                             BaseScript.TriggerEvent("lprp:StartLocationSave");
                         }
@@ -191,8 +191,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                             Funzioni.RevealAllPlayers();
                             Screen.Fading.FadeIn(800);
                             IsInAppartamento = false;
-                            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
-                            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InCasa = false;
+                            Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
+                            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InHome = false;
                             Client.Instance.RemoveTick(GestioneHotel);
                             BaseScript.TriggerEvent("lprp:StartLocationSave");
                         }

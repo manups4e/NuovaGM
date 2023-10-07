@@ -8,9 +8,9 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
     static class PoliziaServer
     {
-        static List<VeicoloLavorativoEAffitto> NonPersonali = new List<VeicoloLavorativoEAffitto>();
-        static List<VeicoloPol> Polizia = new List<VeicoloPol>();
-        static List<VeicoloPol> Medici = new List<VeicoloPol>();
+        static List<JobVeh_Rent> NonPersonali = new List<JobVeh_Rent>();
+        static List<VehiclePolice> Polizia = new List<VehiclePolice>();
+        static List<VehiclePolice> Medici = new List<VehiclePolice>();
 
         public static void Init()
         {
@@ -41,14 +41,14 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
         public static void RegistraVeicoloLavoroEAffitto(string jsonVeicolo)
         {
-            NonPersonali.Add(jsonVeicolo.FromJson<VeicoloLavorativoEAffitto>());
+            NonPersonali.Add(jsonVeicolo.FromJson<JobVeh_Rent>());
         }
 
         private static void RimuoviVeicoloLavoroEAffitto(string jsonVeicolo)
         {
-            foreach (VeicoloLavorativoEAffitto veicolo in NonPersonali)
+            foreach (JobVeh_Rent veicolo in NonPersonali)
             {
-                if (veicolo == jsonVeicolo.FromJson<VeicoloLavorativoEAffitto>())
+                if (veicolo == jsonVeicolo.FromJson<JobVeh_Rent>())
                 {
                     NonPersonali.Remove(veicolo);
                 }
@@ -75,28 +75,28 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
         private static void AggiungiVehPolizia(string jsonVeicolo)
         {
-            VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
+            VehiclePolice agg = jsonVeicolo.FromJson<VehiclePolice>();
             if (!Polizia.Contains(agg))
                 Polizia.Add(agg);
         }
 
         private static void RimuoviVehPolizia(string jsonVeicolo)
         {
-            VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
+            VehiclePolice agg = jsonVeicolo.FromJson<VehiclePolice>();
             if (Polizia.Contains(agg))
                 Polizia.Remove(agg);
         }
 
         private static void AggiungiVehMedici(string jsonVeicolo)
         {
-            VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
+            VehiclePolice agg = jsonVeicolo.FromJson<VehiclePolice>();
             if (!Medici.Contains(agg))
                 Medici.Add(agg);
         }
 
         private static void RimuoviVehMedici(string jsonVeicolo)
         {
-            VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
+            VehiclePolice agg = jsonVeicolo.FromJson<VehiclePolice>();
             if (Medici.Contains(agg))
                 Medici.Remove(agg);
         }

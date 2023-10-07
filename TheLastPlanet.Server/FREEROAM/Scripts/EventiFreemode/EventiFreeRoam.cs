@@ -19,7 +19,7 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
 
         public static void SalvaPersonaggio([FromSource] PlayerClient client)
         {
-            client.User.FreeRoamChar.Posizione = client.Ped.Position.ToPosition();
+            client.User.FreeRoamChar.Position = client.Ped.Position.ToPosition();
             API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
         }
 

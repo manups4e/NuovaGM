@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.Telefono
             phone_data.Add(new Phone_data());
             apps = new List<App>()
             {
-                new Contacts(this), new Messages(this), new QuickSave(this), new Settings(this)
+                new Contacts(this), new Messages(this), new QuickSave(this), new Apps.Settings(this)
             };
             mainApp = new MainMenu(this, apps);
             Scaleform = new Scaleform("CELLPHONE_IFRUIT");
@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.Telefono
         {
             apps = new List<App>()
             {
-                new Contacts(this), new Messages(this), new QuickSave(this), new Settings(this)
+                new Contacts(this), new Messages(this), new QuickSave(this), new Apps.Settings(this)
             };
             for (int i = 0; i < JsonConvert.DeserializeObject(result.phone_data).Count; i++)
                 phone_data.Add(new Phone_data(JsonConvert.DeserializeObject(result.phone_data)[i]));

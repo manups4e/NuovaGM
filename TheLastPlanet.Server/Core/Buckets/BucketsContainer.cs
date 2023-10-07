@@ -12,16 +12,16 @@ namespace TheLastPlanet.Server.Core.Buckets
     // TODO: Verrà poi rimosso quando avrò un container per ogni modalità
     public class BucketsContainer
     {
-        public ModalitaServer Modalita { get; set; }
+        public ServerMode Modalita { get; set; }
         public Bucket Bucket { get; set; }
         public List<Bucket> Buckets { get; set; }
 
-        public BucketsContainer(ModalitaServer modalitaServer, Bucket bucket)
+        public BucketsContainer(ServerMode modalitaServer, Bucket bucket)
         {
             Modalita = modalitaServer;
             Bucket = bucket;
         }
-        public BucketsContainer(ModalitaServer modalitaServer, List<Bucket> buckets)
+        public BucketsContainer(ServerMode modalitaServer, List<Bucket> buckets)
         {
             Modalita = modalitaServer;
             Buckets = buckets;
@@ -42,10 +42,10 @@ namespace TheLastPlanet.Server.Core.Buckets
 
     public class FreeRoamBucketContainer
     {
-        public ModalitaServer Modalita { get; set; }
+        public ServerMode Modalita { get; set; }
         public Bucket Bucket { get; set; }
 
-        public FreeRoamBucketContainer(ModalitaServer modalitaServer, Bucket bucket)
+        public FreeRoamBucketContainer(ServerMode modalitaServer, Bucket bucket)
         {
             Modalita = modalitaServer;
             Bucket = bucket;
@@ -336,17 +336,17 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         private void SavePlayerData([FromSource] PlayerClient client)
         {
-            client.User.FreeRoamChar.Posizione = client.Ped.Position.ToPosition();
+            client.User.FreeRoamChar.Position = client.Ped.Position.ToPosition();
             API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
         }
     }
 
     public class RolePlayBucketsContainer
     {
-        public ModalitaServer Modalita { get; set; }
+        public ServerMode Modalita { get; set; }
         public Bucket Bucket { get; set; }
 
-        public RolePlayBucketsContainer(ModalitaServer modalitaServer, Bucket bucket)
+        public RolePlayBucketsContainer(ServerMode modalitaServer, Bucket bucket)
         {
             Modalita = modalitaServer;
             Bucket = bucket;
@@ -395,9 +395,9 @@ namespace TheLastPlanet.Server.Core.Buckets
                 result.Add(new LogInInfo()
                 {
                     ID = ((long)ii.CharID).ToString(),
-                    firstName = p.firstname,
-                    lastName = p.lastname,
-                    dateOfBirth = p.dateOfBirth,
+                    FirstName = p.Firstname,
+                    LastName = p.Lastname,
+                    DateOfBirth = p.DateOfBirth,
                     Money = ii.money,
                     Bank = ii.bank,
                 });
@@ -458,7 +458,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 res.statistiche.FromJson<Statistiche>(),
                 res.is_dead
             )
-            { Posizione = res.location.FromJson<Position>() };
+            { Position = res.location.FromJson<Position>() };
             return user.CurrentChar;
         }
 
@@ -478,14 +478,14 @@ namespace TheLastPlanet.Server.Core.Buckets
                     dirty = client.User.DirtCash,
                     weap = client.User.CurrentChar.Weapons.ToJson(),
                     invent = client.User.CurrentChar.Inventory.ToJson(),
-                    location = client.User.CurrentChar.Posizione.ToJson(),
+                    location = client.User.CurrentChar.Position.ToJson(),
                     job = client.User.CurrentChar.Job.ToJson(),
                     gang = client.User.CurrentChar.Gang.ToJson(),
                     skin = client.User.CurrentChar.Skin.ToJson(),
                     dress = client.User.CurrentChar.Dressing.ToJson(),
                     needs = client.User.CurrentChar.Needs.ToJson(),
-                    stats = client.User.CurrentChar.Statistiche.ToJson(),
-                    dead = client.User.CurrentChar.is_dead,
+                    stats = client.User.CurrentChar.Statistics.ToJson(),
+                    dead = client.User.CurrentChar.Is_dead,
                     id = client.User.ID,
                 });
 
@@ -505,10 +505,10 @@ namespace TheLastPlanet.Server.Core.Buckets
 
     public class LobbyBucketsContainer
     {
-        public ModalitaServer Modalita { get; set; }
+        public ServerMode Modalita { get; set; }
         public Bucket Bucket { get; set; }
 
-        public LobbyBucketsContainer(ModalitaServer modalitaServer, Bucket bucket)
+        public LobbyBucketsContainer(ServerMode modalitaServer, Bucket bucket)
         {
             Modalita = modalitaServer;
             Bucket = bucket;
@@ -534,10 +534,10 @@ namespace TheLastPlanet.Server.Core.Buckets
 
     public class RaceBucketContainer
     {
-        public ModalitaServer Modalita { get; set; }
+        public ServerMode Modalita { get; set; }
         public Bucket Bucket { get; set; }
 
-        public RaceBucketContainer(ModalitaServer modalitaServer, Bucket bucket)
+        public RaceBucketContainer(ServerMode modalitaServer, Bucket bucket)
         {
             Modalita = modalitaServer;
             Bucket = bucket;

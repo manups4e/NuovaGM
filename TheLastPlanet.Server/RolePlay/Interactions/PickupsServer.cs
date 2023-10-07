@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using Impostazioni.Shared.Configurazione.Generici;
+using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using TheLastPlanet.Server.Core;
@@ -12,7 +12,7 @@ namespace TheLastPlanet.Server.Interactions
 {
     internal class PickupsServer
     {
-        public static List<OggettoRaccoglibile> Pickups = new List<OggettoRaccoglibile>();
+        public static List<PickupObject> Pickups = new List<PickupObject>();
 
         public static void Init()
         {
@@ -24,14 +24,14 @@ namespace TheLastPlanet.Server.Interactions
 
         public static void CreatePickup(Inventory oggetto, int count, string label, PlayerClient user)
         {
-            OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.Item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.Item].prop, 0, label, user.Ped.Position.ToPosition());
+            PickupObject pickup = new PickupObject(Pickups.Count, oggetto.Item, count, ConfigShared.SharedConfig.Main.Generics.ItemList[oggetto.Item].prop, 0, label, user.Ped.Position.ToPosition());
             Pickups.Add(pickup);
             BaseScript.TriggerClientEvent("lprp:createPickup", pickup.ToJson(), user.Player.Handle);
         }
 
         public static void CreatePickup(Weapons oggetto, string label, PlayerClient user)
         {
-            OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.Ped.Position.ToPosition(), "weapon", oggetto.components, oggetto.tint);
+            PickupObject arma = new PickupObject(Pickups.Count, oggetto.Name, oggetto.Ammo, (ObjectHash)0, 0, label, user.Ped.Position.ToPosition(), "weapon", oggetto.Components, oggetto.Tint);
             Pickups.Add(arma);
             BaseScript.TriggerClientEvent("lprp:createPickup", arma.ToJson(), user.Player.Handle);
         }
@@ -64,7 +64,7 @@ namespace TheLastPlanet.Server.Interactions
                     break;
             }
 
-            OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.Ped.Position.ToPosition(), "account");
+            PickupObject soldo = new PickupObject(Pickups.Count, name, count, oggetto, 0, label, user.Ped.Position.ToPosition(), "account");
             Pickups.Add(soldo);
             BaseScript.TriggerClientEvent("lprp:createPickup", soldo.ToJson(), user.Player.Handle);
         }
@@ -130,36 +130,36 @@ namespace TheLastPlanet.Server.Interactions
         private static void OnPickup([FromSource] Player source, int id)
         {
             User user = source.GetCurrentChar();
-            OggettoRaccoglibile pickup = Pickups[id];
+            PickupObject pickup = Pickups[id];
             bool success = false;
 
-            switch (pickup.type)
+            switch (pickup.Type)
             {
                 case "item":
                     //aggiungere controllo se può portarlo
-                    user.addInventoryItem(pickup.name, pickup.amount, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].peso);
+                    user.addInventoryItem(pickup.Name, pickup.Amount, ConfigShared.SharedConfig.Main.Generics.ItemList[pickup.Name].peso);
                     success = true;
 
                     break;
                 case "weapon":
-                    if (user.hasWeapon(pickup.name))
+                    if (user.hasWeapon(pickup.Name))
                     {
                         user.showNotification("Hai già quest'arma!");
                     }
                     else
                     {
                         success = true;
-                        user.addWeapon(pickup.name, pickup.amount);
-                        if (pickup.tintIndex != 0) user.addWeaponTint(pickup.name, pickup.tintIndex);
-                        foreach (Components comp in pickup.componenti) user.addWeaponComponent(pickup.name, comp.name);
+                        user.addWeapon(pickup.Name, pickup.Amount);
+                        if (pickup.TintIndex != 0) user.addWeaponTint(pickup.Name, pickup.TintIndex);
+                        foreach (Components comp in pickup.Components) user.addWeaponComponent(pickup.Name, comp.name);
                     }
 
                     break;
                 case "account":
                     success = true;
-                    if (pickup.name == "soldi")
-                        user.Money += pickup.amount;
-                    else if (pickup.name == "soldi_sporchi") user.DirtCash += pickup.amount;
+                    if (pickup.Name == "soldi")
+                        user.Money += pickup.Amount;
+                    else if (pickup.Name == "soldi_sporchi") user.DirtCash += pickup.Amount;
 
                     break;
             }

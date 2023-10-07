@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.AdminAC
                         else if (item == Specta)
                         {
                             if (p == Cache.PlayerCache.MyPlayer) return;
-                            Cache.PlayerCache.MyPlayer.Status.PlayerStates.AdminSpecta = true;
+                            Cache.PlayerCache.MyPlayer.Status.PlayerStates.AdminSpectating = true;
                             RequestCollisionAtCoord(p.Ped.Position.X, p.Ped.Position.Y, p.Ped.Position.Z);
                             NetworkSetInSpectatorMode(true, p.Ped.Handle);
                             Client.Instance.AddTick(SpectatorMode);
@@ -275,8 +275,8 @@ namespace TheLastPlanet.Client.AdminAC
 
                     foreach (Char_data chars in player.Characters)
                     {
-                        UIMenuItem CharacterItem = new UIMenuItem(chars.Info.firstname + " " + chars.Info.lastname);
-                        UIMenu Character = new(chars.Info.firstname + " " + chars.Info.lastname, "");
+                        UIMenuItem CharacterItem = new UIMenuItem(chars.Info.Firstname + " " + chars.Info.Lastname);
+                        UIMenu Character = new(chars.Info.Firstname + " " + chars.Info.Lastname, "");
                         Personaggi.AddItem(CharacterItem);
                         UIMenuItem DatiPersonaliItem = new UIMenuItem("Dati Personali", "Nome, cognome, lavoro, gangs");
                         UIMenu DatiPersonali = new("Dati Personali", "Nome, cognome, lavoro, gangs");
@@ -312,19 +312,19 @@ namespace TheLastPlanet.Client.AdminAC
                         #region Dati Personali
 
                         UIMenuItem nomeCognome = new("Nome e Cognome");
-                        nomeCognome.SetRightLabel(chars.Info.firstname + " " + chars.Info.lastname);
+                        nomeCognome.SetRightLabel(chars.Info.Firstname + " " + chars.Info.Lastname);
                         UIMenuItem dDN = new("Data di Nascita");
-                        dDN.SetRightLabel(chars.Info.dateOfBirth);
+                        dDN.SetRightLabel(chars.Info.DateOfBirth);
                         UIMenuItem sesso = new("Sesso");
-                        sesso.SetRightLabel(chars.Skin.sex);
+                        sesso.SetRightLabel(chars.Skin.Sex);
                         UIMenuItem altezza = new("Altezza");
-                        altezza.SetRightLabel(chars.Info.height + "cm");
+                        altezza.SetRightLabel(chars.Info.Height + "cm");
                         UIMenuItem job = new("Occupazione Attuale");
                         job.SetRightLabel(chars.Job.Name);
                         UIMenuItem telefono = new("N° di Telefono");
-                        telefono.SetRightLabel("" + chars.Info.phoneNumber);
+                        telefono.SetRightLabel("" + chars.Info.PhoneNumber);
                         UIMenuItem assicurazione = new("N° di Assicurazione");
-                        assicurazione.SetRightLabel("" + chars.Info.insurance);
+                        assicurazione.SetRightLabel("" + chars.Info.Insurance);
                         DatiPersonali.AddItem(nomeCognome);
                         DatiPersonali.AddItem(dDN);
                         DatiPersonali.AddItem(sesso);
@@ -344,8 +344,8 @@ namespace TheLastPlanet.Client.AdminAC
                             foreach (Inventory item in chars.Inventory)
                             {
                                 if (item.Amount <= 0) continue;
-                                UIMenuItem newItemMenuItem = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].label, "[Quantità: " + item.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].description);
-                                UIMenu newItemMenu = new UIMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].label, "Inventario");
+                                UIMenuItem newItemMenuItem = new UIMenuItem(ConfigShared.SharedConfig.Main.Generics.ItemList[item.Item].label, "[Quantità: " + item.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generics.ItemList[item.Item].description);
+                                UIMenu newItemMenu = new UIMenu(ConfigShared.SharedConfig.Main.Generics.ItemList[item.Item].label, "Inventario");
                                 newItemMenuItem.Activated += async (a, b) => await Inventario.SwitchTo(newItemMenu, 0, true);
                                 Inventario.AddItem(newItemMenuItem);
 

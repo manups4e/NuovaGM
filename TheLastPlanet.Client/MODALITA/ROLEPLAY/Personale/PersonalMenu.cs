@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Configurazione.Generici;
+﻿using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -196,7 +196,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             vehContr.AddItem(port);
             vehContr.AddItem(motore);
 
-            if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 chiudi.Enabled = false;
                 fin.Enabled = false;
@@ -211,7 +211,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 else if (_item == salva)
                     switch (_checked)
                     {
-                        case true when Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo:
+                        case true when Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle:
                             {
                                 EventiPersonalMenu.Save(_checked);
 
@@ -285,9 +285,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
                 name.SetRightLabel(me.GetPlayerData().FullName);
                 dob.SetRightLabel(me.GetPlayerData().DoB);
-                alt.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.height);
-                nTel.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.phoneNumber);
-                nAss.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.insurance);
+                alt.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.Height);
+                nTel.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.PhoneNumber);
+                nAss.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.Insurance);
                 //
                 //job.Label = SharedScript.Jobs[me.GetPlayerData().CurrentChar.job.name].label;
                 //gang.Label = SharedScript.Gangs[me.GetPlayerData().CurrentChar.job.name].label;
@@ -378,7 +378,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             fa.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
             se.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
             st.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
-            ma.SetRightLabel(me.GetPlayerData().CurrentChar.Needs.Malattia ? "Malato" : "In Salute");
+            ma.SetRightLabel(me.GetPlayerData().CurrentChar.Needs.Sickness ? "Malato" : "In Salute");
             salute.AddItem(fa);
             salute.AddItem(se);
             salute.AddItem(st);
@@ -401,30 +401,30 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                     foreach (Inventory it in inv)
                         if (it.Amount > 0)
                         {
-                            UIMenuItem newItemMenuItem = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].label, "[Quantità: " + it.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].description);
-                            UIMenu newItemMenu = new(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].label, "");
+                            UIMenuItem newItemMenuItem = new UIMenuItem(ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].label, "[Quantità: " + it.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].description);
+                            UIMenu newItemMenu = new(ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].label, "");
                             newItemMenuItem.BindItemToMenu(newItemMenu);
                             Inventory.AddItem(newItemMenuItem);
 
-                            if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.use)
+                            if (ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].use.use)
                             {
-                                UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.description, SColor.HUD_Greenlight, SColor.HUD_Green);
+                                UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].use.label, ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].use.description, SColor.HUD_Greenlight, SColor.HUD_Green);
                                 newItemMenu.AddItem(useButton);
                                 newItemMenu.OnItemSelect += (_menu, _item, _index) =>
                                 {
                                     /*
 									 * BaseScript.TriggerServerEvent("lprp:useItem", ConfigShared.SharedConfig.Main.Generici.ItemList[it.item]);
 									 */ //DA GESTIRE 
-                                    if (_item == useButton) ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].UsaOggettoEvent(1);
+                                    if (_item == useButton) ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].UseObjectEvent(1);
                                 };
                             }
 
-                            if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.give)
+                            if (ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].give.give)
                             {
                                 List<dynamic> amountino = new List<dynamic>();
                                 for (int j = 0; j < it.Amount; j++) amountino.Add((j + 1).ToString());
-                                UIMenuItem giveButtonItem = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.description);
-                                UIMenu giveButton = new(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.label, "");
+                                UIMenuItem giveButtonItem = new UIMenuItem(ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].give.label, ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].give.description);
+                                UIMenu giveButton = new(ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].give.label, "");
                                 giveButtonItem.BindItemToMenu(giveButton);
                                 newItemMenu.AddItem(giveButtonItem);
                                 giveButtonItem.HighlightColor = SColor.HUD_Freemode;
@@ -453,11 +453,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                                 }
                             }
 
-                            if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.drop)
+                            if (ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].drop.drop)
                             {
                                 List<dynamic> amountino = new List<dynamic>();
                                 for (int j = 0; j < it.Amount; j++) amountino.Add((j + 1).ToString());
-                                UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.description, SColor.HUD_Redlight, SColor.HUD_Red);
+                                UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generics.ItemList[it.Item].drop.description, SColor.HUD_Redlight, SColor.HUD_Red);
                                 newItemMenu.AddItem(dropButton);
                                 newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
                                 {
@@ -492,20 +492,20 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                     for (int i = 0; i < me.GetPlayerData().GetCharWeapons().Count; i++)
                     {
                         Weapons armi = me.GetPlayerData().GetCharWeapons()[i];
-                        UIMenuItem armaItem = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Munizioni: " + armi.ammo);
-                        UIMenu arma = new(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "");
+                        UIMenuItem armaItem = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.Name)), "Munizioni: " + armi.Ammo);
+                        UIMenu arma = new(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.Name)), "");
                         armaItem.BindItemToMenu(arma);
                         weapMenu.AddItem(armaItem);
-                        if (armi.components.Count > 0)
+                        if (armi.Components.Count > 0)
                         {
-                            UIMenuItem componentiItem = new UIMenuItem("Componenti " + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Scegli qui quali abilitare tra quelli che hai!");
-                            UIMenu componenti = new("Componenti " + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "");
+                            UIMenuItem componentiItem = new UIMenuItem("Componenti " + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.Name)), "Scegli qui quali abilitare tra quelli che hai!");
+                            UIMenu componenti = new("Componenti " + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.Name)), "");
                             componentiItem.BindItemToMenu(componenti);
                             arma.AddItem(componentiItem);
 
-                            for (int j = 0; j < armi.components.Count; j++)
+                            for (int j = 0; j < armi.Components.Count; j++)
                             {
-                                Components comp = armi.components[j];
+                                Components comp = armi.Components[j];
                                 bool attivo = comp.active;
 
                                 if (Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)) != "Caricatore standard")
@@ -519,17 +519,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                                             uint componentHash = Funzioni.HashUint(comp.name);
                                             List<Weapons> armiAgg = new List<Weapons>();
                                             List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
-                                            armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
+                                            armiAgg.Add(new Weapons(armi.Name, armi.Ammo, weaponComponents, armi.Tint));
                                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons = armiAgg;
 
                                             if (_checked)
                                             {
-                                                GiveWeaponComponentToPed(PlayerPedId(), Funzioni.HashUint(armi.name), componentHash);
+                                                GiveWeaponComponentToPed(PlayerPedId(), Funzioni.HashUint(armi.Name), componentHash);
                                                 HUD.ShowNotification("~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)) + " Attivato/a.", true);
                                             }
                                             else if (!_checked)
                                             {
-                                                RemoveWeaponComponentFromPed(PlayerPedId(), Funzioni.HashUint(armi.name), componentHash);
+                                                RemoveWeaponComponentFromPed(PlayerPedId(), Funzioni.HashUint(armi.Name), componentHash);
                                                 HUD.ShowNotification("~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)) + " Disattivato/a.");
                                             }
                                         }
@@ -542,12 +542,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 							UIMenuItem giveButton = new UIMenuItem($"Dai {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))}", "", Colors.Cyan, Colors.DarkCyan);
 							arma.AddItem(giveButton);
 							*/
-                        UIMenuItem dropButton = new UIMenuItem($"Gettare {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))}", "", SColor.HUD_Redlight, SColor.HUD_Red);
+                        UIMenuItem dropButton = new UIMenuItem($"Gettare {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.Name))}", "", SColor.HUD_Redlight, SColor.HUD_Red);
                         arma.AddItem(dropButton);
                         dropButton.Activated += async (_menu, item) =>
                         {
                             playerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
-                            BaseScript.TriggerServerEvent("lprp:removeWeaponWithPickup", armi.name);
+                            BaseScript.TriggerServerEvent("lprp:removeWeaponWithPickup", armi.Name);
                             await BaseScript.Delay(1000);
                             //							weapMenu.RemoveItemAt(weapMenu.MenuItems.IndexOf(arma.ParentItem));
                             _menu.GoBack();
@@ -810,7 +810,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             UIMenuItem item9 = new UIMenuItem("Ubriaco", "Vacci piano!");
             animMenu1.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item1)
                         playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", PlayerCache.MyPlayer.Posizione.ToVector3);
@@ -858,7 +858,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             animMenu2.AddItem(item13);
             animMenu2.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item10)
                         playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_hello");
@@ -914,7 +914,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             animMenu3.AddItem(item30);
             animMenu3.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item14)
                         playerPed.Task.PlayAnimation("random@arrests@busted", "idle_c");
@@ -992,7 +992,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             animMenu4.AddItem(item45);
             animMenu4.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item31)
                         playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", PlayerCache.MyPlayer.Posizione.ToVector3);
@@ -1045,7 +1045,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             animMenu5.AddItem(item50);
             animMenu5.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item46)
                         playerPed.Task.PlayAnimation("amb@world_human_muscle_flex@arms_at_side@base", "base");
@@ -1084,7 +1084,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             animMenu6.AddItem(item58);
             animMenu6.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item51)
                         playerPed.Task.PlayAnimation("amb@world_human_aa_coffee@idle_a", "idle_a");
@@ -1135,7 +1135,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             animMenu7.AddItem(item69);
             animMenu7.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item59)
                         playerPed.Task.PlayAnimation("oddjobs@towing", "m_blow_job_loop");
@@ -1178,7 +1178,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             UIMenuItem item77 = new UIMenuItem("Tieni la folla2", "Ho detto calmi");
             animMenu7.OnItemSelect += (_menu, _item, _index) =>
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.IsAlive)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.IsAlive)
                 {
                     if (_item == item70)
                         playerPed.Task.PlayAnimation("anim@mp_player_intupperface_palm", "idle_a");
@@ -1312,11 +1312,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 switch (var)
                 {
                     case "Medicine":
-                        Anim = me.GetPlayerData().CurrentChar.Skin.sex == "Maschio" ? "pill" : "pill_fp";
+                        Anim = me.GetPlayerData().CurrentChar.Skin.Sex == "Maschio" ? "pill" : "pill_fp";
 
                         break;
                     case "Pistola":
-                        Anim = me.GetPlayerData().CurrentChar.Skin.sex == "Maschio" ? "PISTOL" : "PISTOL_FP";
+                        Anim = me.GetPlayerData().CurrentChar.Skin.Sex == "Maschio" ? "PISTOL" : "PISTOL_FP";
 
                         break;
                 }
@@ -1378,7 +1378,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
                 st.SetRightLabel("~r~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
             else
                 st.SetRightLabel("~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
-            if (me.GetPlayerData().CurrentChar.Needs.Malattia)
+            if (me.GetPlayerData().CurrentChar.Needs.Sickness)
                 ma.SetRightLabel("~r~In malattia");
             else
                 ma.SetRightLabel("~g~In Salute");

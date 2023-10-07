@@ -19,8 +19,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static void Spawnato(PlayerClient client)
         {
-            baseTraffic = Client.Impostazioni.RolePlay.Main.baseTraffic;
-            divMultiplier = Client.Impostazioni.RolePlay.Main.divMultiplier;
+            baseTraffic = Client.Impostazioni.RolePlay.Main.BaseTraffic;
+            divMultiplier = Client.Impostazioni.RolePlay.Main.DivMultiplier;
             LastCheck = World.CurrentDayTime;
             SetDensity();
             Client.Instance.AddTick(Check);
@@ -28,8 +28,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static void onPlayerLeft(PlayerClient client)
         {
-            baseTraffic = Client.Impostazioni.RolePlay.Main.baseTraffic;
-            divMultiplier = Client.Impostazioni.RolePlay.Main.divMultiplier;
+            baseTraffic = Client.Impostazioni.RolePlay.Main.BaseTraffic;
+            divMultiplier = Client.Impostazioni.RolePlay.Main.DivMultiplier;
             LastCheck = World.CurrentDayTime;
             Client.Instance.RemoveTick(Check);
         }

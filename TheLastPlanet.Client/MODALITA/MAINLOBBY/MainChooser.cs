@@ -6,7 +6,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 {
     internal static class MainChooser
     {
-        public static Dictionary<ModalitaServer, int> Bucket_n_Players { get; set; }
+        public static Dictionary<ServerMode, int> Bucket_n_Players { get; set; }
 
         private static BucketMarker RP_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1266.863f, -3013.068f, -49.0f), new Vector3(10f, 10f, 1f), SColor.RoyalBlue), "", "mp_mission_name_freemode_199");
         private static BucketMarker Mini_Marker = new(new MarkerEx(MarkerType.VerticalCylinder, new Position(-1280.206f, -3021.234f, -49.0f), new Vector3(10f, 10f, 1f), SColor.ForestGreen), "", "mp_mission_name_freemode_1999");
@@ -81,11 +81,11 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
             if (!Game.IsPaused)
             {
-                RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Roleplay]} / 512", "", "", "");
-                Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Minigiochi]} / 64", "", "", "");
-                Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Gare]} / 64", "", "", "");
+                RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[ServerMode.Roleplay]} / 512", "", "", "");
+                Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[ServerMode.Minigames]} / 64", "", "", "");
+                Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[ServerMode.Races]} / 64", "", "", "");
                 Nego_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Non influisce sul server RolePlay!", "~o~Negozio~w~", "", "", "", "", "", "", "", "");
-                Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.FreeRoam]} / 512", "", "", "");
+                Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[ServerMode.FreeRoam]} / 512", "", "", "");
 
                 RP_Marker.Draw();
                 Mini_Marker.Draw();
@@ -99,14 +99,14 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
                 if (Input.IsControlJustPressed(Control.Context))
                 {
-                    if (Bucket_n_Players[ModalitaServer.Roleplay] >= 512)
+                    if (Bucket_n_Players[ServerMode.Roleplay] >= 512)
                     {
                         HUD.ShowNotification("Il Pianeta RolePlay è pieno al momento, riprova più tardi!", ColoreNotifica.Red, true);
 
                         return;
                     }
 
-                    await CambiaBucket("~b~Pianeta RolePlay~w~", ModalitaServer.Roleplay);
+                    await CambiaBucket("~b~Pianeta RolePlay~w~", ServerMode.Roleplay);
                     await ROLEPLAY.Initializer.Init();
                     Stop();
                 }
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                             return;
                         }
                         */
-                        await CambiaBucket("~g~Server Minigiochi~w~", ModalitaServer.Minigiochi);
+                        await CambiaBucket("~g~Server Minigiochi~w~", ServerMode.Minigames);
                         Screen.Fading.FadeIn(1000);
                     }
                     else
@@ -154,7 +154,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                             return;
                         }
                         */
-                        await CambiaBucket("~p~Server Gare~w~", ModalitaServer.Gare);
+                        await CambiaBucket("~p~Server Gare~w~", ServerMode.Races);
                         Races.Creator.RaceCreator.CreatorPreparation();
                         await Task.FromResult(0);
                     }
@@ -173,7 +173,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 {
                     if (Input.IsControlJustPressed(Control.Context))
                     {
-                        await CambiaBucket("~o~Negozio~w~", ModalitaServer.Negozio);
+                        await CambiaBucket("~o~Negozio~w~", ServerMode.Store);
                         Screen.Fading.FadeIn(1000);
                     }
                 }
@@ -189,14 +189,14 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
                 if (Input.IsControlJustPressed(Control.Context))
                 {
-                    if (Bucket_n_Players[ModalitaServer.FreeRoam] >= 512)
+                    if (Bucket_n_Players[ServerMode.FreeRoam] >= 512)
                     {
                         HUD.ShowNotification("Il pianeta FreeRoam è pieno al momento, riprova più tardi!", ColoreNotifica.Red, true);
 
                         return;
                     }
 
-                    await CambiaBucket("~f~Pianeta FreeRoam~w~", ModalitaServer.FreeRoam);
+                    await CambiaBucket("~f~Pianeta FreeRoam~w~", ServerMode.FreeRoam);
                     //Screen.Fading.FadeIn(1000);
                     await FREEROAM.Initializer.Init();
                     Stop();
@@ -204,7 +204,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
             }
         }
 
-        private static async Task CambiaBucket(string nome, ModalitaServer modalita)
+        private static async Task CambiaBucket(string nome, ServerMode modalita)
         {
             Screen.Fading.FadeOut(500);
             await BaseScript.Delay(600);
@@ -225,14 +225,14 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
             }
 
             string settings = await EventDispatcher.Get<string>("Config.CallClientConfig", modalita);
-            if (modalita == ModalitaServer.Roleplay)
+            if (modalita == ServerMode.Roleplay)
             {
                 string sharedSettings = await EventDispatcher.Get<string>("Config.CallSharedConfig", modalita);
                 ConfigShared.SharedConfig = sharedSettings.FromJson<SharedConfig>();
             }
             Client.Impostazioni.LoadConfig(modalita, settings);
             ScaleformUI.Main.Warning.UpdateWarning(nome, "Caricamento completato!");
-            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = modalita;
+            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Mode = modalita;
             Cache.PlayerCache.ModalitàAttuale = modalita;
             Cache.PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = false;
             await BaseScript.Delay(2000);

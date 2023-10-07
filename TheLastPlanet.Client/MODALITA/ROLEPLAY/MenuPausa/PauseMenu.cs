@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             "Silent Hill 1"
         };
 
-        private static InputController pauseMenu = new InputController(Control.DropWeapon, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(LastPlanetMenu));
+        private static InputController pauseMenu = new InputController(Control.DropWeapon, ServerMode.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(LastPlanetMenu));
 
         public static void Init()
         {
@@ -47,7 +47,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             InputHandler.AddInput(pauseMenu);
             string effect;
 
-            switch (Main.ImpostazioniClient.Filtro)
+            switch (Main.ImpostazioniClient.Filter)
             {
                 case "Matrix":
                     effect = "AirRaceBoost02";
@@ -123,7 +123,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
                 SetTransitionTimecycleModifier(effect, 1f);
             else
                 SetTimecycleModifier(effect);
-            SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);
+            SetTimecycleModifierStrength(Main.ImpostazioniClient.FilterStrenght);
         }
 
         private static async void LastPlanetMenu(Ped playerPed, object[] args)
@@ -171,16 +171,16 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
             #region cinema
 
-            SettingsCheckboxItem aa = new("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema);
+            SettingsCheckboxItem aa = new("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.CinemaMode);
             SettingsProgressItem ab = new("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox, false, SColor.HUD_Freemode);
-            SettingsListItem ac = new("Filtro cinema", filtri, filtri.IndexOf(Main.ImpostazioniClient.Filtro));
-            SettingsProgressItem ad = new("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FiltroStrenght * 100), false, SColor.HUD_Freemode);
-            aa.OnCheckboxChange += (item, attiva) => Main.ImpostazioniClient.ModCinema = attiva;
+            SettingsListItem ac = new("Filtro cinema", filtri, filtri.IndexOf(Main.ImpostazioniClient.Filter));
+            SettingsProgressItem ad = new("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FilterStrenght * 100), false, SColor.HUD_Freemode);
+            aa.OnCheckboxChange += (item, attiva) => Main.ImpostazioniClient.CinemaMode = attiva;
             ab.OnBarChanged += (item, index) => Main.ImpostazioniClient.LetterBox = index;
             ad.OnBarChanged += (item, index) =>
             {
-                Main.ImpostazioniClient.FiltroStrenght = index / 100f;
-                SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);
+                Main.ImpostazioniClient.FilterStrenght = index / 100f;
+                SetTimecycleModifierStrength(Main.ImpostazioniClient.FilterStrenght);
             };
             ac.OnListItemChanged += (item, index, label) =>
             {
@@ -209,7 +209,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
                     SetTransitionTimecycleModifier(effect, 1f);
                 else
                     SetTimecycleModifier(effect);
-                Main.ImpostazioniClient.Filtro = activeItem;
+                Main.ImpostazioniClient.Filter = activeItem;
             };
 
             #endregion
@@ -218,12 +218,12 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
             #region Minimappa
 
-            SettingsCheckboxItem af = new("Minimappa attiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaAttiva);
-            SettingsListItem ag = new("Dimensioni Minimappa", new List<dynamic>() { "Normale", "Grande" }, Main.ImpostazioniClient.DimensioniMinimappa);
-            SettingsCheckboxItem ah = new("Gps in macchina", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaInAuto);
-            af.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.MiniMappaAttiva = check;
-            ag.OnListItemChanged += (item, index, label) => Main.ImpostazioniClient.DimensioniMinimappa = index;
-            ah.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.MiniMappaInAuto = check;
+            SettingsCheckboxItem af = new("Minimappa attiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.EnableMinimap);
+            SettingsListItem ag = new("Dimensioni Minimappa", new List<dynamic>() { "Normale", "Grande" }, Main.ImpostazioniClient.MinimapSize);
+            SettingsCheckboxItem ah = new("Gps in macchina", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.InCarMinimap);
+            af.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.EnableMinimap = check;
+            ag.OnListItemChanged += (item, index, label) => Main.ImpostazioniClient.MinimapSize = index;
+            ah.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.InCarMinimap = check;
 
             #endregion
 
@@ -240,12 +240,12 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
             #region Telecamere
 
-            SettingsCheckboxItem ba = new("Mira in soggettiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_Mira);
-            SettingsCheckboxItem bb = new("Copertura in soggettiva (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura);
-            SettingsCheckboxItem bc = new("Soggettiva nei veicoli (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InAuto);
-            ba.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForzaPrimaPersona_Mira = check;
-            bb.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura = check;
-            bc.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForzaPrimaPersona_InAuto = check;
+            SettingsCheckboxItem ba = new("Mira in soggettiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForceFirstPersonAiming);
+            SettingsCheckboxItem bb = new("Copertura in soggettiva (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForceFirstPersonCover);
+            SettingsCheckboxItem bc = new("Soggettiva nei veicoli (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForceFirstPersonInCar);
+            ba.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForceFirstPersonAiming = check;
+            bb.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForceFirstPersonCover = check;
+            bc.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForceFirstPersonInCar = check;
 
             Telecamere.AddItem(ba);
             Telecamere.AddItem(bb);

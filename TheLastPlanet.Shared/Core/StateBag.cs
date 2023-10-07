@@ -1,6 +1,4 @@
-﻿using CitizenFX.Core;
-using System;
-using FxEvents.Shared.Attributes;
+﻿using System;
 
 namespace TheLastPlanet.Shared
 {
@@ -65,7 +63,7 @@ namespace TheLastPlanet.Shared
 
     public class BaseBag
     {
-         internal Player player;
+        internal Player player;
 
         internal string _name;
 
@@ -80,11 +78,11 @@ namespace TheLastPlanet.Shared
     public class PlayerStates : BaseBag
     {
         internal readonly PlayerStateBag<bool> _spawned;
-        internal readonly PlayerStateBag<bool> _adminSpecta;
-        internal readonly PlayerStateBag<bool> _inPausa;
-        internal readonly PlayerStateBag<ModalitaServer> _modalita;
+        internal readonly PlayerStateBag<bool> _adminSpectating;
+        internal readonly PlayerStateBag<bool> _paused;
+        internal readonly PlayerStateBag<ServerMode> _mode;
         internal readonly PlayerStateBag<bool> _wanted;
-        internal readonly PlayerStateBag<bool> _inVeicolo;
+        internal readonly PlayerStateBag<bool> _inVeh;
         internal readonly PlayerStateBag<bool> _passive;
 
         public bool Spawned
@@ -92,10 +90,10 @@ namespace TheLastPlanet.Shared
             get => _spawned.State;
             set => _spawned.State = value;
         }
-        public bool InVeicolo
+        public bool InVehicle
         {
-            get => _inVeicolo.State;
-            set => _inVeicolo.State = value;
+            get => _inVeh.State;
+            set => _inVeh.State = value;
         }
 
         public bool Wanted
@@ -104,15 +102,15 @@ namespace TheLastPlanet.Shared
             set => _wanted.State = value;
         }
 
-        public bool AdminSpecta
+        public bool AdminSpectating
         {
-            get => _adminSpecta.State;
-            set => _adminSpecta.State = value;
+            get => _adminSpectating.State;
+            set => _adminSpectating.State = value;
         }
-        public bool InPausa
+        public bool Paused
         {
-            get => _inPausa.State;
-            set => _inPausa.State = value;
+            get => _paused.State;
+            set => _paused.State = value;
         }
 
         public bool ModalitaPassiva
@@ -121,13 +119,13 @@ namespace TheLastPlanet.Shared
             set => _passive.State = value;
         }
 
-        public ModalitaServer Modalita
+        public ServerMode Mode
         {
-            get => _modalita.State;
+            get => _mode.State;
             set
             {
 #if SERVER
-                _modalita.State = value;
+                _mode.State = value;
 #elif CLIENT
                 EventDispatcher.Send("tlg:addPlayerToBucket", value);
 #endif
@@ -139,18 +137,19 @@ namespace TheLastPlanet.Shared
         public PlayerStates(Player player, string name) : base(player, name)
         {
             _spawned = new(player, _name + ":Spawned", true);
-            _adminSpecta = new(player, _name + ":AdminSpecta", true);
-            _inPausa = new(player, _name + ":InPausa", true);
-            _modalita = new(player, _name + ":Modalita", true);
-            _wanted = new(player, _name + ":WantedAttivo", true);
-            _inVeicolo = new(player, _name + ":InVeicolo", true);
-            _passive = new(player, _name + ":ModPassiva", true);
+            _adminSpectating = new(player, _name + ":AdminSpectating", true);
+            _paused = new(player, _name + ":Paused", true);
+            _mode = new(player, _name + ":Mode", true);
+            _wanted = new(player, _name + ":WantedActive", true);
+            _inVeh = new(player, _name + ":InVehicle", true);
+            _passive = new(player, _name + ":PassiveMode", true);
         }
     }
 
     public class FreeRoamStates : BaseBag
     {
-        public FreeRoamStates() {
+        public FreeRoamStates()
+        {
         }
         public FreeRoamStates(Player player, string name) : base(player, name)
         {
@@ -159,52 +158,53 @@ namespace TheLastPlanet.Shared
 
     public class RPStates : BaseBag
     {
-        internal readonly PlayerStateBag<bool> _svenuto;
-        internal readonly PlayerStateBag<bool> _ammanettato;
-        internal readonly PlayerStateBag<bool> _inCasa;
-        internal readonly PlayerStateBag<bool> _inServizio;
-        internal readonly PlayerStateBag<bool> _finDiVita;
+        internal readonly PlayerStateBag<bool> _fainted;
+        internal readonly PlayerStateBag<bool> _cuffed;
+        internal readonly PlayerStateBag<bool> _inHome;
+        internal readonly PlayerStateBag<bool> _onDuty;
+        internal readonly PlayerStateBag<bool> _dying;
 
-        public bool Svenuto
+        public bool Fainted
         {
-            get => _svenuto.State;
-            set => _svenuto.State = value;
+            get => _fainted.State;
+            set => _fainted.State = value;
         }
 
-        public bool Ammanettato
+        public bool Cuffed
         {
-            get => _ammanettato.State;
-            set => _ammanettato.State = value;
+            get => _cuffed.State;
+            set => _cuffed.State = value;
         }
 
-        public bool InCasa
+        public bool InHome
         {
-            get => _inCasa.State;
-            set => _inCasa.State = value;
+            get => _inHome.State;
+            set => _inHome.State = value;
         }
 
-        public bool InServizio
+        public bool OnDuty
         {
-            get => _inServizio.State;
-            set => _inServizio.State = value;
+            get => _onDuty.State;
+            set => _onDuty.State = value;
         }
 
-        public bool FinDiVita
+        public bool Dying
         {
-            get => _finDiVita.State;
-            set => _finDiVita.State = value;
+            get => _dying.State;
+            set => _dying.State = value;
         }
 
-        public RPStates() {
+        public RPStates()
+        {
         }
 
         public RPStates(Player player, string name) : base(player, name)
         {
-            _svenuto = new (player, _name + ":Svenuto", true);
-            _ammanettato = new (player, _name + ":Ammanettato", true);
-            _inCasa = new (player, _name + ":InCasa", true);
-            _inServizio = new (player, _name + ":InServizio", true);
-            _finDiVita = new (player, _name + ":FinDiVita", true);
+            _fainted = new(player, _name + ":Fainted", true);
+            _cuffed = new(player, _name + ":Cuffed", true);
+            _inHome = new(player, _name + ":AtHome", true);
+            _onDuty = new(player, _name + ":OnDuty", true);
+            _dying = new(player, _name + ":Dying", true);
         }
     }
 
@@ -217,9 +217,9 @@ namespace TheLastPlanet.Shared
             _instanceBag = new PlayerStateBag<InstanceBag>(player, _name);
         }
 
-        public bool Stanziato { get; set; }
-        public int ServerIdProprietario { get; set; }
-        public bool IsProprietario { get; set; }
+        public bool Instanced { get; set; }
+        public int ServerIdOwner { get; set; }
+        public bool IsOwner { get; set; }
         public string? Instance { get; set; }
 
         /// <summary>
@@ -227,15 +227,15 @@ namespace TheLastPlanet.Shared
         /// </summary>
         public void Istanzia()
         {
-            Stanziato = true;
+            Instanced = true;
 #if CLIENT
-            ServerIdProprietario = Game.Player.ServerId;
+            ServerIdOwner = Game.Player.ServerId;
 #elif SERVER
-            ServerIdProprietario = Convert.ToInt32(player.Handle);
+            ServerIdOwner = Convert.ToInt32(player.Handle);
 #endif
-            IsProprietario = true;
+            IsOwner = true;
             Instance = string.Empty;
-            var bag = new InstanceBag(Stanziato, ServerIdProprietario, IsProprietario, Instance);
+            InstanceBag bag = new InstanceBag(Instanced, ServerIdOwner, IsOwner, Instance);
             _instanceBag.State = bag;
         }
 
@@ -244,15 +244,15 @@ namespace TheLastPlanet.Shared
         /// </summary>
         public void Istanzia(string instance)
         {
-            Stanziato = true;
+            Instanced = true;
 #if CLIENT
-            ServerIdProprietario = Game.Player.ServerId;
+            ServerIdOwner = Game.Player.ServerId;
 #elif SERVER
-            ServerIdProprietario = Convert.ToInt32(player.Handle);
+            ServerIdOwner = Convert.ToInt32(player.Handle);
 #endif
-            IsProprietario = true;
+            IsOwner = true;
             this.Instance = instance;
-            var bag = new InstanceBag(Stanziato, ServerIdProprietario, IsProprietario, Instance);
+            InstanceBag bag = new InstanceBag(Instanced, ServerIdOwner, IsOwner, Instance);
             _instanceBag.State = bag;
         }
 
@@ -261,11 +261,11 @@ namespace TheLastPlanet.Shared
         /// </summary>
         public void Istanzia(int ServerId, string instance)
         {
-            Stanziato = true;
-            ServerIdProprietario = ServerId;
-            IsProprietario = true;
+            Instanced = true;
+            ServerIdOwner = ServerId;
+            IsOwner = true;
             this.Instance = instance;
-            var bag = new InstanceBag(Stanziato, ServerIdProprietario, IsProprietario, Instance);
+            InstanceBag bag = new InstanceBag(Instanced, ServerIdOwner, IsOwner, Instance);
             _instanceBag.State = bag;
         }
 
@@ -274,11 +274,11 @@ namespace TheLastPlanet.Shared
         /// </summary>
         public void RimuoviIstanza()
         {
-            Stanziato = false;
-            ServerIdProprietario = 0;
-            IsProprietario = false;
+            Instanced = false;
+            ServerIdOwner = 0;
+            IsOwner = false;
             Instance = string.Empty;
-            var bag = new InstanceBag(Stanziato, ServerIdProprietario, IsProprietario, Instance);
+            InstanceBag bag = new InstanceBag(Instanced, ServerIdOwner, IsOwner, Instance);
             _instanceBag.State = bag;
         }
 
@@ -288,12 +288,12 @@ namespace TheLastPlanet.Shared
         /// <param name="instance">Specifica quale istanza</param>
         public void CambiaIstanza(string instance)
         {
-            if (Stanziato)
+            if (Instanced)
             {
                 if (Instance != instance)
                 {
                     Instance = instance;
-                    var bag = new InstanceBag(Stanziato, ServerIdProprietario, IsProprietario, Instance);
+                    InstanceBag bag = new InstanceBag(Instanced, ServerIdOwner, IsOwner, Instance);
                     _instanceBag.State = bag;
                 }
             }
@@ -305,11 +305,11 @@ namespace TheLastPlanet.Shared
         /// <param name="netId">networkId del proprietario</param>
         public void CambiaIstanza(int netId)
         {
-            if (Stanziato)
+            if (Instanced)
             {
-                if (ServerIdProprietario != netId)
+                if (ServerIdOwner != netId)
                 {
-                    ServerIdProprietario = netId; var bag = new InstanceBag(Stanziato, ServerIdProprietario, IsProprietario, Instance);
+                    ServerIdOwner = netId; InstanceBag bag = new InstanceBag(Instanced, ServerIdOwner, IsOwner, Instance);
                     _instanceBag.State = bag;
                 }
             }
@@ -318,20 +318,20 @@ namespace TheLastPlanet.Shared
     }
 
 
-    
+
     public class InstanceBag
     {
-        public bool Stanziato { get; set; }
-        public int ServerIdProprietario { get; set; }
-        public bool IsProprietario { get; set; }
+        public bool Instanced { get; set; }
+        public int ServerIdOwner { get; set; }
+        public bool IsOwner { get; set; }
         public string? Instance { get; set; }
 
         public InstanceBag() { }
-        public InstanceBag(bool stanziato, int serverId, bool proprietario, string instance)
+        public InstanceBag(bool instanced, int serverId, bool isOwner, string instance)
         {
-            Stanziato = stanziato;
-            ServerIdProprietario = serverId;
-            IsProprietario = proprietario;
+            Instanced = instanced;
+            ServerIdOwner = serverId;
+            IsOwner = isOwner;
             Instance = instance;
         }
     }

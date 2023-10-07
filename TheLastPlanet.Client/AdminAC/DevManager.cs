@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Veicoli;
+using TheLastPlanet.Shared.Vehicles;
 
 namespace TheLastPlanet.Client.AdminAC
 {
@@ -37,13 +37,13 @@ namespace TheLastPlanet.Client.AdminAC
             Ped pl = Cache.PlayerCache.MyPlayer.Ped;
             RaycastResult Crossair = WorldProbe.CrossairRaycastResult;
             //TODO: in worldprobe un metodo fisso da cui prendere i valori in modo syncrono
-            HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo ? pl.CurrentVehicle.Position : pl.Position)} H:{(Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo ? pl.CurrentVehicle.Heading : pl.Heading)}");
-            HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo ? pl.CurrentVehicle.Rotation : pl.Rotation)}");
+            HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle ? pl.CurrentVehicle.Position : pl.Position)} H:{(Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle ? pl.CurrentVehicle.Heading : pl.Heading)}");
+            HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle ? pl.CurrentVehicle.Rotation : pl.Rotation)}");
             HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
             HUD.DrawText(0.7f, 0.90f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
             HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {Crossair.HitPosition}");
 
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 Vehicle veicolo = new(GetVehiclePedIsIn(PlayerPedId(), false));
                 VehProp props = await veicolo.GetVehicleProperties();

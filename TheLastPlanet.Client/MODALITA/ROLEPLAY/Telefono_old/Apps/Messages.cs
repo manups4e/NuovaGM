@@ -63,9 +63,9 @@ namespace TheLastPlanet.Client.Telefono.Apps
 
             string appName = "Messaggi";
 
-            foreach (Message messaggio in Phone.getCurrentCharPhone().messaggi)
+            foreach (Message messaggio in Phone.getCurrentCharPhone().Messages)
             {
-                AddMessage(Phone.getCurrentCharPhone().messaggi.IndexOf(messaggio), messaggio.From, messaggio.Messaggio, false);
+                AddMessage(Phone.getCurrentCharPhone().Messages.IndexOf(messaggio), messaggio.From, messaggio.TxtMessage, false);
                 messageCount += 1;
             }
             Phone.Scaleform.CallFunction("SET_HEADER", appName);
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
             else if (Input.IsControlJustPressed(Control.PhoneDown))
             {
                 MoveFinger(2);
-                if (SelectedItem < Phone.getCurrentCharPhone().messaggi.Count - 1)
+                if (SelectedItem < Phone.getCurrentCharPhone().Messages.Count - 1)
                     SelectedItem += 1;
                 else
                     SelectedItem = 0;

@@ -56,7 +56,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
             Client.Instance.AddTick(Crediti);
             playerPed.IsPositionFrozen = true;
             playerPed.IsVisible = false;
-            Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("IngressoPlayer");
+            Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("IngressoPlayer");
             playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
             Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(745.877f, 1215.591f, 359.405f) };
             Cam1.IsActive = true;
@@ -132,7 +132,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
             Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
             Cam7.InterpTo(Cam8, 10000, 0, 1);
             await BaseScript.Delay(3000);
-            ScaleformUI.Main.BigMessageInstance.ShowMpWastedMessage(Client.Impostazioni.RolePlay.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
+            ScaleformUI.Main.BigMessageInstance.ShowMpWastedMessage(Client.Impostazioni.RolePlay.Main.ServerName, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
             await BaseScript.Delay(4000);
             await BaseScript.Delay(1000);
             Cam7.Delete();
@@ -230,7 +230,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
             playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
             RenderScriptCams(false, false, 0, false, false);
             playerPed.IsVisible = true;
-            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+            Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
             playerPed.IsPositionFrozen = false;
             NetworkClearClockTimeOverride();
             await BaseScript.Delay(1000);

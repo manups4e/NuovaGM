@@ -1,5 +1,5 @@
 ﻿using FxEvents.Shared.Snowflakes;
-using Impostazioni.Client.Configurazione.Negozi.Abiti;
+using Settings.Client.Configurazione.Negozi.Abiti;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -351,8 +351,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
             GetLabelText("CC_LIPSTICK_9")
         };
 
-        private static List<Completo> CompletiMaschio = new List<Completo> { new Completo("Lo spacciatore", "Per la produzione settimanale", 0, new ComponentDrawables(-1, 0, -1, 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, -1, 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(13, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(1, -1, -1, -1, -1, -1, -1, -1, -1)), new Completo("L'Elegante", "Ma non troppo!", 0, new ComponentDrawables(-1, 0, -1, 1, 4, -1, 10, 0, 12, 0, 0, 4), new ComponentDrawables(-1, 0, -1, 0, 1, -1, 12, 0, 10, 0, 0, 0), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)), new Completo("L'Hipster", "Non mi guardate..", 0, new ComponentDrawables(-1, 0, -1, 11, 26, -1, 22, 11, 15, 0, 0, 42), new ComponentDrawables(-1, 0, -1, 0, 3, -1, 7, 2, 0, 0, 0, 0), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)) };
-        private static List<Completo> CompletiFemmina = new List<Completo> { new Completo("La Rancher", "Muuuuuh!", 0, new ComponentDrawables(-1, 0, -1, 9, 1, -1, 3, 5, 3, 0, 0, 9), new ComponentDrawables(-1, 0, -1, 0, 10, -1, 8, 4, 0, 0, 0, 13), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)), new Completo("La Stracciona Elegante", "Law and Order", 0, new ComponentDrawables(-1, 0, -1, 88, 1, -1, 29, 20, 37, 0, 0, 52), new ComponentDrawables(-1, 0, -1, 0, 6, -1, 0, 5, 0, 0, 0, 0), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)), new Completo("Casual", "Per ogni giorno dell'anno", 0, new ComponentDrawables(-1, 0, -1, 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, -1, 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)) };
+        private static List<Suit> CompletiMaschio = new List<Suit> { new Suit("Lo spacciatore", "Per la produzione settimanale", 0, new ComponentDrawables(-1, 0, -1, 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, -1, 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(13, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(1, -1, -1, -1, -1, -1, -1, -1, -1)), new Suit("L'Elegante", "Ma non troppo!", 0, new ComponentDrawables(-1, 0, -1, 1, 4, -1, 10, 0, 12, 0, 0, 4), new ComponentDrawables(-1, 0, -1, 0, 1, -1, 12, 0, 10, 0, 0, 0), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)), new Suit("L'Hipster", "Non mi guardate..", 0, new ComponentDrawables(-1, 0, -1, 11, 26, -1, 22, 11, 15, 0, 0, 42), new ComponentDrawables(-1, 0, -1, 0, 3, -1, 7, 2, 0, 0, 0, 0), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)) };
+        private static List<Suit> CompletiFemmina = new List<Suit> { new Suit("La Rancher", "Muuuuuh!", 0, new ComponentDrawables(-1, 0, -1, 9, 1, -1, 3, 5, 3, 0, 0, 9), new ComponentDrawables(-1, 0, -1, 0, 10, -1, 8, 4, 0, 0, 0, 13), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)), new Suit("La Stracciona Elegante", "Law and Order", 0, new ComponentDrawables(-1, 0, -1, 88, 1, -1, 29, 20, 37, 0, 0, 52), new ComponentDrawables(-1, 0, -1, 0, 6, -1, 0, 5, 0, 0, 0, 0), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)), new Suit("Casual", "Per ogni giorno dell'anno", 0, new ComponentDrawables(-1, 0, -1, 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, -1, 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1)) };
         //DA SPOSTARE NELLA SEZIONE DEL TELEFONO FORSE
         private static string[] Prefisso = new string[6] { "333", "347", "338", "345", "329", "361" };
         private static Char_data _dataMaschio;
@@ -397,7 +397,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
         private static async void AggiornaModel(string JsonData)
         {
             Char_data plpl = JsonData.FromJson<Char_data>();
-            uint hash = plpl.Skin.model;
+            uint hash = plpl.Skin.Model;
             RequestModel(hash);
             while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
             SetPlayerModel(PlayerId(), hash);
@@ -430,7 +430,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 if (IsValidInterior(94722)) LoadInterior(94722);
                 while (!IsInteriorReady(94722)) await BaseScript.Delay(1000);
                 sub_8d2b2();
-                Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("CreazionePersonaggio");
+                Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("CreazionePersonaggio");
                 _dataMaschio = new Char_data(SnowflakeGenerator.Instance.Next().ToInt64(), new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[SharedMath.GetRandomInt(Prefisso.Length)] + SharedMath.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, (uint)PedHash.FreemodeMale01, 0.9f, GetRandomFloatInRange(.5f, 1f), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f) }), new A2(GetRandomIntInRange(0, Ageing.Count), GetRandomFloatInRange(0f, 1f)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Complexions.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), GetRandomFloatInRange(0f, 1f)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
                 _dataFemmina = new Char_data(SnowflakeGenerator.Instance.Next().ToInt64(), new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[SharedMath.GetRandomInt(Prefisso.Length)] + SharedMath.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, (uint)PedHash.FreemodeFemale01, 0.1f, GetRandomFloatInRange(0f, .5f), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f) }), new A2(GetRandomIntInRange(0, Ageing.Count), GetRandomFloatInRange(0f, 1f)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Complexions.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), GetRandomFloatInRange(0f, 1f)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
                 _data = _selezionato.ToLower() == "maschio" ? _dataMaschio : _dataFemmina;
@@ -574,7 +574,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 UIMenuItem DDN = new UIMenuItem("Data di Nascita", "Data di nascita Personaggio");
                 DDN.SetRightLabel(datadinascita);
                 UIMenuItem Altezza = new UIMenuItem("Altezza", "Altezza Personaggio");
-                Altezza.SetRightLabel("" + _data.Info.height);
+                Altezza.SetRightLabel("" + _data.Info.Height);
                 Info.AddItem(Nome);
                 Info.AddItem(Cognome);
                 Info.AddItem(DDN);
@@ -584,14 +584,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                 #region Genitori
 
-                UIMenuHeritageWindow heritageWindow = new UIMenuHeritageWindow(_data.Skin.face.mom, _data.Skin.face.dad);
+                UIMenuHeritageWindow heritageWindow = new UIMenuHeritageWindow(_data.Skin.Face.Mom, _data.Skin.Face.Dad);
                 Genitori.AddWindow(heritageWindow);
                 List<dynamic> lista = new List<dynamic>();
                 for (int i = 0; i < 101; i++) lista.Add(i);
-                UIMenuListItem mamma = new UIMenuListItem("Mamma", momfaces, _data.Skin.face.mom);
-                UIMenuListItem papa = new UIMenuListItem("Papà", dadfaces, _data.Skin.face.dad);
-                UIMenuSliderItem resemblance = new UIMenuSliderItem(GetLabelText("FACE_H_DOM"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.resemblance * 100) };
-                UIMenuSliderItem skinmix = new UIMenuSliderItem(GetLabelText("FACE_H_STON"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.skinmix * 100) };
+                UIMenuListItem mamma = new UIMenuListItem("Mamma", momfaces, _data.Skin.Face.Mom);
+                UIMenuListItem papa = new UIMenuListItem("Papà", dadfaces, _data.Skin.Face.Dad);
+                UIMenuSliderItem resemblance = new UIMenuSliderItem(GetLabelText("FACE_H_DOM"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.Resemblance * 100) };
+                UIMenuSliderItem skinmix = new UIMenuSliderItem(GetLabelText("FACE_H_STON"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.Skinmix * 100) };
                 Genitori.AddItem(mamma);
                 Genitori.AddItem(papa);
                 Genitori.AddItem(resemblance);
@@ -601,18 +601,18 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                 #region Dettagli
 
-                UIMenuGridPanel GridSopr = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[7], _data.Skin.face.tratti[6]));
-                UIMenuGridPanel GridOcch = new UIMenuGridPanel("Stretti", "Grandi", new PointF(_data.Skin.face.tratti[11], 0));
-                UIMenuGridPanel GridNaso = new UIMenuGridPanel("Su", "Stretto", "Largo", "Giù", new PointF(_data.Skin.face.tratti[0], _data.Skin.face.tratti[1]));
-                UIMenuGridPanel GridNasoPro = new UIMenuGridPanel("Convesso", "Breve", "Lungo", "Infossato", new PointF(_data.Skin.face.tratti[2], _data.Skin.face.tratti[3]));
-                UIMenuGridPanel GridNasoPun = new UIMenuGridPanel("Punta in su", "Rotta SX", "Rotta DX", "Punta in giù", new PointF(_data.Skin.face.tratti[5], _data.Skin.face.tratti[4]));
-                UIMenuGridPanel GridZigo = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[9], _data.Skin.face.tratti[8]));
-                UIMenuGridPanel GridGuance = new UIMenuGridPanel("Magre", "Paffute", new PointF(_data.Skin.face.tratti[10], 0));
-                UIMenuGridPanel GridLabbra = new UIMenuGridPanel("Sottili", "Carnose", new PointF(_data.Skin.face.tratti[12], 0));
-                UIMenuGridPanel GridMasce = new UIMenuGridPanel("Arrotondata", "Stretta", "Larga", "Squadrata", new PointF(_data.Skin.face.tratti[13], _data.Skin.face.tratti[14]));
-                UIMenuGridPanel GridMentoPro = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[16], _data.Skin.face.tratti[15]));
-                UIMenuGridPanel GridMentoFor = new UIMenuGridPanel("Arrotondato", "Squadrato", "A punta", "Fossetta", new PointF(_data.Skin.face.tratti[18], _data.Skin.face.tratti[17]));
-                UIMenuGridPanel GridCollo = new UIMenuGridPanel("Stretto", "Largo", new PointF(_data.Skin.face.tratti[19], 0));
+                UIMenuGridPanel GridSopr = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.Face.Traits[7], _data.Skin.Face.Traits[6]));
+                UIMenuGridPanel GridOcch = new UIMenuGridPanel("Stretti", "Grandi", new PointF(_data.Skin.Face.Traits[11], 0));
+                UIMenuGridPanel GridNaso = new UIMenuGridPanel("Su", "Stretto", "Largo", "Giù", new PointF(_data.Skin.Face.Traits[0], _data.Skin.Face.Traits[1]));
+                UIMenuGridPanel GridNasoPro = new UIMenuGridPanel("Convesso", "Breve", "Lungo", "Infossato", new PointF(_data.Skin.Face.Traits[2], _data.Skin.Face.Traits[3]));
+                UIMenuGridPanel GridNasoPun = new UIMenuGridPanel("Punta in su", "Rotta SX", "Rotta DX", "Punta in giù", new PointF(_data.Skin.Face.Traits[5], _data.Skin.Face.Traits[4]));
+                UIMenuGridPanel GridZigo = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.Face.Traits[9], _data.Skin.Face.Traits[8]));
+                UIMenuGridPanel GridGuance = new UIMenuGridPanel("Magre", "Paffute", new PointF(_data.Skin.Face.Traits[10], 0));
+                UIMenuGridPanel GridLabbra = new UIMenuGridPanel("Sottili", "Carnose", new PointF(_data.Skin.Face.Traits[12], 0));
+                UIMenuGridPanel GridMasce = new UIMenuGridPanel("Arrotondata", "Stretta", "Larga", "Squadrata", new PointF(_data.Skin.Face.Traits[13], _data.Skin.Face.Traits[14]));
+                UIMenuGridPanel GridMentoPro = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.Face.Traits[16], _data.Skin.Face.Traits[15]));
+                UIMenuGridPanel GridMentoFor = new UIMenuGridPanel("Arrotondato", "Squadrato", "A punta", "Fossetta", new PointF(_data.Skin.Face.Traits[18], _data.Skin.Face.Traits[17]));
+                UIMenuGridPanel GridCollo = new UIMenuGridPanel("Stretto", "Largo", new PointF(_data.Skin.Face.Traits[19], 0));
                 _arcSopr.AddPanel(GridSopr);
                 _occhi.AddPanel(GridOcch);
                 _naso.AddPanel(GridNaso);
@@ -642,48 +642,48 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                 #region Apparenze
 
-                UIMenuListItem Capelli = new UIMenuListItem("", HairUomo, _data.Skin.hair.style);
-                UIMenuListItem sopracciglia = new UIMenuListItem(GetLabelText("FACE_F_EYEBR"), eyebrow, _data.Skin.facialHair.eyebrow.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem Capelli = new UIMenuListItem("", HairUomo, _data.Skin.Hair.Style);
+                UIMenuListItem sopracciglia = new UIMenuListItem(GetLabelText("FACE_F_EYEBR"), eyebrow, _data.Skin.FacialHair.Eyebrow.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuColorPanel soprCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
                 UIMenuColorPanel soprCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
                 UIMenuPercentagePanel soprOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 sopracciglia.AddPanel(soprCol1);
                 sopracciglia.AddPanel(soprCol2);
                 sopracciglia.AddPanel(soprOp);
-                UIMenuListItem Barba = new UIMenuListItem(GetLabelText("FACE_F_BEARD"), Beards, _data.Skin.facialHair.beard.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem Barba = new UIMenuListItem(GetLabelText("FACE_F_BEARD"), Beards, _data.Skin.FacialHair.Beard.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuColorPanel BarbaCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
                 UIMenuColorPanel BarbaCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
                 UIMenuPercentagePanel BarbaOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 Barba.AddPanel(BarbaCol1);
                 Barba.AddPanel(BarbaCol2);
                 Barba.AddPanel(BarbaOp);
-                UIMenuListItem SkinBlemishes = new UIMenuListItem(GetLabelText("FACE_F_SKINB"), blemishes, _data.Skin.blemishes.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem SkinBlemishes = new UIMenuListItem(GetLabelText("FACE_F_SKINB"), blemishes, _data.Skin.Blemishes.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuPercentagePanel BlemOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 SkinBlemishes.AddPanel(BlemOp);
-                UIMenuListItem SkinAgeing = new UIMenuListItem(GetLabelText("FACE_F_SKINA"), Ageing, _data.Skin.ageing.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem SkinAgeing = new UIMenuListItem(GetLabelText("FACE_F_SKINA"), Ageing, _data.Skin.Ageing.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuPercentagePanel AgeOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 SkinAgeing.AddPanel(AgeOp);
-                UIMenuListItem SkinComplexion = new UIMenuListItem(GetLabelText("FACE_F_SKC"), Complexions, _data.Skin.complexion.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem SkinComplexion = new UIMenuListItem(GetLabelText("FACE_F_SKC"), Complexions, _data.Skin.Complexion.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuPercentagePanel CompOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 SkinComplexion.AddPanel(CompOp);
-                UIMenuListItem SkinMoles = new UIMenuListItem(GetLabelText("FACE_F_MOLE"), Nei_e_Porri, _data.Skin.freckles.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem SkinMoles = new UIMenuListItem(GetLabelText("FACE_F_MOLE"), Nei_e_Porri, _data.Skin.Freckles.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuPercentagePanel FrecOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 SkinMoles.AddPanel(FrecOp);
-                UIMenuListItem SkinDamage = new UIMenuListItem(GetLabelText("FACE_F_SUND"), Danni_Pelle, _data.Skin.skinDamage.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem SkinDamage = new UIMenuListItem(GetLabelText("FACE_F_SUND"), Danni_Pelle, _data.Skin.SkinDamage.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuPercentagePanel DamageOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 SkinDamage.AddPanel(DamageOp);
-                UIMenuListItem EyeColor = new UIMenuListItem(GetLabelText("FACE_APP_EYE"), Colore_Occhi, _data.Skin.eye.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuListItem EyeMakup = new UIMenuListItem(GetLabelText("FACE_F_EYEM"), Trucco_Occhi, _data.Skin.makeup.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem EyeColor = new UIMenuListItem(GetLabelText("FACE_APP_EYE"), Colore_Occhi, _data.Skin.Eye.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem EyeMakup = new UIMenuListItem(GetLabelText("FACE_F_EYEM"), Trucco_Occhi, _data.Skin.Makeup.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuPercentagePanel MakupOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 EyeMakup.AddPanel(MakupOp);
-                UIMenuListItem Blusher = new UIMenuListItem(GetLabelText("FACE_F_BLUSH"), BlusherDonna, _data.Skin.blusher.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem Blusher = new UIMenuListItem(GetLabelText("FACE_F_BLUSH"), BlusherDonna, _data.Skin.Blusher.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuColorPanel BlushCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Makeup);
                 UIMenuColorPanel BlushCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Makeup);
                 UIMenuPercentagePanel BlushOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
                 Blusher.AddPanel(BlushCol1);
                 Blusher.AddPanel(BlushCol2);
                 Blusher.AddPanel(BlushOp);
-                UIMenuListItem LipStick = new UIMenuListItem(GetLabelText("FACE_F_LIPST"), Lipstick, _data.Skin.lipstick.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem LipStick = new UIMenuListItem(GetLabelText("FACE_F_LIPST"), Lipstick, _data.Skin.Lipstick.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                 UIMenuColorPanel LipCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Makeup);
                 UIMenuColorPanel LipCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Makeup);
                 UIMenuPercentagePanel LipOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
@@ -718,14 +718,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         case 0:
                             _dataFemmina = _data;
                             _data = _dataMaschio;
-                            _boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
+                            _boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.ServerName, _data.Info.Firstname + " " + _data.Info.Lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
                             _selezionato = "Maschio";
 
                             break;
                         case 1:
                             _dataMaschio = _data;
                             _data = _dataFemmina;
-                            _boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
+                            _boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.ServerName, _data.Info.Firstname + " " + _data.Info.Lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
                             _selezionato = "Femmina";
 
                             break;
@@ -734,10 +734,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                     BaseScript.TriggerEvent("lprp:aggiornaModel", _data.ToJson());
                     foreach (Prop obj in World.GetAllProps())
                         if (obj.Model.Hash == GetHashKey("prop_police_id_board") || obj.Model.Hash == GetHashKey("prop_police_id_text"))
-                            Nome.SetRightLabel(_data.Info.firstname);
-                    Cognome.SetRightLabel(_data.Info.lastname);
-                    DDN.SetRightLabel(_data.Info.dateOfBirth);
-                    NewChar a = new() { Nome = _data.Info.firstname, Cognome = _data.Info.lastname, Dob = _data.Info.dateOfBirth, Sesso = _selezionato };
+                            Nome.SetRightLabel(_data.Info.Firstname);
+                    Cognome.SetRightLabel(_data.Info.Lastname);
+                    DDN.SetRightLabel(_data.Info.DateOfBirth);
+                    NewChar a = new() { Nome = _data.Info.Firstname, Cognome = _data.Info.Lastname, Dob = _data.Info.DateOfBirth, Sesso = _selezionato };
                     CharCreationMenu(a);
                 };
 
@@ -750,7 +750,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                     if (_item == Nome)
                     {
                         N_0x3ed1438c1f5c6612(2);
-                        string result = await HUD.GetUserInput("Inserisci il Nome", _data.Info.firstname, 30);
+                        string result = await HUD.GetUserInput("Inserisci il Nome", _data.Info.Firstname, 30);
 
                         if (result != null)
                         {
@@ -764,7 +764,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                             }
                             else
                             {
-                                _data.Info.firstname = result;
+                                _data.Info.Firstname = result;
                                 Nome.SetRightLabel(result);
                             }
                         }
@@ -772,7 +772,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                     else if (_item == Cognome)
                     {
                         N_0x3ed1438c1f5c6612(2);
-                        string result = await HUD.GetUserInput("Inserisci il Cognome", _data.Info.lastname, 30);
+                        string result = await HUD.GetUserInput("Inserisci il Cognome", _data.Info.Lastname, 30);
 
                         if (result != null)
                         {
@@ -786,14 +786,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                             }
                             else
                             {
-                                _data.Info.lastname = result;
+                                _data.Info.Lastname = result;
                                 Cognome.SetRightLabel(result);
                             }
                         }
                     }
                     else if (_item == DDN)
                     {
-                        string result = await HUD.GetUserInput("Inserisci la Data di Nascita", _data.Info.dateOfBirth, 30);
+                        string result = await HUD.GetUserInput("Inserisci la Data di Nascita", _data.Info.DateOfBirth, 30);
 
                         if (result != null)
                         {
@@ -807,7 +807,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                             }
                             else
                             {
-                                _data.Info.dateOfBirth = result;
+                                _data.Info.DateOfBirth = result;
                                 DDN.SetRightLabel(result);
                             }
                         }
@@ -817,7 +817,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         _dataMaschio = _data;
                     else
                         _dataFemmina = _data;
-                    _boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.PlayerCache.MyPlayer.User.Characters.Count + 1, 0);
+                    _boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.ServerName, _data.Info.Firstname + " " + _data.Info.Lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.PlayerCache.MyPlayer.User.Characters.Count + 1, 0);
                 };
 
                 #endregion
@@ -828,16 +828,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 {
                     if (_listItem == mamma)
                     {
-                        _data.Skin.face.mom = _newIndex;
-                        heritageWindow.Index(_data.Skin.face.mom, _data.Skin.face.dad);
+                        _data.Skin.Face.Mom = _newIndex;
+                        heritageWindow.Index(_data.Skin.Face.Mom, _data.Skin.Face.Dad);
                     }
                     else if (_listItem == papa)
                     {
-                        _data.Skin.face.dad = _newIndex;
-                        heritageWindow.Index(_data.Skin.face.mom, _data.Skin.face.dad);
+                        _data.Skin.Face.Dad = _newIndex;
+                        heritageWindow.Index(_data.Skin.Face.Mom, _data.Skin.Face.Dad);
                     }
 
-                    if (_data.Skin.sex == "Maschio")
+                    if (_data.Skin.Sex == "Maschio")
                         _dataMaschio = _data;
                     else
                         _dataFemmina = _data;
@@ -846,10 +846,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 Genitori.OnSliderChange += async (_sender, _item, _newIndex) =>
                 {
                     if (_item == resemblance)
-                        _data.Skin.resemblance = _newIndex / 100f;
+                        _data.Skin.Resemblance = _newIndex / 100f;
                     else if (_item == skinmix)
-                        _data.Skin.skinmix = (_newIndex / 100f) * -1 + 1;
-                    if (_data.Skin.sex == "Maschio")
+                        _data.Skin.Skinmix = (_newIndex / 100f) * -1 + 1;
+                    if (_data.Skin.Sex == "Maschio")
                         _dataMaschio = _data;
                     else
                         _dataFemmina = _data;
@@ -864,37 +864,37 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                     if (a == Capelli)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.hair.color[0] = c;
+                            _data.Skin.Hair.Color[0] = c;
                         else if (b == a.Panels[1])
-                            _data.Skin.hair.color[1] = c;
+                            _data.Skin.Hair.Color[1] = c;
                     }
                     else if (a == sopracciglia)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.facialHair.eyebrow.color[0] = c;
+                            _data.Skin.FacialHair.Eyebrow.Color[0] = c;
                         else if (b == a.Panels[1])
-                            _data.Skin.facialHair.eyebrow.color[1] = c;
+                            _data.Skin.FacialHair.Eyebrow.Color[1] = c;
                     }
                     else if (a == Barba)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.facialHair.beard.color[0] = c;
+                            _data.Skin.FacialHair.Beard.Color[0] = c;
                         else if (b == a.Panels[1])
-                            _data.Skin.facialHair.beard.color[1] = c;
+                            _data.Skin.FacialHair.Beard.Color[1] = c;
                     }
                     else if (a == Blusher)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.blusher.color[0] = c;
+                            _data.Skin.Blusher.Color[0] = c;
                         else if (b == a.Panels[1])
-                            _data.Skin.blusher.color[1] = c;
+                            _data.Skin.Blusher.Color[1] = c;
                     }
                     else if (a == LipStick)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.lipstick.color[0] = c;
+                            _data.Skin.Lipstick.Color[0] = c;
                         else if (b == a.Panels[1])
-                            _data.Skin.lipstick.color[1] = c;
+                            _data.Skin.Lipstick.Color[1] = c;
                     }
                     UpdateFace(PlayerPedId(), _data.Skin);
                 };
@@ -904,53 +904,53 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                     if (a == sopracciglia)
                     {
                         if (b == a.Panels[2])
-                            _data.Skin.facialHair.eyebrow.opacity = perc;
+                            _data.Skin.FacialHair.Eyebrow.Opacity = perc;
                     }
                     else if (a == Barba)
                     {
                         if (b == a.Panels[2])
-                            _data.Skin.facialHair.beard.opacity = perc;
+                            _data.Skin.FacialHair.Beard.Opacity = perc;
                     }
                     else if (a == Blusher)
                     {
                         if (b == a.Panels[2])
-                            _data.Skin.blusher.opacity = perc;
+                            _data.Skin.Blusher.Opacity = perc;
                     }
                     else if (a == LipStick)
                     {
                         if (b == a.Panels[2])
-                            _data.Skin.lipstick.opacity = perc;
+                            _data.Skin.Lipstick.Opacity = perc;
                     }
                     else if (a == SkinBlemishes)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.blemishes.opacity = perc;
+                            _data.Skin.Blemishes.Opacity = perc;
                     }
                     else if (a == SkinAgeing)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.ageing.opacity = perc;
+                            _data.Skin.Ageing.Opacity = perc;
                     }
                     else if (a == SkinComplexion)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.complexion.opacity = perc;
+                            _data.Skin.Complexion.Opacity = perc;
                     }
                     else if (a == SkinMoles)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.freckles.opacity = perc;
+                            _data.Skin.Freckles.Opacity = perc;
                     }
                     else if (a == SkinDamage)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.skinDamage.opacity = perc;
+                            _data.Skin.SkinDamage.Opacity = perc;
                     }
 
                     else if (a == EyeMakup)
                     {
                         if (b == a.Panels[0])
-                            _data.Skin.makeup.opacity = perc;
+                            _data.Skin.Makeup.Opacity = perc;
                     }
                     UpdateFace(PlayerPedId(), _data.Skin);
                 };
@@ -958,39 +958,39 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 Apparenze.OnListChange += async (_sender, _listItem, _newIndex) =>
                 {
                     if (_listItem == Capelli)
-                        _data.Skin.hair.style = _newIndex;
+                        _data.Skin.Hair.Style = _newIndex;
 
                     else if (_listItem == sopracciglia)
-                        _data.Skin.facialHair.eyebrow.style = _newIndex;
+                        _data.Skin.FacialHair.Eyebrow.Style = _newIndex;
 
                     else if (_listItem == Barba)
-                        _data.Skin.facialHair.beard.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.FacialHair.Beard.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     else if (_listItem == Blusher)
-                        _data.Skin.blusher.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.Blusher.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     else if (_listItem == LipStick)
-                        _data.Skin.lipstick.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.Lipstick.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     else if (_listItem == SkinBlemishes)
-                        _data.Skin.blemishes.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.Blemishes.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     else if (_listItem == SkinAgeing)
-                        _data.Skin.ageing.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.Ageing.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     else if (_listItem == SkinComplexion)
-                        _data.Skin.complexion.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.Complexion.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     else if (_listItem == SkinMoles)
-                        _data.Skin.freckles.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.Freckles.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     else if (_listItem == SkinDamage)
-                        _data.Skin.skinDamage.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.SkinDamage.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-                    else if (_listItem == EyeColor) _data.Skin.eye.style = _newIndex;
+                    else if (_listItem == EyeColor) _data.Skin.Eye.Style = _newIndex;
 
                     else if (_listItem == EyeMakup)
-                        _data.Skin.makeup.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
+                        _data.Skin.Makeup.Style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
                     UpdateFace(PlayerPedId(), _data.Skin);
                 };
@@ -1016,59 +1016,59 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 {
                     if (a == _arcSopr)
                     {
-                        _data.Skin.face.tratti[7] = c.X * 2f - 1f;
-                        _data.Skin.face.tratti[6] = c.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[7] = c.X * 2f - 1f;
+                        _data.Skin.Face.Traits[6] = c.Y * 2f - 1f;
                     }
                     if (a == _occhi)
                     {
-                        _data.Skin.face.tratti[11] = (c.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[11] = (c.X * 2f - 1f) / -1;
                     }
                     if (a == _naso)
                     {
-                        _data.Skin.face.tratti[0] = c.X * 2f - 1f;
-                        _data.Skin.face.tratti[1] = c.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[0] = c.X * 2f - 1f;
+                        _data.Skin.Face.Traits[1] = c.Y * 2f - 1f;
                     }
                     if (a == _nasoPro)
                     {
-                        _data.Skin.face.tratti[3] = (c.Y * 2f - 1f) / 1;
-                        _data.Skin.face.tratti[2] = c.X * 2f - 1f;
+                        _data.Skin.Face.Traits[3] = (c.Y * 2f - 1f) / 1;
+                        _data.Skin.Face.Traits[2] = c.X * 2f - 1f;
                     }
                     if (a == _nasoPun)
                     {
-                        _data.Skin.face.tratti[5] = (c.Y * 2f - 1f) / 1;
-                        _data.Skin.face.tratti[4] = c.X * 2f - 1f;
+                        _data.Skin.Face.Traits[5] = (c.Y * 2f - 1f) / 1;
+                        _data.Skin.Face.Traits[4] = c.X * 2f - 1f;
                     }
                     if (a == _zigo)
                     {
-                        _data.Skin.face.tratti[9] = c.X * 2f - 1f;
-                        _data.Skin.face.tratti[8] = c.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[9] = c.X * 2f - 1f;
+                        _data.Skin.Face.Traits[8] = c.Y * 2f - 1f;
                     }
                     if (a == _guance)
                     {
-                        _data.Skin.face.tratti[10] = c.X;
+                        _data.Skin.Face.Traits[10] = c.X;
                     }
                     if (a == _collo)
                     {
-                        _data.Skin.face.tratti[19] = c.X * 2f - 1f;
+                        _data.Skin.Face.Traits[19] = c.X * 2f - 1f;
                     }
                     if (a == _labbra)
                     {
-                        _data.Skin.face.tratti[12] = (c.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[12] = (c.X * 2f - 1f) / -1;
                     }
                     if (a == _masce)
                     {
-                        _data.Skin.face.tratti[13] = (c.X * 2f - 1f) / -1;
-                        _data.Skin.face.tratti[14] = c.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[13] = (c.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[14] = c.Y * 2f - 1f;
                     }
                     if (a == _mentoPro)
                     {
-                        _data.Skin.face.tratti[16] = c.X * 2f - 1f;
-                        _data.Skin.face.tratti[15] = c.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[16] = c.X * 2f - 1f;
+                        _data.Skin.Face.Traits[15] = c.Y * 2f - 1f;
                     }
                     if (a == _mentoFor)
                     {
-                        _data.Skin.face.tratti[18] = (c.X * 2f - 1f) / -1;
-                        _data.Skin.face.tratti[17] = c.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[18] = (c.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[17] = c.Y * 2f - 1f;
                     }
                     UpdateFace(PlayerPedId(), _data.Skin);
                 };
@@ -1084,16 +1084,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Alte":
-                                        _data.Skin.face.tratti[6] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[6] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
                                         break;
                                     case "Basse":
-                                        _data.Skin.face.tratti[6] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[6] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[6] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[6] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
 
                                         break;
@@ -1103,8 +1103,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                             }
                         }
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[7] = var.X * 2f - 1f;
-                        _data.Skin.face.tratti[6] = var.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[7] = var.X * 2f - 1f;
+                        _data.Skin.Face.Traits[6] = var.Y * 2f - 1f;
                     }
 
                     if (_listItem == _occhi)
@@ -1114,24 +1114,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Grandi":
-                                        _data.Skin.face.tratti[11] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[11] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Stretti":
-                                        _data.Skin.face.tratti[11] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[11] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[11] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[11] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[11] = (var.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[11] = (var.X * 2f - 1f) / -1;
                     }
 
                     if (_listItem == _naso)
@@ -1141,25 +1141,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Piccolo":
-                                        _data.Skin.face.tratti[0] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[0] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Grande":
-                                        _data.Skin.face.tratti[0] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[0] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[0] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[0] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[0] = var.X * 2f - 1f;
-                        _data.Skin.face.tratti[1] = var.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[0] = var.X * 2f - 1f;
+                        _data.Skin.Face.Traits[1] = var.Y * 2f - 1f;
                     }
 
                     if (_listItem == _nasoPro)
@@ -1169,25 +1169,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Breve":
-                                        _data.Skin.face.tratti[2] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[2] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Lungo":
-                                        _data.Skin.face.tratti[2] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[2] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[2] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[2] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[3] = (var.Y * 2f - 1f) / 1;
-                        _data.Skin.face.tratti[2] = var.X * 2f - 1f;
+                        _data.Skin.Face.Traits[3] = (var.Y * 2f - 1f) / 1;
+                        _data.Skin.Face.Traits[2] = var.X * 2f - 1f;
                     }
 
                     if (_listItem == _nasoPun)
@@ -1197,25 +1197,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Punta su":
-                                        _data.Skin.face.tratti[5] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[5] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
 
                                         break;
                                     case "Punta giù":
-                                        _data.Skin.face.tratti[5] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[5] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[5] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[5] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[5] = (var.X * 2f - 1f) / -1;
-                        _data.Skin.face.tratti[4] = var.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[5] = (var.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[4] = var.Y * 2f - 1f;
                     }
 
                     if (_listItem == _zigo)
@@ -1225,25 +1225,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "In dentro":
-                                        _data.Skin.face.tratti[8] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[8] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "In fuori":
-                                        _data.Skin.face.tratti[8] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[8] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[8] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[8] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[9] = var.X * 2f - 1f;
-                        _data.Skin.face.tratti[8] = var.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[9] = var.X * 2f - 1f;
+                        _data.Skin.Face.Traits[8] = var.Y * 2f - 1f;
                     }
 
                     if (_listItem == _guance)
@@ -1253,24 +1253,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Paffute":
-                                        _data.Skin.face.tratti[10] = 0.00001f;
+                                        _data.Skin.Face.Traits[10] = 0.00001f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Magre":
-                                        _data.Skin.face.tratti[10] = 0.999999f;
+                                        _data.Skin.Face.Traits[10] = 0.999999f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[10] = 0.5f;
+                                        _data.Skin.Face.Traits[10] = 0.5f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[10] = var.X;
+                        _data.Skin.Face.Traits[10] = var.X;
                     }
 
                     if (_listItem == _collo)
@@ -1280,24 +1280,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Stretto":
-                                        _data.Skin.face.tratti[19] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[19] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Largo":
-                                        _data.Skin.face.tratti[19] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[19] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[19] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[19] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[19] = var.X * 2f - 1f;
+                        _data.Skin.Face.Traits[19] = var.X * 2f - 1f;
                     }
 
                     if (_listItem == _labbra)
@@ -1307,24 +1307,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Sottili":
-                                        _data.Skin.face.tratti[12] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[12] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Carnose":
-                                        _data.Skin.face.tratti[12] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[12] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[12] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[12] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[12] = (var.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[12] = (var.X * 2f - 1f) / -1;
                     }
 
                     if (_listItem == _masce)
@@ -1334,25 +1334,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Stretta":
-                                        _data.Skin.face.tratti[14] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[14] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Larga":
-                                        _data.Skin.face.tratti[14] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[14] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[14] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[14] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[13] = (var.X * 2f - 1f) / -1;
-                        _data.Skin.face.tratti[14] = var.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[13] = (var.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[14] = var.Y * 2f - 1f;
                     }
 
                     if (_listItem == _mentoPro)
@@ -1362,25 +1362,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "In dentro":
-                                        _data.Skin.face.tratti[15] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[15] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "In fuori":
-                                        _data.Skin.face.tratti[15] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[15] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[15] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[15] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[16] = var.X * 2f - 1f;
-                        _data.Skin.face.tratti[15] = var.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[16] = var.X * 2f - 1f;
+                        _data.Skin.Face.Traits[15] = var.Y * 2f - 1f;
                     }
 
                     if (_listItem == _mentoFor)
@@ -1390,25 +1390,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 switch (_listItem.Items[_newIndex])
                                 {
                                     case "Squadrato":
-                                        _data.Skin.face.tratti[17] = 0.00001f * 2f - 1f;
+                                        _data.Skin.Face.Traits[17] = 0.00001f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "A punta":
-                                        _data.Skin.face.tratti[17] = 0.999999f * 2f - 1f;
+                                        _data.Skin.Face.Traits[17] = 0.999999f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                     case "Standard":
-                                        _data.Skin.face.tratti[17] = 0.5f * 2f - 1f;
+                                        _data.Skin.Face.Traits[17] = 0.5f * 2f - 1f;
                                         (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
                                         break;
                                 }
 
                         PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-                        _data.Skin.face.tratti[18] = (var.X * 2f - 1f) / -1;
-                        _data.Skin.face.tratti[17] = var.Y * 2f - 1f;
+                        _data.Skin.Face.Traits[18] = (var.X * 2f - 1f) / -1;
+                        _data.Skin.Face.Traits[17] = var.Y * 2f - 1f;
                     }
 
                     UpdateFace(PlayerPedId(), _data.Skin);
@@ -1420,7 +1420,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                 Apparel.OnIndexChange += async (sender, index) =>
                 {
-                    if (_data.Skin.sex == "Maschio")
+                    if (_data.Skin.Sex == "Maschio")
                     {
                         Dressing dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);
                         _data.Dressing = dress;
@@ -1434,7 +1434,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                     }
 
                     UpdateDress(PlayerPedId(), _data.Dressing);
-                    TaskProvaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _data.Skin.sex));
+                    TaskProvaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _data.Skin.Sex));
                 };
 
                 #endregion
@@ -1453,7 +1453,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
                     if (_selezionato == "Maschio")
                     {
-                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.Skin.Hair.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                         Apparenze.AddItem(Capelli);
                         Apparenze.AddItem(sopracciglia);
                         Apparenze.AddItem(Barba);
@@ -1469,27 +1469,27 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
                         Capelli.AddPanel(CapelCol1);
                         Capelli.AddPanel(CapelCol2);
-                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
-                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
-                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
-                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
-                        BarbaCol1.CurrentSelection = _data.Skin.facialHair.beard.color[0];
-                        BarbaCol2.CurrentSelection = _data.Skin.facialHair.beard.color[1];
-                        BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity * 100;
-                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
-                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
-                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
-                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
-                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
-                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
-                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
-                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
+                        CapelCol1.CurrentSelection = _data.Skin.Hair.Color[0];
+                        CapelCol2.CurrentSelection = _data.Skin.Hair.Color[1];
+                        soprCol1.CurrentSelection = _data.Skin.FacialHair.Eyebrow.Color[0];
+                        soprCol2.CurrentSelection = _data.Skin.FacialHair.Eyebrow.Color[1];
+                        soprOp.Percentage = _data.Skin.FacialHair.Eyebrow.Opacity * 100;
+                        BarbaCol1.CurrentSelection = _data.Skin.FacialHair.Beard.Color[0];
+                        BarbaCol2.CurrentSelection = _data.Skin.FacialHair.Beard.Color[1];
+                        BarbaOp.Percentage = _data.Skin.FacialHair.Beard.Opacity * 100;
+                        BlemOp.Percentage = _data.Skin.Blemishes.Opacity * 100;
+                        AgeOp.Percentage = _data.Skin.Ageing.Opacity * 100;
+                        CompOp.Percentage = _data.Skin.Complexion.Opacity * 100;
+                        FrecOp.Percentage = _data.Skin.Freckles.Opacity * 100;
+                        DamageOp.Percentage = _data.Skin.SkinDamage.Opacity * 100;
+                        MakupOp.Percentage = _data.Skin.Makeup.Opacity * 100;
+                        LipCol1.CurrentSelection = _data.Skin.Lipstick.Color[0];
+                        LipCol2.CurrentSelection = _data.Skin.Lipstick.Color[1];
+                        LipOp.Percentage = _data.Skin.Lipstick.Opacity * 100;
                     }
                     else
                     {
-                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                        Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.Skin.Hair.Style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
                         Apparenze.AddItem(Capelli);
                         Apparenze.AddItem(sopracciglia);
                         Apparenze.AddItem(SkinBlemishes);
@@ -1505,23 +1505,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                         UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
                         Capelli.AddPanel(CapelCol1);
                         Capelli.AddPanel(CapelCol2);
-                        CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
-                        CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
-                        soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
-                        soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-                        soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
-                        BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
-                        AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
-                        CompOp.Percentage = _data.Skin.complexion.opacity * 100;
-                        FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
-                        DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
-                        MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
-                        BlushCol1.CurrentSelection = _data.Skin.blusher.color[0];
-                        BlushCol2.CurrentSelection = _data.Skin.blusher.color[1];
-                        BlushOp.Percentage = _data.Skin.blusher.opacity * 100;
-                        LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
-                        LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-                        LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
+                        CapelCol1.CurrentSelection = _data.Skin.Hair.Color[0];
+                        CapelCol2.CurrentSelection = _data.Skin.Hair.Color[1];
+                        soprCol1.CurrentSelection = _data.Skin.FacialHair.Eyebrow.Color[0];
+                        soprCol2.CurrentSelection = _data.Skin.FacialHair.Eyebrow.Color[1];
+                        soprOp.Percentage = _data.Skin.FacialHair.Eyebrow.Opacity * 100;
+                        BlemOp.Percentage = _data.Skin.Blemishes.Opacity * 100;
+                        AgeOp.Percentage = _data.Skin.Ageing.Opacity * 100;
+                        CompOp.Percentage = _data.Skin.Complexion.Opacity * 100;
+                        FrecOp.Percentage = _data.Skin.Freckles.Opacity * 100;
+                        DamageOp.Percentage = _data.Skin.SkinDamage.Opacity * 100;
+                        MakupOp.Percentage = _data.Skin.Makeup.Opacity * 100;
+                        BlushCol1.CurrentSelection = _data.Skin.Blusher.Color[0];
+                        BlushCol2.CurrentSelection = _data.Skin.Blusher.Color[1];
+                        BlushOp.Percentage = _data.Skin.Blusher.Opacity * 100;
+                        LipCol1.CurrentSelection = _data.Skin.Lipstick.Color[0];
+                        LipCol2.CurrentSelection = _data.Skin.Lipstick.Color[1];
+                        LipOp.Percentage = _data.Skin.Lipstick.Opacity * 100;
                     }
                 };
                 Apparel.OnMenuOpen += (a, b) =>
@@ -1667,7 +1667,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[7] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[7] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1675,7 +1675,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[7] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[7] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -1683,7 +1683,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[6] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[6] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -1691,7 +1691,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[6] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[6] = CoordY * 2f - 1f;
                             (_arcSopr.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
@@ -1710,7 +1710,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[11] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[11] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1718,7 +1718,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[11] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[11] = (CoordX * 2f - 1f) / -1;
                             (_occhi.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
                         }
                     }
@@ -1737,7 +1737,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[10] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[10] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1745,7 +1745,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[10] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[10] = (CoordX * 2f - 1f) / -1;
                             (_guance.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
                         }
                     }
@@ -1764,7 +1764,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[12] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[12] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1772,7 +1772,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[12] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[12] = (CoordX * 2f - 1f) / -1;
                             (_labbra.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
                         }
                     }
@@ -1791,7 +1791,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[19] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[19] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1799,7 +1799,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[19] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[19] = CoordX * 2f - 1f;
                             (_collo.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
                         }
                     }
@@ -1818,7 +1818,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[0] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[0] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1826,7 +1826,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[0] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[0] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -1834,7 +1834,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[1] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[1] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -1842,7 +1842,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[1] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[1] = CoordY * 2f - 1f;
                             (_naso.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
@@ -1861,7 +1861,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[2] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[2] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1869,7 +1869,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[2] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[2] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -1877,7 +1877,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[3] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[3] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -1885,7 +1885,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[3] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[3] = CoordY * 2f - 1f;
                             (_nasoPro.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
@@ -1904,7 +1904,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[5] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[5] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1912,7 +1912,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[5] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[5] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -1920,7 +1920,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[4] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[4] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -1928,7 +1928,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[4] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[4] = CoordY * 2f - 1f;
                             (_nasoPun.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
@@ -1947,7 +1947,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[9] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[9] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1955,7 +1955,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[9] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[9] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -1963,7 +1963,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[8] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[8] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -1971,7 +1971,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[8] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[8] = CoordY * 2f - 1f;
                             (_zigo.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
@@ -1990,7 +1990,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[13] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[13] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -1998,7 +1998,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[13] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[13] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -2006,7 +2006,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[14] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[14] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -2014,7 +2014,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[14] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[14] = CoordY * 2f - 1f;
                             (_masce.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
@@ -2033,7 +2033,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[16] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[16] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -2041,7 +2041,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[16] = CoordX * 2f - 1f;
+                            _data.Skin.Face.Traits[16] = CoordX * 2f - 1f;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -2049,7 +2049,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[15] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[15] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -2057,7 +2057,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[15] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[15] = CoordY * 2f - 1f;
                             (_mentoPro.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
@@ -2076,7 +2076,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX > 1f) CoordX = 1f;
                             }
 
-                            _data.Skin.face.tratti[18] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[18] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
                             {
@@ -2084,7 +2084,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordX < 0) CoordX = 0;
                             }
 
-                            _data.Skin.face.tratti[18] = (CoordX * 2f - 1f) / -1;
+                            _data.Skin.Face.Traits[18] = (CoordX * 2f - 1f) / -1;
 
                             if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
                             {
@@ -2092,7 +2092,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY > 1f) CoordY = 1f;
                             }
 
-                            _data.Skin.face.tratti[17] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[17] = CoordY * 2f - 1f;
 
                             if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
                             {
@@ -2100,12 +2100,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                                 if (CoordY < 0) CoordY = 0;
                             }
 
-                            _data.Skin.face.tratti[17] = CoordY * 2f - 1f;
+                            _data.Skin.Face.Traits[17] = CoordY * 2f - 1f;
                             (_mentoFor.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
                         }
                     }
 
-                    if (_data.Skin.sex == "Maschio")
+                    if (_data.Skin.Sex == "Maschio")
                         _dataFemmina = _data;
                     else
                         _dataMaschio = _data;
@@ -2204,7 +2204,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
             _boardScalep1 = new Scaleform("mugshot_board_01");
             while (!_boardScalep1.IsLoaded) await BaseScript.Delay(0);
             Client.Logger.Debug(data.CharID.ToString());
-            _boardScalep1.CallFunction("SET_BOARD", "The Last Planet", data.Info.firstname + " " + data.Info.lastname, data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
+            _boardScalep1.CallFunction("SET_BOARD", "The Last Planet", data.Info.Firstname + " " + data.Info.Lastname, data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
             _handle1 = CreateNamedRenderTargetForModel("ID_Text", (uint)overlay.Hash);
         }
 
@@ -2319,53 +2319,53 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
         public static async void UpdateFace(int Handle, Skin skin)
         {
-            SetPedHeadBlendData(Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
-            SetPedHeadOverlay(Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
-            SetPedHeadOverlay(Handle, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
-            SetPedHeadOverlayColor(Handle, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
-            SetPedHeadOverlay(Handle, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
-            SetPedHeadOverlayColor(Handle, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
-            SetPedHeadOverlay(Handle, 3, skin.ageing.style, skin.ageing.opacity);
-            SetPedHeadOverlay(Handle, 4, skin.makeup.style, skin.makeup.opacity);
-            SetPedHeadOverlay(Handle, 5, skin.blusher.style, skin.blusher.opacity);
-            SetPedHeadOverlayColor(Handle, 5, 2, skin.blusher.color[0], skin.blusher.color[1]);
-            SetPedHeadOverlay(Handle, 6, skin.complexion.style, skin.complexion.opacity);
-            SetPedHeadOverlay(Handle, 7, skin.skinDamage.style, skin.skinDamage.opacity);
-            SetPedHeadOverlay(Handle, 8, skin.lipstick.style, skin.lipstick.opacity);
-            SetPedHeadOverlayColor(Handle, 8, 2, skin.lipstick.color[0], skin.lipstick.color[1]);
-            SetPedHeadOverlay(Handle, 9, skin.freckles.style, skin.freckles.opacity);
-            SetPedEyeColor(Handle, skin.eye.style);
-            SetPedComponentVariation(Handle, 2, skin.hair.style, 0, 0);
-            SetPedHairColor(Handle, skin.hair.color[0], skin.hair.color[1]);
-            SetPedPropIndex(Handle, 2, skin.ears.style, skin.ears.color, false);
-            for (int i = 0; i < skin.face.tratti.Length; i++) SetPedFaceFeature(Handle, i, skin.face.tratti[i]);
+            SetPedHeadBlendData(Handle, skin.Face.Mom, skin.Face.Dad, 0, skin.Face.Mom, skin.Face.Dad, 0, skin.Resemblance, skin.Skinmix, 0f, false);
+            SetPedHeadOverlay(Handle, 0, skin.Blemishes.Style, skin.Blemishes.Opacity);
+            SetPedHeadOverlay(Handle, 1, skin.FacialHair.Beard.Style, skin.FacialHair.Beard.Opacity);
+            SetPedHeadOverlayColor(Handle, 1, 1, skin.FacialHair.Beard.Color[0], skin.FacialHair.Beard.Color[1]);
+            SetPedHeadOverlay(Handle, 2, skin.FacialHair.Eyebrow.Style, skin.FacialHair.Eyebrow.Opacity);
+            SetPedHeadOverlayColor(Handle, 2, 1, skin.FacialHair.Eyebrow.Color[0], skin.FacialHair.Eyebrow.Color[1]);
+            SetPedHeadOverlay(Handle, 3, skin.Ageing.Style, skin.Ageing.Opacity);
+            SetPedHeadOverlay(Handle, 4, skin.Makeup.Style, skin.Makeup.Opacity);
+            SetPedHeadOverlay(Handle, 5, skin.Blusher.Style, skin.Blusher.Opacity);
+            SetPedHeadOverlayColor(Handle, 5, 2, skin.Blusher.Color[0], skin.Blusher.Color[1]);
+            SetPedHeadOverlay(Handle, 6, skin.Complexion.Style, skin.Complexion.Opacity);
+            SetPedHeadOverlay(Handle, 7, skin.SkinDamage.Style, skin.SkinDamage.Opacity);
+            SetPedHeadOverlay(Handle, 8, skin.Lipstick.Style, skin.Lipstick.Opacity);
+            SetPedHeadOverlayColor(Handle, 8, 2, skin.Lipstick.Color[0], skin.Lipstick.Color[1]);
+            SetPedHeadOverlay(Handle, 9, skin.Freckles.Style, skin.Freckles.Opacity);
+            SetPedEyeColor(Handle, skin.Eye.Style);
+            SetPedComponentVariation(Handle, 2, skin.Hair.Style, 0, 0);
+            SetPedHairColor(Handle, skin.Hair.Color[0], skin.Hair.Color[1]);
+            SetPedPropIndex(Handle, 2, skin.Ears.Style, skin.Ears.Color, false);
+            for (int i = 0; i < skin.Face.Traits.Length; i++) SetPedFaceFeature(Handle, i, skin.Face.Traits[i]);
         }
 
         public static async void UpdateDress(int Handle, Dressing dress)
         {
-            SetPedComponentVariation(Handle, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
-            SetPedComponentVariation(Handle, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
+            SetPedComponentVariation(Handle, (int)DrawableIndexes.Face, dress.ComponentDrawables.Face, dress.ComponentTextures.Face, 2);
+            SetPedComponentVariation(Handle, (int)DrawableIndexes.Mask, dress.ComponentDrawables.Mask, dress.ComponentTextures.Mask, 2);
             SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
-            SetPedComponentVariation(Handle, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
-            SetPedComponentVariation(Handle, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
-            SetPedComponentVariation(Handle, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
-            SetPedComponentVariation(Handle, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
-            SetPedComponentVariation(Handle, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
+            SetPedComponentVariation(Handle, (int)DrawableIndexes.Pants, dress.ComponentDrawables.Pants, dress.ComponentTextures.Pants, 2);
+            SetPedComponentVariation(Handle, (int)DrawableIndexes.Bag_Parachute, dress.ComponentDrawables.Bag_Parachute, dress.ComponentTextures.Bag_Parachute, 2);
+            SetPedComponentVariation(Handle, (int)DrawableIndexes.Shoes, dress.ComponentDrawables.Shoes, dress.ComponentTextures.Shoes, 2);
+            SetPedComponentVariation(Handle, (int)DrawableIndexes.Accessories, dress.ComponentDrawables.Accessories, dress.ComponentTextures.Accessories, 2);
+            SetPedComponentVariation(Handle, (int)DrawableIndexes.Undershirt, dress.ComponentDrawables.Undershirt, dress.ComponentTextures.Undershirt, 2);
             SetPedComponentVariation(Handle, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
             SetPedComponentVariation(Handle, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
             SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
-            if (dress.PropIndices.Cappelli_Maschere == -1)
+            if (dress.PropIndices.Hats_masks == -1)
                 ClearPedProp(Handle, 0);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
-            if (dress.PropIndices.Orecchie == -1)
+                SetPedPropIndex(Handle, (int)PropIndexes.Hats_Masks, dress.PropIndices.Hats_masks, dress.PropTextures.Hats_masks, false);
+            if (dress.PropIndices.Ears == -1)
                 ClearPedProp(Handle, 2);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
-            if (dress.PropIndices.Occhiali_Occhi == -1)
+                SetPedPropIndex(Handle, (int)PropIndexes.Ears, dress.PropIndices.Ears, dress.PropTextures.Ears, false);
+            if (dress.PropIndices.Glasses == -1)
                 ClearPedProp(Handle, 1);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
+                SetPedPropIndex(Handle, (int)PropIndexes.Glasses, dress.PropIndices.Glasses, dress.PropTextures.Glasses, true);
             if (dress.PropIndices.Unk_3 == -1)
                 ClearPedProp(Handle, 3);
             else
@@ -2378,14 +2378,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                 ClearPedProp(Handle, 5);
             else
                 SetPedPropIndex(Handle, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
-            if (dress.PropIndices.Orologi == -1)
+            if (dress.PropIndices.Watches == -1)
                 ClearPedProp(Handle, 6);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
-            if (dress.PropIndices.Bracciali == -1)
+                SetPedPropIndex(Handle, (int)PropIndexes.Watches, dress.PropIndices.Watches, dress.PropTextures.Watches, true);
+            if (dress.PropIndices.Bracelets == -1)
                 ClearPedProp(Handle, 7);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
+                SetPedPropIndex(Handle, (int)PropIndexes.Bracelets, dress.PropIndices.Bracelets, dress.PropTextures.Bracelets, true);
             if (dress.PropIndices.Unk_8 == -1)
                 ClearPedProp(Handle, 8);
             else

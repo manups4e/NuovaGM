@@ -1,5 +1,5 @@
-﻿using Impostazioni.Server.Configurazione.Coda;
-using Impostazioni.Server.Configurazione.Main;
+﻿using Settings.Server.Configurazione.Coda;
+using Settings.Server.Configurazione.Main;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,8 +16,8 @@ namespace TheLastPlanet.Server
             Server.Impostazioni = Resources.ServerConfig.FromJson<Configurazione>();
             ConfigShared.SharedConfig = Resources.SharedConfig.FromJson<SharedConfig>();
             Weapons = Resources.Weapons.FromJson<List<SharedWeapon>>();
-            EventDispatcher.Mount("Config.CallClientConfig", new Func<PlayerClient, ModalitaServer, Task<string>>(ClientConfigCallback));
-            EventDispatcher.Mount("Config.CallSharedConfig", new Func<PlayerClient, ModalitaServer, Task<string>>(ClientSharedCallback));
+            EventDispatcher.Mount("Config.CallClientConfig", new Func<PlayerClient, ServerMode, Task<string>>(ClientConfigCallback));
+            EventDispatcher.Mount("Config.CallSharedConfig", new Func<PlayerClient, ServerMode, Task<string>>(ClientSharedCallback));
             EventDispatcher.Mount("tlg:getWeaponsConfig", new Func<Task<List<SharedWeapon>>>(GiveWeaponsToClient));
 
             await Task.FromResult(0);
@@ -28,32 +28,32 @@ namespace TheLastPlanet.Server
             return Weapons;
         }
 
-        private static async Task<string> ClientSharedCallback([FromSource] PlayerClient client, ModalitaServer type)
+        private static async Task<string> ClientSharedCallback([FromSource] PlayerClient client, ServerMode type)
         {
-            if (type == ModalitaServer.Roleplay)
+            if (type == ServerMode.Roleplay)
             {
                 return Resources.SharedConfig;
             }
             return null;
         }
-        private static async Task<string> ClientConfigCallback([FromSource] PlayerClient client, ModalitaServer type)
+        private static async Task<string> ClientConfigCallback([FromSource] PlayerClient client, ServerMode type)
         {
             switch (type)
             {
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Lobby.json");
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     return Resources.Client_RolePlay;
                 //return LoadResourceFile(GetCurrentResourceName(), "configs/Client_RolePlay.json");
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Minigiochi.json");
                 /*
             case ModalitaServer.Gare:
                 return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Gare.json");
                 */
-                case ModalitaServer.Negozio:
+                case ServerMode.Store:
                     return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Negozio.json");
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     return Resources.Client_FreeRoam;
                 //return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_FreeRoam.json");
                 default:
@@ -66,6 +66,6 @@ namespace TheLastPlanet.Server
     public class Configurazione
     {
         public ConfPrincipale Main = new();
-        public ConfigCoda Coda = new();
+        public ConfigQueue Coda = new();
     }
 }

@@ -11,7 +11,7 @@ namespace TheLastPlanet.Client
             EntityDecoration.RegisterProperty("Testdecor", DecorationType.Int);
             /* DECOR VEICOLI */
             EntityDecoration.RegisterProperty("lprp_fuel", DecorationType.Float);
-            EntityDecoration.RegisterProperty("VeicoloPolizia", DecorationType.Int);
+            EntityDecoration.RegisterProperty("VehiclePoliceizia", DecorationType.Int);
             EntityDecoration.RegisterProperty("VeicoloMedici", DecorationType.Int);
             EntityDecoration.RegisterProperty("VeicoloRimozione", DecorationType.Int);
             EntityDecoration.RegisterProperty("VeicoloPersonale", DecorationType.Int);

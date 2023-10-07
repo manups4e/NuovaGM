@@ -17,13 +17,13 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         public Position Position { get; set; }
         public Model Model { get; set; }
         public TypeSpawn TypeSpawn { get; set; }
-        public ModalitaServer ModalitaSpawn { get; set; }
+        public ServerMode ModalitaSpawn { get; set; }
 
         protected EntityHandle()
         {
         }
 
-        protected EntityHandle(Position pos, TypeSpawn type, ModalitaServer modalita)
+        protected EntityHandle(Position pos, TypeSpawn type, ServerMode modalita)
         {
             Position = pos;
             TypeSpawn = type;
@@ -47,17 +47,17 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         {
         }
 
-        public PedHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        public PedHandle(string model, Position pos, TypeSpawn type, ServerMode modalita) : base(pos, type, modalita)
         {
             Model = new Model(model);
         }
 
-        public PedHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        public PedHandle(PedHash model, Position pos, TypeSpawn type, ServerMode modalita) : base(pos, type, modalita)
         {
             Model = new Model(model);
         }
 
-        public PedHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        public PedHandle(Model model, Position pos, TypeSpawn type, ServerMode modalita) : base(pos, type, modalita)
         {
             Model = model;
         }
@@ -95,17 +95,17 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         {
         }
 
-        public VehicleHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        public VehicleHandle(string model, Position pos, TypeSpawn type, ServerMode modalita) : base(pos, type, modalita)
         {
             Model = new Model(model);
         }
 
-        public VehicleHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        public VehicleHandle(PedHash model, Position pos, TypeSpawn type, ServerMode modalita) : base(pos, type, modalita)
         {
             Model = new Model(model);
         }
 
-        public VehicleHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        public VehicleHandle(Model model, Position pos, TypeSpawn type, ServerMode modalita) : base(pos, type, modalita)
         {
             Model = model;
         }
@@ -144,21 +144,21 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         {
         }
 
-        public PropHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
+        public PropHandle(string model, Position pos, TypeSpawn type, ServerMode modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
         {
             Model = new Model(model);
             _placeOnGround = placeOnGround;
             _dynamic = dynamic;
         }
 
-        public PropHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
+        public PropHandle(PedHash model, Position pos, TypeSpawn type, ServerMode modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
         {
             Model = new Model(model);
             _placeOnGround = placeOnGround;
             _dynamic = dynamic;
         }
 
-        public PropHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
+        public PropHandle(Model model, Position pos, TypeSpawn type, ServerMode modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
         {
             Model = model;
             _placeOnGround = placeOnGround;

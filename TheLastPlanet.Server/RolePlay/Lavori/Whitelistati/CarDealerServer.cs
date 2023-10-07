@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Veicoli;
+using TheLastPlanet.Shared.Vehicles;
 
 namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
@@ -24,13 +24,13 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
                 disc = p.GetLicense(Identifier.Discord),
                 name = p.Name,
                 charname = p.GetCurrentChar().FullName,
-                plate = veh.Targa,
-                vehN = veh.DatiVeicolo.props.Name,
-                data = veh.DatiVeicolo.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes),
+                plate = veh.Plate,
+                vehN = veh.VehData.Props.Name,
+                data = veh.VehData.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes),
                 garage = veh.Garage.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes),
-                state = veh.Stato,
+                state = veh.State,
             });
-            p.GetCurrentChar().CurrentChar.Veicoli.Add(veh);
+            p.GetCurrentChar().CurrentChar.Vehicles.Add(veh);
             //p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.ToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
         }
 

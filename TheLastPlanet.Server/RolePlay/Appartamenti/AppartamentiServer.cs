@@ -31,7 +31,7 @@ namespace TheLastPlanet.Server.Appartamenti
             dynamic result = await Server.Instance.Query("SELECT * FROM proprietà WHERE DiscordId = @id AND Personaggio = @pers", new { id = p.GetLicense(Identifier.Discord), pers = p.GetCurrentChar().FullName });
             if (result.Count > 0)
                 foreach (dynamic ap in result)
-                    p.GetCurrentChar().CurrentChar.Proprietà.Add(ap.Name);
+                    p.GetCurrentChar().CurrentChar.Properties.Add(ap.Name);
             //p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.ToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
         }
 

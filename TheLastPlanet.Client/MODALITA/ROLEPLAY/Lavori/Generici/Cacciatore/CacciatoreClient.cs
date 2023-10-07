@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
+﻿using Settings.Shared.Roleplay.Jobs.Generici;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
 
         private static void Spawnato(PlayerClient client)
         {
-            Cacciatore = Client.Impostazioni.RolePlay.Lavori.Generici.Cacciatore;
+            Cacciatore = Client.Impostazioni.RolePlay.Jobs.Generics.Cacciatore;
             caccia = World.CreateBlip(Cacciatore.inizioCaccia);
             caccia.Sprite = BlipSprite.Hunting;
             caccia.Color = BlipColor.TrevorOrange;
@@ -216,7 +216,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
                     Screen.Fading.FadeIn(500);
                     await BaseScript.Delay(501);
                     p.Task.ClearAll();
-                    HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{ConfigShared.SharedConfig.Main.Generici.ItemList[carne].label}~w~.", ColoreNotifica.GreenDark, true);
+                    HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{ConfigShared.SharedConfig.Main.Generics.ItemList[carne].label}~w~.", ColoreNotifica.GreenDark, true);
                     BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", carne, 2, 0.5f);
                 }
             }

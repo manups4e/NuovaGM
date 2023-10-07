@@ -57,7 +57,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             interno = 0;
             abbreviazione = "";
             InstanceBags oldInstance = new();
-            ConfigCase casaDummy = new();
+            ConfigHouses casaDummy = new();
             casaDummy.VehCapacity = 2;
             Garages garageDummy = new();
             bool includiGarage = false;
@@ -130,12 +130,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                     garageIncluso.CheckboxEvent += (item, _checked) =>
                     {
                         includiGarage = _checked;
-                        casaDummy.GarageIncluso = _checked;
+                        casaDummy.GarageIncluded = _checked;
                     };
                     tettoIncluso.CheckboxEvent += (item, _checked) =>
                     {
                         includiTetto = _checked;
-                        casaDummy.TettoIncluso = _checked;
+                        casaDummy.HasRoof = _checked;
                     };
                 }
 
@@ -255,8 +255,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
                     if (immobile == TipoImmobile.Casa)
                     {
-                        casaDummy.MarkerEntrata = markerIngrPiedi.Position;
-                        casaDummy.SpawnFuori = markerIngrPiedi.Position;
+                        casaDummy.MarkerEntrance = markerIngrPiedi.Position;
+                        casaDummy.SpawnOutside = markerIngrPiedi.Position;
                     }
                 }
                 else if (item == markerIngressoGarage)
@@ -266,13 +266,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                     switch (immobile)
                     {
                         case TipoImmobile.Casa:
-                            casaDummy.MarkerGarageEsterno = markerIngrGarage.Position;
-                            casaDummy.SpawnGarageInVehFuori = markerIngrGarage.Position;
+                            casaDummy.MarkerGarageExtern = markerIngrGarage.Position;
+                            casaDummy.SpawnGarageVehicleOutside = markerIngrGarage.Position;
 
                             break;
                         case TipoImmobile.Garage:
-                            garageDummy.MarkerEntrata = markerIngrGarage.Position;
-                            garageDummy.SpawnFuori = markerIngrGarage.Position;
+                            garageDummy.MarkerEntrance = markerIngrGarage.Position;
+                            garageDummy.SpawnOutside = markerIngrGarage.Position;
 
                             break;
                     }
@@ -283,8 +283,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
                     if (immobile == TipoImmobile.Casa)
                     {
-                        casaDummy.MarkerTetto = markerIngrTetto.Position;
-                        casaDummy.SpawnTetto = markerIngrTetto.Position;
+                        casaDummy.MarkerRoof = markerIngrTetto.Position;
+                        casaDummy.SpawnRoof = markerIngrTetto.Position;
                     }
                 }
                 else if (item == posCamera)
@@ -295,13 +295,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                     switch (immobile)
                     {
                         case TipoImmobile.Casa:
-                            casaDummy.TelecameraFuori.pos = CameraPosIngresso;
-                            casaDummy.TelecameraFuori.guarda = CameraRotIngresso;
+                            casaDummy.CameraOutside.Pos = CameraPosIngresso;
+                            casaDummy.CameraOutside.Rotation = CameraRotIngresso;
 
                             break;
                         case TipoImmobile.Garage:
-                            garageDummy.TelecameraFuori.pos = CameraPosIngresso;
-                            garageDummy.TelecameraFuori.guarda = CameraRotIngresso;
+                            garageDummy.CameraOutside.Pos = CameraPosIngresso;
+                            garageDummy.CameraOutside.Rotation = CameraRotIngresso;
 
                             break;
                     }
@@ -398,8 +398,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                         PlaceObjectOnGroundProperly(renderCamObject.Handle);
                         MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
                         MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
-                        casaDummy.MarkerUscita = new Position(266.094f, -1007.487f, -101.800f);
-                        casaDummy.SpawnDentro = new Position(266.094f, -1007.487f, -101.800f);
+                        casaDummy.MarkerExit = new Position(266.094f, -1007.487f, -101.800f);
+                        casaDummy.SpawnInside = new Position(266.094f, -1007.487f, -101.800f);
 
                         break;
                     case TipoImmobile.Garage:
@@ -430,11 +430,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                     switch (immobile)
                     {
                         case TipoImmobile.Casa:
-                            casaDummy.Tipo = index;
+                            casaDummy.Type = index;
 
                             break;
                         case TipoImmobile.Garage:
-                            garageDummy.tipo = index;
+                            garageDummy.Type = index;
 
                             break;
                     }
@@ -447,15 +447,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 case TipoImmobile.Casa:
                                     pos = new Vector3(266.8514f, -998.9061f, -97.92068f);
                                     lookAt = new Vector3(259.7751f, -998.6475f, -100.0068f);
-                                    casaDummy.MarkerUscita = new Position(266.094f, -1007.487f, -101.800f);
-                                    casaDummy.SpawnDentro = new Position(266.094f, -1007.487f, -101.800f);
+                                    casaDummy.MarkerExit = new Position(266.094f, -1007.487f, -101.800f);
+                                    casaDummy.SpawnInside = new Position(266.094f, -1007.487f, -101.800f);
 
                                     break;
                                 case TipoImmobile.Garage:
                                     pos = new Vector3(177.8964f, -1008.719f, -98.03687f);
                                     lookAt = new Vector3(168.3609f, -1002.193f, -99.99992f);
-                                    garageDummy.SpawnDentro = new Position(179.015f, -1000.326f, -100f);
-                                    garageDummy.MarkerUscita = new Position(179.015f, -1000.326f, -100f);
+                                    garageDummy.SpawnInside = new Position(179.015f, -1000.326f, -100f);
+                                    garageDummy.MarkerExit = new Position(179.015f, -1000.326f, -100f);
 
                                     break;
                             }
@@ -467,15 +467,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 case TipoImmobile.Casa:
                                     pos = new Vector3(339.3684f, -992.7239f, -98.21723f);
                                     lookAt = new Vector3(341.4973f, -999.5391f, -100.1962f);
-                                    casaDummy.MarkerUscita = new Position(346.493f, -1013.031f, -99.196f);
-                                    casaDummy.SpawnDentro = new Position(346.493f, -1013.031f, -99.196f);
+                                    casaDummy.MarkerExit = new Position(346.493f, -1013.031f, -99.196f);
+                                    casaDummy.SpawnInside = new Position(346.493f, -1013.031f, -99.196f);
 
                                     break;
                                 case TipoImmobile.Garage:
                                     pos = new Vector3(190.6334f, -1027.276f, -98.94763f);
                                     lookAt = new Vector3(193.8157f, -1024.415f, -99.99996f);
-                                    garageDummy.SpawnDentro = new Position(207.1461f, -1018.326f, -98.999f);
-                                    garageDummy.MarkerUscita = new Position(207.1461f, -1018.326f, -98.999f);
+                                    garageDummy.SpawnInside = new Position(207.1461f, -1018.326f, -98.999f);
+                                    garageDummy.MarkerExit = new Position(207.1461f, -1018.326f, -98.999f);
 
                                     break;
                             }
@@ -487,15 +487,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 case TipoImmobile.Casa:
                                     pos = new Vector3(-1465.857f, -535.3416f, 74.20998f);
                                     lookAt = new Vector3(-1467.427f, -544.514f, 72.46823f);
-                                    casaDummy.SpawnDentro = new Position(-1452.841f, -539.489f, 74.044f);
-                                    casaDummy.MarkerUscita = new Position(-1452.164f, -540.640f, 74.044f);
+                                    casaDummy.SpawnInside = new Position(-1452.841f, -539.489f, 74.044f);
+                                    casaDummy.MarkerExit = new Position(-1452.164f, -540.640f, 74.044f);
 
                                     break;
                                 case TipoImmobile.Garage:
                                     pos = new Vector3(206.7423f, -993.4413f, -98.09858f);
                                     lookAt = new Vector3(190.6937f, -1008.027f, -99.62811f);
-                                    garageDummy.SpawnDentro = new Position(210.759f, -999.0323f, -98.99997f);
-                                    garageDummy.MarkerUscita = new Position(210.759f, -999.0323f, -98.99997f);
+                                    garageDummy.SpawnInside = new Position(210.759f, -999.0323f, -98.99997f);
+                                    garageDummy.MarkerExit = new Position(210.759f, -999.0323f, -98.99997f);
 
                                     break;
                             }
@@ -507,15 +507,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 case TipoImmobile.Casa:
                                     pos = new Vector3(-42.78862f, -571.4902f, 89.38699f);
                                     lookAt = new Vector3(-35.83893f, -583.5001f, 88.47382f);
-                                    casaDummy.SpawnDentro = new Position(-17.54766f, -589.1531f, 90.11485f);
-                                    casaDummy.MarkerUscita = new Position(-17.54766f, -589.1531f, 90.11485f);
+                                    casaDummy.SpawnInside = new Position(-17.54766f, -589.1531f, 90.11485f);
+                                    casaDummy.MarkerExit = new Position(-17.54766f, -589.1531f, 90.11485f);
 
                                     break;
                                 case TipoImmobile.Garage:
                                     pos = new Vector3(220.5728f, -1007.01f, -98.10276f);
                                     lookAt = new Vector3(225.9477f, -996.6439f, -99.9992f);
-                                    garageDummy.SpawnDentro = new Position(238.103f, -1004.813f, -98.99992f);
-                                    garageDummy.MarkerUscita = new Position(238.103f, -1004.813f, -98.99992f);
+                                    garageDummy.SpawnInside = new Position(238.103f, -1004.813f, -98.99992f);
+                                    garageDummy.MarkerExit = new Position(238.103f, -1004.813f, -98.99992f);
 
                                     break;
                             }
@@ -526,8 +526,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                             {
                                 pos = new Vector3(-169.7948f, 478.3921f, 138.4392f);
                                 lookAt = new Vector3(-166.9105f, 485.8192f, 136.8266f);
-                                casaDummy.SpawnDentro = new Position(-173.9128f, 496.8375f, 137.667f);
-                                casaDummy.MarkerUscita = new Position(-173.9128f, 496.8375f, 137.667f);
+                                casaDummy.SpawnInside = new Position(-173.9128f, 496.8375f, 137.667f);
+                                casaDummy.MarkerExit = new Position(-173.9128f, 496.8375f, 137.667f);
                             }
 
                             break;
@@ -536,8 +536,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                             {
                                 pos = new Vector3(-791.5707f, 343.7827f, 217.8111f);
                                 lookAt = new Vector3(-784.6417f, 330.4529f, 216.0382f);
-                                casaDummy.SpawnDentro = new Position(-786.5125f, 315.8108f, 217.6385f);
-                                casaDummy.MarkerUscita = new Position(-786.5125f, 315.8108f, 217.6385f);
+                                casaDummy.SpawnInside = new Position(-786.5125f, 315.8108f, 217.6385f);
+                                casaDummy.MarkerExit = new Position(-786.5125f, 315.8108f, 217.6385f);
                             }
 
                             break;
@@ -809,7 +809,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                     "Seductive",
                                     "Regal",
                                     "Aqua"
-                                    }, casaDummy.Stile);                                                  // cambiare index
+                                    }, casaDummy.Style);                                                  // cambiare index
                             UIMenuCheckboxItem strip = new("Biancheria sparsa", casaDummy.Strip); // cambiare checked
                             UIMenuCheckboxItem booze = new("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
                             UIMenuCheckboxItem smoke = new("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
@@ -822,7 +822,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                 Screen.Fading.FadeOut(250);
                                 await BaseScript.Delay(300);
                                 idx = index;
-                                casaDummy.Stile = idx;
+                                casaDummy.Style = idx;
 
                                 switch (index)
                                 {
@@ -910,13 +910,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
             creazione.OnMenuOpen += (a, b) =>
             {
-                oldInstance = Cache.PlayerCache.MyPlayer.Status.Istanza;
-                Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("Creatore Immobiliare");
+                oldInstance = Cache.PlayerCache.MyPlayer.Status.Instance;
+                Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("Creatore Immobiliare");
             };
             creazione.OnMenuClose += (a) =>
             {
-                if (Cache.PlayerCache.MyPlayer.Status.Istanza.Instance == "Creatore Immobiliare") Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
-                Cache.PlayerCache.MyPlayer.Status.Istanza = oldInstance;
+                if (Cache.PlayerCache.MyPlayer.Status.Instance.Instance == "Creatore Immobiliare") Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
+                Cache.PlayerCache.MyPlayer.Status.Instance = oldInstance;
             };
             selezionePunto.OnMenuOpen += async (a, b) =>
             {
@@ -1012,17 +1012,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                             {
                                 if (casaDummy.Price > 0)
                                 {
-                                    if (casaDummy.MarkerEntrata != Position.Zero)
+                                    if (casaDummy.MarkerEntrance != Position.Zero)
                                     {
-                                        if (casaDummy.TelecameraFuori.pos != Position.Zero && casaDummy.TelecameraFuori.guarda != Position.Zero)
+                                        if (casaDummy.CameraOutside.Pos != Position.Zero && casaDummy.CameraOutside.Rotation != Position.Zero)
                                         {
-                                            if (casaDummy.GarageIncluso)
+                                            if (casaDummy.GarageIncluded)
                                             {
-                                                if (casaDummy.MarkerGarageEsterno != Position.Zero && casaDummy.SpawnGarageInVehFuori != Position.Zero)
+                                                if (casaDummy.MarkerGarageExtern != Position.Zero && casaDummy.SpawnGarageVehicleOutside != Position.Zero)
                                                 {
-                                                    if (casaDummy.TettoIncluso)
+                                                    if (casaDummy.HasRoof)
                                                     {
-                                                        if (casaDummy.MarkerTetto != Position.Zero)
+                                                        if (casaDummy.MarkerRoof != Position.Zero)
                                                         {
                                                             BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.ToJson(), abbreviazione);
                                                             MenuHandler.CloseAndClearHistory();
@@ -1046,12 +1046,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                             }
                                             else // non garage incluso
                                             {
-                                                if (casaDummy.TettoIncluso)
+                                                if (casaDummy.HasRoof)
                                                 {
-                                                    if (casaDummy.MarkerTetto != Position.Zero)
+                                                    if (casaDummy.MarkerRoof != Position.Zero)
                                                     {
                                                         BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.ToJson(), abbreviazione);
-                                                        Client.Impostazioni.RolePlay.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
+                                                        Client.Impostazioni.RolePlay.Properties.Apartments.Add(abbreviazione, casaDummy);
                                                         MenuHandler.CloseAndClearHistory();
                                                     }
                                                     else
@@ -1063,7 +1063,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                                                 {
                                                     // non tetto incluso
                                                     BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.ToJson(), abbreviazione);
-                                                    Client.Impostazioni.RolePlay.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
+                                                    Client.Impostazioni.RolePlay.Properties.Apartments.Add(abbreviazione, casaDummy);
                                                     MenuHandler.CloseAndClearHistory();
                                                 }
                                             }
@@ -1100,12 +1100,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                             {
                                 if (garageDummy.Price > 0)
                                 {
-                                    if (garageDummy.MarkerEntrata != Position.Zero)
+                                    if (garageDummy.MarkerEntrance != Position.Zero)
                                     {
-                                        if (garageDummy.TelecameraFuori.pos != Position.Zero && garageDummy.TelecameraFuori.guarda != Position.Zero)
+                                        if (garageDummy.CameraOutside.Pos != Position.Zero && garageDummy.CameraOutside.Rotation != Position.Zero)
                                         {
                                             BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.ToJson(), abbreviazione);
-                                            Client.Impostazioni.RolePlay.Proprieta.Garages.Garages.Add(abbreviazione, garageDummy);
+                                            Client.Impostazioni.RolePlay.Properties.Garages.Garages.Add(abbreviazione, garageDummy);
                                             MenuHandler.CloseAndClearHistory();
                                         }
                                         else

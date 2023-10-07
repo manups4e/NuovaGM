@@ -1,4 +1,4 @@
-﻿using Impostazioni.Client.Configurazione.Negozi.Barbieri;
+﻿using Settings.Client.Configurazione.Negozi.Barbieri;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
                 ShowCam(S, Ch, C);
-                BarberMenu(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio" ? Client.Impostazioni.RolePlay.Negozi.Barbieri.Maschio : Client.Impostazioni.RolePlay.Negozi.Barbieri.Femmina, Menu);
+                BarberMenu(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio" ? Client.Impostazioni.RolePlay.Shops.Barbers.Male : Client.Impostazioni.RolePlay.Shops.Barbers.Female, Menu);
             }
         }
 
@@ -291,32 +291,32 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         private static UIMenu MenuPrincipale = new UIMenu("", "");
 
-        private static async void BarberMenu(BarbieriTesta Tipo, string NomeNegozio)
+        private static async void BarberMenu(HeadBarbers Tipo, string NomeNegozio)
         {
             #region DICHIARAZIONE
 
             System.Drawing.Point pos = new System.Drawing.Point(50, 100);
             Skin skin = Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin;
-            int capAttuali = skin.hair.style;
-            int colAttuale1 = skin.hair.color[0];
-            int colAttuale2 = skin.hair.color[1];
-            int rossAttuali = skin.lipstick.style;
-            int rossAttualiC = skin.lipstick.color[0];
-            int rossAttualiC2 = skin.lipstick.color[1];
-            float rossAttualiO = skin.lipstick.opacity;
-            int trcAtt = skin.makeup.style;
-            float trcOpAtt = skin.makeup.opacity;
-            int soprAtt = skin.facialHair.eyebrow.style;
-            int soprCAtt = skin.facialHair.eyebrow.color[0];
-            int soprC1Att = skin.facialHair.eyebrow.color[1];
-            float soprOpAtt = skin.facialHair.eyebrow.opacity;
-            int brbAtt = skin.facialHair.beard.style;
-            int brbAttC1 = skin.facialHair.beard.color[0];
-            int brbAttC2 = skin.facialHair.beard.color[1];
-            float brbAttOp = skin.facialHair.beard.opacity;
+            int capAttuali = skin.Hair.Style;
+            int colAttuale1 = skin.Hair.Color[0];
+            int colAttuale2 = skin.Hair.Color[1];
+            int rossAttuali = skin.Lipstick.Style;
+            int rossAttualiC = skin.Lipstick.Color[0];
+            int rossAttualiC2 = skin.Lipstick.Color[1];
+            float rossAttualiO = skin.Lipstick.Opacity;
+            int trcAtt = skin.Makeup.Style;
+            float trcOpAtt = skin.Makeup.Opacity;
+            int soprAtt = skin.FacialHair.Eyebrow.Style;
+            int soprCAtt = skin.FacialHair.Eyebrow.Color[0];
+            int soprC1Att = skin.FacialHair.Eyebrow.Color[1];
+            float soprOpAtt = skin.FacialHair.Eyebrow.Opacity;
+            int brbAtt = skin.FacialHair.Beard.Style;
+            int brbAttC1 = skin.FacialHair.Beard.Color[0];
+            int brbAttC2 = skin.FacialHair.Beard.Color[1];
+            float brbAttOp = skin.FacialHair.Beard.Opacity;
             string desc = "";
             string title = "";
-            desc = skin.sex == "Maschio" ? "Ma davvero?!?!" : "Scegli il trucco perfetto!";
+            desc = skin.Sex == "Maschio" ? "Ma davvero?!?!" : "Scegli il trucco perfetto!";
 
             switch (NomeNegozio)
             {
@@ -342,15 +342,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     break;
             }
 
-            List<dynamic> barbe = Tipo.barba.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> trucco = Tipo.trucco.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> sopr = Tipo.sopr.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> ross = Tipo.ross.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> capkuts = Tipo.capelli.kuts.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> caphawick = Tipo.capelli.hawick.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> caposheas = Tipo.capelli.osheas.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> capcombo = Tipo.capelli.beach.Select(b => b.Name).Cast<dynamic>().ToList();
-            List<dynamic> capmulet = Tipo.capelli.mulet.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> barbe = Tipo.Beard.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> trucco = Tipo.Makeup.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> sopr = Tipo.Eyebrows.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> ross = Tipo.Lipstick.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> capkuts = Tipo.Hair.kuts.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> caphawick = Tipo.Hair.hawick.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> caposheas = Tipo.Hair.osheas.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> capcombo = Tipo.Hair.beach.Select(b => b.Name).Cast<dynamic>().ToList();
+            List<dynamic> capmulet = Tipo.Hair.mulet.Select(b => b.Name).Cast<dynamic>().ToList();
             MenuPrincipale = new UIMenu("", title, pos, Main.Textures[NomeNegozio].Key, Main.Textures[NomeNegozio].Value);
             MenuPrincipale.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
             UIMenuListItem Capelli = new UIMenuListItem("Capelli", new List<dynamic>() { 0 }, 0);
@@ -418,7 +418,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             int brbcol2;
             int brbvar;
 
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
             {
                 Barba = new UIMenuListItem("Seleziona Barba", barbe, 0);
                 beardBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
@@ -428,7 +428,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 Barba.AddPanel(beardBase);
                 Barba.AddPanel(beardSec);
                 Barba.AddPanel(beardOp);
-                if (skin.sex == "Maschio") MenuPrincipale.AddItem(Barba);
+                if (skin.Sex == "Maschio") MenuPrincipale.AddItem(Barba);
                 beardOp.Enabled = false;
                 beardBase.Enabled = false;
                 beardSec.Enabled = false;
@@ -472,28 +472,28 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 if (item == Capelli)
                 {
-                    List<Capigliature> obj = new List<Capigliature>();
+                    List<BarberStyle> obj = new List<BarberStyle>();
 
                     switch (NomeNegozio)
                     {
                         case "Kuts":
-                            obj = Tipo.capelli.kuts;
+                            obj = Tipo.Hair.kuts;
 
                             break;
                         case "Hawick":
-                            obj = Tipo.capelli.hawick;
+                            obj = Tipo.Hair.hawick;
 
                             break;
                         case "Osheas":
-                            obj = Tipo.capelli.osheas;
+                            obj = Tipo.Hair.osheas;
 
                             break;
                         case "Combo":
-                            obj = Tipo.capelli.beach;
+                            obj = Tipo.Hair.beach;
 
                             break;
                         case "Mulet":
-                            obj = Tipo.capelli.mulet;
+                            obj = Tipo.Hair.mulet;
 
                             break;
                     }
@@ -522,7 +522,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 }
                 else if (item == Sopracciglia)
                 {
-                    soprvar = Tipo.sopr[index].var;
+                    soprvar = Tipo.Eyebrows[index].var;
 
                     if (soprvar == -1)
                     {
@@ -543,14 +543,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     if (soprAtt == soprvar && soprOpAtt == soprop && soprcol1 == soprCAtt && soprcol2 == soprC1Att)
                         item.Description = "Stile ~b~Attuale~w~!";
                     else
-                        item.Description = Tipo.sopr[index].Description + " - Prezzo: ~g~$" + Tipo.sopr[index].price;
+                        item.Description = Tipo.Eyebrows[index].Description + " - Prezzo: ~g~$" + Tipo.Eyebrows[index].price;
                     SetPedHeadOverlay(PlayerPedId(), 2, soprvar, soprop);
                     SetPedHeadOverlayColor(PlayerPedId(), 2, 1, soprcol1, soprcol2);
                     item.Parent.UpdateDescription();
                 }
                 else if (item == Barba)
                 {
-                    if (Tipo.barba[index].var == -1)
+                    if (Tipo.Beard[index].var == -1)
                     {
                         beardOp.Enabled = false;
                         beardBase.Enabled = false;
@@ -566,26 +566,26 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     brbcol1 = (Barba.Panels[0] as UIMenuColorPanel).CurrentSelection;
                     brbcol2 = (Barba.Panels[1] as UIMenuColorPanel).CurrentSelection;
                     brbop = (Barba.Panels[2] as UIMenuPercentagePanel).Percentage;
-                    brbvar = Tipo.barba[index].var;
+                    brbvar = Tipo.Beard[index].var;
                     if (brbAtt == brbvar && brbAttOp == brbop && brbcol1 == brbAttC1 && brbcol2 == brbAttC2)
                         item.Description = "Stile ~b~Attuale~w~!";
                     else
-                        item.Description = Tipo.barba[index].Description + " - Prezzo: ~g~$" + Tipo.barba[index].price;
+                        item.Description = Tipo.Beard[index].Description + " - Prezzo: ~g~$" + Tipo.Beard[index].price;
                     item.Parent.UpdateDescription();
                     SetPedHeadOverlay(PlayerPedId(), 1, brbvar, brbop);
                     SetPedHeadOverlayColor(PlayerPedId(), 1, 1, brbcol1, brbcol2);
                 }
                 else if (item == Trucco)
                 {
-                    trOp.Enabled = Tipo.trucco[index].var != -1;
-                    tru = Tipo.trucco[index].var;
-                    item.Description = trcAtt == tru && trcOpAtt == (item.Panels[0] as UIMenuPercentagePanel).Percentage ? "Stile ~b~Attuale~w~!" : Tipo.trucco[index].Description + " - Prezzo: ~g~$" + Tipo.trucco[index].price;
+                    trOp.Enabled = Tipo.Makeup[index].var != -1;
+                    tru = Tipo.Makeup[index].var;
+                    item.Description = trcAtt == tru && trcOpAtt == (item.Panels[0] as UIMenuPercentagePanel).Percentage ? "Stile ~b~Attuale~w~!" : Tipo.Makeup[index].Description + " - Prezzo: ~g~$" + Tipo.Makeup[index].price;
                     SetPedHeadOverlay(PlayerPedId(), 4, tru, (item.Panels[0] as UIMenuPercentagePanel).Percentage);
                     item.Parent.UpdateDescription();
                 }
                 else if (item == Rossetto)
                 {
-                    if (Tipo.ross[index].var == -1)
+                    if (Tipo.Lipstick[index].var == -1)
                     {
                         rossOp.Enabled = false;
                         rossColBase.Enabled = false;
@@ -598,8 +598,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         rossColSec.Enabled = true;
                     }
 
-                    rosset = Tipo.ross[index].var;
-                    item.Description = rossAttuali == rosset && rossAttualiC == (item.Panels[0] as UIMenuColorPanel).CurrentSelection && rossAttualiO == (item.Panels[2] as UIMenuPercentagePanel).Percentage ? "Stile ~b~Attuale~w~!" : Tipo.ross[index].Description + " - Prezzo: ~g~$" + Tipo.ross[index].price;
+                    rosset = Tipo.Lipstick[index].var;
+                    item.Description = rossAttuali == rosset && rossAttualiC == (item.Panels[0] as UIMenuColorPanel).CurrentSelection && rossAttualiO == (item.Panels[2] as UIMenuPercentagePanel).Percentage ? "Stile ~b~Attuale~w~!" : Tipo.Lipstick[index].Description + " - Prezzo: ~g~$" + Tipo.Lipstick[index].price;
                     SetPedHeadOverlay(PlayerPedId(), 8, tru, (item.Panels[2] as UIMenuPercentagePanel).Percentage);
                     SetPedHeadOverlayColor(PlayerPedId(), 8, 1, (item.Panels[0] as UIMenuColorPanel).CurrentSelection, (item.Panels[1] as UIMenuColorPanel).CurrentSelection);
                     item.Parent.UpdateDescription();
@@ -618,28 +618,28 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 if (_listItem == Capelli)
                 {
-                    Capigliature obj = new Capigliature();
+                    BarberStyle obj = new BarberStyle();
 
                     switch (NomeNegozio)
                     {
                         case "Kuts":
-                            obj = Tipo.capelli.kuts[_listItem.Index];
+                            obj = Tipo.Hair.kuts[_listItem.Index];
 
                             break;
                         case "Hawick":
-                            obj = Tipo.capelli.hawick[_listItem.Index];
+                            obj = Tipo.Hair.hawick[_listItem.Index];
 
                             break;
                         case "Osheas":
-                            obj = Tipo.capelli.osheas[_listItem.Index];
+                            obj = Tipo.Hair.osheas[_listItem.Index];
 
                             break;
                         case "Combo":
-                            obj = Tipo.capelli.beach[_listItem.Index];
+                            obj = Tipo.Hair.beach[_listItem.Index];
 
                             break;
                         case "Mulet":
-                            obj = Tipo.capelli.mulet[_listItem.Index];
+                            obj = Tipo.Hair.mulet[_listItem.Index];
 
                             break;
                     }
@@ -656,9 +656,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     {
                         if (Cache.PlayerCache.MyPlayer.User.Money >= obj.price)
                         {
-                            skin.hair.style = obj.var;
-                            skin.hair.color[0] = capCol1.CurrentSelection;
-                            skin.hair.color[1] = capCol2.CurrentSelection;
+                            skin.Hair.Style = obj.var;
+                            skin.Hair.Color[0] = capCol1.CurrentSelection;
+                            skin.Hair.Color[1] = capCol2.CurrentSelection;
                             colAttuale1 = capCol1.CurrentSelection;
                             colAttuale2 = capCol2.CurrentSelection;
                             capAttuali = obj.var;
@@ -672,9 +672,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Bank >= obj.price)
                             {
-                                skin.hair.style = obj.var;
-                                skin.hair.color[0] = capCol1.CurrentSelection;
-                                skin.hair.color[1] = capCol2.CurrentSelection;
+                                skin.Hair.Style = obj.var;
+                                skin.Hair.Color[0] = capCol1.CurrentSelection;
+                                skin.Hair.Color[1] = capCol2.CurrentSelection;
                                 colAttuale1 = capCol1.CurrentSelection;
                                 colAttuale2 = capCol2.CurrentSelection;
                                 capAttuali = obj.var;
@@ -693,7 +693,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 }
                 else if (_listItem == Sopracciglia)
                 {
-                    Capigliature obj = Tipo.sopr[_listItem.Index];
+                    BarberStyle obj = Tipo.Eyebrows[_listItem.Index];
 
                     if (obj.var == -1 && obj.var == soprAtt)
                     {
@@ -707,10 +707,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     {
                         if (Cache.PlayerCache.MyPlayer.User.Money >= obj.price)
                         {
-                            skin.facialHair.eyebrow.style = obj.var;
-                            skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
-                            skin.facialHair.eyebrow.color[1] = soprSec.CurrentSelection;
-                            skin.facialHair.eyebrow.opacity = soprOp.Percentage;
+                            skin.FacialHair.Eyebrow.Style = obj.var;
+                            skin.FacialHair.Eyebrow.Color[0] = soprBase.CurrentSelection;
+                            skin.FacialHair.Eyebrow.Color[1] = soprSec.CurrentSelection;
+                            skin.FacialHair.Eyebrow.Opacity = soprOp.Percentage;
                             soprAtt = obj.var;
                             soprCAtt = soprBase.CurrentSelection;
                             soprC1Att = soprSec.CurrentSelection;
@@ -725,10 +725,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Bank >= obj.price)
                             {
-                                skin.facialHair.eyebrow.style = obj.var;
-                                skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
-                                skin.facialHair.eyebrow.color[1] = soprSec.CurrentSelection;
-                                skin.facialHair.eyebrow.opacity = soprOp.Percentage;
+                                skin.FacialHair.Eyebrow.Style = obj.var;
+                                skin.FacialHair.Eyebrow.Color[0] = soprBase.CurrentSelection;
+                                skin.FacialHair.Eyebrow.Color[1] = soprSec.CurrentSelection;
+                                skin.FacialHair.Eyebrow.Opacity = soprOp.Percentage;
                                 soprAtt = obj.var;
                                 soprCAtt = soprBase.CurrentSelection;
                                 soprC1Att = soprSec.CurrentSelection;
@@ -748,7 +748,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 }
                 else if (_listItem == Barba)
                 {
-                    Capigliature obj = Tipo.barba[_listItem.Index];
+                    BarberStyle obj = Tipo.Beard[_listItem.Index];
 
                     if (obj.var == -1 && obj.var == brbAtt)
                     {
@@ -762,10 +762,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     {
                         if (Cache.PlayerCache.MyPlayer.User.Money >= obj.price)
                         {
-                            skin.facialHair.beard.style = obj.var;
-                            skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
-                            skin.facialHair.beard.color[1] = beardSec.CurrentSelection;
-                            skin.facialHair.beard.opacity = beardOp.Percentage;
+                            skin.FacialHair.Beard.Style = obj.var;
+                            skin.FacialHair.Beard.Color[0] = beardBase.CurrentSelection;
+                            skin.FacialHair.Beard.Color[1] = beardSec.CurrentSelection;
+                            skin.FacialHair.Beard.Opacity = beardOp.Percentage;
                             brbAtt = obj.var;
                             brbAttC1 = beardBase.CurrentSelection;
                             brbAttC2 = beardSec.CurrentSelection;
@@ -780,10 +780,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Bank >= obj.price)
                             {
-                                skin.facialHair.beard.style = obj.var;
-                                skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
-                                skin.facialHair.beard.color[1] = beardSec.CurrentSelection;
-                                skin.facialHair.beard.opacity = beardOp.Percentage;
+                                skin.FacialHair.Beard.Style = obj.var;
+                                skin.FacialHair.Beard.Color[0] = beardBase.CurrentSelection;
+                                skin.FacialHair.Beard.Color[1] = beardSec.CurrentSelection;
+                                skin.FacialHair.Beard.Opacity = beardOp.Percentage;
                                 brbAtt = obj.var;
                                 brbAttC1 = beardBase.CurrentSelection;
                                 brbAttC2 = beardSec.CurrentSelection;
@@ -803,7 +803,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 }
                 else if (_listItem == Trucco)
                 {
-                    Capigliature obj = Tipo.trucco[_listItem.Index];
+                    BarberStyle obj = Tipo.Makeup[_listItem.Index];
 
                     if (obj.var == -1 && obj.var == brbAtt)
                     {
@@ -817,8 +817,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     {
                         if (Cache.PlayerCache.MyPlayer.User.Money >= obj.price)
                         {
-                            skin.makeup.style = obj.var;
-                            skin.makeup.opacity = trOp.Percentage;
+                            skin.Makeup.Style = obj.var;
+                            skin.Makeup.Opacity = trOp.Percentage;
                             trcAtt = obj.var;
                             trcOpAtt = trOp.Percentage;
                             BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
@@ -831,8 +831,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Bank >= obj.price)
                             {
-                                skin.makeup.style = obj.var;
-                                skin.makeup.opacity = trOp.Percentage;
+                                skin.Makeup.Style = obj.var;
+                                skin.Makeup.Opacity = trOp.Percentage;
                                 trcAtt = obj.var;
                                 trcOpAtt = trOp.Percentage;
                                 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
@@ -850,7 +850,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 }
                 else if (_listItem == Rossetto)
                 {
-                    Capigliature obj = Tipo.ross[_listItem.Index];
+                    BarberStyle obj = Tipo.Lipstick[_listItem.Index];
 
                     if (obj.var == -1 && obj.var == rossAttuali)
                     {
@@ -864,10 +864,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     {
                         if (Cache.PlayerCache.MyPlayer.User.Money >= obj.price)
                         {
-                            skin.lipstick.style = obj.var;
-                            skin.lipstick.color[0] = rossColBase.CurrentSelection;
-                            skin.lipstick.color[1] = rossColSec.CurrentSelection;
-                            skin.lipstick.opacity = rossOp.Percentage;
+                            skin.Lipstick.Style = obj.var;
+                            skin.Lipstick.Color[0] = rossColBase.CurrentSelection;
+                            skin.Lipstick.Color[1] = rossColSec.CurrentSelection;
+                            skin.Lipstick.Opacity = rossOp.Percentage;
                             rossAttuali = obj.var;
                             rossAttualiC = rossColBase.CurrentSelection;
                             rossAttualiC2 = rossColSec.CurrentSelection;
@@ -882,10 +882,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Bank >= obj.price)
                             {
-                                skin.lipstick.style = obj.var;
-                                skin.lipstick.color[0] = rossColBase.CurrentSelection;
-                                skin.lipstick.color[1] = rossColSec.CurrentSelection;
-                                skin.lipstick.opacity = rossOp.Percentage;
+                                skin.Lipstick.Style = obj.var;
+                                skin.Lipstick.Color[0] = rossColBase.CurrentSelection;
+                                skin.Lipstick.Color[1] = rossColSec.CurrentSelection;
+                                skin.Lipstick.Opacity = rossOp.Percentage;
                                 rossAttuali = obj.var;
                                 rossAttualiC = rossColBase.CurrentSelection;
                                 rossAttualiC2 = rossColSec.CurrentSelection;

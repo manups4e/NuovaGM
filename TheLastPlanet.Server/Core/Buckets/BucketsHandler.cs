@@ -25,16 +25,16 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         public static void Init()
         {
-            EventDispatcher.Mount("tlg:addPlayerToBucket", new Action<PlayerClient, ModalitaServer>(AddPlayerToBucket));
-            EventDispatcher.Mount("tlg:checkSeGiaDentro", new Func<PlayerClient, ModalitaServer, Task<bool>>(CheckIn));
-            EventDispatcher.Mount("tlg:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
-            EventDispatcher.Mount("tlg:richiediContoBuckets", new Func<PlayerClient, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
-            Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
-            Negozio = new(ModalitaServer.Negozio, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
-            RolePlay = new(ModalitaServer.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-            FreeRoam = new(ModalitaServer.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-            Gare = new(ModalitaServer.Gare, new Bucket(3000, "GARE") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-            Minigiochi = new(ModalitaServer.Minigiochi, new List<Bucket>());
+            EventDispatcher.Mount("tlg:addPlayerToBucket", new Action<PlayerClient, ServerMode>(AddPlayerToBucket));
+            EventDispatcher.Mount("tlg:checkSeGiaDentro", new Func<PlayerClient, ServerMode, Task<bool>>(CheckIn));
+            EventDispatcher.Mount("tlg:addEntityToBucket", new Action<int, ServerMode>(AddEntityToBucket));
+            EventDispatcher.Mount("tlg:richiediContoBuckets", new Func<PlayerClient, Task<Dictionary<ServerMode, int>>>(CountPlayers));
+            Lobby = new(ServerMode.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
+            Negozio = new(ServerMode.Store, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
+            RolePlay = new(ServerMode.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
+            FreeRoam = new(ServerMode.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
+            Gare = new(ServerMode.Races, new Bucket(3000, "GARE") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
+            Minigiochi = new(ServerMode.Minigames, new List<Bucket>());
         }
 
         /// <summary>
@@ -42,29 +42,29 @@ namespace TheLastPlanet.Server.Core.Buckets
         /// </summary>
         /// <param name="player">Player da aggiungere</param>
         /// <param name="id">Id del bucket</param>
-        private static void AddPlayerToBucket([FromSource] PlayerClient player, ModalitaServer id)
+        private static void AddPlayerToBucket([FromSource] PlayerClient player, ServerMode id)
         {
             List<PlayerClient> clients = null;
-            RemovePlayerFromBucket(player, player.Status.PlayerStates.Modalita, "");
+            RemovePlayerFromBucket(player, player.Status.PlayerStates.Mode, "");
             switch (id)
             {
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     Lobby.AddPlayer(player);
                     clients = Lobby.Bucket.Players;
                     break;
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     RolePlay.AddPlayer(player);
                     clients = RolePlay.Bucket.Players;
                     break;
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     FreeRoam.AddPlayer(player);
                     clients = FreeRoam.Bucket.Players;
                     break;
-                case ModalitaServer.Gare:
+                case ServerMode.Races:
                     Gare.AddPlayer(player);
                     clients = Gare.Bucket.Players;
                     break;
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     break;
             }
 
@@ -74,22 +74,22 @@ namespace TheLastPlanet.Server.Core.Buckets
             player.Status.Clear();
         }
 
-        private static void RemovePlayerFromBucket([FromSource] PlayerClient player, ModalitaServer id, string reason)
+        private static void RemovePlayerFromBucket([FromSource] PlayerClient player, ServerMode id, string reason)
         {
             switch (id)
             {
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     Lobby.RemovePlayer(player, reason);
                     break;
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     RolePlay.RemovePlayer(player, reason);
                     break;
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     FreeRoam.RemovePlayer(player, reason);
                     break;
-                case ModalitaServer.Gare:
+                case ServerMode.Races:
                     break;
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     break;
             }
         }
@@ -100,51 +100,51 @@ namespace TheLastPlanet.Server.Core.Buckets
         /// </summary>
         /// <param name="entity">Entity network ID</param>
         /// <param name="id">ID del bucket</param>
-        private static void AddEntityToBucket(int entity, ModalitaServer id)
+        private static void AddEntityToBucket(int entity, ServerMode id)
         {
             Entity ent = Entity.FromNetworkId(entity);
             if (Lobby.Bucket.Entities.Contains(ent)) Lobby.Bucket.Entities.Remove(ent);
             switch (id)
             {
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     RolePlay.Bucket.AddEntity(ent);
                     break;
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     FreeRoam.Bucket.Entities.Add(ent);
                     break;
-                case ModalitaServer.Gare:
+                case ServerMode.Races:
                     break;
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     break;
             }
         }
 
-        private static async Task<Dictionary<ModalitaServer, int>> CountPlayers([FromSource] PlayerClient player)
+        private static async Task<Dictionary<ServerMode, int>> CountPlayers([FromSource] PlayerClient player)
         {
-            Dictionary<ModalitaServer, int> result = new()
+            Dictionary<ServerMode, int> result = new()
             {
-                [ModalitaServer.Lobby] = Lobby.GetTotalPlayers(),
-                [ModalitaServer.FreeRoam] = FreeRoam.GetTotalPlayers(),
-                [ModalitaServer.Roleplay] = RolePlay.GetTotalPlayers(),
-                [ModalitaServer.Gare] = Gare.GetTotalPlayers(),
-                [ModalitaServer.Minigiochi] = Minigiochi.GetTotalPlayers(),
+                [ServerMode.Lobby] = Lobby.GetTotalPlayers(),
+                [ServerMode.FreeRoam] = FreeRoam.GetTotalPlayers(),
+                [ServerMode.Roleplay] = RolePlay.GetTotalPlayers(),
+                [ServerMode.Races] = Gare.GetTotalPlayers(),
+                [ServerMode.Minigames] = Minigiochi.GetTotalPlayers(),
             };
             return result;
         }
 
-        private static async Task<bool> CheckIn([FromSource] PlayerClient player, ModalitaServer id)
+        private static async Task<bool> CheckIn([FromSource] PlayerClient player, ServerMode id)
         {
             switch (id)
             {
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     return Lobby.Bucket.Players.Contains(player);
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     return RolePlay.Bucket.Players.Contains(player);
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     return FreeRoam.Bucket.Players.Contains(player);
-                case ModalitaServer.Gare:
+                case ServerMode.Races:
                     return Gare.Bucket.Players.Contains(player);
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     return Minigiochi.Buckets.Any(x => x.Players.Contains(player));
                 default:
                     return true;
@@ -153,13 +153,13 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         public static void UpdateBucketsCount()
         {
-            Dictionary<ModalitaServer, int> result = new()
+            Dictionary<ServerMode, int> result = new()
             {
-                [ModalitaServer.Lobby] = Lobby.GetTotalPlayers(),
-                [ModalitaServer.FreeRoam] = FreeRoam.GetTotalPlayers(),
-                [ModalitaServer.Roleplay] = RolePlay.GetTotalPlayers(),
-                [ModalitaServer.Gare] = Gare.GetTotalPlayers(),
-                [ModalitaServer.Minigiochi] = Minigiochi.GetTotalPlayers(),
+                [ServerMode.Lobby] = Lobby.GetTotalPlayers(),
+                [ServerMode.FreeRoam] = FreeRoam.GetTotalPlayers(),
+                [ServerMode.Roleplay] = RolePlay.GetTotalPlayers(),
+                [ServerMode.Races] = Gare.GetTotalPlayers(),
+                [ServerMode.Minigames] = Minigiochi.GetTotalPlayers(),
             };
 
             EventDispatcher.Send(Lobby.Bucket.Players, "tlg:SetBucketsPlayers", result);

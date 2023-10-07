@@ -92,6 +92,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.Negozi
                 bliparmi.IsShortRange = true;
                 bliparmi.Name = "AMMU-NATION";
                 blips.Add(bliparmi);
+                // this whole code is for experimenting with the vanilla ammunations to replicate them.. i can't make the camera work when pressing E... maybe i'm missing something..
+                // but i don't know what am i missing... old code (commented) is about another ammunation i made with weapons being spawned on the counter and camera centered from above.
+
                 /*
 				var inp = new InputController(Control.Context, v, "Premi ~INPUT_CONTEXT~ per accedere all'armeria", new((MarkerType)(-1), v, Colors.Transparent), ModalitaServer.FreeRoam, action: new Action<Ped, object[]>(MenuArmeria));
 				InputHandler.AddInput(inp);
@@ -341,8 +344,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.Negozi
                     func_590(false, CurrentWeaponSelected, false);
                     func_583();
                     func_932();
-                    HUD.DrawText(0.3f, 0.7f, "ShopCamera.Coords: " + ShopCamera.Coords.ToString());
-                    HUD.DrawText(0.3f, 0.725f, "ShopCamera.Camera.Position: " + ShopCamera.Camera.Position.ToString());
                 }
                 if (!PlayerCache.MyPlayer.Posizione.IsInRangeOf(pos, 200))
                 {

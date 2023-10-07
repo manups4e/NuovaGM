@@ -71,28 +71,28 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         }
         public static void Spawnato(PlayerClient client)
         {
-            deformationMultiplier = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.deformationMultiplier;
-            deformationExponent = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.deformationExponent;
-            collisionDamageExponent = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.collisionDamageExponent;
-            damageFactorEngine = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.damageFactorEngine;
-            damageFactorBody = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.damageFactorBody;
-            damageFactorPetrolTank = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.damageFactorPetrolTank;
-            engineDamageExponent = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.engineDamageExponent;
-            weaponsDamageMultiplier = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.weaponsDamageMultiplier;
-            degradingHealthSpeedFactor = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.degradingHealthSpeedFactor;
-            cascadingFailureSpeedFactor = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.cascadingFailureSpeedFactor;
-            degradingFailureThreshold = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.degradingFailureThreshold;
-            cascadingFailureThreshold = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.cascadingFailureThreshold;
-            engineSafeGuard = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.engineSafeGuard;
-            torqueMultiplierEnabled = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.torqueMultiplierEnabled;
-            limpMode = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.limpMode;
-            limpModeMultiplier = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.limpModeMultiplier;
-            preventVehicleFlip = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.preventVehicleFlip;
-            sundayDriver = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.sundayDriver;
-            displayMessage = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.displayMessage;
-            compatibilityMode = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.compatibilityMode;
-            randomTireBurstInterval = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.randomTireBurstInterval;
-            classDamageMultiplier = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.classDamageMultiplier;
+            deformationMultiplier = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DeformationMultiplier;
+            deformationExponent = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DeformationExponent;
+            collisionDamageExponent = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.CollisionDamageExponent;
+            damageFactorEngine = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DamageFactorEngine;
+            damageFactorBody = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DamageFactorBody;
+            damageFactorPetrolTank = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DamageFactorPetrolTank;
+            engineDamageExponent = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.EngineDamageExponent;
+            weaponsDamageMultiplier = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.WeaponsDamageMultiplier;
+            degradingHealthSpeedFactor = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DegradingHealthSpeedFactor;
+            cascadingFailureSpeedFactor = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.CascadingFailureSpeedFactor;
+            degradingFailureThreshold = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DegradingFailureThreshold;
+            cascadingFailureThreshold = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.CascadingFailureThreshold;
+            engineSafeGuard = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.EngineSafeGuard;
+            torqueMultiplierEnabled = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.TorqueMultiplierEnabled;
+            limpMode = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.LimpMode;
+            limpModeMultiplier = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.LimpModeMultiplier;
+            preventVehicleFlip = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.PreventVehicleFlip;
+            sundayDriver = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.SundayDriver;
+            displayMessage = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.DisplayMessage;
+            compatibilityMode = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.CompatibilityMode;
+            randomTireBurstInterval = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.RandomTireBurstInterval;
+            classDamageMultiplier = Client.Impostazioni.RolePlay.Vehicles.VehiclesDamages.ClassDamageMultiplier;
             tireBurstMaxNumber = randomTireBurstInterval * 1200;
             if (randomTireBurstInterval != 0) tireBurstLuckyNumber = SharedMath.GetRandomInt(tireBurstMaxNumber);
         }
@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
         public static bool isPedDrivingAVehicle()
         {
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                 if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Driver == Cache.PlayerCache.MyPlayer.Ped)
                 {
                     VehicleClass classe = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.ClassType;
@@ -226,7 +226,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         {
             Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 vehicle = playerPed.CurrentVehicle;
 

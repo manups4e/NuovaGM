@@ -64,7 +64,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             Client.Instance.AddTick(Crediti);
             playerPed.IsPositionFrozen = true;
             playerPed.IsVisible = false;
-            PlayerCache.MyPlayer.Status.Istanza.Istanzia("IngressoPlayer");
+            PlayerCache.MyPlayer.Status.Instance.Istanzia("IngressoPlayer");
             playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
             Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(745.877f, 1215.591f, 359.405f) };
             Cam1.IsActive = true;
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
             RenderScriptCams(false, false, 0, false, false);
             playerPed.IsVisible = true;
-            PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+            PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
             playerPed.IsPositionFrozen = false;
             NetworkClearClockTimeOverride();
             await BaseScript.Delay(1000);

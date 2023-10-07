@@ -82,7 +82,7 @@ namespace TheLastPlanet.Server.FREEROAM
                         }
                         blip.Sprite = sprite;
                     }
-                    client.User.FreeRoamChar.Posizione = new(pos, rot);
+                    client.User.FreeRoamChar.Position = new(pos, rot);
                 }
                 EventDispatcher.Send(BucketsHandler.FreeRoam.Bucket.Players, "freeroam.UpdatePlayerBlipInfos", _blipsInfos);
             }

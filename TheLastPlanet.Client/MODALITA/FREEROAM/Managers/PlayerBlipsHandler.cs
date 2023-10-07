@@ -50,7 +50,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                     {
                         var blip = client.Ped.AttachedBlip;
                         var sprite = BlipSprite.Standard;
-                        if (client.Status.PlayerStates.InVeicolo)
+                        if (client.Status.PlayerStates.InVehicle)
                         {
                             var model = client.Ped.CurrentVehicle.Model;
 

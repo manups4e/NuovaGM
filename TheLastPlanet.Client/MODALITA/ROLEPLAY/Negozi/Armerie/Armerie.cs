@@ -311,11 +311,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                 foreach (Weapons armi in Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons)
                 {
-                    bool Hastints = SharedScript.hasTints(armi.name);
+                    bool Hastints = SharedScript.hasTints(armi.Name);
 
                     if (!Hastints) continue;
-                    UIMenuItem TntItem = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i colori acquistabili per la tua arma");
-                    UIMenu Tnt = new(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "");
+                    UIMenuItem TntItem = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.Name)), "Vedi qui i colori acquistabili per la tua arma");
+                    UIMenu Tnt = new(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.Name)), "");
                     TntItem.Activated += async (a, b) => await Tinte.SwitchTo(Tnt, 0, true);
                     Tinte.AddItem(TntItem);
 
@@ -327,7 +327,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             tintina.SetRightLabel("~g~" + tin.price + "$");
                         else
                             tintina.SetRightLabel("~r~" + tin.price + "$");
-                        if (Cache.PlayerCache.MyPlayer.User.HasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7)))) tintina.SetRightBadge(BadgeIcon.AMMO);
+                        if (Cache.PlayerCache.MyPlayer.User.HasWeaponTint(armi.Name, Convert.ToInt32(tin.name.Substring(7)))) tintina.SetRightBadge(BadgeIcon.AMMO);
                     }
 
                     Tnt.OnItemSelect += async (_menu, _item, _index) =>
@@ -341,26 +341,26 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             if (Cache.PlayerCache.MyPlayer.User.Money >= tinte[_index].price)
                             {
                                 EventDispatcher.Send("lprp:removemoney", tinte[_index].price);
-                                EventDispatcher.Send("lprp:addWeaponTint", armi.name, _index);
+                                EventDispatcher.Send("lprp:addWeaponTint", armi.Name, _index);
                                 HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
                                 _menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
                                 //attTi.SetRightBadge(BadgeIcon.NONE);
                                 //attTi = _item;
                                 _item.SetRightBadge(BadgeIcon.AMMO);
-                                armi.tint = _index;
+                                armi.Tint = _index;
                             }
                             else
                             {
                                 if (Cache.PlayerCache.MyPlayer.User.Bank >= tinte[_index].price)
                                 {
                                     EventDispatcher.Send("lprp:removebank", tinte[_index].price);
-                                    EventDispatcher.Send("lprp:addWeaponTint", armi.name, _index);
+                                    EventDispatcher.Send("lprp:addWeaponTint", armi.Name, _index);
                                     HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
                                     _menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
                                     //attTi.SetRightBadge(BadgeIcon.NONE);
                                     //attTi = _item;
                                     _item.SetRightBadge(BadgeIcon.AMMO);
-                                    armi.tint = _index;
+                                    armi.Tint = _index;
                                 }
                                 else
                                 {

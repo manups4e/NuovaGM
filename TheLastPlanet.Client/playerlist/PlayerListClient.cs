@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.ListaPlayers
                 ScaleformUI.Main.PlayerListInstance.PlayerRows.Clear();
                 var num = await EventDispatcher.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
                 var list = await EventDispatcher.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
-                if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
+                if (PlayerCache.ModalitàAttuale == ServerMode.Roleplay)
                 {
                     if (BankingClient.InterfacciaAperta)
                         return;

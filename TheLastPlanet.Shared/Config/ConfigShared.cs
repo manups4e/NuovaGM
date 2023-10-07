@@ -1,5 +1,4 @@
-﻿using Impostazioni.Shared.Configurazione.Generici;
-using FxEvents.Shared.Attributes;
+﻿using Settings.Shared.Config.Generic;
 
 namespace TheLastPlanet.Shared
 {
@@ -13,11 +12,11 @@ namespace TheLastPlanet.Shared
         public MainShared Main = new();
     }
 
-    
+
     public class MainShared
     {
-        public SharedConfigVeicoli Veicoli = new();
-        public SharedMeteo Meteo = new();
-        public SharedGenerici Generici = new();
+        public SharedConfigVehicles Vehicles = new();
+        public SharedWeatherSettings Weather = new();
+        public SharedGenerics Generics = new();
     }
 }

@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
+﻿using Settings.Shared.Roleplay.Jobs.Generici;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -70,8 +70,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
         }
         public async void Init()
         {
-            PuntiPesca = Client.Impostazioni.RolePlay.Lavori.Generici.Pescatore;
-            ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa += async (item, index) =>
+            PuntiPesca = Client.Impostazioni.RolePlay.Jobs.Generics.Pescatore;
+            ConfigShared.SharedConfig.Main.Generics.ItemList["cannadapescabase"].Use += async (item, index) =>
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -84,7 +84,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                 Client.Instance.AddTick(Pesca);
                 RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
             };
-            ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescamedia"].Usa += async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["cannadapescamedia"].Use += async (item, index) =>
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -97,7 +97,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                 Client.Instance.AddTick(Pesca);
                 RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
             };
-            ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescaavanzata"].Usa += async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["cannadapescaavanzata"].Use += async (item, index) =>
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -115,7 +115,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
         public async void Stop()
         {
             PuntiPesca = null;
-            ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa -= async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["cannadapescabase"].Use -= async (item, index) =>
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                 Client.Instance.AddTick(Pesca);
                 RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
             };
-            ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescamedia"].Usa -= async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["cannadapescamedia"].Use -= async (item, index) =>
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -141,7 +141,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                 Client.Instance.AddTick(Pesca);
                 RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
             };
-            ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescaavanzata"].Usa -= async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["cannadapescaavanzata"].Use -= async (item, index) =>
             {
                 RequestAnimDict(AnimDict);
                 RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -228,7 +228,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                     foreach (List<dynamic> amountino in from s in PerVendereIlPesce where inv.Item == s select new List<dynamic>())
                     {
                         for (int j = 0; j < inv.Amount; j++) amountino.Add((j + 1).ToString());
-                        UIMenuListItem pesce = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].description);
+                        UIMenuListItem pesce = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generics.ItemList[inv.Item].label, amountino, 0, ConfigShared.SharedConfig.Main.Generics.ItemList[inv.Item].description);
                         venditaPesce.AddItem(pesce);
                         pesce.OnListSelected += async (item, index) =>
                         {
@@ -253,7 +253,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                             else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
                                 perc = 18;
                             else if (Convert.ToInt32(quantita) > 99) perc = 20;
-                            int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].sellPrice + ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].sellPrice * (perc + (int)Math.Round(Cache.PlayerCache.MyPlayer.User.CurrentChar.Statistiche.FISHING / 10)) / 100;
+                            int valoreAggiunto = ConfigShared.SharedConfig.Main.Generics.ItemList[inv.Item].sellPrice + ConfigShared.SharedConfig.Main.Generics.ItemList[inv.Item].sellPrice * (perc + (int)Math.Round(Cache.PlayerCache.MyPlayer.User.CurrentChar.Statistics.FISHING / 10)) / 100;
                             BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.Item, Convert.ToInt32(quantita));
                             BaseScript.TriggerServerEvent("lprp:givemoney", valoreAggiunto * Convert.ToInt32(quantita));
                         };
@@ -390,8 +390,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                             break;
                     }
 
-                    float peso = SharedMath.GetRandomFloat(0f, ConfigShared.SharedConfig.Main.Generici.ItemList[pesce].peso);
-                    HUD.ShowNotification($"Hai pescato un bell'esemplare di {ConfigShared.SharedConfig.Main.Generici.ItemList[pesce].label}, dal peso di {peso}Kg");
+                    float peso = SharedMath.GetRandomFloat(0f, ConfigShared.SharedConfig.Main.Generics.ItemList[pesce].peso);
+                    HUD.ShowNotification($"Hai pescato un bell'esemplare di {ConfigShared.SharedConfig.Main.Generics.ItemList[pesce].label}, dal peso di {peso}Kg");
                     BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", pesce, 1, peso);
                 }
                 else
@@ -425,7 +425,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                 MenuHandler.CloseAndClearHistory();
                 if (veh.Exists()) veh.Delete();
                 Vehicle newveh = await Funzioni.SpawnVehicleNoPlayerInside(PuntiPesca.Barche[index], new Vector3(PuntiPesca.SpawnBarca[0], PuntiPesca.SpawnBarca[1], PuntiPesca.SpawnBarca[2]), PuntiPesca.SpawnBarca[3]);
-                VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, Cache.PlayerCache.MyPlayer.User.FullName);
+                JobVeh_Rent vehlav = new JobVeh_Rent(newveh, Cache.PlayerCache.MyPlayer.User.FullName);
                 BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", vehlav.ToJson());
             };
             Barche.Visible = true;

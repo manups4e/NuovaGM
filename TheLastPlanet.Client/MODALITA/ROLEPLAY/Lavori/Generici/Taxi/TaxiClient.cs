@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
+﻿using Settings.Shared.Roleplay.Jobs.Generici;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +22,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 
         public static void Init()
         {
-            taxi = Client.Impostazioni.RolePlay.Lavori.Generici.Tassista;
+            taxi = Client.Impostazioni.RolePlay.Jobs.Generics.Tassista;
             AccessingEvents.OnRoleplaySpawn += Eccolo;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             TickController.TickAPiedi.Add(Markers);

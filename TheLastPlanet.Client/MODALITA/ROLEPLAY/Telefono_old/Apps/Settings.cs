@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 
         public Settings(Phone phone) : base(GetLabelText("CELL_16"), 24, phone)
         {
-            numero = Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.phoneNumber.ToString();
+            numero = Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.PhoneNumber.ToString();
         }
 
         public override async Task Tick()

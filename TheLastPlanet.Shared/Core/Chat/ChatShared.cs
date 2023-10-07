@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 #if SERVER
 
@@ -47,8 +46,8 @@ namespace TheLastPlanet.Shared
         public string rawCommand;
         public List<string> Args;
         public UserGroup Restriction;
-        public ModalitaServer Modalita;
-        public ChatCommand(string commandName, UserGroup minGroupAllowed, ModalitaServer mode, Delegate handler)
+        public ServerMode Modalita;
+        public ChatCommand(string commandName, UserGroup minGroupAllowed, ServerMode mode, Delegate handler)
         {
             CommandName = commandName;
             Restriction = minGroupAllowed;

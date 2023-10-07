@@ -47,15 +47,15 @@ namespace TheLastPlanet.Client.Telefono.Apps
             {
                 foreach (ContactsSubMenuItem subMenu in MenuContatti)
                     Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, MenuContatti.IndexOf(subMenu), subMenu.Icon, "~l~" + subMenu.Name);
-                if (SelectedItem < Phone.getCurrentCharPhone().contatti.Count)
+                if (SelectedItem < Phone.getCurrentCharPhone().Contacts.Count)
                     if (!String.IsNullOrEmpty(CurrentSubMenu.Name))
                         appName = CurrentSubMenu.Name;
             }
             else
             {
-                foreach (Contatto contatto in Phone.getCurrentCharPhone().contatti)
+                foreach (Contatto contatto in Phone.getCurrentCharPhone().Contacts)
                 {
-                    Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
+                    Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().Contacts.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
                 }
             }
 
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
                     if (CurrentSubMenu != null)
                         SelectedItem = MenuContatti.Count - 1;
                     else
-                        SelectedItem = Phone.getCurrentCharPhone().contatti.Count - 1;
+                        SelectedItem = Phone.getCurrentCharPhone().Contacts.Count - 1;
                 }
             }
             else if (Input.IsControlJustPressed(Control.PhoneDown))
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
                 MoveFinger(2);
                 if (CurrentSubMenu == null)
                 {
-                    if (SelectedItem < Phone.getCurrentCharPhone().contatti.Count - 1)
+                    if (SelectedItem < Phone.getCurrentCharPhone().Contacts.Count - 1)
                         SelectedItem += 1;
                     else
                         SelectedItem = 0;
@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
                 MoveFinger(5);
                 if (CurrentSubMenu == null)
                 {
-                    CurrentSubMenu = Phone.getCurrentCharPhone().contatti[SelectedItem];
+                    CurrentSubMenu = Phone.getCurrentCharPhone().Contacts[SelectedItem];
                     //					SelectedItem = 0;
                     if ((CurrentSubMenu.Name == "Polizia" || CurrentSubMenu.Name == "Medico" || CurrentSubMenu.Name == "Meccanico" || CurrentSubMenu.Name == "Taxi" || CurrentSubMenu.Name == "Concessionario" || CurrentSubMenu.Name == "Agente Immobiliare" || CurrentSubMenu.Name == "Reporter") && !rimosso)
                     {
@@ -164,8 +164,8 @@ namespace TheLastPlanet.Client.Telefono.Apps
         {
             for (int i = start; i < end + 1; i++)
             {
-                Contatto contatto = Phone.getCurrentCharPhone().contatti[i];
-                Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
+                Contatto contatto = Phone.getCurrentCharPhone().Contacts[i];
+                Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().Contacts.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
                 /*
 				BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");
 				ScaleformMovieMethodAddParamInt(2);
@@ -186,7 +186,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 
         private void SetContactRow(Contatto contatto)
         {
-            Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
+            Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().Contacts.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
             /*
 			BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");
 			ScaleformMovieMethodAddParamInt(2);

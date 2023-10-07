@@ -1,6 +1,4 @@
-﻿using CitizenFX.Core.Native;
-
-namespace TheLastPlanet.Shared
+﻿namespace TheLastPlanet.Shared
 {
     public enum TimerType
     {
@@ -18,7 +16,7 @@ namespace TheLastPlanet.Shared
         {
             get
             {
-                var await = _awaitable;
+                long await = _awaitable;
                 switch (timerType)
                 {
                     case TimerType.Milliseconds:
@@ -31,7 +29,7 @@ namespace TheLastPlanet.Shared
                         await = _awaitable * 1000 * 60;
                         break;
                 }
-                bool passed = API.GetGameTimer() - Timer > await;
+                bool passed = GetGameTimer() - Timer > await;
                 if (passed) ResetTimer();
                 return passed;
             }
@@ -46,7 +44,7 @@ namespace TheLastPlanet.Shared
 
         public void ResetTimer()
         {
-            Timer = API.GetGameTimer();
+            Timer = GetGameTimer();
         }
     }
 }

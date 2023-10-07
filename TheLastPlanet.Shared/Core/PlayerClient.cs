@@ -171,7 +171,7 @@ namespace TheLastPlanet.Shared
     {
         public PlayerStates PlayerStates { get; set; }
         public RPStates RolePlayStates { get; set; }
-        public InstanceBags Istanza { get; set; }
+        public InstanceBags Instance { get; set; }
         public FreeRoamStates FreeRoamStates { get; set; }
 
         public Status(Player player)
@@ -179,43 +179,43 @@ namespace TheLastPlanet.Shared
             PlayerStates = new(player, "PlayerStates");
             RolePlayStates = new(player, "RolePlayStates");
             FreeRoamStates = new(player, "FreeRoamStates");
-            Istanza = new(player, "PlayerInstance");
+            Instance = new(player, "PlayerInstance");
         }
 
         public void Clear()
         {
-            PlayerStates.Modalita = ModalitaServer.Lobby;
+            PlayerStates.Mode = ServerMode.Lobby;
             PlayerStates.Spawned = false;
-            PlayerStates.InVeicolo = false;
-            PlayerStates.InPausa = false;
-            PlayerStates.AdminSpecta = false;
+            PlayerStates.InVehicle = false;
+            PlayerStates.Paused = false;
+            PlayerStates.AdminSpectating = false;
             PlayerStates.Wanted = false;
-            RolePlayStates.InCasa = false;
-            RolePlayStates.Svenuto = false;
-            RolePlayStates.InServizio = false;
-            RolePlayStates.Ammanettato = false;
-            RolePlayStates.FinDiVita = false;
-            Istanza.RimuoviIstanza();
+            RolePlayStates.InHome = false;
+            RolePlayStates.Fainted = false;
+            RolePlayStates.OnDuty = false;
+            RolePlayStates.Cuffed = false;
+            RolePlayStates.Dying = false;
+            Instance.RimuoviIstanza();
         }
 
         public void Load()
         {
-            PlayerStates.Modalita = PlayerStates._modalita.State;
+            PlayerStates.Mode = PlayerStates._mode.State;
             PlayerStates.Spawned = PlayerStates._spawned.State;
-            PlayerStates.InVeicolo = PlayerStates._inVeicolo.State;
-            PlayerStates.InPausa = PlayerStates._inPausa.State;
-            PlayerStates.AdminSpecta = PlayerStates._adminSpecta.State;
+            PlayerStates.InVehicle = PlayerStates._inVeh.State;
+            PlayerStates.Paused = PlayerStates._paused.State;
+            PlayerStates.AdminSpectating = PlayerStates._adminSpectating.State;
             PlayerStates.Wanted = PlayerStates._wanted.State;
-            RolePlayStates.InCasa = RolePlayStates._inCasa.State;
-            RolePlayStates.Svenuto = RolePlayStates._svenuto.State;
-            RolePlayStates.InServizio = RolePlayStates._inServizio.State;
-            RolePlayStates.Ammanettato = RolePlayStates._ammanettato.State;
-            RolePlayStates.FinDiVita = RolePlayStates._finDiVita.State;
-            InstanceBag p = Istanza._instanceBag.State;
-            Istanza.Stanziato = p.Stanziato;
-            Istanza.ServerIdProprietario = p.ServerIdProprietario;
-            Istanza.IsProprietario = p.IsProprietario;
-            Istanza.Instance = p.Instance;
+            RolePlayStates.InHome = RolePlayStates._inHome.State;
+            RolePlayStates.Fainted = RolePlayStates._fainted.State;
+            RolePlayStates.OnDuty = RolePlayStates._onDuty.State;
+            RolePlayStates.Cuffed = RolePlayStates._cuffed.State;
+            RolePlayStates.Dying = RolePlayStates._dying.State;
+            InstanceBag p = Instance._instanceBag.State;
+            Instance.Instanced = p.Instanced;
+            Instance.ServerIdOwner = p.ServerIdOwner;
+            Instance.IsOwner = p.IsOwner;
+            Instance.Instance = p.Instance;
         }
     }
 }

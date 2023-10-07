@@ -1,13 +1,13 @@
 namespace TheLastPlanet.Shared
 {
-    public enum ModalitaServer
+    public enum ServerMode
     {
         UNKNOWN = -1,
         Lobby,
         Roleplay,
-        Minigiochi,
-        Gare,
-        Negozio,
+        Minigames,
+        Races,
+        Store,
         FreeRoam
     }
 }

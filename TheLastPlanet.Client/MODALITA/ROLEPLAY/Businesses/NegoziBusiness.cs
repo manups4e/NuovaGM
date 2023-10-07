@@ -1,4 +1,4 @@
-﻿using Impostazioni.Client.Configurazione.Negozi.Generici;
+﻿using Settings.Client.Configurazione.Negozi.Generici;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,58 +31,58 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
         {
             KeyValuePair<string, string> neg = Main.Textures[tipo];
             string description = "";
-            List<OggettoVendita> oggettiDaAggiungere = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.shared;
+            List<ItemSell> oggettiDaAggiungere = Client.Impostazioni.RolePlay.Shops.GenericShops.ItemsToSell.Shared;
 
             switch (tipo)
             {
                 case "247":
                     description = "Aperti 24/7!";
-                    Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettiDaAggiungere.Add(x));
+                    Client.Impostazioni.RolePlay.Shops.GenericShops.ItemsToSell.Tfs.ForEach(x => oggettiDaAggiungere.Add(x));
 
                     break;
                 case "ltd":
                     description = "Non è mica infinita!";
-                    Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettiDaAggiungere.Add(x));
+                    Client.Impostazioni.RolePlay.Shops.GenericShops.ItemsToSell.Ltd.ForEach(x => oggettiDaAggiungere.Add(x));
 
                     break;
                 case "rq":
                     description = "I liquori migliori!";
-                    Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettiDaAggiungere.Add(x));
+                    Client.Impostazioni.RolePlay.Shops.GenericShops.ItemsToSell.Rq.ForEach(x => oggettiDaAggiungere.Add(x));
 
                     break;
             }
 
             UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
 
-            foreach (OggettoVendita ogg in oggettiDaAggiungere)
+            foreach (ItemSell ogg in oggettiDaAggiungere)
             {
-                UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
-                if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.prezzo || Cache.PlayerCache.MyPlayer.User.Bank >= ogg.prezzo)
-                    oggetto.SetRightLabel($"~g~${ogg.prezzo}");
+                UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generics.ItemList[ogg.Object].label, "");
+                if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.Price || Cache.PlayerCache.MyPlayer.User.Bank >= ogg.Price)
+                    oggetto.SetRightLabel($"~g~${ogg.Price}");
                 else
-                    oggetto.SetRightLabel($"~r~${ogg.prezzo}");
+                    oggetto.SetRightLabel($"~r~${ogg.Price}");
                 Negozio.AddItem(oggetto);
             }
 
             Negozio.OnItemSelect += (menu, item, index) =>
             {
-                string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Label).Key;
+                string nome = ConfigShared.SharedConfig.Main.Generics.ItemList.FirstOrDefault(x => x.Value.label == item.Label).Key;
 
                 if (!string.IsNullOrEmpty(nome))
                 {
-                    OggettoVendita ogg = oggettiDaAggiungere.FirstOrDefault(x => x.oggetto == nome);
+                    ItemSell ogg = oggettiDaAggiungere.FirstOrDefault(x => x.Object == nome);
 
-                    if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.prezzo)
+                    if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.Price)
                     {
-                        BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
-                        BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
+                        BaseScript.TriggerServerEvent("lprp:removemoney", ogg.Price);
+                        BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.Object, 1, 1f);
                     }
                     else
                     {
-                        if (Cache.PlayerCache.MyPlayer.User.Bank >= ogg.prezzo)
+                        if (Cache.PlayerCache.MyPlayer.User.Bank >= ogg.Price)
                         {
-                            BaseScript.TriggerServerEvent("lprp:removebank", ogg.prezzo);
-                            BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
+                            BaseScript.TriggerServerEvent("lprp:removebank", ogg.Price);
+                            BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.Object, 1, 1f);
                         }
                         else
                         {

@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Configurazione.Generici;
+﻿using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static async void LoadModel()
         {
-            uint hash = PlayerCache.MyPlayer.User.CurrentChar.Skin.model;
+            uint hash = PlayerCache.MyPlayer.User.CurrentChar.Skin.Model;
             RequestModel(hash);
             while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
             SetPlayerModel(PlayerId(), hash);
@@ -128,17 +128,17 @@ namespace TheLastPlanet.Client.Core.Utility
             Screen.Fading.FadeOut(800);
             while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
             Main.RespawnPed(PlayerCache.MyPlayer.Posizione);
-            if (PlayerCache.MyPlayer.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
+            if (PlayerCache.MyPlayer.Status.PlayerStates.Mode == ServerMode.Roleplay)
             {
                 StatsNeeds.Needs["Fame"].Val = 0.0f;
                 StatsNeeds.Needs["Sete"].Val = 0.0f;
                 StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
-                PlayerCache.MyPlayer.User.CurrentChar.Needs.Malattia = false;
-                Needs nee = new() { Fame = StatsNeeds.Needs["Fame"].Val, Sete = StatsNeeds.Needs["Sete"].Val, Stanchezza = StatsNeeds.Needs["Stanchezza"].Val, Malattia = PlayerCache.MyPlayer.User.CurrentChar.Needs.Malattia };
+                PlayerCache.MyPlayer.User.CurrentChar.Needs.Sickness = false;
+                Needs nee = new() { Hunger = StatsNeeds.Needs["Fame"].Val, Thirst = StatsNeeds.Needs["Sete"].Val, Tiredness = StatsNeeds.Needs["Stanchezza"].Val, Sickness = PlayerCache.MyPlayer.User.CurrentChar.Needs.Sickness };
                 PlayerCache.MyPlayer.User.CurrentChar.Needs = nee;
-                PlayerCache.MyPlayer.User.CurrentChar.is_dead = false;
+                PlayerCache.MyPlayer.User.CurrentChar.Is_dead = false;
                 BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
-                PlayerCache.MyPlayer.Status.RolePlayStates.FinDiVita = false;
+                PlayerCache.MyPlayer.Status.RolePlayStates.Dying = false;
                 Death.endConteggio();
             }
             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());
@@ -183,15 +183,15 @@ namespace TheLastPlanet.Client.Core.Utility
 
                 for (int i = 0; i < weaps.Count; i++)
                 {
-                    string weaponName = weaps[i].name;
+                    string weaponName = weaps[i].Name;
                     uint weaponHash = Funzioni.HashUint(weaponName);
-                    int tint = weaps[i].tint;
+                    int tint = weaps[i].Tint;
                     PlayerCache.MyPlayer.Ped.Weapons.Give((WeaponHash)weaponHash, 0, false, false);
                     int ammoType = GetPedAmmoTypeFromWeapon(PlayerPedId(), weaponHash);
 
-                    if (weaps[i].components.Count > 0)
+                    if (weaps[i].Components.Count > 0)
                     {
-                        foreach (Components weaponComponent in weaps[i].components)
+                        foreach (Components weaponComponent in weaps[i].Components)
                         {
                             uint componentHash = Funzioni.HashUint(weaponComponent.name);
                             if (weaponComponent.active) GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
@@ -200,7 +200,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
                     SetPedWeaponTintIndex(PlayerPedId(), weaponHash, tint);
                     if (ammoTypes.ContainsKey(ammoType)) continue;
-                    AddAmmoToPed(PlayerPedId(), weaponHash, weaps[i].ammo);
+                    AddAmmoToPed(PlayerPedId(), weaponHash, weaps[i].Ammo);
                     ammoTypes[ammoType] = true;
                 }
             }

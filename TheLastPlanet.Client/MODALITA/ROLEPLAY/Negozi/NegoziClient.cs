@@ -1,4 +1,4 @@
-﻿using Impostazioni.Client.Configurazione.Negozi.Generici;
+﻿using Settings.Client.Configurazione.Negozi.Generici;
 using System;
 using System.Collections.Generic;
 using TheLastPlanet.Client.Handlers;
@@ -9,7 +9,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
     internal static class NegoziClient
     {
-        private static ConfigNegoziGenerici NegoziGenerici;
+        private static ConfigGenericShops NegoziGenerici;
         private static List<InputController> tfsInputs = new();
         private static List<InputController> rqInputs = new();
         private static List<InputController> ltdInputs = new();
@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             AccessingEvents.OnRoleplaySpawn += NegoziSpawn;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
-            NegoziGenerici = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici;
+            NegoziGenerici = Client.Impostazioni.RolePlay.Shops.GenericShops;
         }
 
         public static void onPlayerLeft(PlayerClient client)
@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         public static void NegoziSpawn(PlayerClient client)
         {
-            foreach (Vector3 v in NegoziGenerici.tfs)
+            foreach (Vector3 v in NegoziGenerici.Tfs)
             {
                 Blip bliptfs = World.CreateBlip(v);
                 bliptfs.Sprite = BlipSprite.Store;
@@ -50,11 +50,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 bliptfs.Color = BlipColor.Green;
                 bliptfs.IsShortRange = true;
                 bliptfs.Name = "24/7";
-                tfsInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(tfs)));
+                tfsInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ServerMode.Roleplay, action: new Action<Ped, object[]>(tfs)));
                 blips.Add(bliptfs);
             }
 
-            foreach (Vector3 v in NegoziGenerici.rq)
+            foreach (Vector3 v in NegoziGenerici.Rq)
             {
                 Blip bliptrq = World.CreateBlip(v);
                 bliptrq.Sprite = BlipSprite.Store;
@@ -63,11 +63,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 bliptrq.Color = BlipColor.Green;
                 bliptrq.IsShortRange = true;
                 bliptrq.Name = "Robs Liquor";
-                rqInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(rq)));
+                rqInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ServerMode.Roleplay, action: new Action<Ped, object[]>(rq)));
                 blips.Add(bliptrq);
             }
 
-            foreach (Vector3 v in NegoziGenerici.ltd)
+            foreach (Vector3 v in NegoziGenerici.Ltd)
             {
                 Blip blipltd = World.CreateBlip(v);
                 blipltd.Sprite = BlipSprite.Store;
@@ -76,11 +76,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 blipltd.Color = BlipColor.Green;
                 blipltd.IsShortRange = true;
                 blipltd.Name = "Limited Gasoline";
-                ltdInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(ltd)));
+                ltdInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ServerMode.Roleplay, action: new Action<Ped, object[]>(ltd)));
                 blips.Add(blipltd);
             }
 
-            foreach (Vector3 v in NegoziGenerici.armerie)
+            foreach (Vector3 v in NegoziGenerici.WeaponShops)
             {
                 Blip bliparmi = World.CreateBlip(v);
                 bliparmi.Sprite = BlipSprite.AmmuNation;
@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 bliparmi.Color = BlipColor.Green;
                 bliparmi.IsShortRange = true;
                 bliparmi.Name = "Armeria";
-                armerieInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(Armerie.NuovaArmeria)));
+                armerieInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", new((MarkerType)(-1), v.ToPosition(), SColor.Transparent), ServerMode.Roleplay, action: new Action<Ped, object[]>(Armerie.NuovaArmeria)));
                 blips.Add(bliparmi);
             }
 

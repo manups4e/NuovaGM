@@ -6,7 +6,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
     static class Crouch
     {
         public static bool IsCrouching { get; set; }
-        private static InputController crouchInput = new InputController(Control.Duck, ModalitaServer.Roleplay, action: new Action<Ped>(Crouching));
+        private static InputController crouchInput = new InputController(Control.Duck, ServerMode.Roleplay, action: new Action<Ped>(Crouching));
 
         public static void Init()
         {

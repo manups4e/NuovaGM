@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
-using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    
+
     public class Rank
     {
         private readonly int _a = 25;
         private readonly int _b = 23575;
         private readonly int _c = -1023150;
         private readonly int _x = (int)Math.Floor(-23575 / 50f);
+        // each rank is 800 units.. a better solution to check for level upgrading is to simply check "value % 800 == 0"
         private List<int> Ranks = new List<int>()
         {
             0,
@@ -124,7 +124,7 @@ namespace TheLastPlanet.Shared
                 else if (exp < Ranks[i])
                     return i - 1;
 
-            var d = _b ^ 2 - 4 * _a * (_c - exp);
+            int d = _b ^ 2 - 4 * _a * (_c - exp);
             if (d == 0)
                 return _x;
             if (d > 0)

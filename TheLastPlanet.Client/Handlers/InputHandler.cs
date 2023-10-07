@@ -75,7 +75,7 @@ namespace TheLastPlanet.Client.Handlers
                 {
                     try
                     {
-                        if (input.Modalita != ModalitaServer.UNKNOWN && input.Modalita != Cache.PlayerCache.ModalitàAttuale) continue;
+                        if (input.Modalita != ServerMode.UNKNOWN && input.Modalita != Cache.PlayerCache.ModalitàAttuale) continue;
                         if (input.Position != Position.Zero || input.Marker != null || input.InputMessage != null)
                         {
                             if (p.IsInRangeOf(input.Position.ToVector3, 100f)) // big range personalizzato sennò default 50f

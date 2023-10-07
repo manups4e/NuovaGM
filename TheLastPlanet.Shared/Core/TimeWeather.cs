@@ -1,9 +1,8 @@
 ﻿using System;
-using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    
+
     public class ServerTime
     {
         public TimeSpan TimeOfDay { get; set; }
@@ -12,7 +11,7 @@ namespace TheLastPlanet.Shared
         public bool Frozen { get; set; }
     }
 
-    
+
     public class SharedWeather
     {
         public int CurrentWeather { get; set; }

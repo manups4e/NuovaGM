@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
         }
         public static async Task Mappina()
         {
-            var InPausa = PlayerCache.MyPlayer.Status.PlayerStates.InPausa;
+            var InPausa = PlayerCache.MyPlayer.Status.PlayerStates.Paused;
             if ((InPausa || MenuHandler.IsAnyPauseMenuOpen) && !wasmenuopen)
             {
                 PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 
-using TheLastPlanet.Shared.Veicoli;
+using TheLastPlanet.Shared.Vehicles;
 
 namespace TheLastPlanet.Server.Veicoli
 {
@@ -32,9 +32,9 @@ namespace TheLastPlanet.Server.Veicoli
                 List<OwnedVehicle> ownedVehicles = new();
                 foreach (var v in vehs)
                     ownedVehicles.Add(new(v.targa, v.vehicle_data, v.garage, v.stato));
-                foreach (var veh in ownedVehicles) player.GetCurrentChar().CurrentChar.Veicoli.Add(veh);
+                foreach (var veh in ownedVehicles) player.GetCurrentChar().CurrentChar.Vehicles.Add(veh);
 
-                return player.GetCurrentChar().CurrentChar.Veicoli;
+                return player.GetCurrentChar().CurrentChar.Vehicles;
             }));
         }
 
@@ -64,16 +64,16 @@ namespace TheLastPlanet.Server.Veicoli
 
         private static async void InGarage([FromSource] Player p, string plate, bool inGarage, string props)
         {
-            p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.InGarage = inGarage;
+            p.GetCurrentChar().CurrentChar.Vehicles.FirstOrDefault(x => x.Plate == plate).Garage.InGarage = inGarage;
 
             if (inGarage)
             {
-                p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props = props.FromJson<VehProp>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
-                await Server.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.ToJson(), dat = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes), t = plate });
+                p.GetCurrentChar().CurrentChar.Vehicles.FirstOrDefault(x => x.Plate == plate).VehData.Props = props.FromJson<VehProp>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
+                await Server.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Vehicles.FirstOrDefault(x => x.Plate == plate).Garage.ToJson(), dat = p.GetCurrentChar().CurrentChar.Vehicles.FirstOrDefault(x => x.Plate == plate).VehData.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes), t = plate });
             }
             else
             {
-                await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.ToJson(), t = plate });
+                await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Vehicles.FirstOrDefault(x => x.Plate == plate).Garage.ToJson(), t = plate });
             }
 
             //p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.ToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);

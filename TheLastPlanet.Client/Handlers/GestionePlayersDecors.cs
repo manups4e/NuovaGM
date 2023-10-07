@@ -19,7 +19,7 @@ namespace TheLastPlanet.Client
             {
                 var client = Funzioni.GetPlayerClientFromServerId(userId);
                 if (client == null || client.User == null || !client.Status.PlayerStates.Spawned) return;
-                if (!value.Stanziato)
+                if (!value.Instanced)
                 {
                     if (NetworkIsPlayerConcealed(client.Player.Handle))
                         NetworkConcealPlayer(client.Player.Handle, false, false);
@@ -27,16 +27,16 @@ namespace TheLastPlanet.Client
                 }
                 if (value.Instance != string.Empty)
                 {
-                    if (value.ServerIdProprietario != 0 || PlayerCache.MyPlayer.Status.Istanza.ServerIdProprietario != 0)
+                    if (value.ServerIdOwner != 0 || PlayerCache.MyPlayer.Status.Instance.ServerIdOwner != 0)
                     {
-                        if (value.ServerIdProprietario != PlayerCache.MyPlayer.Player.ServerId && PlayerCache.MyPlayer.Status.Istanza.ServerIdProprietario != client.Handle)
+                        if (value.ServerIdOwner != PlayerCache.MyPlayer.Player.ServerId && PlayerCache.MyPlayer.Status.Instance.ServerIdOwner != client.Handle)
                         {
                             if (!NetworkIsPlayerConcealed(client.Player.Handle))
                                 NetworkConcealPlayer(client.Player.Handle, true, true);
                         }
                         else
                         {
-                            if (value.ServerIdProprietario == PlayerCache.MyPlayer.Player.ServerId || PlayerCache.MyPlayer.Player.ServerId == value.ServerIdProprietario)
+                            if (value.ServerIdOwner == PlayerCache.MyPlayer.Player.ServerId || PlayerCache.MyPlayer.Player.ServerId == value.ServerIdOwner)
                                 if (NetworkIsPlayerConcealed(client.Player.Handle))
                                     NetworkConcealPlayer(client.Player.Handle, false, false);
                         }

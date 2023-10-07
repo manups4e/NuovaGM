@@ -139,7 +139,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
         public static void onPlayerDeath(DatiMorte morte)
         {
-            PlayerCache.MyPlayer.Status.RolePlayStates.FinDiVita = true;
+            PlayerCache.MyPlayer.Status.RolePlayStates.Dying = true;
             Main.IsDead = true;
             BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
             StartScreenEffect("DeathFailOut", 0, false);
@@ -202,7 +202,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.EarlySpawnTimer);
             BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.BleedoutTimer);
             BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
-            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.FinDiVita = true;
+            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.Dying = true;
             Main.IsDead = true;
             if (EarlyRespawn)
                 if (EarlyRespawnFine)
@@ -326,7 +326,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             Screen.Effects.Stop(ScreenEffect.DeathFailOut);
             Screen.Fading.FadeIn(800);
             BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
-            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.FinDiVita = false;
+            Cache.PlayerCache.MyPlayer.Status.RolePlayStates.Dying = false;
         }
 
         // -- AGGIUNGERE CONTROLLO PER PARTI DEL CORPO DANNEGGIATE E ARMI DA FUOCO

@@ -96,14 +96,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
             if (overwriteAlpha) curAlpha = 0;
 
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.SeatIndex == VehicleSeat.Driver)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle && playerPed.SeatIndex == VehicleSeat.Driver)
             {
                 if (curAlpha >= 255)
                     curAlpha = 255;
                 else
                     curAlpha += 5;
             }
-            else if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            else if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 if (curAlpha <= 0)
                     curAlpha = 0;
@@ -308,7 +308,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
         public static void NUIBuckled(bool value)
         {
-            Client.Instance.NuiManager.SendMessage("buckle:seatbelts", new { transactionValue = value, inCar = Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo });
+            Client.Instance.NuiManager.SendMessage("buckle:seatbelts", new { transactionValue = value, inCar = Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle });
         }
 
         private static float[] ForwardVelocity(int ent)

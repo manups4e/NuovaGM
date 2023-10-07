@@ -7,15 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Client", "The
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Server", "TheLastPlanet.Server\TheLastPlanet.Server.csproj", "{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Client", "Impostazioni.Client\Impostazioni.Client.shproj", "{6E4A0DEF-350B-4F68-A5C2-B77C5F0F95CB}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.Client", "Impostazioni.Client\Settings.Client.shproj", "{6E4A0DEF-350B-4F68-A5C2-B77C5F0F95CB}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Server", "Impostazioni.Server\Impostazioni.Server.shproj", "{032B03AD-3A70-4C81-8EC5-3BEBA0F69BBE}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.Server", "Impostazioni.Server\Settings.Server.shproj", "{032B03AD-3A70-4C81-8EC5-3BEBA0F69BBE}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Shared", "Impostazioni.Shared\Impostazioni.Shared.shproj", "{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.Shared", "Impostazioni.Shared\Settings.Shared.shproj", "{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Impostazioni", "Impostazioni", "{95A5FB57-0877-466C-AEF9-7B0693FFCE05}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Settings", "Settings", "{95A5FB57-0877-466C-AEF9-7B0693FFCE05}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Condiviso", "Condiviso", "{5FCCD1FE-371D-4C56-944B-3C7F64E58C82}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{5FCCD1FE-371D-4C56-944B-3C7F64E58C82}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TheLastPlanet.Shared", "TheLastPlanet.Shared\TheLastPlanet.Shared.shproj", "{5D0E5616-DB3C-414A-BB2E-F21930E804CA}"
 EndProject

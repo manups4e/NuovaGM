@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Configurazione.Generici;
+﻿using Settings.Shared.Config.Generic;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
@@ -33,7 +33,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 
             if (PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerCache.MyPlayer.Ped.Handle, true, false);
             var apos = PlayerCache.MyPlayer.Ped.Position;
-            var rpos = roamchar.Posizione;
+            var rpos = roamchar.Position;
 
             if (rpos is null)
                 rpos = Position.Zero; // TODO: DA SOSTITUIRE
@@ -56,14 +56,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             await BaseScript.Delay(2000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 
-            if (PlayerCache.MyPlayer.User.FreeRoamChar.Posizione is null)
+            if (PlayerCache.MyPlayer.User.FreeRoamChar.Position is null)
             {
                 PlayerCache.MyPlayer.Ped.Position = new Vector3(0, 0, 0);
             }
             else
             {
-                RequestCollisionAtCoord(PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.X, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Y, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Z);
-                PlayerCache.MyPlayer.Ped.Position = (await PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.GetPositionWithGroundZ()).ToVector3;
+                RequestCollisionAtCoord(PlayerCache.MyPlayer.User.FreeRoamChar.Position.X, PlayerCache.MyPlayer.User.FreeRoamChar.Position.Y, PlayerCache.MyPlayer.User.FreeRoamChar.Position.Z);
+                PlayerCache.MyPlayer.Ped.Position = (await PlayerCache.MyPlayer.User.FreeRoamChar.Position.GetPositionWithGroundZ()).ToVector3;
             }
 
             // CARICAMENTO PROPRIETA'
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 
         public static async Task LoadChar()
         {
-            uint model = PlayerCache.MyPlayer.User.FreeRoamChar.Skin.model;
+            uint model = PlayerCache.MyPlayer.User.FreeRoamChar.Skin.Model;
             while (!await PlayerCache.MyPlayer.Player.ChangeModel(new Model((PedHash)model))) await BaseScript.Delay(0);
 
             Funzioni.UpdateFace(PlayerCache.MyPlayer.Ped.Handle, PlayerCache.MyPlayer.User.FreeRoamChar.Skin);
@@ -105,14 +105,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 
                 for (int i = 0; i < weaps.Count; i++)
                 {
-                    string weaponName = weaps[i].name;
+                    string weaponName = weaps[i].Name;
                     uint weaponHash = Funzioni.HashUint(weaponName);
-                    int tint = weaps[i].tint;
+                    int tint = weaps[i].Tint;
                     PlayerCache.MyPlayer.Ped.Weapons.Give((WeaponHash)weaponHash, 0, false, false);
                     int ammoType = GetPedAmmoTypeFromWeapon(PlayerPedId(), weaponHash);
 
-                    if (weaps[i].components.Count > 0)
-                        foreach (Components weaponComponent in weaps[i].components)
+                    if (weaps[i].Components.Count > 0)
+                        foreach (Components weaponComponent in weaps[i].Components)
                         {
                             uint componentHash = Funzioni.HashUint(weaponComponent.name);
                             if (weaponComponent.active) GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
                     SetPedWeaponTintIndex(PlayerPedId(), weaponHash, tint);
 
                     if (ammoTypes.ContainsKey(ammoType)) continue;
-                    AddAmmoToPed(PlayerPedId(), weaponHash, weaps[i].ammo);
+                    AddAmmoToPed(PlayerPedId(), weaponHash, weaps[i].Ammo);
                     ammoTypes[ammoType] = true;
                 }
             }

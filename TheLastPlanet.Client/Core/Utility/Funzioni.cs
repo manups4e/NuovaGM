@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 
-using TheLastPlanet.Shared.Veicoli;
+using TheLastPlanet.Shared.Vehicles;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -158,53 +158,53 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static void UpdateFace(int Handle, Skin skin)
         {
-            SetPedHeadBlendData(Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
-            SetPedHeadOverlay(Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
-            SetPedHeadOverlay(Handle, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
-            SetPedHeadOverlayColor(Handle, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
-            SetPedHeadOverlay(Handle, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
-            SetPedHeadOverlayColor(Handle, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
-            SetPedHeadOverlay(Handle, 3, skin.ageing.style, skin.ageing.opacity);
-            SetPedHeadOverlay(Handle, 4, skin.makeup.style, skin.makeup.opacity);
-            SetPedHeadOverlay(Handle, 5, skin.blusher.style, skin.blusher.opacity);
-            SetPedHeadOverlayColor(Handle, 5, 2, skin.blusher.color[0], skin.blusher.color[1]);
-            SetPedHeadOverlay(Handle, 6, skin.complexion.style, skin.complexion.opacity);
-            SetPedHeadOverlay(Handle, 7, skin.skinDamage.style, skin.skinDamage.opacity);
-            SetPedHeadOverlay(Handle, 8, skin.lipstick.style, skin.lipstick.opacity);
-            SetPedHeadOverlayColor(Handle, 8, 2, skin.lipstick.color[0], skin.lipstick.color[1]);
-            SetPedHeadOverlay(Handle, 9, skin.freckles.style, skin.freckles.opacity);
-            SetPedEyeColor(Handle, skin.eye.style);
-            SetPedComponentVariation(Handle, 2, skin.hair.style, 0, 0);
-            SetPedHairColor(Handle, skin.hair.color[0], skin.hair.color[1]);
-            SetPedPropIndex(Handle, 2, skin.ears.style, skin.ears.color, false);
-            for (int i = 0; i < skin.face.tratti.Length; i++) SetPedFaceFeature(Handle, i, skin.face.tratti[i]);
+            SetPedHeadBlendData(Handle, skin.Face.Mom, skin.Face.Dad, 0, skin.Face.Mom, skin.Face.Dad, 0, skin.Resemblance, skin.Skinmix, 0f, false);
+            SetPedHeadOverlay(Handle, 0, skin.Blemishes.Style, skin.Blemishes.Opacity);
+            SetPedHeadOverlay(Handle, 1, skin.FacialHair.Beard.Style, skin.FacialHair.Beard.Opacity);
+            SetPedHeadOverlayColor(Handle, 1, 1, skin.FacialHair.Beard.Color[0], skin.FacialHair.Beard.Color[1]);
+            SetPedHeadOverlay(Handle, 2, skin.FacialHair.Eyebrow.Style, skin.FacialHair.Eyebrow.Opacity);
+            SetPedHeadOverlayColor(Handle, 2, 1, skin.FacialHair.Eyebrow.Color[0], skin.FacialHair.Eyebrow.Color[1]);
+            SetPedHeadOverlay(Handle, 3, skin.Ageing.Style, skin.Ageing.Opacity);
+            SetPedHeadOverlay(Handle, 4, skin.Makeup.Style, skin.Makeup.Opacity);
+            SetPedHeadOverlay(Handle, 5, skin.Blusher.Style, skin.Blusher.Opacity);
+            SetPedHeadOverlayColor(Handle, 5, 2, skin.Blusher.Color[0], skin.Blusher.Color[1]);
+            SetPedHeadOverlay(Handle, 6, skin.Complexion.Style, skin.Complexion.Opacity);
+            SetPedHeadOverlay(Handle, 7, skin.SkinDamage.Style, skin.SkinDamage.Opacity);
+            SetPedHeadOverlay(Handle, 8, skin.Lipstick.Style, skin.Lipstick.Opacity);
+            SetPedHeadOverlayColor(Handle, 8, 2, skin.Lipstick.Color[0], skin.Lipstick.Color[1]);
+            SetPedHeadOverlay(Handle, 9, skin.Freckles.Style, skin.Freckles.Opacity);
+            SetPedEyeColor(Handle, skin.Eye.Style);
+            SetPedComponentVariation(Handle, 2, skin.Hair.Style, 0, 0);
+            SetPedHairColor(Handle, skin.Hair.Color[0], skin.Hair.Color[1]);
+            SetPedPropIndex(Handle, 2, skin.Ears.Style, skin.Ears.Color, false);
+            for (int i = 0; i < skin.Face.Traits.Length; i++) SetPedFaceFeature(Handle, i, skin.Face.Traits[i]);
         }
 
         public static void UpdateDress(int Handle, Dressing dress)
         {
-            if (dress.ComponentDrawables.Faccia != -1)
-                SetPedComponentVariation(Handle, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
+            if (dress.ComponentDrawables.Face != -1)
+                SetPedComponentVariation(Handle, (int)DrawableIndexes.Face, dress.ComponentDrawables.Face, dress.ComponentTextures.Face, 2);
 
-            if (dress.ComponentDrawables.Maschera != -1)
-                SetPedComponentVariation(Handle, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
+            if (dress.ComponentDrawables.Mask != -1)
+                SetPedComponentVariation(Handle, (int)DrawableIndexes.Mask, dress.ComponentDrawables.Mask, dress.ComponentTextures.Mask, 2);
 
             if (dress.ComponentDrawables.Torso != -1)
                 SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
 
-            if (dress.ComponentDrawables.Pantaloni != -1)
-                SetPedComponentVariation(Handle, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
+            if (dress.ComponentDrawables.Pants != -1)
+                SetPedComponentVariation(Handle, (int)DrawableIndexes.Pants, dress.ComponentDrawables.Pants, dress.ComponentTextures.Pants, 2);
 
-            if (dress.ComponentDrawables.Borsa_Paracadute != -1)
-                SetPedComponentVariation(Handle, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
+            if (dress.ComponentDrawables.Bag_Parachute != -1)
+                SetPedComponentVariation(Handle, (int)DrawableIndexes.Bag_Parachute, dress.ComponentDrawables.Bag_Parachute, dress.ComponentTextures.Bag_Parachute, 2);
 
-            if (dress.ComponentDrawables.Scarpe != -1)
-                SetPedComponentVariation(Handle, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
+            if (dress.ComponentDrawables.Shoes != -1)
+                SetPedComponentVariation(Handle, (int)DrawableIndexes.Shoes, dress.ComponentDrawables.Shoes, dress.ComponentTextures.Shoes, 2);
 
-            if (dress.ComponentDrawables.Accessori != -1)
-                SetPedComponentVariation(Handle, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
+            if (dress.ComponentDrawables.Accessories != -1)
+                SetPedComponentVariation(Handle, (int)DrawableIndexes.Accessories, dress.ComponentDrawables.Accessories, dress.ComponentTextures.Accessories, 2);
 
-            if (dress.ComponentDrawables.Sottomaglia != -1)
-                SetPedComponentVariation(Handle, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
+            if (dress.ComponentDrawables.Undershirt != -1)
+                SetPedComponentVariation(Handle, (int)DrawableIndexes.Undershirt, dress.ComponentDrawables.Undershirt, dress.ComponentTextures.Undershirt, 2);
 
             if (dress.ComponentDrawables.Kevlar != -1)
                 SetPedComponentVariation(Handle, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
@@ -215,18 +215,18 @@ namespace TheLastPlanet.Client.Core.Utility
             if (dress.ComponentDrawables.Torso_2 != -1)
                 SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
 
-            if (dress.PropIndices.Cappelli_Maschere == -1)
+            if (dress.PropIndices.Hats_masks == -1)
                 ClearPedProp(Handle, 0);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
-            if (dress.PropIndices.Orecchie == -1)
+                SetPedPropIndex(Handle, (int)PropIndexes.Hats_Masks, dress.PropIndices.Hats_masks, dress.PropTextures.Hats_masks, false);
+            if (dress.PropIndices.Ears == -1)
                 ClearPedProp(Handle, 2);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
-            if (dress.PropIndices.Occhiali_Occhi == -1)
+                SetPedPropIndex(Handle, (int)PropIndexes.Ears, dress.PropIndices.Ears, dress.PropTextures.Ears, false);
+            if (dress.PropIndices.Glasses == -1)
                 ClearPedProp(Handle, 1);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
+                SetPedPropIndex(Handle, (int)PropIndexes.Glasses, dress.PropIndices.Glasses, dress.PropTextures.Glasses, true);
             if (dress.PropIndices.Unk_3 == -1)
                 ClearPedProp(Handle, 3);
             else
@@ -239,14 +239,14 @@ namespace TheLastPlanet.Client.Core.Utility
                 ClearPedProp(Handle, 5);
             else
                 SetPedPropIndex(Handle, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
-            if (dress.PropIndices.Orologi == -1)
+            if (dress.PropIndices.Watches == -1)
                 ClearPedProp(Handle, 6);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
-            if (dress.PropIndices.Bracciali == -1)
+                SetPedPropIndex(Handle, (int)PropIndexes.Watches, dress.PropIndices.Watches, dress.PropTextures.Watches, true);
+            if (dress.PropIndices.Bracelets == -1)
                 ClearPedProp(Handle, 7);
             else
-                SetPedPropIndex(Handle, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
+                SetPedPropIndex(Handle, (int)PropIndexes.Bracelets, dress.PropIndices.Bracelets, dress.PropTextures.Bracelets, true);
             if (dress.PropIndices.Unk_8 == -1)
                 ClearPedProp(Handle, 8);
             else
@@ -513,7 +513,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
                 result.Position = coords;
 
-                if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
+                if (PlayerCache.ModalitàAttuale == ServerMode.Roleplay)
                 {
                     result.NeedsToBeHotwired = false;
                     result.RadioStation = RadioStation.RadioOff;
@@ -1586,6 +1586,6 @@ namespace TheLastPlanet.Client.Core.Utility
             }
         }
 
-        public static string GetSourceOfDeath(uint hash) { return ConfigShared.SharedConfig.Main.Generici.DeathReasons[hash]; }
+        public static string GetSourceOfDeath(uint hash) { return ConfigShared.SharedConfig.Main.Generics.DeathReasons[hash]; }
     }
 }

@@ -165,16 +165,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             Game.MaxWantedLevel = 0;
             SetCanAttackFriendly(playerPed.Handle, true, true);
             NetworkSetFriendlyFireOption(true);
-            AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.RolePlay.Main.NomeServer);
+            AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.RolePlay.Main.ServerName);
             scopedWeapons = Client.Impostazioni.RolePlay.Main.ScopedWeapons;
             passengerDriveBy = Client.Impostazioni.RolePlay.Main.PassengerDriveBy;
             kickWarning = Client.Impostazioni.RolePlay.Main.KickWarning;
-            recoils = Client.Impostazioni.RolePlay.Main.recoils;
-            pickupList = Client.Impostazioni.RolePlay.Main.pickupList;
+            recoils = Client.Impostazioni.RolePlay.Main.Recoils;
+            pickupList = Client.Impostazioni.RolePlay.Main.PickupList;
             BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
             BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
             SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-            client.Status.Istanza.RimuoviIstanza();
+            client.Status.Instance.RimuoviIstanza();
             playerPed.IsVisible = true;
             client.Status.PlayerStates.Spawned = true;
             spawned = client.Status.PlayerStates.Spawned;
@@ -188,7 +188,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
                 DateTime now = DateTime.Now;
                 BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + client.User.FullName + " e' spawnato morto poiché è sloggato da morto");
                 playerPed.Health = 0;
-                client.Status.RolePlayStates.FinDiVita = false;
+                client.Status.RolePlayStates.Dying = false;
             }
 
             //Peds();
@@ -380,7 +380,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             #region DriveBy
 
             if (gameTime - _timerDriveBy > 1000)
-                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                 {
                     if (p.SeatIndex == VehicleSeat.Driver)
                         SetPlayerCanDoDriveBy(pl.Handle, weapon.Hash == WeaponHash.Unarmed);

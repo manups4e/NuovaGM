@@ -1,6 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System;
-using System.Linq;
+﻿using System;
 
 namespace TheLastPlanet.Shared
 {
@@ -39,18 +37,18 @@ namespace TheLastPlanet.Shared
                     switch (key.ToLower())
                     {
                         case "orario":
-                            var time = (value as byte[]).FromBytes<ServerTime>();
+                            ServerTime time = (value as byte[]).FromBytes<ServerTime>();
                             OnTimeChange?.Invoke(time);
                             break;
                         case "meteo":
-                            var meteo = (value as byte[]).FromBytes<SharedWeather>();
+                            SharedWeather meteo = (value as byte[]).FromBytes<SharedWeather>();
                             OnWeatherChange?.Invoke(meteo);
                             break;
                     }
                 }
                 else
                 {
-                    var entType = bagName.Substring(0, bagName.IndexOf(':'));
+                    string entType = bagName.Substring(0, bagName.IndexOf(':'));
                     int userId = Convert.ToInt32(bagName.Substring(bagName.IndexOf(':') + 1));
 
                     //logger.Warning($"{bagName}, {key}, {value}, {_unused}, {replicated}");
@@ -62,23 +60,23 @@ namespace TheLastPlanet.Shared
                             if (userId == Game.Player.ServerId)
                                 player = PlayerCache.MyPlayer;
 #elif SERVER
-                                //player = Server.Server.Instance.Clients[userId];
+                            //player = Server.Server.Instance.Clients[userId];
 #endif
-                            var modeType = key.Contains(":") ? key.Substring(0, key.IndexOf(':')) : key;
-                            var state = key.Substring(key.IndexOf(':') + 1);
+                            string modeType = key.Contains(":") ? key.Substring(0, key.IndexOf(':')) : key;
+                            string state = key.Substring(key.IndexOf(':') + 1);
                             switch (modeType)
                             {
                                 case "PlayerStates":
                                     switch (state)
                                     {
-                                        case "ModPassiva":
+                                        case "PassiveMode":
                                             {
                                                 bool res = (value as byte[]).FromBytes<bool>();
                                                 OnPlayerStateBagChange?.Invoke(userId, state, res);
                                             }
                                             break;
-                                        case "InPausa":
-                                        case "InVeicolo":
+                                        case "Paused":
+                                        case "InVehicle":
                                         case "Spawned":
                                             {
                                                 bool res = (value as byte[]).FromBytes<bool>();
@@ -90,12 +88,12 @@ namespace TheLastPlanet.Shared
                                 case "RolePlayStates":
                                     switch (state)
                                     {
-                                        case "Svenuto":
-                                        case "Ammanettato":
-                                        case "InCasa":
-                                        case "InServizio":
-                                        case "FinDiVita":
-                                        case "InVeicolo":
+                                        case "Fainted":
+                                        case "Cuffed":
+                                        case "AtHome":
+                                        case "OnDuty":
+                                        case "Dying":
+                                        case "InVehicle":
                                             bool res = (value as byte[]).FromBytes<bool>();
                                             OnRoleplayStateBagChange?.Invoke(userId, state, res);
                                             break;
@@ -115,7 +113,7 @@ namespace TheLastPlanet.Shared
                 }
             }));
 
-            OnPlayerStateBagChange += (a,b, c) => logger.Debug($"OnPlayerStateBagChange => PlayerId:{a}, State:{b}, Value:{c}");
+            OnPlayerStateBagChange += (a, b, c) => logger.Debug($"OnPlayerStateBagChange => PlayerId:{a}, State:{b}, Value:{c}");
 
             OnRoleplayStateBagChange += (a, b, c) => logger.Debug($"OnRoleplayStateBagChange => PlayerId:{a}, State:{b}, Value:{c}");
 

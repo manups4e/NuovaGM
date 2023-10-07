@@ -1,32 +1,32 @@
-﻿using Impostazioni.Shared.Roleplay.Lavori;
-using Impostazioni.Shared.Roleplay.Lavori.Generici;
-using Impostazioni.Shared.Roleplay.Lavori.WhiteList;
+﻿using Settings.Shared.Roleplay.Jobs;
+using Settings.Shared.Roleplay.Jobs.Generici;
+using Settings.Shared.Roleplay.Jobs.WhiteList;
 using System.Collections.Generic;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
 {
     public class _ConfigPolizia
     {
-        public ConfigurazionePolizia Config = new ConfigurazionePolizia();
+        public PoliceSettings Config = new PoliceSettings();
         public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
     }
 
     public class _ConfigMedici
     {
-        public ConfigurazioneMedici Config = new ConfigurazioneMedici();
+        public MedicsSettings Config = new MedicsSettings();
         public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
     }
 
     public class _ConfigVenditoriAuto
     {
-        public ConfigurazioneVendAuto Config = new ConfigurazioneVendAuto();
+        public CarDealerSettings Config = new CarDealerSettings();
         public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
-        public Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
+        public Dictionary<string, List<VehiclesCatalog>> Catalogo = new Dictionary<string, List<VehiclesCatalog>>();
     }
 
     public class _ConfigVenditoriCase
     {
-        public ConfigurazioneVendCase Config = new ConfigurazioneVendCase();
+        public RealEstateSettings Config = new RealEstateSettings();
         public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
     }
 

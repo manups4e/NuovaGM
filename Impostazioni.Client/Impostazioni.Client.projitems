@@ -9,15 +9,15 @@
     <Import_RootNamespace>Impostazioni.Client</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)FreeRoam\ConfigPrincipaleFR.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FreeRoam\MainConfigFR.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FreeRoam\FreeRoamConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Main\MainClientConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\Abiti\Abiti.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\Abiti\Completo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\Barbieri\Barbieri.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\NegoziGenerici\NegoziGenerici.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Veicoli\ConfigVeicoli.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Veicoli\VehAffitto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Veicoli\Veicoli.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Shops\Clotheshops\Clothes.cs" />
+    <Compile Include="..\Impostazioni.Client\Roleplay\Shops\Clotheshops\Suit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Shops\Barbers\Barbers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Shops\GenericShops\GenericShops.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Vehicles\ConfigVehicles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Vehicles\VehicleRentClasses.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Vehicles\Vehicles.cs" />
   </ItemGroup>
 </Project>

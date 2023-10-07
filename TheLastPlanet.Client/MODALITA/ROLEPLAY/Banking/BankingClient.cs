@@ -118,7 +118,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
             Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
             Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
             Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
-            foreach (Position pos in _atmpos) atmInputs.Add(new InputController(Control.Context, pos, "Premi ~INPUT_CONTEXT~ per gestire il conto", new((MarkerType)(-1), pos, SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
+            foreach (Position pos in _atmpos) atmInputs.Add(new InputController(Control.Context, pos, "Premi ~INPUT_CONTEXT~ per gestire il conto", new((MarkerType)(-1), pos, SColor.Transparent), ServerMode.Roleplay, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
             InputHandler.AddInputList(atmInputs);
             AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using TheLastPlanet.Shared.Veicoli;
+using TheLastPlanet.Shared.Vehicles;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -61,7 +61,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         };
 
         private static string[] trainmodels = { "freight", "freightcar", "freightgrain", "freightcont1", "freightcont2", "freighttrailer", "tankercar", "metrotrain", "s_m_m_lsmetro_01" };
-        private static List<Treno> Trains = new List<Treno>();
+        private static List<Train> Trains = new List<Train>();
         private static List<Vector3> trainLocations = new List<Vector3>()
         {
             new Vector3(2606.0f, 2927.0f, 40.0f),

@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.Handlers
             // TICK POLIZIA \\
             TickPolizia.Add(PoliziaMainClient.MarkersPolizia);
             TickPolizia.Add(PoliziaMainClient.MainTickPolizia);
-            if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
+            if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
 
             // TICK MEDICI \\
             TickMedici.Add(MediciMainClient.MarkersMedici);
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.Handlers
         }
         private static async Task TickHandler()
         {
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 if (!_inUnVeicolo)
                 {
@@ -154,7 +154,7 @@ namespace TheLastPlanet.Client.Handlers
                 }
             }
 
-            if (Main.ImpostazioniClient.ModCinema)
+            if (Main.ImpostazioniClient.CinemaMode)
             {
                 if (!_hideHud)
                 {
@@ -173,7 +173,7 @@ namespace TheLastPlanet.Client.Handlers
                 }
             }
 
-            if (Cache.PlayerCache.MyPlayer.Status.Istanza.Stanziato)
+            if (Cache.PlayerCache.MyPlayer.Status.Instance.Instanced)
             {
                 if (!_inAppartamento)
                 {
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.Handlers
                 {
                     Client.Instance.AddTick(PoliziaMainClient.MarkersPolizia);
                     Client.Instance.AddTick(PoliziaMainClient.MainTickPolizia);
-                    if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
+                    if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
                     _polizia = true;
                 }
             }
@@ -224,7 +224,7 @@ namespace TheLastPlanet.Client.Handlers
                 {
                     Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
                     Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-                    if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+                    if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
                     _polizia = false;
                 }
 
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.Handlers
                 {
                     Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
                     Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-                    if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+                    if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
                     _polizia = false;
                 }
 

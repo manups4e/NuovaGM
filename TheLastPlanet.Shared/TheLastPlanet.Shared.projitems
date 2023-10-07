@@ -49,16 +49,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\Utils\Timer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\WorldEventsShared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger\Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Businesses\StationDiBenzina.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Core\DatiChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Businesses\GasStations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Core\CharData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Core\LogInInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Inventario\IInventoryItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Inventario\InventoryItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Business.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Employee.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Whitelistati\JobGrade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Whitelistati\Veicoli.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Meteo\SharedMeteo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Veicoli\VeicoliShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Inventory\IInventoryItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Inventory\InventoryItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Jobs\Business.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Jobs\Employee.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Jobs\Whitelisted\JobGrade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Jobs\Whitelisted\Vehicles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Weather\SharedMeteo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Vehicles\SharedVehicles.cs" />
   </ItemGroup>
 </Project>

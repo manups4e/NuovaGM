@@ -43,11 +43,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Binco's" };
                 SetBlipDisplay(blip.Handle, 4);
-                bincoInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoVest), v.Vestiti.W));
-                bincoInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoScarpe), v.Scarpe.W));
-                bincoInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoPant), v.Pantaloni.W));
-                bincoInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoOcchiali), v.Occhiali.W));
-                bincoInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoAccessori), v.Accessori.W));
+                bincoInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoVest), v.Vestiti.W));
+                bincoInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoScarpe), v.Scarpe.W));
+                bincoInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoPant), v.Pantaloni.W));
+                bincoInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoOcchiali), v.Occhiali.W));
+                bincoInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoAccessori), v.Accessori.W));
                 blips.Add(blip);
             }
 
@@ -55,11 +55,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Discount's" };
                 SetBlipDisplay(blip.Handle, 4);
-                discountInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountVest), v.Vestiti.W));
-                discountInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountScarpe), v.Scarpe.W));
-                discountInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountPant), v.Pantaloni.W));
-                discountInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountOcchiali), v.Occhiali.W));
-                discountInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountAccessori), v.Accessori.W));
+                discountInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountVest), v.Vestiti.W));
+                discountInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountScarpe), v.Scarpe.W));
+                discountInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountPant), v.Pantaloni.W));
+                discountInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountOcchiali), v.Occhiali.W));
+                discountInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountAccessori), v.Accessori.W));
                 blips.Add(blip);
             }
 
@@ -67,11 +67,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Suburban's" };
                 SetBlipDisplay(blip.Handle, 4);
-                suburbanInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanVest), v.Vestiti.W));
-                suburbanInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanScarpe), v.Scarpe.W));
-                suburbanInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanPant), v.Pantaloni.W));
-                suburbanInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanOcchiali), v.Occhiali.W));
-                suburbanInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanAccessori), v.Accessori.W));
+                suburbanInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanVest), v.Vestiti.W));
+                suburbanInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanScarpe), v.Scarpe.W));
+                suburbanInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanPant), v.Pantaloni.W));
+                suburbanInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanOcchiali), v.Occhiali.W));
+                suburbanInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanAccessori), v.Accessori.W));
                 blips.Add(blip);
             }
 
@@ -79,11 +79,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Ponsombys" };
                 SetBlipDisplay(blip.Handle, 4);
-                ponsombysInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysVest), v.Vestiti.W));
-                ponsombysInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysScarpe), v.Scarpe.W));
-                ponsombysInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysPant), v.Pantaloni.W));
-                ponsombysInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysOcchiali), v.Occhiali.W));
-                ponsombysInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysAccessori), v.Accessori.W));
+                ponsombysInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysVest), v.Vestiti.W));
+                ponsombysInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysScarpe), v.Scarpe.W));
+                ponsombysInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysPant), v.Pantaloni.W));
+                ponsombysInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysOcchiali), v.Occhiali.W));
+                ponsombysInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), SColor.Transparent), ServerMode.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysAccessori), v.Accessori.W));
                 blips.Add(blip);
             }
             InputHandler.AddInputList(bincoInputs);
@@ -115,10 +115,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Male.BincoSuit, "clothingshirt", "Binco");
             else
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.BincoVest, "mp_clothing@female@shirt", "Binco");
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Female.BincoSuit, "mp_clothing@female@shirt", "Binco");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
             menu = true;
         }
@@ -127,10 +127,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Male.BincoShoes, "clothingshoes", "Binco");
             else
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.BincoScarpe, "mp_clothing@female@Scarpe", "Binco");
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Female.BincoShoes, "mp_clothing@female@Scarpe", "Binco");
             cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
             menu = true;
         }
@@ -139,10 +139,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.BincoPant, "clothingtrousers", "Binco");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Male.BincoPants, "clothingtrousers", "Binco");
             else
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.BincoPant, "mp_clothing@female@trousers", "Binco");
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Female.BincoPants, "mp_clothing@female@trousers", "Binco");
             cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
             menu = true;
         }
@@ -151,10 +151,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Binco");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Glasses, "clothingspecs", "Binco");
             else
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Binco");
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Glasses, "mp_clothing@female@glasses", "Binco");
             cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }
@@ -163,10 +163,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Binco");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Accessories, "clothingshirt", "Binco");
             else
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Binco");
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Accessories, "mp_clothing@female@shirt", "Binco");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }
@@ -179,10 +179,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Male.DiscSuit, "clothingshirt", "Discount");
             else
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.DiscVest, "mp_clothing@female@shirt", "Discount");
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Female.DiscSuit, "mp_clothing@female@shirt", "Discount");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
             menu = true;
         }
@@ -191,10 +191,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.DiscScarpe, "clothingshoes", "Discount");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Male.DiscShoes, "clothingshoes", "Discount");
             else
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.DiscScarpe, "mp_clothing@female@Scarpe", "Discount");
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Female.DiscShoes, "mp_clothing@female@Scarpe", "Discount");
             cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
             menu = true;
         }
@@ -203,10 +203,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.DiscPant, "clothingtrousers", "Discount");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Male.DiscPants, "clothingtrousers", "Discount");
             else
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.DiscPant, "mp_clothing@female@trousers", "Discount");
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Female.DiscPants, "mp_clothing@female@trousers", "Discount");
             cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
             menu = true;
         }
@@ -215,10 +215,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Discount");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Glasses, "clothingspecs", "Discount");
             else
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Discount");
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Glasses, "mp_clothing@female@glasses", "Discount");
             cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }
@@ -227,10 +227,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Discount");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Accessories, "clothingshirt", "Discount");
             else
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Discount");
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Accessories, "mp_clothing@female@shirt", "Discount");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }
@@ -243,10 +243,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.SubVest, "clothingshirt", "Suburban");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Male.SubSuit, "clothingshirt", "Suburban");
             else
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.SubVest, "mp_clothing@female@shirt", "Suburban");
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Female.SubSuit, "mp_clothing@female@shirt", "Suburban");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
             menu = true;
         }
@@ -255,10 +255,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.SubScarpe, "clothingshoes", "Suburban");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Male.SubShoes, "clothingshoes", "Suburban");
             else
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.SubScarpe, "mp_clothing@female@Scarpe", "Suburban");
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Female.SubShoes, "mp_clothing@female@Scarpe", "Suburban");
             cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
             menu = true;
         }
@@ -267,10 +267,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.SubPant, "clothingtrousers", "Suburban");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Male.SubPants, "clothingtrousers", "Suburban");
             else
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.SubPant, "mp_clothing@female@trousers", "Suburban");
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Female.SubPants, "mp_clothing@female@trousers", "Suburban");
             cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
             menu = true;
         }
@@ -279,10 +279,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Suburban");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Glasses, "clothingspecs", "Suburban");
             else
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Suburban");
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Glasses, "mp_clothing@female@glasses", "Suburban");
             cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }
@@ -291,10 +291,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Suburban");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Accessories, "clothingshirt", "Suburban");
             else
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Suburban");
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Accessories, "mp_clothing@female@shirt", "Suburban");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }
@@ -307,10 +307,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.PonsVest, "clothingshirt", "Ponsombys");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Male.PonsSuit, "clothingshirt", "Ponsombys");
             else
-                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.PonsVest, "mp_clothing@female@shirt", "Ponsombys");
+                MenuNegoziAbiti.MenuVest(Client.Impostazioni.RolePlay.Shops.Clothes.Female.PonsSuit, "mp_clothing@female@shirt", "Ponsombys");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
             menu = true;
         }
@@ -319,10 +319,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.PonsScarpe, "clothingshoes", "Ponsombys");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Male.PonsShoes, "clothingshoes", "Ponsombys");
             else
-                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.PonsScarpe, "mp_clothing@female@Scarpe", "Ponsombys");
+                MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.RolePlay.Shops.Clothes.Female.PonsShoes, "mp_clothing@female@Scarpe", "Ponsombys");
             cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
             menu = true;
         }
@@ -331,10 +331,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.PonsPant, "clothingtrousers", "Ponsombys");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Male.PonsPants, "clothingtrousers", "Ponsombys");
             else
-                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.PonsPant, "mp_clothing@female@trousers", "Ponsombys");
+                MenuNegoziAbiti.MenuPant(Client.Impostazioni.RolePlay.Shops.Clothes.Female.PonsPants, "mp_clothing@female@trousers", "Ponsombys");
             cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
             menu = true;
         }
@@ -343,10 +343,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Ponsombys");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Glasses, "clothingspecs", "Ponsombys");
             else
-                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Ponsombys");
+                MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Glasses, "mp_clothing@female@glasses", "Ponsombys");
             cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }
@@ -355,10 +355,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             p.Task.AchieveHeading((float)args[0]);
             while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Ponsombys");
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Male.Accessories, "clothingshirt", "Ponsombys");
             else
-                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Ponsombys");
+                MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.RolePlay.Shops.Clothes.Female.Accessories, "mp_clothing@female@shirt", "Ponsombys");
             cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
             menu = true;
         }

@@ -22,7 +22,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             UIMenuItem Giubbotto = new UIMenuItem("");
             UIMenuItem Pilota = new UIMenuItem("");
 
-            switch (Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio)
+            switch (Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty)
             {
                 case false when !PoliziaMainClient.InServizioDaPilota:
                     Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     break;
                 default:
                     {
-                        if (Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio || PoliziaMainClient.InServizioDaPilota)
+                        if (Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty || PoliziaMainClient.InServizioDaPilota)
                         {
                             Giubbotto = Cache.PlayerCache.MyPlayer.Ped.Armor < 1 ? new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita") : new UIMenuItem("Rimuovi il Giubbotto Anti-Proiettile", "Speriamo sia stato utile");
                             Spogliatoio.AddItem(Giubbotto);
@@ -62,10 +62,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
                 if (item == Uniforme)
                 {
-                    if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio)
+                    if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty)
                     {
-                        foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Lavori.Polizia.Gradi.Where(Grado => Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name == "Polizia").Where(Grado => Grado.Value.Id == Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade))
-                            switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex)
+                        foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Jobs.Police.Grades.Where(Grado => Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name == "Polizia").Where(Grado => Grado.Value.Id == Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade))
+                            switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex)
                             {
                                 case "Maschio":
                                     CambiaVestito(Grado.Value.Vestiti.Maschio);
@@ -77,17 +77,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                                     break;
                             }
 
-                        Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio = true;
+                        Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty = true;
                     }
                     else
                     {
                         Funzioni.UpdateDress(PlayerPedId(), Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-                        Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio = false;
+                        Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty = false;
                     }
                 }
                 else if (item == Pilota)
                 {
-                    switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex)
+                    switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex)
                     {
                         case "Maschio":
                             CambiaVestito(new AbitiLav() { Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0), Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) });
@@ -124,25 +124,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         public static async void CambiaVestito(AbitiLav dress)
         {
             int id = PlayerPedId();
-            SetPedComponentVariation(id, (int)DrawableIndexes.Faccia, dress.Abiti.Faccia, dress.TextureVestiti.Faccia, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Maschera, dress.Abiti.Maschera, dress.TextureVestiti.Maschera, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Face, dress.Abiti.Face, dress.TextureVestiti.Face, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Mask, dress.Abiti.Mask, dress.TextureVestiti.Mask, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Torso, dress.Abiti.Torso, dress.TextureVestiti.Torso, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Pantaloni, dress.Abiti.Pantaloni, dress.TextureVestiti.Pantaloni, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Borsa_Paracadute, dress.Abiti.Borsa_Paracadute, dress.TextureVestiti.Borsa_Paracadute, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Scarpe, dress.Abiti.Scarpe, dress.TextureVestiti.Scarpe, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Accessori, dress.Abiti.Accessori, dress.TextureVestiti.Accessori, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Sottomaglia, dress.Abiti.Sottomaglia, dress.TextureVestiti.Sottomaglia, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Pants, dress.Abiti.Pants, dress.TextureVestiti.Pants, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Bag_Parachute, dress.Abiti.Bag_Parachute, dress.TextureVestiti.Bag_Parachute, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Shoes, dress.Abiti.Shoes, dress.TextureVestiti.Shoes, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Accessories, dress.Abiti.Accessories, dress.TextureVestiti.Accessories, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Undershirt, dress.Abiti.Undershirt, dress.TextureVestiti.Undershirt, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Kevlar, dress.Abiti.Kevlar, dress.TextureVestiti.Kevlar, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Badge, dress.Abiti.Badge, dress.TextureVestiti.Badge, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Torso_2, dress.Abiti.Torso_2, dress.TextureVestiti.Torso_2, 2);
-            SetPedPropIndex(id, (int)PropIndexes.Cappelli_Maschere, dress.Accessori.Cappelli_Maschere, dress.TexturesAccessori.Cappelli_Maschere, true);
-            SetPedPropIndex(id, (int)PropIndexes.Orecchie, dress.Accessori.Orecchie, dress.TexturesAccessori.Orecchie, true);
-            SetPedPropIndex(id, (int)PropIndexes.Occhiali_Occhi, dress.Accessori.Occhiali_Occhi, dress.TexturesAccessori.Occhiali_Occhi, true);
+            SetPedPropIndex(id, (int)PropIndexes.Hats_Masks, dress.Accessori.Hats_masks, dress.TexturesAccessori.Hats_masks, true);
+            SetPedPropIndex(id, (int)PropIndexes.Ears, dress.Accessori.Ears, dress.TexturesAccessori.Ears, true);
+            SetPedPropIndex(id, (int)PropIndexes.Glasses, dress.Accessori.Glasses, dress.TexturesAccessori.Glasses, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_3, dress.Accessori.Unk_3, dress.TexturesAccessori.Unk_3, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_4, dress.Accessori.Unk_4, dress.TexturesAccessori.Unk_4, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_5, dress.Accessori.Unk_5, dress.TexturesAccessori.Unk_5, true);
-            SetPedPropIndex(id, (int)PropIndexes.Orologi, dress.Accessori.Orologi, dress.TexturesAccessori.Orologi, true);
-            SetPedPropIndex(id, (int)PropIndexes.Bracciali, dress.Accessori.Bracciali, dress.TexturesAccessori.Bracciali, true);
+            SetPedPropIndex(id, (int)PropIndexes.Watches, dress.Accessori.Watches, dress.TexturesAccessori.Watches, true);
+            SetPedPropIndex(id, (int)PropIndexes.Bracelets, dress.Accessori.Bracelets, dress.TexturesAccessori.Bracelets, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_8, dress.Accessori.Unk_8, dress.TexturesAccessori.Unk_8, true);
         }
 
@@ -253,15 +253,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                         UIMenuItem dDN = new("Data di Nascita");
                         dDN.SetRightLabel(player.DoB);
                         UIMenuItem sesso = new("Sesso");
-                        sesso.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex);
+                        sesso.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex);
                         UIMenuItem altezza = new("Altezza");
-                        altezza.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.height + "cm");
+                        altezza.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.Height + "cm");
                         UIMenuItem job = new("Occupazione Attuale");
                         job.SetRightLabel(Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name);
                         UIMenuItem telefono = new("N° di Telefono");
-                        telefono.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.phoneNumber);
+                        telefono.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.PhoneNumber);
                         UIMenuItem assicurazione = new("N° di Assicurazione");
-                        assicurazione.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.insurance);
+                        assicurazione.SetRightLabel("" + Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.Insurance);
                         UIMenuItem nomePlayer = new("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
                         nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
                         DatiPlayer.AddItem(nomeCognome);
@@ -339,19 +339,19 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 foreach (KeyValuePair<string, User> pers in players.OrderBy(x => x.Key))
                 {
                     foreach (Char_data data in pers.Value.Characters)
-                        if (!string.IsNullOrEmpty(nome) && data.Info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.Info.lastname.Contains(cognome) || numero != "" && numero != null && data.Info.phoneNumber.ToString().Contains(numero))
+                        if (!string.IsNullOrEmpty(nome) && data.Info.Firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.Info.Lastname.Contains(cognome) || numero != "" && numero != null && data.Info.PhoneNumber.ToString().Contains(numero))
                         {
                             int source = 0;
                             foreach (Player p in Client.Instance.GetPlayers.ToList().Where(p => p.Name == pers.Key)) source = p.ServerId;
-                            UIMenuItem PersonaggioItem = new UIMenuItem(data.Info.firstname + " " + data.Info.lastname + " [" + pers.Key + "]");
-                            UIMenu Personaggio = new(data.Info.firstname + " " + data.Info.lastname + " [" + pers.Key + "]", "");
+                            UIMenuItem PersonaggioItem = new UIMenuItem(data.Info.Firstname + " " + data.Info.Lastname + " [" + pers.Key + "]");
+                            UIMenu Personaggio = new(data.Info.Firstname + " " + data.Info.Lastname + " [" + pers.Key + "]", "");
                             PersonaggioItem.BindItemToMenu(Personaggio);
                             CercaPers.AddItem(PersonaggioItem);
                             UIMenuItem NomeCognome = new("Nome:", "Il suo Nome");
-                            NomeCognome.SetRightLabel(data.Info.firstname + " " + data.Info.lastname);
+                            NomeCognome.SetRightLabel(data.Info.Firstname + " " + data.Info.Lastname);
                             Personaggio.AddItem(NomeCognome);
                             UIMenuItem DDN = new("Data di Nascita:", "La sua data di nascita");
-                            DDN.SetRightLabel(data.Info.dateOfBirth);
+                            DDN.SetRightLabel(data.Info.DateOfBirth);
                             Personaggio.AddItem(DDN);
                             //UIMenuItem Altez = new UIMenuItem("Altezza:");
                             UIMenuItem job = new("Lavoro: ", "Il suo lavoro");
@@ -365,7 +365,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                             if (source != 0)
                                 GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
                             else
-                                GetStreetNameAtCoord(data.Posizione.X, data.Posizione.Y, data.Posizione.Z, ref StreetA, ref StreetB);
+                                GetStreetNameAtCoord(data.Position.X, data.Position.Y, data.Position.Z, ref StreetA, ref StreetB);
                             Pos.Description = GetStreetNameFromHashKey(StreetA);
                             if (StreetB != 0) Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
                             Personaggio.AddItem(Pos);
@@ -402,21 +402,21 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
                                 break;
                             case UIMenuItem i when i == accompagna:
-                                if (player.Status.RolePlayStates.Ammanettato) // rifare client-->server-->client
+                                if (player.Status.RolePlayStates.Cuffed) // rifare client-->server-->client
                                     BaseScript.TriggerServerEvent("lprp:polizia:accompagna", playerServerId, Cache.PlayerCache.MyPlayer.Ped.NetworkId);
                                 else
                                     HUD.ShowNotification("Non è ammanettato!!");
 
                                 break;
                             case UIMenuItem i when i == mettiVeicolo:
-                                if (player.Status.RolePlayStates.Ammanettato) // rifare client-->server-->client
+                                if (player.Status.RolePlayStates.Cuffed) // rifare client-->server-->client
                                     BaseScript.TriggerServerEvent("lprp:polizia:mettiVeicolo", playerServerId);
                                 else
                                     HUD.ShowNotification("Non è ammanettato!!");
 
                                 break;
                             case UIMenuItem i when i == togliVeicolo: // rifare client-->server-->client
-                                if (player.Status.RolePlayStates.Ammanettato)
+                                if (player.Status.RolePlayStates.Cuffed)
                                     BaseScript.TriggerServerEvent("lprp:polizia:esciVeicolo", playerServerId);
                                 else
                                     HUD.ShowNotification("Non è ammanettato!!");
@@ -599,8 +599,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsDriveable = true;
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "POL" + SharedMath.GetRandomInt(999);
                 if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle, 0);
-                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
-                VeicoloPol veh = new VeicoloPol(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
+                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VehiclePoliceizia", SharedMath.GetRandomInt(100));
+                VehiclePolice veh = new VehiclePolice(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.ToJson());
                 MenuHandler.CloseAndClearHistory();
                 PreviewHeli.MarkAsNoLongerNeeded();
@@ -666,7 +666,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
         public static async void VehicleMenuNuovo(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
         {
-            Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("SceltaVeicoliPolizia");
+            Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("SceltaVeicoliPolizia");
             StazioneAttuale = Stazione;
             PuntoAttuale = Punto;
             Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(236.349f, -1005.013f, -100f);
@@ -686,7 +686,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     veicoliParcheggio[i].IsDriveable = false;
                     veicoliParcheggio[i].IsSirenActive = true;
                     veicoliParcheggio[i].IsSirenSilent = true;
-                    veicoliParcheggio[i].SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
+                    veicoliParcheggio[i].SetDecor("VehiclePoliceizia", SharedMath.GetRandomInt(100));
                 }
             else
                 await GarageConPiuVeicoli(Stazione.VeicoliAutorizzati, LivelloGarage);
@@ -715,7 +715,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 veicoliParcheggio[i].IsDriveable = false;
                 veicoliParcheggio[i].IsSirenActive = true;
                 veicoliParcheggio[i].IsSirenSilent = true;
-                veicoliParcheggio[i].SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
+                veicoliParcheggio[i].SetDecor("VehiclePoliceizia", SharedMath.GetRandomInt(100));
             }
         }
 
@@ -731,7 +731,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.Status.Istanza.Stanziato)
+            if (Cache.PlayerCache.MyPlayer.Status.Instance.Instanced)
                 if (InGarage)
                 {
                     if (p.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
@@ -740,8 +740,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                         if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
-                        if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
+                    if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
+                        if (p.CurrentVehicle.HasDecor("VehiclePoliceizia"))
                         {
                             HUD.ShowHelp("Per selezionare questo veicolo~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
 
@@ -775,14 +775,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                                 p.CurrentVehicle.IsEngineRunning = true;
                                 p.CurrentVehicle.IsDriveable = true;
                                 p.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "POL" + SharedMath.GetRandomInt(999);
-                                p.CurrentVehicle.SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
-                                VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
+                                p.CurrentVehicle.SetDecor("VehiclePoliceizia", SharedMath.GetRandomInt(100));
+                                VehiclePolice veh = new VehiclePolice(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
                                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.ToJson());
                                 InGarage = false;
                                 StazioneAttuale = null;
                                 PuntoAttuale = null;
                                 veicoliParcheggio.Clear();
-                                Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+                                Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
                                 await BaseScript.Delay(1000);
                                 Screen.Fading.FadeIn(800);
                                 Client.Instance.RemoveTick(ControlloGarageNew);
@@ -827,7 +827,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                         InGarage = false;
                         StazioneAttuale = null;
                         PuntoAttuale = null;
-                        Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+                        Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
                         veicoliParcheggio.Clear();
                         Client.Instance.RemoveTick(ControlloGarageNew);
                     }
@@ -848,7 +848,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 if (p.CurrentVehicle.Driver == Cache.PlayerCache.MyPlayer.Ped && p.CurrentVehicle.Speed < 2 || p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == Cache.PlayerCache.MyPlayer.Ped)
                 {

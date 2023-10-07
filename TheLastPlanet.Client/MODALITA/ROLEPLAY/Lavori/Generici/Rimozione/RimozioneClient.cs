@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
+﻿using Settings.Shared.Roleplay.Jobs.Generici;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
 
         public static void Spawnato(PlayerClient client)
         {
-            Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
+            Rimozione = Client.Impostazioni.RolePlay.Jobs.Generics.Rimozione;
             //RequestAnimDict("oddjobs@towing");
 
             //IsVehicleAttachedToTowTruck(int towtruck, int vehicle);
@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
         }
         public static void onPlayerLeft(PlayerClient client)
         {
-            Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
+            Rimozione = Client.Impostazioni.RolePlay.Jobs.Generics.Rimozione;
             Rim.Delete();
         }
 

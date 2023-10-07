@@ -1,7 +1,4 @@
-﻿using TheLastPlanet.Client.Core.Utility.HUD;
-
-
-namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
+﻿namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
     internal static class OggettiGenerici
     {
@@ -14,7 +11,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
         public static void Spawnato(PlayerClient client)
         {
             Ped p = client.Ped;
-            ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa += async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["hamburger"].Use += async (item, index) =>
             {
                 RequestAnimDict("mp_player_inteat@burger");
                 while (!HasAnimDictLoaded("mp_player_inteat@burger")) await BaseScript.Delay(0);
@@ -35,7 +32,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 burg.Delete();
                 RemoveAnimDict("mp_player_inteat@burger");
             };
-            ConfigShared.SharedConfig.Main.Generici.ItemList["acqua"].Usa += async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["acqua"].Use += async (item, index) =>
             {
                 RequestAnimDict("mp_player_intdrink");
                 while (!HasAnimDictLoaded("mp_player_intdrink")) await BaseScript.Delay(0);
@@ -60,7 +57,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
         public static void onPlayerLeft(PlayerClient client)
         {
             Ped p = client.Ped;
-            ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa -= async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["hamburger"].Use -= async (item, index) =>
             {
                 RequestAnimDict("mp_player_inteat@burger");
                 while (!HasAnimDictLoaded("mp_player_inteat@burger")) await BaseScript.Delay(0);
@@ -81,7 +78,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 burg.Delete();
                 RemoveAnimDict("mp_player_inteat@burger");
             };
-            ConfigShared.SharedConfig.Main.Generici.ItemList["acqua"].Usa -= async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["acqua"].Use -= async (item, index) =>
             {
                 RequestAnimDict("mp_player_intdrink");
                 while (!HasAnimDictLoaded("mp_player_intdrink")) await BaseScript.Delay(0);

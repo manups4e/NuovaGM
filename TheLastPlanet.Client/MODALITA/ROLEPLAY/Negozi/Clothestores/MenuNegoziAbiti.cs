@@ -1,4 +1,4 @@
-﻿using Impostazioni.Client.Configurazione.Negozi.Abiti;
+﻿using Settings.Client.Configurazione.Negozi.Abiti;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,25 +33,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         {
             int id = Cache.PlayerCache.MyPlayer.Ped.Handle;
             for (int i = 0; i < 9; i++) ClearPedProp(id, i);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Face, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Mask, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Pants, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Bag_Parachute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Shoes, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Accessories, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Undershirt, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
-            SetPedPropIndex(id, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, true);
-            SetPedPropIndex(id, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, true);
-            SetPedPropIndex(id, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
+            SetPedPropIndex(id, (int)PropIndexes.Hats_Masks, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, true);
+            SetPedPropIndex(id, (int)PropIndexes.Ears, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, true);
+            SetPedPropIndex(id, (int)PropIndexes.Glasses, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
-            SetPedPropIndex(id, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
-            SetPedPropIndex(id, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
+            SetPedPropIndex(id, (int)PropIndexes.Watches, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
+            SetPedPropIndex(id, (int)PropIndexes.Bracelets, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
             await Task.FromResult(0);
         }
@@ -381,7 +381,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         #region MenuVest
 
-        public static async void MenuVest(List<Completo> Completi, string anim, string nome)
+        public static async void MenuVest(List<Suit> Completi, string anim, string nome)
         {
             _menuVestiti.Clear();
             UIMenuItem ciao = new("");
@@ -390,10 +390,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
             SetPedAlternateMovementAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, 0, anim, "try_shirt_base", 4.0f, true);
             await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-            List<Completo> completi = Completi.OrderBy(x => x.Price).ToList();
+            List<Suit> completi = Completi.OrderBy(x => x.Price).ToList();
             _menuVestiti.Add(MenuVest);
 
-            foreach (Completo t in completi)
+            foreach (Suit t in completi)
             {
                 UIMenuItem vest = new(t.Name, t.Description);
                 MenuVest.AddItem(vest);
@@ -473,7 +473,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         #region PantMenu
 
-        public static async void MenuPant(List<Singolo> Completi, string anim, string nome)
+        public static async void MenuPant(List<Single> Completi, string anim, string nome)
         {
             _menuVestiti.Clear();
             UIMenuItem ciao = new("");
@@ -484,12 +484,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
             SetPedAlternateMovementAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, 0, anim, "try_trousers_base", 4.0f, true);
             await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_trousers_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-            List<Singolo> completi = Completi.OrderBy(x => x.Price).ToList();
+            List<Single> completi = Completi.OrderBy(x => x.Price).ToList();
             int money = 0;
             int mod = 0;
             int text = 0;
 
-            foreach (Singolo v in completi)
+            foreach (Single v in completi)
             {
                 UIMenuItem pantItem = new(v.Title, v.Description);
                 UIMenu Pant = new(v.Title, "");
@@ -535,7 +535,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             pant.SetRightLabel("~r~$" + money);
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni != texture) continue;
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pants != v.Model || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pants != texture) continue;
                     pantItem.SetRightBadge(BadgeIcon.CLOTHING);
                     ciao = pantItem;
                     pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
@@ -544,11 +544,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                 Pant.OnMenuOpen += async (a, b) =>
                 {
-                    SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
+                    SetPedComponentVariation(PlayerPedId(), 4, v.Model, v.Text[0], 2);
                     string random = GetRandomAnim(anim, false);
-                    SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
+                    SetPedComponentVariation(PlayerPedId(), 4, v.Model, v.Text[0], 2);
                     await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                    mod = v.Modello;
+                    mod = v.Model;
                     text = v.Text[0];
                 };
                 Pant.OnMenuClose += async (a) => await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
@@ -556,14 +556,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 Pant.OnIndexChange += async (sender, index) =>
                 {
                     string random = GetRandomAnim(anim, false);
-                    SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[index], 2);
+                    SetPedComponentVariation(PlayerPedId(), 4, v.Model, v.Text[index], 2);
                     await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                    mod = v.Modello;
+                    mod = v.Model;
                     text = v.Text[index];
                 };
                 Pant.OnItemSelect += async (_menu, _item, _index) =>
                 {
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni == mod && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni == text)
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pants == mod && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pants == text)
                     {
                         HUD.ShowNotification("Hai già acquistato questo pantalone!!", true);
 
@@ -580,8 +580,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni = mod;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni = text;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pants = mod;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pants = text;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         ciao.SetRightBadge(BadgeIcon.NONE);
@@ -597,8 +597,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni = mod;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni = text;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pants = mod;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pants = text;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             ciao.SetRightBadge(BadgeIcon.NONE);
@@ -634,7 +634,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         #region ScarpeMenu
 
-        public static async void MenuScarpe(List<Singolo> Completi, string anim, string nome)
+        public static async void MenuScarpe(List<Single> Completi, string anim, string nome)
         {
             _menuVestiti.Clear();
             UIMenuItem ciao = new("");
@@ -645,12 +645,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
             SetPedAlternateMovementAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, 0, anim, "try_shoes_base", 4.0f, true);
             await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_shoes_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-            List<Singolo> completi = Completi.OrderBy(x => x.Price).ToList();
+            List<Single> completi = Completi.OrderBy(x => x.Price).ToList();
             int money = 0;
             int mod = 0;
             int text = 0;
 
-            foreach (Singolo v in completi)
+            foreach (Single v in completi)
             {
                 UIMenuItem ScarpItem = new(v.Title, v.Description);
                 UIMenu Scarp = new(v.Title, "");
@@ -696,7 +696,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             pant.SetRightLabel("~r~$" + money);
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe != texture) continue;
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Shoes != v.Model || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Shoes != texture) continue;
                     ScarpItem.SetRightBadge(BadgeIcon.CLOTHING);
                     ciao = ScarpItem;
                     pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
@@ -706,9 +706,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 Scarp.OnMenuOpen += async (a, b) =>
                 {
                     string random = GetRandomAnim(anim, false);
-                    SetPedComponentVariation(PlayerPedId(), 6, v.Modello, v.Text[0], 2);
+                    SetPedComponentVariation(PlayerPedId(), 6, v.Model, v.Text[0], 2);
                     await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                    mod = v.Modello;
+                    mod = v.Model;
                     text = v.Text[0];
                 };
                 Scarp.OnMenuClose += async (a) => await UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
@@ -716,14 +716,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 Scarp.OnIndexChange += async (sender, index) =>
                 {
                     string random = GetRandomAnim(anim, false);
-                    SetPedComponentVariation(PlayerPedId(), 6, v.Modello, v.Text[index], 2);
+                    SetPedComponentVariation(PlayerPedId(), 6, v.Model, v.Text[index], 2);
                     await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                    mod = v.Modello;
+                    mod = v.Model;
                     text = v.Text[index];
                 };
                 Scarp.OnItemSelect += async (_menu, _item, _index) =>
                 {
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe == mod && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe == text)
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Shoes == mod && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Shoes == text)
                     {
                         HUD.ShowNotification("Hai già acquistato queste scarpe!!", true);
 
@@ -740,8 +740,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe = mod;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe = text;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Shoes = mod;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Shoes = text;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         ciao.SetRightBadge(BadgeIcon.NONE);
@@ -757,8 +757,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe = mod;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe = text;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Shoes = mod;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Shoes = text;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             ciao.SetRightBadge(BadgeIcon.NONE);
@@ -796,7 +796,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         #region OcchialiMenu
 
-        public static async void MenuOcchiali(List<Singolo> Completi, string anim, string nome)
+        public static async void MenuOcchiali(List<Single> Completi, string anim, string nome)
         {
             _menuVestiti.Clear();
             UIMenuItem ciao = new("");
@@ -807,12 +807,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
             SetPedAlternateMovementAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, 0, anim, "Try_Glasses_Base", 4.0f, true);
             await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, "Try_Glasses_Base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-            List<Singolo> completi = Completi.OrderBy(x => x.Price).ToList();
+            List<Single> completi = Completi.OrderBy(x => x.Price).ToList();
             int money = 0;
             int mod = 0;
             int text = 0;
 
-            foreach (Singolo v in completi)
+            foreach (Single v in completi)
             {
                 UIMenuItem ScarpItem = new(v.Title, v.Description);
                 UIMenu Scarp = new(v.Title, "");
@@ -858,7 +858,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             pant.SetRightLabel("~r~$" + money);
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie != texture) continue;
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears != v.Model || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears != texture) continue;
                     ScarpItem.SetRightBadge(BadgeIcon.CLOTHING);
                     ciao = ScarpItem;
                     pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
@@ -868,9 +868,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 Scarp.OnMenuOpen += async (a, b) =>
                 {
                     string random = GetRandomAnim(anim, false);
-                    SetPedPropIndex(PlayerPedId(), 1, v.Modello, v.Text[0], false);
+                    SetPedPropIndex(PlayerPedId(), 1, v.Model, v.Text[0], false);
                     await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                    mod = v.Modello;
+                    mod = v.Model;
                     text = v.Text[0];
                 };
 
@@ -879,14 +879,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 Scarp.OnIndexChange += async (menu, index) =>
                 {
                     string random = GetRandomAnim(anim, false);
-                    SetPedPropIndex(PlayerPedId(), 1, v.Modello, v.Text[index], false);
+                    SetPedPropIndex(PlayerPedId(), 1, v.Model, v.Text[index], false);
                     await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
-                    mod = v.Modello;
+                    mod = v.Model;
                     text = v.Text[index];
                 };
                 Scarp.OnItemSelect += async (_menu, _item, _index) =>
                 {
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == mod && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie == text)
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == mod && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears == text)
                     {
                         HUD.ShowNotification("Hai già acquistato questi occhiali!!", true);
 
@@ -903,8 +903,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = mod;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = text;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears = mod;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears = text;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         ciao.SetRightBadge(BadgeIcon.NONE);
@@ -920,8 +920,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = mod;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = text;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears = mod;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears = text;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             ciao.SetRightBadge(BadgeIcon.NONE);
@@ -971,7 +971,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
         private static float fov = 0;
 
-        public static async void MenuAccessori(Accessori Accessorio, string anim, string nome)
+        public static async void MenuAccessori(Accessories Accessorio, string anim, string nome)
         {
             AccessoriAttivo = true;
             UIMenuItem orecAtt = new("");
@@ -990,8 +990,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             SetPedAlternateMovementAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, 0, anim, "try_shirt_base", 4.0f, true);
             await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
             int money = 0;
-            int IntorecAtt = Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.style;
-            int IntcoloOreccAtt = Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.color;
+            int IntorecAtt = Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Style;
+            int IntcoloOreccAtt = Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Color;
             int IntOrolAtt = GetPedPropIndex(PlayerPedId(), 6);
             int IntOrolMod = GetPedPropTextureIndex(PlayerPedId(), 6);
             int IntBraccAtt = GetPedPropIndex(PlayerPedId(), 7);
@@ -1044,14 +1044,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
             #endregion
 
-            List<dynamic> ore = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList().Select(x => x.Title).ToList().Cast<dynamic>().ToList();
-            List<dynamic> bra = Accessorio.Bracciali.OrderBy(x => x.Price).ToList().Select(x => x.Title).ToList().Cast<dynamic>().ToList();
+            List<dynamic> ore = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList().Select(x => x.Title).ToList().Cast<dynamic>().ToList();
+            List<dynamic> bra = Accessorio.Bracelets.OrderBy(x => x.Price).ToList().Select(x => x.Title).ToList().Cast<dynamic>().ToList();
             UIMenuListItem orecchini = new("Orecchini", ore, 0, "Scegli qui i tuoi orecchini preferiti");
             Orecc.AddItem(orecchini);
             UIMenuListItem braccialetti = new("Braccialetti", bra, 0, "Scegli qui il tuo bracciale preferito");
             Brac.AddItem(braccialetti);
 
-            foreach (Singolo borsa in Accessorio.Borse)
+            foreach (Single borsa in Accessorio.Bags)
             {
                 money = borsa.Price;
                 UIMenuItem bors = new(borsa.Title, borsa.Description);
@@ -1070,21 +1070,21 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                 Borse.AddItem(bors);
 
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute != borsa.Modello) continue;
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Bag_Parachute != borsa.Model) continue;
                 bors.SetRightBadge(BadgeIcon.CLOTHING);
                 BorsAtt = bors;
             }
 
             Borse.OnIndexChange += async (_menu, index) =>
             {
-                IntBors = Accessorio.Borse[index].Modello;
+                IntBors = Accessorio.Bags[index].Model;
                 string random = GetRandomAnim(anim, false);
                 SetPedComponentVariation(PlayerPedId(), 5, IntBors, 0, 2);
                 await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
             };
             Borse.OnItemSelect += async (_menu, _item, _index) =>
             {
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute == IntBors)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Bag_Parachute == IntBors)
                 {
                     HUD.ShowNotification("Hai già acquistato questa borsa!!", true);
 
@@ -1101,8 +1101,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                 {
                     BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                    Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
-                    Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Borsa_Paracadute = 0;
+                    Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Bag_Parachute = IntBors;
+                    Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Bag_Parachute = 0;
                     Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                     Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                     BorsAtt.SetRightBadge(BadgeIcon.NONE);
@@ -1115,8 +1115,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Borsa_Paracadute = 0;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Bag_Parachute = IntBors;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Bag_Parachute = 0;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         BorsAtt.SetRightBadge(BadgeIcon.NONE);
@@ -1135,32 +1135,32 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             UIMenuItem capelino = new("");
             UIMenu Capelino = new("", "");
 
-            foreach (Singolo cappellino in Accessorio.Testa.Cappellini)
+            foreach (Single cappellino in Accessorio.Head.Hats)
             {
-                if (Accessorio.Testa.Cappellini.IndexOf(cappellino) != 0)
+                if (Accessorio.Head.Hats.IndexOf(cappellino) != 0)
                 {
-                    UIMenuItem CapelinoItem = new UIMenuItem(cappellino.Title + " " + Accessorio.Testa.Cappellini.IndexOf(cappellino), cappellino.Description);
-                    Capelino = new(cappellino.Title + " " + Accessorio.Testa.Cappellini.IndexOf(cappellino), "");
+                    UIMenuItem CapelinoItem = new UIMenuItem(cappellino.Title + " " + Accessorio.Head.Hats.IndexOf(cappellino), cappellino.Description);
+                    Capelino = new(cappellino.Title + " " + Accessorio.Head.Hats.IndexOf(cappellino), "");
                     CapelinoItem.BindItemToMenu(Capelino);
                     Capp.AddItem(CapelinoItem);
                     Capelino.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
                     SubMenusCapp.Add(Capelino);
                 }
 
-                if (cappellino.Modello == -1)
+                if (cappellino.Model == -1)
                 {
                     CappRim = new UIMenuItem(cappellino.Title, cappellino.Description);
                     Capp.AddItem(CappRim);
                     CappRim.SetRightLabel("~g~$0");
                 }
 
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == -1)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks == -1)
                 {
                     CappRim.SetRightBadge(BadgeIcon.CLOTHING);
                     CappAtt = CappRim;
                 }
 
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere != -1 && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == cappellino.Modello)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks != -1 && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks == cappellino.Model)
                 {
                     capelino.SetRightBadge(BadgeIcon.CLOTHING);
                     CappAtt = CappRim;
@@ -1203,7 +1203,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             newCap.SetRightLabel("~r~$" + money);
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere != cappellino.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere != texture) continue;
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks != cappellino.Model || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Hats_masks != texture) continue;
                     newCap.SetRightBadge(BadgeIcon.CLOTHING);
                     CappAtt1 = newCap;
                 }
@@ -1211,14 +1211,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 Capelino.OnIndexChange += async (_menu, _newIndex) =>
                 {
                     string random = GetRandomAnim(anim, false);
-                    SetPedPropIndex(PlayerPedId(), 0, cappellino.Modello, cappellino.Text[_newIndex], false);
+                    SetPedPropIndex(PlayerPedId(), 0, cappellino.Model, cappellino.Text[_newIndex], false);
                     IntCappAtt = cappellino.Text[_newIndex];
                     IntCappAttMod = cappellino.Text[_newIndex];
                     await Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
                 };
                 Capelino.OnItemSelect += async (_menu, _item, _index) =>
                 {
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == IntCappAtt && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere == IntCappAttMod)
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks == IntCappAtt && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Hats_masks == IntCappAttMod)
                     {
                         HUD.ShowNotification("Non puoi acquistare lo stesso cappello che hai già! Prova a cambiare modello!");
                     }
@@ -1234,8 +1234,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks = IntCappAtt;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Hats_masks = IntCappAttMod;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             CappAtt.SetRightBadge(BadgeIcon.NONE);
@@ -1251,8 +1251,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                             {
                                 BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
-                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
+                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks = IntCappAtt;
+                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Hats_masks = IntCappAttMod;
                                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                                 CappAtt.SetRightBadge(BadgeIcon.NONE);
@@ -1281,7 +1281,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 if (_item != CappRim) return;
 
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == -1)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks == -1)
                 {
                     HUD.ShowNotification("Non puoi rimuovere 2 volte un Cappello!!", true);
                 }
@@ -1297,8 +1297,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = -1;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = -1;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks = -1;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Hats_masks = -1;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         CappAtt.SetRightBadge(BadgeIcon.NONE);
@@ -1311,8 +1311,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = -1;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = -1;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Hats_masks = -1;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Hats_masks = -1;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             CappAtt.SetRightBadge(BadgeIcon.NONE);
@@ -1331,7 +1331,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 string ActiveItem = _listItem.Items[_newIndex].ToString();
 
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_newIndex].Model)
                 {
                     //					_listItem.SetRightBadge(BadgeIcon.CLOTHING);
                 }
@@ -1340,32 +1340,32 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     //					_listItem.SetRightBadge(BadgeIcon.NONE);
                 }
 
-                _listItem.Description = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Description + ", Prezzo: $" + Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Price;
-                SetPedPropIndex(PlayerPedId(), 2, Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello, 0, false);
-                IntorecAtt = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello;
+                _listItem.Description = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_newIndex].Description + ", Prezzo: $" + Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_newIndex].Price;
+                SetPedPropIndex(PlayerPedId(), 2, Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_newIndex].Model, 0, false);
+                IntorecAtt = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_newIndex].Model;
                 _menu.UpdateDescription();
             };
             Orecc.OnItemSelect += (_menu, _listItem, _listIndex) =>
             {
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == -1)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_listIndex].Model && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == -1)
                 {
                     HUD.ShowNotification("Non puoi rimuovere 2 volte gli orecchini!!", true);
                 }
-                else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != -1)
+                else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_listIndex].Model && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears != -1)
                 {
                     HUD.ShowNotification("Non puoi acquistare di nuovo gli orecchini che hai già!");
                 }
                 else
                 {
-                    int val = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Price;
+                    int val = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_listIndex].Price;
 
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_listIndex].Model;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears = 0;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Style = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_listIndex].Model;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Color = 0;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1375,10 +1375,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_listIndex].Model;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears = 0;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Style = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_listIndex].Model;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Color = 0;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
@@ -1391,7 +1391,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 }
             };
 
-            foreach (Singolo aurico in Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList())
+            foreach (Single aurico in Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList())
             {
                 UIMenuItem auricolari = new(aurico.Title, aurico.Description);
 
@@ -1413,34 +1413,34 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             Orecc.OnIndexChange += async (_menu, _newIndex) =>
             {
                 if (_newIndex == 0) return;
-                if (Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_newIndex - 1].Modello == -1)
+                if (Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_newIndex - 1].Model == -1)
                     ClearPedProp(PlayerPedId(), 2);
                 else
-                    SetPedPropIndex(PlayerPedId(), 2, Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_newIndex - 1].Modello, 0, false);
+                    SetPedPropIndex(PlayerPedId(), 2, Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_newIndex - 1].Model, 0, false);
             };
             Orecc.OnItemSelect += async (_menu, _item, _index) =>
             {
                 if (_index == 0) return;
 
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == -1)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_index - 1].Model && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == -1)
                 {
                     HUD.ShowNotification("Non puoi rimuovere 2 volte l'auricolare!!", true);
                 }
-                else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != -1)
+                else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears == Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_index - 1].Model && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears != -1)
                 {
                     HUD.ShowNotification("Non puoi acquistare l'auricolare che hai già!");
                 }
                 else
                 {
-                    int val = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_index - 1].Price;
+                    int val = Accessorio.Head.Earpieces.OrderBy(x => x.Price).ToList()[_index - 1].Price;
 
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears = Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_index - 1].Model;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears = 0;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Style = Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_index - 1].Model;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Color = 0;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1450,10 +1450,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Ears = Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_index - 1].Model;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Ears = 0;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Style = Accessorio.Head.Earphones.OrderBy(x => x.Price).ToList()[_index - 1].Model;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Color = 0;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
@@ -1469,9 +1469,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             UIMenuItem NoOrol = new("");
             UIMenuItem NewOrol = new("");
 
-            foreach (Singolo orologio in Accessorio.Orologi)
+            foreach (Single orologio in Accessorio.Watches)
             {
-                if (Accessorio.Orologi.IndexOf(orologio) != 0)
+                if (Accessorio.Watches.IndexOf(orologio) != 0)
                 {
                     UIMenuItem _OrologinoItem = new(orologio.Title, orologio.Description);
                     Orologino = new(orologio.Title, "");
@@ -1481,7 +1481,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     SubMenusPolso.Add(Orologino);
                 }
 
-                if (orologio.Modello == -1)
+                if (orologio.Model == -1)
                 {
                     NoOrol = new UIMenuItem(orologio.Title, orologio.Description);
                     Orol.AddItem(NoOrol);
@@ -1524,9 +1524,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             break;
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi == orologio.Modello && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi == v)
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Watches == orologio.Model && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Watches == v)
                     {
-                        if (orologio.Modello == -1)
+                        if (orologio.Model == -1)
                         {
                             NoOrol.SetRightBadge(BadgeIcon.CLOTHING);
                             OrolAtt = NoOrol;
@@ -1555,21 +1555,21 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                     Orologino.OnMenuOpen += (a, b) =>
                     {
-                        SetPedPropIndex(PlayerPedId(), 6, orologio.Modello, 0, false);
-                        IntOrolAtt = orologio.Modello;
+                        SetPedPropIndex(PlayerPedId(), 6, orologio.Model, 0, false);
+                        IntOrolAtt = orologio.Model;
                         IntOrolMod = 0;
                     };
                     Orologino.OnIndexChange += async (_menu, _newIndex) =>
                     {
-                        SetPedPropIndex(PlayerPedId(), 6, orologio.Modello, orologio.Text[_newIndex], false);
-                        IntOrolAtt = orologio.Modello;
+                        SetPedPropIndex(PlayerPedId(), 6, orologio.Model, orologio.Text[_newIndex], false);
+                        IntOrolAtt = orologio.Model;
                         IntOrolMod = orologio.Text[_newIndex];
                     };
                 }
 
                 Orologino.OnItemSelect += async (_menu, _item, _index) =>
                 {
-                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi == IntOrolAtt && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi == IntOrolMod)
+                    if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Watches == IntOrolAtt && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Watches == IntOrolMod)
                     {
                         HUD.ShowNotification("Non puoi acquistare lo stesso orologio che hai già! Prova a cambiare modello!", true);
                     }
@@ -1585,8 +1585,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = IntOrolAtt;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = IntOrolMod;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Watches = IntOrolAtt;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Watches = IntOrolMod;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             OrolAtt.SetRightBadge(BadgeIcon.NONE);
                             OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
@@ -1601,8 +1601,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                             {
                                 BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = IntOrolAtt;
-                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = IntOrolMod;
+                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Watches = IntOrolAtt;
+                                Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Watches = IntOrolMod;
                                 OrolAtt.SetRightBadge(BadgeIcon.NONE);
                                 OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
                                 OrolAtt.SetRightBadge(BadgeIcon.CLOTHING);
@@ -1630,7 +1630,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             {
                 if (_item != NoOrol) return;
 
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi == -1 && IntOrolAtt == -1)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Watches == -1 && IntOrolAtt == -1)
                 {
                     HUD.ShowNotification("Non puoi rimuovere 2 volte un orologio!!", true);
                 }
@@ -1646,12 +1646,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = -1;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = -1;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Watches = -1;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Watches = -1;
                         OrolAtt.SetRightBadge(BadgeIcon.NONE);
                         OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
                         OrolAtt.SetRightBadge(BadgeIcon.CLOTHING);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Ears.Style = Accessorio.Watches.OrderBy(x => x.Price).ToList()[_index].Model;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
                     }
@@ -1660,8 +1660,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = -1;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = -1;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Watches = -1;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Watches = -1;
                             OrolAtt.SetRightBadge(BadgeIcon.NONE);
                             OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
                             OrolAtt.SetRightBadge(BadgeIcon.CLOTHING);
@@ -1681,34 +1681,34 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 if (_listItem == braccialetti)
                 {
                     string ActiveItem = _listItem.Items[_newIndex].ToString();
-                    _listItem.Description = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_newIndex].Description + ", Prezzo: $" + Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_newIndex].Price;
-                    if (Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_newIndex].Modello != -1)
-                        SetPedPropIndex(PlayerPedId(), 7, Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_newIndex].Modello, 0, false);
+                    _listItem.Description = Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_newIndex].Description + ", Prezzo: $" + Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_newIndex].Price;
+                    if (Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_newIndex].Model != -1)
+                        SetPedPropIndex(PlayerPedId(), 7, Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_newIndex].Model, 0, false);
                     else
                         ClearPedProp(PlayerPedId(), 7);
-                    IntorecAtt = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_newIndex].Modello;
+                    IntorecAtt = Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_newIndex].Model;
                     _menu.UpdateDescription();
                 }
             };
             Brac.OnItemSelect += (_menu, _listItem, _listIndex) =>
             {
-                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali == -1)
+                if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracelets == Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_listIndex].Model && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracelets == -1)
                 {
                     HUD.ShowNotification("Non puoi rimuovere 2 volte un bracciale!!", true);
                 }
-                else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali != -1)
+                else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracelets == Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_listIndex].Model && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracelets != -1)
                 {
                     HUD.ShowNotification("Non puoi acquistare di nuovo il braccialetto che hai già!");
                 }
                 else
                 {
-                    int val = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Price;
+                    int val = Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_listIndex].Price;
 
                     if (Cache.PlayerCache.MyPlayer.User.Money >= val)
                     {
                         BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Bracciali = 0;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracelets = Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_listIndex].Model;
+                        Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Bracelets = 0;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                         Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                         HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1718,8 +1718,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         if (Cache.PlayerCache.MyPlayer.User.Bank >= val)
                         {
                             BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Bracciali = 0;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracelets = Accessorio.Bracelets.OrderBy(x => x.Price).ToList()[_listIndex].Model;
+                            Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Bracelets = 0;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
                             Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
                             HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");

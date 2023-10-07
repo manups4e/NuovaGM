@@ -1,10 +1,10 @@
-﻿using Impostazioni.Shared.Configurazione.Generici;
+﻿using Settings.Shared.Config.Generic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheLastPlanet.Shared.PlayerChar;
-using TheLastPlanet.Shared.Veicoli;
+using TheLastPlanet.Shared.Vehicles;
 
 namespace TheLastPlanet.Server.Core.PlayerChar
 {
@@ -60,18 +60,18 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             LastSaved = DateTime.Now;
         }
 
-        [JsonIgnore] internal string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
+        [JsonIgnore] internal string FullName => CurrentChar.Info.Firstname + " " + CurrentChar.Info.Lastname;
 
-        [JsonIgnore] internal string DOB => CurrentChar.Info.dateOfBirth;
+        [JsonIgnore] internal string DOB => CurrentChar.Info.DateOfBirth;
 
 
         [JsonIgnore]
         internal bool DeathStatus
         {
-            get => CurrentChar.is_dead;
+            get => CurrentChar.Is_dead;
             set
             {
-                CurrentChar.is_dead = value;
+                CurrentChar.Is_dead = value;
                 //Status.RolePlayStates.Svenuto = true;
             }
         }
@@ -160,10 +160,10 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             {
                 checkedItem.Amount += amount;
 
-                if (checkedItem.Amount == ConfigShared.SharedConfig.Main.Generici.ItemList[item].max)
+                if (checkedItem.Amount == ConfigShared.SharedConfig.Main.Generics.ItemList[item].max)
                 {
-                    checkedItem.Amount = ConfigShared.SharedConfig.Main.Generici.ItemList[item].max;
-                    Player.TriggerEvent("tlg:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "~w~!");
+                    checkedItem.Amount = ConfigShared.SharedConfig.Main.Generics.ItemList[item].max;
+                    Player.TriggerEvent("tlg:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + "~w~!");
                 }
             }
             else
@@ -171,7 +171,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
                 CurrentChar.Inventory.Add(new Inventory(item, amount, weight));
             }
 
-            Player.TriggerEvent("tlg:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "!");
+            Player.TriggerEvent("tlg:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + "!");
         }
 
         public void removeInventoryItem(string item, int amount)
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
                 CurrentChar.Inventory.ToList().Remove(checkedItem);
             }
 
-            Player.TriggerEvent("tlg:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + " ti sono stati rimossi/e!");
+            Player.TriggerEvent("tlg:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + " ti sono stati rimossi/e!");
         }
 
         public List<Weapons> getCharWeapons(uint charId)
@@ -213,7 +213,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
         public void updateWeaponAmmo(string weaponName, int ammo)
         {
             Tuple<int, Weapons> weapon = getWeapon(weaponName);
-            if (weapon.Item2.ammo > ammo) CurrentChar.Weapons[weapon.Item1].ammo = ammo;
+            if (weapon.Item2.Ammo > ammo) CurrentChar.Weapons[weapon.Item1].Ammo = ammo;
         }
 
         public void removeWeapon(string weaponName)
@@ -236,7 +236,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             }
             else
             {
-                CurrentChar.Weapons[num].components.Add(new Components(weaponComponent, true));
+                CurrentChar.Weapons[num].Components.Add(new Components(weaponComponent, true));
                 Player.TriggerSubsystemEvent("lprp:addWeaponComponent", weaponName, weaponComponent);
 
             }
@@ -248,10 +248,10 @@ namespace TheLastPlanet.Server.Core.PlayerChar
             Weapons weapon = getWeapon(weaponName).Item2;
 
             if (weapon != null)
-                for (int i = 0; i < CurrentChar.Weapons[num].components.Count; i++)
-                    if (CurrentChar.Weapons[num].components[i].name == weaponComponent)
+                for (int i = 0; i < CurrentChar.Weapons[num].Components.Count; i++)
+                    if (CurrentChar.Weapons[num].Components[i].name == weaponComponent)
                     {
-                        CurrentChar.Weapons[num].components.RemoveAt(i);
+                        CurrentChar.Weapons[num].Components.RemoveAt(i);
                         Player.TriggerSubsystemEvent("lprp:removeWeaponComponent", weaponName, weaponComponent);
 
                     }
@@ -270,7 +270,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
                 }
                 else
                 {
-                    CurrentChar.Weapons[num].tint = tint;
+                    CurrentChar.Weapons[num].Tint = tint;
                     Player.TriggerSubsystemEvent("lprp:addWeaponTint", weaponName, tint);
 
                 }
@@ -279,12 +279,12 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
         public bool hasWeapon(string weaponName)
         {
-            return CurrentChar.Weapons.Any(x => x.name == weaponName);
+            return CurrentChar.Weapons.Any(x => x.Name == weaponName);
         }
 
         public Tuple<int, Weapons> getWeapon(string weaponName)
         {
-            Weapons weapon = CurrentChar.Weapons.FirstOrDefault(x => x.name == weaponName);
+            Weapons weapon = CurrentChar.Weapons.FirstOrDefault(x => x.Name == weaponName);
 
             return weapon != null ? new Tuple<int, Weapons>(CurrentChar.Weapons.IndexOf(weapon), weapon) : new Tuple<int, Weapons>(0, null);
         }
@@ -293,36 +293,36 @@ namespace TheLastPlanet.Server.Core.PlayerChar
         {
             Weapons weapon = getWeapon(weaponName).Item2;
 
-            return weapon != null && weapon.tint == tint;
+            return weapon != null && weapon.Tint == tint;
         }
 
         public bool hasWeaponComponent(string weaponName, string weaponComponent)
         {
             Weapons weapon = getWeapon(weaponName).Item2;
 
-            return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
+            return weapon != null && weapon.Components.Any(x => x.name == weaponComponent);
         }
 
-        [JsonIgnore] internal Vector3 getCoords => CurrentChar.Posizione.ToVector3;
+        [JsonIgnore] internal Vector3 getCoords => CurrentChar.Position.ToVector3;
 
         public void giveLicense(string license, string mittente)
         {
             Licenses licenza = new(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"), mittente);
-            CurrentChar.Licenze.Add(licenza);
+            CurrentChar.Licenses.Add(licenza);
         }
 
         public void removeLicense(string license)
         {
-            foreach (Licenses licen in CurrentChar.Licenze)
-                if (licen.name == license)
-                    CurrentChar.Licenze.Remove(licen);
+            foreach (Licenses licen in CurrentChar.Licenses)
+                if (licen.Name == license)
+                    CurrentChar.Licenses.Remove(licen);
                 else
                     Server.Logger.Warning($"Il player {Player.Name} non ha una licenza con nome '{license}'");
         }
 
         public List<OwnedVehicle> GetCharVehicles()
         {
-            return CurrentChar.Veicoli;
+            return CurrentChar.Vehicles;
         }
 
         public void AddExperience(int experiencePoints)

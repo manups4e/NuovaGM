@@ -120,7 +120,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
         private static async void Spawnato(PlayerClient client)
         {
-            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+            if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Maschio")
             {
                 sLocal_436 = "mp_safehouseshower@male@";
                 sLocal_437 = "male_shower_undress_&_turn_on_water";
@@ -242,7 +242,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                         ReleaseAmbientAudioBank();
                         if (Global_2499242_f_25 != -1) ReleaseSoundId(Global_2499242_f_25);
 
-                        if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Femmina")
+                        if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex == "Femmina")
                         {
                             while (GetSynchronizedScenePhase(Scena1) < 0.76f) await BaseScript.Delay(0);
                             Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_DOOR_OPEN_MASTER", PlayerPedId(), 0, 0, 0);

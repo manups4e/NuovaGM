@@ -74,13 +74,13 @@ namespace TheLastPlanet.Server.Core
                 Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
                 Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
                 Server.Instance.AddEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
-                Server.Instance.AddCommand("sessione", new Action<Player, List<string>, string>(QueueSession), ModalitaServer.UNKNOWN, UserGroup.Admin);
-                Server.Instance.AddCommand("cambiamax", new Action<Player, List<string>, string>(QueueChangeMax), ModalitaServer.UNKNOWN, UserGroup.Admin);
-                Server.Instance.AddCommand("ricaricaconfig", new Action<Player, List<string>, string>(ReloadConfig), ModalitaServer.UNKNOWN, UserGroup.Admin);
-                Server.Instance.AddCommand("ckick", new Action<Player, List<string>, string>(Kick), ModalitaServer.UNKNOWN, UserGroup.Admin);
-                Server.Instance.AddCommand("steamhexfromprofile", new Action<Player, List<string>, string>(DiscordProfileToHex), ModalitaServer.UNKNOWN, UserGroup.Admin);
-                Server.Instance.AddCommand("exitgame", new Action<Player, List<string>, string>(ExitSession), ModalitaServer.UNKNOWN, UserGroup.Admin);
-                Server.Instance.AddCommand("count", new Action<Player, List<string>, string>(QueueCheck), ModalitaServer.UNKNOWN, UserGroup.Admin);
+                Server.Instance.AddCommand("sessione", new Action<Player, List<string>, string>(QueueSession), ServerMode.UNKNOWN, UserGroup.Admin);
+                Server.Instance.AddCommand("cambiamax", new Action<Player, List<string>, string>(QueueChangeMax), ServerMode.UNKNOWN, UserGroup.Admin);
+                Server.Instance.AddCommand("ricaricaconfig", new Action<Player, List<string>, string>(ReloadConfig), ServerMode.UNKNOWN, UserGroup.Admin);
+                Server.Instance.AddCommand("ckick", new Action<Player, List<string>, string>(Kick), ServerMode.UNKNOWN, UserGroup.Admin);
+                Server.Instance.AddCommand("steamhexfromprofile", new Action<Player, List<string>, string>(DiscordProfileToHex), ServerMode.UNKNOWN, UserGroup.Admin);
+                Server.Instance.AddCommand("exitgame", new Action<Player, List<string>, string>(ExitSession), ServerMode.UNKNOWN, UserGroup.Admin);
+                Server.Instance.AddCommand("count", new Action<Player, List<string>, string>(QueueCheck), ServerMode.UNKNOWN, UserGroup.Admin);
                 StopHardcap();
                 Task.Run(QueueCycle);
                 //            Server.Instance.AddTick(QueueCycle);
@@ -97,13 +97,13 @@ namespace TheLastPlanet.Server.Core
             if (hostName == string.Empty) hostName = GetConvar("sv_hostname", string.Empty);
             maxSession = GetConvarInt("sv_maxclients", 32);
             publicTypeSlots = maxSession;
-            messages = Server.Impostazioni.Coda.messages;
-            loadTime = Server.Impostazioni.Coda.loadTime;
-            graceTime = Server.Impostazioni.Coda.graceTime;
-            queueGraceTime = Server.Impostazioni.Coda.queueGraceTime;
-            whitelistonly = Server.Impostazioni.Coda.whitelistonly;
-            allowSymbols = Server.Impostazioni.Coda.allowSymbols;
-            stateChangeMessages = Server.Impostazioni.Coda.stateChangeMessages;
+            messages = Server.Impostazioni.Coda.Messages;
+            loadTime = Server.Impostazioni.Coda.LoadTime;
+            graceTime = Server.Impostazioni.Coda.GraceTime;
+            queueGraceTime = Server.Impostazioni.Coda.QueueGraceTime;
+            whitelistonly = Server.Impostazioni.Coda.Whitelistonly;
+            allowSymbols = Server.Impostazioni.Coda.AllowSymbols;
+            stateChangeMessages = Server.Impostazioni.Coda.StateChangeMessages;
         }
 
         private static void QueueCheck(Player source, List<string> args, string raw)
@@ -187,7 +187,7 @@ namespace TheLastPlanet.Server.Core
                 bool editHost = false;
                 int count = inQueue + inPriorityQueue;
 
-                if (Server.Impostazioni.Coda.contoCodaFineNomeServer)
+                if (Server.Impostazioni.Coda.AddCountAfterServerName)
                 {
                     editHost = true;
                     if (count > 0)
@@ -746,7 +746,7 @@ namespace TheLastPlanet.Server.Core
                 /*https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif */
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
-                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Coda.permessi, PlayerTokens);
+                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Coda.Permissions, PlayerTokens);
                 await BaseScript.Delay(1000);
 
                 if (puoentrare.permesso)

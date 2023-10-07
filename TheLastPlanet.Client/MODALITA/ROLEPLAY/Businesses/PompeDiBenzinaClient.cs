@@ -1,4 +1,4 @@
-﻿using Impostazioni.Shared.Configurazione.Generici;
+﻿using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
     {
         private static bool _interactWait = false;
         private static List<GasStation> _stations = new List<GasStation>();
-        private static List<StationDiBenzina> _playerstations = new();
+        private static List<GasStations> _playerstations = new();
         private static Scaleform _info = new Scaleform("mp_mission_name_freemode");
 
         public static void Init()
@@ -46,16 +46,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
             Client.Instance.RemoveEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
         }
 
-        private static StationDiBenzina GetStationInfo(int index)
+        private static GasStations GetStationInfo(int index)
         {
-            foreach (StationDiBenzina s in _playerstations)
-                if (s.stationindex == index)
+            foreach (GasStations s in _playerstations)
+                if (s.Stationindex == index)
                     return s;
 
             return null;
         }
 
-        private StationDiBenzina GetPlayerstationsNearCoords(Vector3 pos)
+        private GasStations GetPlayerstationsNearCoords(Vector3 pos)
         {
             int mstation = 0;
 
@@ -79,26 +79,26 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
             if (_stations.Count > 0) _stations.Clear();
             if (_playerstations.Count > 0) _playerstations.Clear();
             _stations = pompeBenza.FromJson<List<GasStation>>();
-            _playerstations = stazioniPlayer.FromJson<List<StationDiBenzina>>();
+            _playerstations = stazioniPlayer.FromJson<List<GasStations>>();
         }
 
         private static void CheckCanManage(bool canmanage, int manageid, string managetime, int funds)
         {
             if (canmanage)
             {
-                StationDiBenzina station = _playerstations[manageid];
+                GasStations station = _playerstations[manageid];
                 string pfmtstr = "";
-                string[] allow = station.deliverallow.Split(';');
+                string[] allow = station.Deliverallow.Split(';');
                 if (allow.Length > 0) pfmtstr = allow.Aggregate(pfmtstr, (current, s) => current + " " + s);
                 Client.Instance.NuiManager.SetFocus(true, true);
                 Client.Instance.NuiManager.SendMessage(new
                 {
                     showManager = true,
                     manageid,
-                    station.stationname,
-                    station.thanksmessage,
-                    fuelcost = station.fuelprice,
-                    deltype = station.delivertype,
+                    station.Stationname,
+                    station.Thanksmessage,
+                    fuelcost = station.Fuelprice,
+                    deltype = station.Delivertype,
                     funds,
                     deliverylist = pfmtstr
                 });
@@ -206,13 +206,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
                 float dist = Cache.PlayerCache.MyPlayer.Posizione.Distance(_stations[i].ppos);
 
                 if (!(dist < 80)) continue;
-                StationDiBenzina stationinfo = GetStationInfo(i + 1);
+                GasStations stationinfo = GetStationInfo(i + 1);
                 World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(_stations[i].ppos[0], _stations[i].ppos[1], _stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 
                 if (dist < 1.3f)
-                    if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                    if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                     {
-                        if (string.Equals(stationinfo.ownerchar, Cache.PlayerCache.MyPlayer.User.FullName, StringComparison.CurrentCultureIgnoreCase))
+                        if (string.Equals(stationinfo.Ownerchar, Cache.PlayerCache.MyPlayer.User.FullName, StringComparison.CurrentCultureIgnoreCase))
                         {
                             HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
 
@@ -223,7 +223,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
                                     BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", i + 1);
                                 }
                         }
-                        else if (stationinfo.ownerchar == "")
+                        else if (stationinfo.Ownerchar == "")
                         {
                             HUD.ShowHelp("Questa stazione è in vendita a ~g~" + _stations[i].sellprice.ToString() + "$~w~.\nPremi ~b~~INPUT_CONTEXT~~w~ per comprarla.");
 
@@ -238,10 +238,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 
                 _info = new Scaleform("mp_mission_name_freemode");
                 while (!_info.IsLoaded) await BaseScript.Delay(10);
-                if (string.IsNullOrEmpty(stationinfo.ownerchar))
-                    _info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: Nessuno", "", "", "", "", "", "", "", "");
+                if (string.IsNullOrEmpty(stationinfo.Ownerchar))
+                    _info.CallFunction("SET_MISSION_INFO", stationinfo.Stationname, "\nProprietario: Nessuno", "", "", "", "", "", "", "", "");
                 else
-                    _info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: " + stationinfo.ownerchar, "", "", "", "", "", "", "", "");
+                    _info.CallFunction("SET_MISSION_INFO", stationinfo.Stationname, "\nProprietario: " + stationinfo.Ownerchar, "", "", "", "", "", "", "", "");
                 _info.Render3D(_stations[i].ppos, GetGameplayCamRot(0), new Vector3(2.0f, 2.0f, 2.0f));
             }
 

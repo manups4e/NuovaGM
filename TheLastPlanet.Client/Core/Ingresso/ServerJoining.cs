@@ -12,7 +12,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
         public static async void Init()
         {
-            EventDispatcher.Mount("tlg:SetBucketsPlayers", new Action<Dictionary<ModalitaServer, int>>(UpdateCountPlayers));
+            EventDispatcher.Mount("tlg:SetBucketsPlayers", new Action<Dictionary<ServerMode, int>>(UpdateCountPlayers));
 #if DEBUG
             Client.Instance.AddTick(Entra);
 #endif
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
             await Task.FromResult(0);
         }
 
-        private static void UpdateCountPlayers(Dictionary<ModalitaServer, int> count)
+        private static void UpdateCountPlayers(Dictionary<ServerMode, int> count)
         {
             MainChooser.Bucket_n_Players = count;
         }
@@ -80,7 +80,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
             Ped p = PlayerCache.MyPlayer.Ped;
             p.Style.SetDefaultClothes();
             await PlayerCache.Loaded();
-            PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
+            PlayerCache.MyPlayer.Status.PlayerStates.Mode = ServerMode.Lobby;
             PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             ShutdownLoadingScreen();
             ShutdownLoadingScreenNui();
@@ -110,7 +110,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
             // TODO: sostituire con caricamento personaggio freeroam.
             PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
 
-            PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
+            PlayerCache.MyPlayer.Status.PlayerStates.Mode = ServerMode.Lobby;
             PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             Screen.Fading.FadeIn(1000);
             SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", PlayerCache.MyPlayer.Ped);

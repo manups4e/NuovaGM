@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using FxEvents.Shared.Attributes;
-using TheLastPlanet.Shared.Veicoli;
 
 
-// TODO: DEVO AGGIUNGERE IL SAlVATAGGIO NEL DB (guardare tickHandler.cs)
 namespace TheLastPlanet.Shared
 {
     public enum PlayerStats : int
@@ -34,20 +31,20 @@ namespace TheLastPlanet.Shared
         CustomFloat
     }
 
-    
+
     public class FreeRoamChar
     {
         public ulong CharID { get; set; }
         public bool is_dead { get; set; }
         public Finance Finance { get; set; }
-        public Position Posizione { get; set; }
+        public Position Position { get; set; }
         public Gang Gang { get; set; }
         public Skin Skin { get; set; }
         public List<Weapons> Weapons { get; set; }
-        public List<string> Proprietà { get; set; } // da aggiungere
-        //public List<OwnedVehicle> Veicoli { get; set; } // da aggiungere
+        public List<string> Properties { get; set; } // to be added
+        //public List<OwnedVehicle> Vehigles { get; set; } // to be added
         public Dressing Dressing { get; set; }
-        public FreeRoamStats Statistiche { get; set; }
+        public FreeRoamStats Stats { get; set; }
         public int Level { get; set; } = 1;
         public int TotalXp { get; set; }
 
@@ -61,7 +58,7 @@ namespace TheLastPlanet.Shared
             Skin = new();
             Dressing = new();
             Weapons = new();
-            Statistiche = new();
+            Stats = new();
         }
 
         public FreeRoamChar(ulong id, Finance finance, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, FreeRoamStats statistiche)
@@ -72,11 +69,11 @@ namespace TheLastPlanet.Shared
             Skin = skin;
             Dressing = dressing;
             Weapons = weapons;
-            Statistiche = statistiche;
+            Stats = statistiche;
         }
     }
 
-    
+
     public class FreeRoamStats
     {
         public float STAMINA { get; set; } = 0;
@@ -94,9 +91,11 @@ namespace TheLastPlanet.Shared
         public int MaxKillStreak { get; set; } = 0;
         public int MissionsDone { get; set; } = 0;
         public int EventsWon { get; set; } = 0;
+        // to add madness like in gta:o?
+        //TODO: IDEA, TO ADD KILLER CONTRACTS LIKE GTA:O
     }
 
-    
+
     public class PlayerScore
     {
         public int EventId { get; set; }
@@ -105,7 +104,7 @@ namespace TheLastPlanet.Shared
         public float BestAttempt { get; set; }
     }
 
-    
+    // old classes for old binary serialization
     public class FreeRoamChar_Metadata
     {
         public int money;/*{ set => Finance.Money = value; }*/

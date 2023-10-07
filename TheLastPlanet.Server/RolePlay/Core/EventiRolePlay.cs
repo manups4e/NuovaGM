@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using Impostazioni.Shared.Configurazione.Generici;
+using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,7 +143,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
             int dirty = player.DirtCash;
             foreach (Inventory inv in player.CurrentChar.Inventory.ToList())
                 player.removeInventoryItem(inv.Item, inv.Amount);
-            foreach (Weapons inv in player.CurrentChar.Weapons.ToList()) player.removeWeapon(inv.name);
+            foreach (Weapons inv in player.CurrentChar.Weapons.ToList()) player.removeWeapon(inv.Name);
             player.Money -= money;
             player.DirtCash -= dirty;
         }
@@ -184,7 +184,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 
         public static void AddInventory([FromSource] PlayerClient source, string item, int amount, float peso)
         {
-            source.User.addInventoryItem(item, amount, peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
+            source.User.addInventoryItem(item, amount, peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generics.ItemList[item].peso);
         }
 
         public static void RemoveInventory([FromSource] PlayerClient source, string item, int amount)
@@ -258,7 +258,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
         public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso)
         {
             Funzioni.GetUserFromPlayerId(target).addInventoryItem(item, amount,
-                peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
+                peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generics.ItemList[item].peso);
         }
 
         public static void RemoveInventoryToChar(string target, int charId, string item, int amount)
@@ -322,10 +322,10 @@ namespace TheLastPlanet.Server.RolePlay.Core
             PlayerClient targetClient = Funzioni.GetClientFromPlayerId(target);
             User targetPlayer = targetClient.User;
             player.removeInventoryItem(itemName, amount);
-            player.showNotification($"Hai dato {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} a {targetPlayer.FullName}");
-            targetPlayer.addInventoryItem(itemName, amount, ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].peso);
+            player.showNotification($"Hai dato {amount} di {ConfigShared.SharedConfig.Main.Generics.ItemList[itemName].label} a {targetPlayer.FullName}");
+            targetPlayer.addInventoryItem(itemName, amount, ConfigShared.SharedConfig.Main.Generics.ItemList[itemName].peso);
             targetClient.TriggerSubsystemEvent("lprp:riceviOggettoAnimazione");
-            targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} da {player.FullName}");
+            targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generics.ItemList[itemName].label} da {player.FullName}");
         }
 
         private static void GiveWeaponToOtherPlayer([FromSource] PlayerClient source, int target, string weaponName, int ammo)
@@ -345,8 +345,8 @@ namespace TheLastPlanet.Server.RolePlay.Core
                 player.removeWeapon(weaponName);
                 player.showNotification($"Hai dato la tua arma a {targetPlayer.FullName}");
                 targetPlayer.addWeapon(weaponName, ammo);
-                foreach (Components comp in arma.components) targetPlayer.addWeaponComponent(weaponName, comp.name);
-                if (arma.tint != 0) targetPlayer.addWeaponTint(weaponName, arma.tint);
+                foreach (Components comp in arma.Components) targetPlayer.addWeaponComponent(weaponName, comp.name);
+                if (arma.Tint != 0) targetPlayer.addWeaponTint(weaponName, arma.Tint);
                 targetClient.TriggerSubsystemEvent("lprp:riceviOggettoAnimazione");
                 targetPlayer.showNotification($"Hai ricevuto un'arma con {ammo} munizioni da {player.FullName}");
             }

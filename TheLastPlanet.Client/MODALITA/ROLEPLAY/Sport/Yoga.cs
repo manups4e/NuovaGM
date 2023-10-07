@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
 
         public static void onPlayerLeft(PlayerClient client)
         {
-            ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa -= async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["materassinoyoga"].Use -= async (item, index) =>
             {
                 Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);
                 //rimuovere da inventario
@@ -88,7 +88,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
             RequestAnimDict(YogaAnimUnknown);
             RequestAnimDict("missfam5_yoga");
             RequestAdditionalText("YOGA", 3);
-            ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa += async (item, index) =>
+            ConfigShared.SharedConfig.Main.Generics.ItemList["materassinoyoga"].Use += async (item, index) =>
             {
                 Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);
                 //rimuovere da inventario

@@ -13,39 +13,39 @@ namespace TheLastPlanet.Server.Core
     {
         public static void Init()
         {
-            Server.Instance.AddCommand("ooc", new Action<PlayerClient, List<string>, string>(Ooc), ModalitaServer.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat ~y~fuori dal personaggio~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
-            Server.Instance.AddCommand("pol", new Action<PlayerClient, List<string>, string>(Pol), ModalitaServer.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
-            Server.Instance.AddCommand("pil", new Action<PlayerClient, List<string>, string>(Pil), ModalitaServer.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~piloti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
-            Server.Instance.AddCommand("med", new Action<PlayerClient, List<string>, string>(Med), ModalitaServer.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
-            Server.Instance.AddCommand("mec", new Action<PlayerClient, List<string>, string>(Mec), ModalitaServer.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
-            Server.Instance.AddCommand("me", new Action<PlayerClient, List<string>, string>(Me), ModalitaServer.Roleplay, UserGroup.User, new ChatSuggestion("Descrivi i tuoi stati d'animo e personali", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
-            Server.Instance.AddCommand("do", new Action<PlayerClient, List<string>, string>(Do), ModalitaServer.Roleplay, UserGroup.User, new ChatSuggestion("Descrivi le tue azioni personali e interpersonali", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
-            Server.Instance.AddCommand("giveitem", new Action<PlayerClient, List<string>, string>(GiveItem), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Dai un oggetto a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Oggetto", "L'oggetto da dare al player"), new("Quantità", "Quantità dell'oggetto da dare") }));
-            Server.Instance.AddCommand("removeitem", new Action<PlayerClient, List<string>, string>(RemoveItem), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Togli un oggetto a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Oggetto", "L'oggetto da togliere al player"), new("Quantità", "Quantità dell'oggetto da togliere") }));
-            Server.Instance.AddCommand("giveweapon", new Action<PlayerClient, List<string>, string>(GiveWeapon), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Dai un'arma a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Arma", "L'arma da dare al player [es. weapon_pistol]"), new("Quantità", "Quantità di munizioni da dare") }));
-            Server.Instance.AddCommand("removeweapon", new Action<PlayerClient, List<string>, string>(RemoveWeapon), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Togli un'arma a un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Arma", "L'arma da togliere al player [es. weapon_pistol]") }));
-            Server.Instance.AddCommand("givemoney", new Action<PlayerClient, List<string>, string>(GiveMoney), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Dai soldi nel portafoglio ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
-            Server.Instance.AddCommand("givebank", new Action<PlayerClient, List<string>, string>(GiveBank), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Dai soldi in banca ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
-            Server.Instance.AddCommand("givedirty", new Action<PlayerClient, List<string>, string>(GiveDirty), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Dai soldi sporchi ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
-            Server.Instance.AddCommand("removemoney", new Action<PlayerClient, List<string>, string>(RemoveMoney), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi nel portafoglio ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
-            Server.Instance.AddCommand("removebank", new Action<PlayerClient, List<string>, string>(RemoveBank), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi in banca ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
-            Server.Instance.AddCommand("removedirty", new Action<PlayerClient, List<string>, string>(RemoveDirty), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi sporchi ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
-            Server.Instance.AddCommand("setmoney", new Action<PlayerClient, List<string>, string>(SetFinances), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Modifica definitivamente un account monetario del player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Account", "cash = soldi, bank = banca, dirty = sporchi"), new("Quantità", "Attenzione, se ho 10 e metto 1, la quantità diventa 1") }));
-            Server.Instance.AddCommand("annuncio", new Action<PlayerClient, List<string>, string>(Annuncio), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Annuncio a tutti i giocatori", new SuggestionParam[1] { new("Annuncio", "Messaggio da far leggere a tutti") }));
-            Server.Instance.AddCommand("revive", new Action<PlayerClient, List<string>, string>(Revive), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Rianima un giocatore", new SuggestionParam[1] { new("ID Player", "[Opzionale] Il Server ID del player, se non inserisci niente rianimi te stesso") }));
-            Server.Instance.AddCommand("setgroup", new Action<PlayerClient, List<string>, string>(SetGroup), ModalitaServer.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Cambia gruppo al player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Id Gruppo", "0 = User, 1 = Helper, 2 = Moderatore, 3 = Admin, 4 = Founder, 5 = Sviluppatore") }));
-            Server.Instance.AddCommand("tp", new Action<PlayerClient, List<string>, string>(Teleport), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Teletrasportati alle coordinate", new SuggestionParam[3] { new("X", ""), new("Y", ""), new("Z", "") }));
-            Server.Instance.AddCommand("suicidati", new Action<PlayerClient, List<string>, string>(Muori), ModalitaServer.Roleplay, UserGroup.Moderatore, new ChatSuggestion("Uccide il tuo personaggio"));
-            Server.Instance.AddCommand("car", new Action<PlayerClient, List<string>, string>(SpawnVehicle), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Spawna un'auto e ti ci porta dentro", new SuggestionParam[1] { new("Modello", "Il modello del veicolo da spawnare") }));
-            Server.Instance.AddCommand("dv", new Action<PlayerClient, List<string>, string>(Dv), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Elimina il veicolo corrente o quello a cui guardi"));
-            Server.Instance.AddCommand("salvatutti", new Action<PlayerClient, List<string>, string>(Salvatutti), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Salva tutti i giocatori subito"));
-            Server.Instance.AddCommand("sviluppatore", new Action<PlayerClient, List<string>, string>(Sviluppatore), ModalitaServer.UNKNOWN, UserGroup.Sviluppatore, new ChatSuggestion("Attiva le funzioni dello sviluppatore", new SuggestionParam[1] { new("Accensione", "On/Off") }));
-            Server.Instance.AddCommand("setjob", new Action<PlayerClient, List<string>, string>(SetJob), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Cambia lavoro ad un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Lavoro", "Il lavoro da attivare"), new("Grado", "Il grado lavorativo") }));
-            Server.Instance.AddCommand("setgang", new Action<PlayerClient, List<string>, string>(SetGang), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Cambia gang ad un giocatore", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Gang", "La gang da settare"), new("Grado", "Il grado della gang") }));
-            Server.Instance.AddCommand("setmeteo", new Action<PlayerClient, List<string>, string>(Weather), ModalitaServer.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Cambia il meteo in gioco", new SuggestionParam[1] { new("Meteo", "Inserisci il numero") }));
-            Server.Instance.AddCommand("dailicenza", new Action<PlayerClient, List<string>, string>(DaiLicenza), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Dai una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da dare") }));
-            Server.Instance.AddCommand("rimuovilicenza", new Action<PlayerClient, List<string>, string>(RimuoviLicenza), ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Togli una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da togliere") }));
-            Server.Instance.AddCommand("delchar", new Action<PlayerClient, List<string>, string>(delchar), ModalitaServer.FreeRoam, UserGroup.Moderatore);
+            Server.Instance.AddCommand("ooc", new Action<PlayerClient, List<string>, string>(Ooc), ServerMode.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat ~y~fuori dal personaggio~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+            Server.Instance.AddCommand("pol", new Action<PlayerClient, List<string>, string>(Pol), ServerMode.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+            Server.Instance.AddCommand("pil", new Action<PlayerClient, List<string>, string>(Pil), ServerMode.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~piloti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+            Server.Instance.AddCommand("med", new Action<PlayerClient, List<string>, string>(Med), ServerMode.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+            Server.Instance.AddCommand("mec", new Action<PlayerClient, List<string>, string>(Mec), ServerMode.Roleplay, UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+            Server.Instance.AddCommand("me", new Action<PlayerClient, List<string>, string>(Me), ServerMode.Roleplay, UserGroup.User, new ChatSuggestion("Descrivi i tuoi stati d'animo e personali", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+            Server.Instance.AddCommand("do", new Action<PlayerClient, List<string>, string>(Do), ServerMode.Roleplay, UserGroup.User, new ChatSuggestion("Descrivi le tue azioni personali e interpersonali", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+            Server.Instance.AddCommand("giveitem", new Action<PlayerClient, List<string>, string>(GiveItem), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Dai un oggetto a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Oggetto", "L'oggetto da dare al player"), new("Quantità", "Quantità dell'oggetto da dare") }));
+            Server.Instance.AddCommand("removeitem", new Action<PlayerClient, List<string>, string>(RemoveItem), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Togli un oggetto a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Oggetto", "L'oggetto da togliere al player"), new("Quantità", "Quantità dell'oggetto da togliere") }));
+            Server.Instance.AddCommand("giveweapon", new Action<PlayerClient, List<string>, string>(GiveWeapon), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Dai un'arma a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Arma", "L'arma da dare al player [es. weapon_pistol]"), new("Quantità", "Quantità di munizioni da dare") }));
+            Server.Instance.AddCommand("removeweapon", new Action<PlayerClient, List<string>, string>(RemoveWeapon), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Togli un'arma a un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Arma", "L'arma da togliere al player [es. weapon_pistol]") }));
+            Server.Instance.AddCommand("givemoney", new Action<PlayerClient, List<string>, string>(GiveMoney), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Dai soldi nel portafoglio ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
+            Server.Instance.AddCommand("givebank", new Action<PlayerClient, List<string>, string>(GiveBank), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Dai soldi in banca ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
+            Server.Instance.AddCommand("givedirty", new Action<PlayerClient, List<string>, string>(GiveDirty), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Dai soldi sporchi ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
+            Server.Instance.AddCommand("removemoney", new Action<PlayerClient, List<string>, string>(RemoveMoney), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Rimuovi soldi nel portafoglio ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
+            Server.Instance.AddCommand("removebank", new Action<PlayerClient, List<string>, string>(RemoveBank), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Rimuovi soldi in banca ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
+            Server.Instance.AddCommand("removedirty", new Action<PlayerClient, List<string>, string>(RemoveDirty), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Rimuovi soldi sporchi ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
+            Server.Instance.AddCommand("setmoney", new Action<PlayerClient, List<string>, string>(SetFinances), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Modifica definitivamente un account monetario del player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Account", "cash = soldi, bank = banca, dirty = sporchi"), new("Quantità", "Attenzione, se ho 10 e metto 1, la quantità diventa 1") }));
+            Server.Instance.AddCommand("annuncio", new Action<PlayerClient, List<string>, string>(Annuncio), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Annuncio a tutti i giocatori", new SuggestionParam[1] { new("Annuncio", "Messaggio da far leggere a tutti") }));
+            Server.Instance.AddCommand("revive", new Action<PlayerClient, List<string>, string>(Revive), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Rianima un giocatore", new SuggestionParam[1] { new("ID Player", "[Opzionale] Il Server ID del player, se non inserisci niente rianimi te stesso") }));
+            Server.Instance.AddCommand("setgroup", new Action<PlayerClient, List<string>, string>(SetGroup), ServerMode.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Cambia gruppo al player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Id Gruppo", "0 = User, 1 = Helper, 2 = Moderatore, 3 = Admin, 4 = Founder, 5 = Sviluppatore") }));
+            Server.Instance.AddCommand("tp", new Action<PlayerClient, List<string>, string>(Teleport), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Teletrasportati alle coordinate", new SuggestionParam[3] { new("X", ""), new("Y", ""), new("Z", "") }));
+            Server.Instance.AddCommand("suicidati", new Action<PlayerClient, List<string>, string>(Muori), ServerMode.Roleplay, UserGroup.Moderator, new ChatSuggestion("Uccide il tuo personaggio"));
+            Server.Instance.AddCommand("car", new Action<PlayerClient, List<string>, string>(SpawnVehicle), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Spawna un'auto e ti ci porta dentro", new SuggestionParam[1] { new("Modello", "Il modello del veicolo da spawnare") }));
+            Server.Instance.AddCommand("dv", new Action<PlayerClient, List<string>, string>(Dv), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Elimina il veicolo corrente o quello a cui guardi"));
+            Server.Instance.AddCommand("salvatutti", new Action<PlayerClient, List<string>, string>(Salvatutti), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Salva tutti i giocatori subito"));
+            Server.Instance.AddCommand("sviluppatore", new Action<PlayerClient, List<string>, string>(Sviluppatore), ServerMode.UNKNOWN, UserGroup.Developer, new ChatSuggestion("Attiva le funzioni dello sviluppatore", new SuggestionParam[1] { new("Accensione", "On/Off") }));
+            Server.Instance.AddCommand("setjob", new Action<PlayerClient, List<string>, string>(SetJob), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Cambia lavoro ad un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Lavoro", "Il lavoro da attivare"), new("Grado", "Il grado lavorativo") }));
+            Server.Instance.AddCommand("setgang", new Action<PlayerClient, List<string>, string>(SetGang), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Cambia gang ad un giocatore", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Gang", "La gang da settare"), new("Grado", "Il grado della gang") }));
+            Server.Instance.AddCommand("setmeteo", new Action<PlayerClient, List<string>, string>(Weather), ServerMode.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Cambia il meteo in gioco", new SuggestionParam[1] { new("Meteo", "Inserisci il numero") }));
+            Server.Instance.AddCommand("dailicenza", new Action<PlayerClient, List<string>, string>(DaiLicenza), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Dai una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da dare") }));
+            Server.Instance.AddCommand("rimuovilicenza", new Action<PlayerClient, List<string>, string>(RimuoviLicenza), ServerMode.UNKNOWN, UserGroup.Moderator, new ChatSuggestion("Togli una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da togliere") }));
+            Server.Instance.AddCommand("delchar", new Action<PlayerClient, List<string>, string>(delchar), ServerMode.FreeRoam, UserGroup.Moderator);
             RegisterCommand("status", new Action<int, List<object>, string>((a, b, c) =>
             {
                 if (a != 0) return;
@@ -54,7 +54,7 @@ namespace TheLastPlanet.Server.Core
                     if (Server.Instance.GetPlayers.Count() > 0)
                     {
                         Server.Logger.Info($"Player totali: {Server.Instance.GetPlayers.Count()}.");
-                        foreach (PlayerClient player in Server.Instance.Clients) Server.Logger.Info($"ID:{player.Handle}, {player.Player.Name}, {player.Ped.Position}, Discord:{player.Player.Identifiers["discord"]}, Ping:{player.Player.Ping}, Pianeta:{player.Status.PlayerStates.Modalita}");
+                        foreach (PlayerClient player in Server.Instance.Clients) Server.Logger.Info($"ID:{player.Handle}, {player.Player.Name}, {player.Ped.Position}, Discord:{player.Player.Identifiers["discord"]}, Ping:{player.Player.Ping}, Pianeta:{player.Status.PlayerStates.Mode}");
                     }
                     else
                         Server.Logger.Warning("Non ci sono player in nel server");
@@ -211,7 +211,7 @@ namespace TheLastPlanet.Server.Core
                 {
                     User player = client.User;
                     string item = "" + args[1];
-                    player.addInventoryItem(item, Convert.ToInt32(args[2]), ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
+                    player.addInventoryItem(item, Convert.ToInt32(args[2]), ConfigShared.SharedConfig.Main.Generics.ItemList[item].peso);
                 }
                 else
                 {
@@ -436,7 +436,7 @@ namespace TheLastPlanet.Server.Core
                     else if (args[1] == "mod")
                     {
                         group = "moderatore";
-                        group_level = (int)UserGroup.Moderatore;
+                        group_level = (int)UserGroup.Moderator;
                     }
                     else if (args[1] == "admin")
                     {
@@ -451,7 +451,7 @@ namespace TheLastPlanet.Server.Core
                     else if (args[1] == "dev")
                     {
                         group = "dev";
-                        group_level = (int)UserGroup.Sviluppatore;
+                        group_level = (int)UserGroup.Developer;
                     }
 
                     await Server.Instance.Execute("UPDATE `users` SET `group` = @gruppo,  `group_level` = @groupL WHERE `discord` = @disc", new { gruppo = group, groupL = group_level, disc = user.Identifiers.Discord });
@@ -512,16 +512,16 @@ namespace TheLastPlanet.Server.Core
                     int rp = 0;
                     if (player.Status.PlayerStates.Spawned)
                     {
-                        switch (player.Status.PlayerStates.Modalita)
+                        switch (player.Status.PlayerStates.Mode)
                         {
-                            case ModalitaServer.Roleplay:
+                            case ServerMode.Roleplay:
                                 player.TriggerSubsystemEvent("lprp:mostrasalvataggio");
                                 BucketsHandler.RolePlay.SalvaPersonaggioRoleplay(player);
                                 Server.Logger.Info($"Salvato personaggio: '{player.User.FullName}' appartenente a '{player.Player.Name}' - {player.User.Identifiers.Discord}");
                                 await Task.FromResult(0);
                                 rp++;
                                 break;
-                            case ModalitaServer.FreeRoam:
+                            case ServerMode.FreeRoam:
                                 player.TriggerSubsystemEvent("tlg:freeroam:showLoading", 4, "Sincronizzazione", 5000);
                                 EventiFreeRoam.SalvaPersonaggio(player);
                                 Server.Logger.Info($"Salvato personaggio freeroam appartenente a '{player.Player.Name}' - {player.User.Identifiers.Discord}");
@@ -589,16 +589,16 @@ namespace TheLastPlanet.Server.Core
             {
                 if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !args[0].All(o => char.IsDigit(o)))
                 {
-                    Server.Logger.Error("/weather <weathertype>\nCurrent Weather: " + TimeWeather.MeteoServer.Meteo.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
+                    Server.Logger.Error("/weather <weathertype>\nCurrent Weather: " + TimeWeather.ServerWeather.Weather.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
 
                     return;
                 }
                 else
                 {
-                    TimeWeather.MeteoServer.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
-                    Server.Logger.Debug(TimeWeather.MeteoServer.Meteo.CurrentWeather + "");
-                    TimeWeather.MeteoServer.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-                    TimeWeather.MeteoServer.CambiaMeteo(false);
+                    TimeWeather.ServerWeather.Weather.CurrentWeather = Convert.ToInt32(args[0]);
+                    Server.Logger.Debug(TimeWeather.ServerWeather.Weather.CurrentWeather + "");
+                    TimeWeather.ServerWeather.Weather.WeatherTimer = ConfigShared.SharedConfig.Main.Weather.ss_weather_timer * 60;
+                    TimeWeather.ServerWeather.CambiaMeteo(false);
                 }
             }
             else
@@ -609,9 +609,9 @@ namespace TheLastPlanet.Server.Core
                 }
                 else
                 {
-                    TimeWeather.MeteoServer.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
-                    TimeWeather.MeteoServer.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-                    TimeWeather.MeteoServer.CambiaMeteo(false);
+                    TimeWeather.ServerWeather.Weather.CurrentWeather = Convert.ToInt32(args[0]);
+                    TimeWeather.ServerWeather.Weather.WeatherTimer = ConfigShared.SharedConfig.Main.Weather.ss_weather_timer * 60;
+                    TimeWeather.ServerWeather.CambiaMeteo(false);
                     string meteo = "";
                     int a = Convert.ToInt32(args[0]);
 

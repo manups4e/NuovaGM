@@ -23,7 +23,7 @@ namespace TheLastPlanet.Server.Core
             try
             {
                 PlayerClient p = Funzioni.GetClientFromPlayerId(id);
-                ModalitaServer currentMode = p.Status.PlayerStates.Modalita;
+                ServerMode currentMode = p.Status.PlayerStates.Mode;
                 if ((int)p.User.group_level < 0) return;
 
                 if (message.StartsWith("/"))
@@ -38,7 +38,7 @@ namespace TheLastPlanet.Server.Core
                     {
                         if (p.User.group_level >= comm.Restriction)
                         {
-                            if (currentMode == comm.Modalita || comm.Modalita == ModalitaServer.UNKNOWN)
+                            if (currentMode == comm.Modalita || comm.Modalita == ServerMode.UNKNOWN)
                             {
                                 comm.Source = p.Player;
                                 comm.rawCommand = message;
@@ -56,10 +56,10 @@ namespace TheLastPlanet.Server.Core
                 {
                     switch (currentMode)
                     {
-                        case ModalitaServer.Roleplay:
+                        case ServerMode.Roleplay:
                             BucketsHandler.RolePlay.Bucket.TriggerClientEvent("lprp:triggerProximityDisplay", p.Handle, p.User.FullName + ":", message);
                             break;
-                        case ModalitaServer.Lobby:
+                        case ServerMode.Lobby:
                             foreach (PlayerClient player in BucketsHandler.Lobby.Bucket.Players)
                             {
                                 p.Player.TriggerEvent("chat:addMessage", new
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Server.Core
                                 });
                             }
                             break;
-                        case ModalitaServer.FreeRoam:
+                        case ServerMode.FreeRoam:
                             foreach (PlayerClient player in BucketsHandler.FreeRoam.Bucket.Players)
                             {
                                 p.Player.TriggerEvent("chat:addMessage", new
@@ -94,7 +94,7 @@ namespace TheLastPlanet.Server.Core
 
         //private static void ConsoleCommand(string name, string command) { }
 
-        public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm, ModalitaServer mode)
+        public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm, ServerMode mode)
         {
             User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 

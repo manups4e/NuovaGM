@@ -7,10 +7,10 @@ namespace TheLastPlanet.Client.AdminAC
 {
     internal static class ClientManager
     {
-        private static InputController adminMenu = new(Control.DropAmmo, ModalitaServer.UNKNOWN, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu));
-        private static InputController noclip = new(Control.ReplayStartStopRecordingSecondary, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip));
-        private static InputController teleport = new(Control.SaveReplayClip, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport));
-        private static InputController camera = new(Control.ReplayStartStopRecording, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Telecamera));
+        private static InputController adminMenu = new(Control.DropAmmo, ServerMode.UNKNOWN, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu));
+        private static InputController noclip = new(Control.ReplayStartStopRecordingSecondary, ServerMode.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip));
+        private static InputController teleport = new(Control.SaveReplayClip, ServerMode.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport));
+        private static InputController camera = new(Control.ReplayStartStopRecording, ServerMode.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Telecamera));
         private static Camera noClipCamera;
         private static Vector3 cameraPosition;
         private static float zoom = 75f;
@@ -50,7 +50,7 @@ namespace TheLastPlanet.Client.AdminAC
 
             if (!NoClip)
             {
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                 {
                     RequestAnimDict(noclip_ANIM_A);
                     while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client.AdminAC
                     await BaseScript.Delay(0);
                 }
 
-                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                 {
                     ClearPedTasksImmediately(PlayerPedId());
                     SetUserRadioControlEnabled(true);
@@ -180,10 +180,10 @@ namespace TheLastPlanet.Client.AdminAC
 
             Vector2 vect = new(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
             Entity target = p;
-            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo) target = p.CurrentVehicle;
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle) target = p.CurrentVehicle;
             p.Velocity = new Vector3(0);
 
-            if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+            if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
                 SetUserRadioControlEnabled(false);
                 p.IsInvincible = true;
@@ -253,7 +253,7 @@ namespace TheLastPlanet.Client.AdminAC
                     await BaseScript.Delay(0);
                 }
 
-                if (!PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                if (!PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                 {
                     ClearPedTasksImmediately(PlayerPedId());
                     SetUserRadioControlEnabled(true);
@@ -445,7 +445,7 @@ namespace TheLastPlanet.Client.AdminAC
             {
                 // get entity to teleport
                 Entity ent = Cache.PlayerCache.MyPlayer.Ped;
-                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo) ent = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
+                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle) ent = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
 
                 // load needed map region and check height levels for ground existence
                 bool groundFound = false;

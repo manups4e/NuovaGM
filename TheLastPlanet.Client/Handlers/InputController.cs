@@ -10,11 +10,11 @@ namespace TheLastPlanet.Client
         public Control Control;
         public PadCheck Check;
         public ControlModifier Modifier;
-        public ModalitaServer Modalita;
+        public ServerMode Modalita;
         public Delegate Action;
         public object[] parameters;
 
-        public InputController(Control control, ModalitaServer modalita, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
+        public InputController(Control control, ServerMode modalita, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
         {
             Control = control;
             Check = check;
@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client
             Modalita = modalita;
         }
 
-        public InputController(Control control, Position position, string message, MarkerEx marker, ModalitaServer modalita, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
+        public InputController(Control control, Position position, string message, MarkerEx marker, ServerMode modalita, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
         {
             Control = control;
             Check = check;

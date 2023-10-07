@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using Impostazioni.Shared.Configurazione.Generici;
+using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace TheLastPlanet.Server.Veicoli
 
         private static async Task<List<GasStation>> GetStations([FromSource] PlayerClient client)
         {
-            return ConfigShared.SharedConfig.Main.Veicoli.gasstations;
+            return ConfigShared.SharedConfig.Main.Vehicles.gasstations;
         }
 
         public static void RespondDecor([FromSource] Player p)

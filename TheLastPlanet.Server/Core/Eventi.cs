@@ -29,11 +29,11 @@ namespace TheLastPlanet.Server.Core
             async ([FromSource] a, b) =>
             {
                 User user = a.User;
-                switch (a.Status.PlayerStates.Modalita)
+                switch (a.Status.PlayerStates.Mode)
                 {
-                    case ModalitaServer.Roleplay:
+                    case ServerMode.Roleplay:
                         if (user.CurrentChar is null) return null;
-                        user.CurrentChar.Posizione = b;
+                        user.CurrentChar.Position = b;
                         TimeSpan time = (DateTime.Now - user.LastSaved);
                         if (time.Minutes > 10)
                         {
@@ -43,17 +43,17 @@ namespace TheLastPlanet.Server.Core
                                                a.Player.Name + "' - " + user.Identifiers.Discord);
                         }
                         return BucketsHandler.RolePlay.Bucket.Players;
-                    case ModalitaServer.FreeRoam:
+                    case ServerMode.FreeRoam:
                         if (a.Status.PlayerStates.Spawned)
-                            user.FreeRoamChar.Posizione = b;
+                            user.FreeRoamChar.Position = b;
                         return BucketsHandler.FreeRoam.Bucket.Players;
-                    case ModalitaServer.Lobby:
+                    case ServerMode.Lobby:
                         return BucketsHandler.Lobby.Bucket.Players;
-                    case ModalitaServer.Minigiochi:
+                    case ServerMode.Minigames:
                         return null;
-                    case ModalitaServer.Gare:
+                    case ServerMode.Races:
                         return null;
-                    case ModalitaServer.Negozio:
+                    case ServerMode.Store:
                         return null;
                     default:
                         return Server.Instance.Clients;
@@ -67,21 +67,21 @@ namespace TheLastPlanet.Server.Core
         }
         public static async Task<List<PlayerClient>> GetAllClients([FromSource] PlayerClient request)
         {
-            switch (request.Status.PlayerStates.Modalita)
+            switch (request.Status.PlayerStates.Mode)
             {
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     return BucketsHandler.RolePlay.Bucket.Players;
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     return BucketsHandler.FreeRoam.Bucket.Players;
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     return BucketsHandler.Lobby.Bucket.Players;
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     return null;
-                case ModalitaServer.Gare:
+                case ServerMode.Races:
                     return null;
-                case ModalitaServer.Negozio:
+                case ServerMode.Store:
                     return null;
-                case ModalitaServer.UNKNOWN:
+                case ServerMode.UNKNOWN:
                     return Server.Instance.Clients;
                 default:
                     return Server.Instance.Clients;

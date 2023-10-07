@@ -11,11 +11,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Inventario
         public static bool InventarioAperto { get => inventarioAperto; set => inventarioAperto = value; }
         private static List<InputController> controlliInv = new()
         {
-            new(Control.DropAmmo, ModalitaServer.Roleplay, PadCheck.Keyboard, action: new Action<Ped, object[]>(ApriMenuPed)),
+            new(Control.DropAmmo, ServerMode.Roleplay, PadCheck.Keyboard, action: new Action<Ped, object[]>(ApriMenuPed)),
             //PER ORA
-            new(Control.FrontendPause, ModalitaServer.Roleplay, action: new Action<Ped, object[]>(CloseMenuPed)),
-            new(Control.FrontendPauseAlternate, ModalitaServer.Roleplay, action: new Action<Ped, object[]>(CloseMenuPed)),
-            new(Control.PhoneCancel, ModalitaServer.Roleplay, action: new Action<Ped, object[]>(CloseMenuPed)),
+            new(Control.FrontendPause, ServerMode.Roleplay, action: new Action<Ped, object[]>(CloseMenuPed)),
+            new(Control.FrontendPauseAlternate, ServerMode.Roleplay, action: new Action<Ped, object[]>(CloseMenuPed)),
+            new(Control.PhoneCancel, ServerMode.Roleplay, action: new Action<Ped, object[]>(CloseMenuPed)),
         };
 
         public static void Init()

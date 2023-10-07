@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using Impostazioni.Shared.Configurazione.Generici;
+using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace TheLastPlanet.Server.Businesses
     {
         private static int stationCapacity = 1500;
         private static float fuelUnownedBuyPrice = 0.9f;
-        private static int rentprice = Server.Impostazioni.Main.RentPricePompeDiBenzina;
+        private static int rentprice = Server.Impostazioni.Main.RentPriceGasPumps;
 
         public static void Init()
         {
@@ -37,15 +37,15 @@ namespace TheLastPlanet.Server.Businesses
 
         public static async void SendStationsUpdate()
         {
-            List<StationDiBenzina> playerstations = new();
+            List<GasStations> playerstations = new();
             dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE businessid = {1}");
             await BaseScript.Delay(0);
             if (result.Count > 0)
                 for (int i = 0; i < result.Count; i++)
-                    playerstations.Add(new StationDiBenzina(result[i]));
+                    playerstations.Add(new GasStations(result[i]));
             else
                 Server.Logger.Error("BusinessServer.cs - Errore a prendere le stazioni dal database");
-            BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Veicoli.gasstations.ToJson(), playerstations.ToJson());
+            BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Vehicles.gasstations.ToJson(), playerstations.ToJson());
         }
 
         public static async void checkRent(User p)
@@ -328,7 +328,7 @@ namespace TheLastPlanet.Server.Businesses
             if (sidx > 0)
             {
                 User user = Funzioni.GetUserFromPlayerId(p.Handle);
-                List<GasStation> stations = ConfigShared.SharedConfig.Main.Veicoli.gasstations;
+                List<GasStation> stations = ConfigShared.SharedConfig.Main.Vehicles.gasstations;
                 GasStation station = stations[sidx];
                 int bankmoney = user.Bank;
                 dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });

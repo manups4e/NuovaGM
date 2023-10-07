@@ -18,32 +18,32 @@ namespace FivemPlayerlistServer
         public static void Init()
         {
 
-            EventDispatcher.Mount("tlg:fs:getMaxPlayers", new Func<PlayerClient, ModalitaServer, Task<int>>(ReturnMaxPlayers));
-            EventDispatcher.Mount("tlg:fs:getPlayers", new Func<PlayerClient, ModalitaServer, Task<List<PlayerSlot>>>(ReturnPlayers));
+            EventDispatcher.Mount("tlg:fs:getMaxPlayers", new Func<PlayerClient, ServerMode, Task<int>>(ReturnMaxPlayers));
+            EventDispatcher.Mount("tlg:fs:getPlayers", new Func<PlayerClient, ServerMode, Task<List<PlayerSlot>>>(ReturnPlayers));
             Server.Instance.RegisterExport("setPlayerRowConfig", new Action<string, string, string, string>(SetPlayerConfig2));
             EventDispatcher.Mount("tlg:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
         }
 
-        private static async Task<int> ReturnMaxPlayers([FromSource] PlayerClient source, ModalitaServer mod)
+        private static async Task<int> ReturnMaxPlayers([FromSource] PlayerClient source, ServerMode mod)
         {
             await BaseScript.Delay(0);
             switch (mod)
             {
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     return Server.Instance.GetPlayers.Count();
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     return BucketsHandler.FreeRoam.GetTotalPlayers();
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     return BucketsHandler.RolePlay.GetTotalPlayers();
-                case ModalitaServer.Gare:
+                case ServerMode.Races:
                     return BucketsHandler.Gare.GetTotalPlayers();
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     return BucketsHandler.Minigiochi.GetTotalPlayers();
                 default:
                     return 0;
             }
         }
-        private static async Task<List<PlayerSlot>> ReturnPlayers([FromSource] PlayerClient source, ModalitaServer mod)
+        private static async Task<List<PlayerSlot>> ReturnPlayers([FromSource] PlayerClient source, ServerMode mod)
         {
             List<PlayerSlot> result = new();
             foreach (var client in Server.Instance.Clients)
@@ -59,19 +59,19 @@ namespace FivemPlayerlistServer
                     ServerId = client.Handle
                 };
 
-                switch (client.Status.PlayerStates.Modalita)
+                switch (client.Status.PlayerStates.Mode)
                 {
-                    case ModalitaServer.Lobby:
+                    case ServerMode.Lobby:
                         slot.RightIcon = SlotScoreRightIconType.NONE;
                         slot.RightText = $"Lobby";
                         slot.Color = 3;
                         break;
-                    case ModalitaServer.FreeRoam:
+                    case ServerMode.FreeRoam:
                         slot.RightIcon = SlotScoreRightIconType.RANK_FREEMODE;
                         slot.RightText = $"{client.User.FreeRoamChar.Level}";
                         slot.Color = 21;
                         break;
-                    case ModalitaServer.Roleplay:
+                    case ServerMode.Roleplay:
                         slot.RightIcon = SlotScoreRightIconType.NONE;
                         slot.RightText = $"ID {client.Handle}";
                         slot.Color = 116;
@@ -84,9 +84,9 @@ namespace FivemPlayerlistServer
 
             return mod switch
             {
-                ModalitaServer.Lobby => result,
-                ModalitaServer.FreeRoam => result.Where(x => x.Color == 21).ToList(),
-                ModalitaServer.Roleplay => result.Where(x => x.Color == 116).ToList(),
+                ServerMode.Lobby => result,
+                ServerMode.FreeRoam => result.Where(x => x.Color == 21).ToList(),
+                ServerMode.Roleplay => result.Where(x => x.Color == 116).ToList(),
                 _ => result,
             };
         }

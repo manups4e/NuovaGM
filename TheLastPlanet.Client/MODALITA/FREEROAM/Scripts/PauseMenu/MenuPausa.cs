@@ -7,7 +7,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
 {
     static class MenuPausa
     {
-        private static readonly InputController pauseMenu = new(Control.DropWeapon, ModalitaServer.FreeRoam, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(FreeRoamMenu));
+        private static readonly InputController pauseMenu = new(Control.DropWeapon, ServerMode.FreeRoam, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(FreeRoamMenu));
 
         public static void Init()
         {

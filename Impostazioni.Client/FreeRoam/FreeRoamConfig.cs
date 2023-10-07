@@ -1,7 +1,7 @@
-﻿namespace Impostazioni.Client.FreeRoam
+﻿namespace Settings.Client.FreeRoam
 {
     public class FreeRoamConfig
     {
-        public ConfigPrincipaleFR Main { get; set; }
+        public MainConfigFR Main { get; set; }
     }
 }

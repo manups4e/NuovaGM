@@ -1,9 +1,9 @@
-﻿using Impostazioni.Client.Configurazione.Main;
-using Impostazioni.Client.Configurazione.Negozi.Abiti;
-using Impostazioni.Client.Configurazione.Negozi.Barbieri;
-using Impostazioni.Client.Configurazione.Negozi.Generici;
-using Impostazioni.Client.Configurazione.Veicoli;
-using Impostazioni.Shared.Roleplay.Lavori.WhiteList;
+﻿using Settings.Client.Configurazione.Main;
+using Settings.Client.Configurazione.Negozi.Abiti;
+using Settings.Client.Configurazione.Negozi.Barbieri;
+using Settings.Client.Configurazione.Negozi.Generici;
+using Settings.Client.Configurazione.Vehicles;
+using Settings.Shared.Roleplay.Jobs.WhiteList;
 using System.Collections.Generic;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel;
@@ -15,22 +15,22 @@ namespace TheLastPlanet.Client
         public RolePlayConfig RolePlay { get; private set; }
         public FreeRoamConfig FreeRoam { get; private set; }
 
-        public void LoadConfig(ModalitaServer id, string jsonConfig)
+        public void LoadConfig(ServerMode id, string jsonConfig)
         {
             switch (id)
             {
-                case ModalitaServer.Lobby:
+                case ServerMode.Lobby:
                     break;
-                case ModalitaServer.Roleplay:
+                case ServerMode.Roleplay:
                     RolePlay = jsonConfig.FromJson<RolePlayConfig>();
                     break;
-                case ModalitaServer.Minigiochi:
+                case ServerMode.Minigames:
                     break;
-                case ModalitaServer.Gare:
+                case ServerMode.Races:
                     break;
-                case ModalitaServer.Negozio:
+                case ServerMode.Store:
                     break;
-                case ModalitaServer.FreeRoam:
+                case ServerMode.FreeRoam:
                     FreeRoam = jsonConfig.FromJson<FreeRoamConfig>();
                     break;
             }
@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client
 
     public class ConfigPrincipaleFR
     {
-        public string NomeServer { get; set; }
+        public string ServerName { get; set; }
         public string DiscordAppId { get; set; }
         public string DiscordRichPresenceAsset { get; set; }
         public bool KickWarning { get; set; }
@@ -124,94 +124,94 @@ namespace TheLastPlanet.Client
 
     public class OutfitCreatorFR
     {
-        public OutfitSexCreator Maschio { get; set; }
-        public OutfitSexCreator Femmina { get; set; }
+        public OutfitSexCreator Male { get; set; }
+        public OutfitSexCreator Female { get; set; }
     }
     public class OutfitSexCreator
     {
-        public List<Completo> Aviazione { get; set; }
-        public List<Completo> Spiaggia { get; set; }
-        public List<Completo> Biker { get; set; }
-        public List<Completo> Combattimento { get; set; }
-        public List<Completo> Costumi { get; set; }
-        public List<Completo> Colpo { get; set; }
-        public List<Completo> Gara { get; set; }
-        public List<Completo> Lavoro { get; set; }
+        public List<Suit> Aviation { get; set; }
+        public List<Suit> Beach { get; set; }
+        public List<Suit> Biker { get; set; }
+        public List<Suit> Fighter { get; set; }
+        public List<Suit> Costumes { get; set; }
+        public List<Suit> Heists { get; set; }
+        public List<Suit> Race { get; set; }
+        public List<Suit> Jobs { get; set; }
     }
 
     public class RolePlayConfig
     {
-        public ConfPrincipaleRP Main { get; set; }
-        public ConfigVeicoliRP Veicoli { get; set; }
-        public ConfigLavoriRP Lavori { get; set; }
-        public ConfigNegoziRP Negozi { get; set; }
-        public ConfigProprietaRP Proprieta { get; set; }
+        public ConfMainRP Main { get; set; }
+        public ConfigVehiclesRP Vehicles { get; set; }
+        public ConfigJobsRP Jobs { get; set; }
+        public ConfigShopsRP Shops { get; set; }
+        public ConfigPropertiesRP Properties { get; set; }
     }
 
     public class ClientConfigKVP
     {
-        public bool ModCinema { get; set; }
+        public bool CinemaMode { get; set; }
         public float LetterBox { get; set; }
-        public string Filtro { get; set; }
-        public float FiltroStrenght { get; set; }
-        public bool MiniMappaAttiva { get; set; }
-        public int DimensioniMinimappa { get; set; }
-        public bool MiniMappaInAuto { get; set; }
-        public bool MostraContattiTelefonoInMappa { get; set; } // da valutare
-        public bool ForzaPrimaPersona_Mira { get; set; }
-        public bool ForzaPrimaPersona_InCopertura { get; set; }
-        public bool ForzaPrimaPersona_InAuto { get; set; }
+        public string Filter { get; set; }
+        public float FilterStrenght { get; set; }
+        public bool EnableMinimap { get; set; }
+        public int MinimapSize { get; set; }
+        public bool InCarMinimap { get; set; }
+        public bool ShowPhoneContactsInMinimap { get; set; } // da valutare
+        public bool ForceFirstPersonAiming { get; set; }
+        public bool ForceFirstPersonCover { get; set; }
+        public bool ForceFirstPersonInCar { get; set; }
 
         public ClientConfigKVP()
         {
-            ModCinema = false;
+            CinemaMode = false;
             LetterBox = 0f;
-            Filtro = "None";
-            FiltroStrenght = 0.5f;
-            MiniMappaAttiva = true;
-            DimensioniMinimappa = 0;
-            MiniMappaInAuto = true;
-            MostraContattiTelefonoInMappa = false;
-            ForzaPrimaPersona_Mira = false;
-            ForzaPrimaPersona_InCopertura = false;
-            ForzaPrimaPersona_InAuto = false;
+            Filter = "None";
+            FilterStrenght = 0.5f;
+            EnableMinimap = true;
+            MinimapSize = 0;
+            InCarMinimap = true;
+            ShowPhoneContactsInMinimap = false;
+            ForceFirstPersonAiming = false;
+            ForceFirstPersonCover = false;
+            ForceFirstPersonInCar = false;
         }
     }
 
-    public class ConfigLavoriRP
+    public class ConfigJobsRP
     {
-        public ConfigPolizia Polizia { get; set; }
-        public ConfigMedici Medici { get; set; }
-        public ConfigVenditoriAuto VenditoriAuto { get; set; }
-        public ConfigVenditoriCase VenditoriCase { get; set; }
-        public ConfigLavoriGenerici Generici { get; set; }
+        public ConfigPolice Police { get; set; }
+        public ConfigMedics Medics { get; set; }
+        public ConfigCarDealer CarDealer { get; set; }
+        public ConfigVenditoriCase RealEstate { get; set; }
+        public ConfigLavoriGenerici Generics { get; set; }
     }
 
-    public class ConfigVeicoliRP
+    public class ConfigVehiclesRP
     {
-        public VeicoliAffitto veicoliAff { get; set; }
-        public ConfVeicoli DanniVeicoli { get; set; }
+        public VehicleRentClasses RentVehicles { get; set; }
+        public ConfigVehicles VehiclesDamages { get; set; }
     }
 
-    public class ConfigNegoziRP
+    public class ConfigShopsRP
     {
-        public ConfigNegoziAbiti Abiti { get; set; }
-        public ConfigNegoziBarbieri Barbieri { get; set; }
-        public ConfigNegoziGenerici NegoziGenerici { get; set; }
+        public ConfigClotheShops Clothes { get; set; }
+        public ConfigBarberShops Barbers { get; set; }
+        public ConfigGenericShops GenericShops { get; set; }
     }
 
-    public class ConfigProprietaRP
+    public class ConfigPropertiesRP
     {
         public List<Hotel> hotels { get; set; }
-        public Dictionary<string, ConfigCase> Appartamenti { get; set; }
+        public Dictionary<string, ConfigHouses> Apartments { get; set; }
         public ConfigGarages Garages { get; set; }
     }
 
-    public class ConfigAppartamenti
+    public class ConfigApartments
     {
-        public Dictionary<string, ConfigCase> LowEnd { get; set; }
-        public Dictionary<string, ConfigCase> MidEnd { get; set; }
-        public Dictionary<string, ConfigCase> HighEnd { get; set; }
+        public Dictionary<string, ConfigHouses> LowEnd { get; set; }
+        public Dictionary<string, ConfigHouses> MidEnd { get; set; }
+        public Dictionary<string, ConfigHouses> HighEnd { get; set; }
     }
 
     public class ConfigGarages
@@ -238,43 +238,43 @@ namespace TheLastPlanet.Client
     public class Garages
     {
         public string Label { get; set; }
-        public int tipo { get; set; }
+        public int Type { get; set; }
         public int VehCapacity { get; set; }
-        public Position MarkerEntrata { get; set; }
-        public Position MarkerUscita { get; set; }
-        public Position SpawnDentro { get; set; }
-        public Position SpawnFuori { get; set; }
-        public ConfigCaseCamExt TelecameraFuori { get; set; }
-        public ConfigCaseCamExt TelecameraModificaDentro { get; set; }
+        public Position MarkerEntrance { get; set; }
+        public Position MarkerExit { get; set; }
+        public Position SpawnInside { get; set; }
+        public Position SpawnOutside { get; set; }
+        public ConfigHouseCamExt CameraOutside { get; set; }
+        public ConfigHouseCamExt CameraEditorInside { get; set; }
         public int Price { get; set; }
     }
 
-    public class ConfigCase
+    public class ConfigHouses
     {
         public string Label { get; set; }
         public int VehCapacity { get; set; }
-        public int Tipo { get; set; }
-        public Position MarkerEntrata { get; set; }
-        public Position MarkerUscita { get; set; }
-        public Position SpawnDentro { get; set; }
-        public Position SpawnFuori { get; set; }
-        public ConfigCaseCamExt TelecameraFuori { get; set; }
-        public ConfigCaseCamInt TelecameraDentro { get; set; }
+        public int Type { get; set; }
+        public Position MarkerEntrance { get; set; }
+        public Position MarkerExit { get; set; }
+        public Position SpawnInside { get; set; }
+        public Position SpawnOutside { get; set; }
+        public ConfigHouseCamExt CameraOutside { get; set; }
+        public ConfigCaseCamInt CameraInside { get; set; }
         public List<string> Ipls { get; set; }
         public string Gateway { get; set; }
         public bool Is_single { get; set; }
         public bool Is_room { get; set; }
         public bool Is_gateway { get; set; }
-        public bool TettoIncluso { get; set; }
-        public Position MarkerTetto { get; set; }
-        public Position SpawnTetto { get; set; }
-        public bool GarageIncluso { get; set; }
-        public Position MarkerGarageEsterno { get; set; }
-        public Position MarkerGarageInterno { get; set; }
-        public Position SpawnGarageAPiediDentro { get; set; }
-        public Position SpawnGarageInVehFuori { get; set; }
+        public bool HasRoof { get; set; }
+        public Position MarkerRoof { get; set; }
+        public Position SpawnRoof { get; set; }
+        public bool GarageIncluded { get; set; }
+        public Position MarkerGarageExtern { get; set; }
+        public Position MarkerGarageInternal { get; set; }
+        public Position SpawnGarageWalkInside { get; set; }
+        public Position SpawnGarageVehicleOutside { get; set; }
         public int Price { get; set; }
-        public int Stile { get; set; } = 0;
+        public int Style { get; set; } = 0;
         public bool Strip { get; set; }
         public bool Booze { get; set; }
         public bool Smoke { get; set; }
@@ -282,14 +282,14 @@ namespace TheLastPlanet.Client
 
     public class ConfigCaseCamInt
     {
-        public ConfigCaseCamExt Interno { get; set; }
-        public ConfigCaseCamExt Bagno { get; set; }
-        public ConfigCaseCamExt Garage { get; set; }
+        public ConfigHouseCamExt Inside { get; set; }
+        public ConfigHouseCamExt Bathroom { get; set; }
+        public ConfigHouseCamExt Garage { get; set; }
     }
 
-    public class ConfigCaseCamExt
+    public class ConfigHouseCamExt
     {
-        public Position pos { get; set; }
-        public Position guarda { get; set; }
+        public Position Pos { get; set; }
+        public Position Rotation { get; set; }
     }
 }

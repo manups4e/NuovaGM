@@ -14,7 +14,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         {
             UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
             UIMenuItem cambio;
-            cambio = !Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
+            cambio = !Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
             spogliatoio.AddItem(cambio);
             cambio.Activated += async (item, index) =>
             {
@@ -23,10 +23,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                 MenuHandler.CloseAndClearHistory();
                 NetworkFadeOutEntity(PlayerPedId(), true, false);
 
-                if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio)
+                if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty)
                 {
-                    foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade))
-                        switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex)
+                    foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Jobs.Medics.Grades.Where(Grado => Grado.Value.Id == Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade))
+                        switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.Sex)
                         {
                             case "Maschio":
                                 CambiaVestito(Grado.Value.Vestiti.Maschio);
@@ -38,11 +38,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 break;
                         }
 
-                    Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio = true;
+                    Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty = true;
                 }
                 else
                 {
-                    Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio = false;
+                    Cache.PlayerCache.MyPlayer.Status.RolePlayStates.OnDuty = false;
                     Funzioni.UpdateDress(PlayerPedId(), Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
                 }
 
@@ -56,25 +56,25 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         public static async void CambiaVestito(AbitiLav dress)
         {
             int id = PlayerPedId();
-            SetPedComponentVariation(id, (int)DrawableIndexes.Faccia, dress.Abiti.Faccia, dress.TextureVestiti.Faccia, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Maschera, dress.Abiti.Maschera, dress.TextureVestiti.Maschera, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Face, dress.Abiti.Face, dress.TextureVestiti.Face, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Mask, dress.Abiti.Mask, dress.TextureVestiti.Mask, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Torso, dress.Abiti.Torso, dress.TextureVestiti.Torso, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Pantaloni, dress.Abiti.Pantaloni, dress.TextureVestiti.Pantaloni, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Borsa_Paracadute, dress.Abiti.Borsa_Paracadute, dress.TextureVestiti.Borsa_Paracadute, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Scarpe, dress.Abiti.Scarpe, dress.TextureVestiti.Scarpe, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Accessori, dress.Abiti.Accessori, dress.TextureVestiti.Accessori, 2);
-            SetPedComponentVariation(id, (int)DrawableIndexes.Sottomaglia, dress.Abiti.Sottomaglia, dress.TextureVestiti.Sottomaglia, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Pants, dress.Abiti.Pants, dress.TextureVestiti.Pants, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Bag_Parachute, dress.Abiti.Bag_Parachute, dress.TextureVestiti.Bag_Parachute, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Shoes, dress.Abiti.Shoes, dress.TextureVestiti.Shoes, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Accessories, dress.Abiti.Accessories, dress.TextureVestiti.Accessories, 2);
+            SetPedComponentVariation(id, (int)DrawableIndexes.Undershirt, dress.Abiti.Undershirt, dress.TextureVestiti.Undershirt, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Kevlar, dress.Abiti.Kevlar, dress.TextureVestiti.Kevlar, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Badge, dress.Abiti.Badge, dress.TextureVestiti.Badge, 2);
             SetPedComponentVariation(id, (int)DrawableIndexes.Torso_2, dress.Abiti.Torso_2, dress.TextureVestiti.Torso_2, 2);
-            SetPedPropIndex(id, (int)PropIndexes.Cappelli_Maschere, dress.Accessori.Cappelli_Maschere, dress.TexturesAccessori.Cappelli_Maschere, true);
-            SetPedPropIndex(id, (int)PropIndexes.Orecchie, dress.Accessori.Orecchie, dress.TexturesAccessori.Orecchie, true);
-            SetPedPropIndex(id, (int)PropIndexes.Occhiali_Occhi, dress.Accessori.Occhiali_Occhi, dress.TexturesAccessori.Occhiali_Occhi, true);
+            SetPedPropIndex(id, (int)PropIndexes.Hats_Masks, dress.Accessori.Hats_masks, dress.TexturesAccessori.Hats_masks, true);
+            SetPedPropIndex(id, (int)PropIndexes.Ears, dress.Accessori.Ears, dress.TexturesAccessori.Ears, true);
+            SetPedPropIndex(id, (int)PropIndexes.Glasses, dress.Accessori.Glasses, dress.TexturesAccessori.Glasses, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_3, dress.Accessori.Unk_3, dress.TexturesAccessori.Unk_3, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_4, dress.Accessori.Unk_4, dress.TexturesAccessori.Unk_4, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_5, dress.Accessori.Unk_5, dress.TexturesAccessori.Unk_5, true);
-            SetPedPropIndex(id, (int)PropIndexes.Orologi, dress.Accessori.Orologi, dress.TexturesAccessori.Orologi, true);
-            SetPedPropIndex(id, (int)PropIndexes.Bracciali, dress.Accessori.Bracciali, dress.TexturesAccessori.Bracciali, true);
+            SetPedPropIndex(id, (int)PropIndexes.Watches, dress.Accessori.Watches, dress.TexturesAccessori.Watches, true);
+            SetPedPropIndex(id, (int)PropIndexes.Bracelets, dress.Accessori.Bracelets, dress.TexturesAccessori.Bracelets, true);
             SetPedPropIndex(id, (int)PropIndexes.Unk_8, dress.Accessori.Unk_8, dress.TexturesAccessori.Unk_8, true);
         }
 
@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
         public static async void VehicleMenuNuovo(Ospedale Stazione, SpawnerSpawn Punto)
         {
-            Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("SceltaVeicoliMedici");
+            Cache.PlayerCache.MyPlayer.Status.Instance.Istanzia("SceltaVeicoliMedici");
             StazioneAttuale = Stazione;
             PuntoAttuale = Punto;
             Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(236.349f, -1005.013f, -100f);
@@ -184,7 +184,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.Status.Istanza.Stanziato)
+            if (Cache.PlayerCache.MyPlayer.Status.Instance.Instanced)
                 if (InGarage)
                 {
                     if (p.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
@@ -193,7 +193,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                         if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                    if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
                         if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
                         {
                             HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
@@ -229,13 +229,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 p.CurrentVehicle.IsDriveable = true;
                                 p.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "MED" + SharedMath.GetRandomInt(999);
                                 p.CurrentVehicle.SetDecor("VeicoloMedici", SharedMath.GetRandomInt(100));
-                                VeicoloPol veh = new(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
+                                VehiclePolice veh = new(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
                                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.ToJson());
                                 InGarage = false;
                                 StazioneAttuale = null;
                                 PuntoAttuale = null;
                                 veicoliParcheggio.Clear();
-                                Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+                                Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
                                 await BaseScript.Delay(1000);
                                 Screen.Fading.FadeIn(800);
                                 Client.Instance.RemoveTick(ControlloGarage);
@@ -280,7 +280,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                         InGarage = false;
                         StazioneAttuale = null;
                         PuntoAttuale = null;
-                        Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+                        Cache.PlayerCache.MyPlayer.Status.Instance.RimuoviIstanza();
                         veicoliParcheggio.Clear();
                         Client.Instance.RemoveTick(ControlloGarage);
                     }
@@ -366,7 +366,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "MED" + SharedMath.GetRandomInt(999);
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloMedici", SharedMath.GetRandomInt(100));
                 if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle, 1);
-                VeicoloPol veh = new(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
+                VehiclePolice veh = new(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.ToJson());
                 MenuHandler.CloseAndClearHistory();
                 PreviewHeli.MarkAsNoLongerNeeded();
