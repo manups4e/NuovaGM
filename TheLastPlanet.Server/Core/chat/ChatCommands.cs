@@ -523,7 +523,7 @@ namespace TheLastPlanet.Server.Core
                                 break;
                             case ServerMode.FreeRoam:
                                 player.TriggerSubsystemEvent("tlg:freeroam:showLoading", 4, "Synchronization", 5000);
-                                FreeRoamEvents.SalvaPersonaggio(player);
+                                FreeRoamEvents.SaveCharacter(player);
                                 Server.Logger.Info($"Saved character freeroam owned by '{player.Player.Name}' - {player.User.Identifiers.Discord}");
                                 freer++;
                                 break;

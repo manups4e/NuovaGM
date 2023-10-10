@@ -151,7 +151,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.FreeroamEvents
                 {
                     if (client.Status.PlayerStates.Spawned)
                     {
-                        FreeRoamEvents.SalvaPersonaggio(client);
+                        FreeRoamEvents.SaveCharacter(client);
                         Server.Logger.Info($"Saved freeroam char owned by '{client.Player.Name}' - {client.User.Identifiers.Discord}");
                     }
                 }

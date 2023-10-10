@@ -10,11 +10,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.FreeroamEvents
         public static void Init()
         {
             EventDispatcher.Mount("tlg:freeroam:finishCharServer", new Action<PlayerClient, FreeRoamChar>(FinishChar));
-            EventDispatcher.Mount("tlg:freeroam:salvapersonaggio", new Action<PlayerClient>(SalvaPersonaggio));
+            EventDispatcher.Mount("tlg:freeroam:salvapersonaggio", new Action<PlayerClient>(SaveCharacter));
             EventDispatcher.Mount("tlg:casino:getVehModel", new Func<PlayerClient, Task<string>>(ReturnCasinoPriceModelForPlayer));
         }
 
-        public static void SalvaPersonaggio([FromSource] PlayerClient client)
+        public static void SaveCharacter([FromSource] PlayerClient client)
         {
             client.User.FreeRoamChar.Position = client.Ped.Position.ToPosition();
             API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
