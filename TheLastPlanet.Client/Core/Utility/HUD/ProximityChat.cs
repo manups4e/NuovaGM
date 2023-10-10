@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -15,24 +14,24 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
             EventDispatcher.Mount("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay));
         }
 
-        private static Dictionary<int, List<ProxMess>> Messaggi = new Dictionary<int, List<ProxMess>>();
+        private static Dictionary<int, List<ProxMess>> Messages = new Dictionary<int, List<ProxMess>>();
 
         public static void TriggerProximtyDisplay(int player, string title, string text)
         {
             Player target = new Player(API.GetPlayerFromServerId(player));
-            if (Messaggi.ContainsKey(player))
-                Messaggi[player].Add(new ProxMess(title + " " + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position));
+            if (Messages.ContainsKey(player))
+                Messages[player].Add(new ProxMess(title + " " + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position));
             else
-                Messaggi.Add(player, new List<ProxMess>() { new ProxMess(title + " " + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position) });
+                Messages.Add(player, new List<ProxMess>() { new ProxMess(title + " " + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position) });
         }
 
-        public static async Task Prossimità()
+        public static async Task Proximity()
         {
             bool canDraw;
             Ped myPed = new Ped(API.PlayerPedId());
 
-            if (Messaggi.Count > 0)
-                foreach (KeyValuePair<int, List<ProxMess>> p in Messaggi)
+            if (Messages.Count > 0)
+                foreach (KeyValuePair<int, List<ProxMess>> p in Messages)
                 {
                     Player player = new Player(API.GetPlayerFromServerId(p.Key));
                     Ped ped = player.Character;
@@ -46,10 +45,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
                         if (canDraw) m.Draw(p.Value.Count - p.Value.IndexOf(m), ped);
 
                         if (Game.GameTime - m.Timer < 1000) continue;
-                        m.Tempo = m.Tempo.Subtract(TimeSpan.FromSeconds(1));
+                        m.Time = m.Time.Subtract(TimeSpan.FromSeconds(1));
                         m.Timer = Game.GameTime;
 
-                        if (m.Tempo != TimeSpan.Zero) continue;
+                        if (m.Time != TimeSpan.Zero) continue;
                         p.Value.Remove(m);
                     }
 
@@ -85,7 +84,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         public string Message;
         public Color Color;
         public Vector3 Position;
-        public TimeSpan Tempo = new TimeSpan(0, 0, 5); // cambiare con 5 secondi
+        public TimeSpan Time = new TimeSpan(0, 0, 5); // cambiare con 5 secondi
         public int Timer = 0;
 
         public ProxMess(string mess, Color color, Vector3 pos)

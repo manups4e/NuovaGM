@@ -17,11 +17,11 @@ namespace TheLastPlanet.Server.Core.Buckets
 		*/
 
         public static LobbyBucketsContainer Lobby;
-        public static BucketsContainer Negozio;
+        public static BucketsContainer Store;
         public static RolePlayBucketsContainer RolePlay;
         public static FreeRoamBucketContainer FreeRoam;
-        public static RaceBucketContainer Gare;
-        public static BucketsContainer Minigiochi;
+        public static RaceBucketContainer Races;
+        public static BucketsContainer Minigames;
 
         public static void Init()
         {
@@ -30,18 +30,18 @@ namespace TheLastPlanet.Server.Core.Buckets
             EventDispatcher.Mount("tlg:addEntityToBucket", new Action<int, ServerMode>(AddEntityToBucket));
             EventDispatcher.Mount("tlg:richiediContoBuckets", new Func<PlayerClient, Task<Dictionary<ServerMode, int>>>(CountPlayers));
             Lobby = new(ServerMode.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
-            Negozio = new(ServerMode.Store, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
+            Store = new(ServerMode.Store, new Bucket(4000, "STORES") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
             RolePlay = new(ServerMode.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
             FreeRoam = new(ServerMode.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-            Gare = new(ServerMode.Races, new Bucket(3000, "GARE") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-            Minigiochi = new(ServerMode.Minigames, new List<Bucket>());
+            Races = new(ServerMode.Races, new Bucket(3000, "RACES") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
+            Minigames = new(ServerMode.Minigames, new List<Bucket>());
         }
 
         /// <summary>
-        /// Aggiunge un player al bucket rimuovendolo dagli altri buckets
+        /// Adds a player to the bucket by removing it from the other buckets
         /// </summary>
-        /// <param name="player">Player da aggiungere</param>
-        /// <param name="id">Id del bucket</param>
+        /// <param name="player">Player to add</param>
+        /// <param name="id">Id of the bucket</param>
         private static void AddPlayerToBucket([FromSource] PlayerClient player, ServerMode id)
         {
             List<PlayerClient> clients = null;
@@ -61,14 +61,14 @@ namespace TheLastPlanet.Server.Core.Buckets
                     clients = FreeRoam.Bucket.Players;
                     break;
                 case ServerMode.Races:
-                    Gare.AddPlayer(player);
-                    clients = Gare.Bucket.Players;
+                    Races.AddPlayer(player);
+                    clients = Races.Bucket.Players;
                     break;
                 case ServerMode.Minigames:
                     break;
             }
 
-            player.SetState($"{player.Status.PlayerStates._name}:Modalita", id);
+            player.SetState($"{player.Status.PlayerStates._name}:ServerMode", id);
             EventDispatcher.Send(clients, "tlg:onPlayerEntrance", player);
             UpdateBucketsCount();
             player.Status.Clear();
@@ -96,10 +96,10 @@ namespace TheLastPlanet.Server.Core.Buckets
 
 
         /// <summary>
-        /// Aggiunge un Entity al bucket rimuovendolo dagli altri buckets
+        /// Adds an Entity to the bucket by removing it from the other buckets
         /// </summary>
         /// <param name="entity">Entity network ID</param>
-        /// <param name="id">ID del bucket</param>
+        /// <param name="id">Bucket ID</param>
         private static void AddEntityToBucket(int entity, ServerMode id)
         {
             Entity ent = Entity.FromNetworkId(entity);
@@ -126,8 +126,8 @@ namespace TheLastPlanet.Server.Core.Buckets
                 [ServerMode.Lobby] = Lobby.GetTotalPlayers(),
                 [ServerMode.FreeRoam] = FreeRoam.GetTotalPlayers(),
                 [ServerMode.Roleplay] = RolePlay.GetTotalPlayers(),
-                [ServerMode.Races] = Gare.GetTotalPlayers(),
-                [ServerMode.Minigames] = Minigiochi.GetTotalPlayers(),
+                [ServerMode.Races] = Races.GetTotalPlayers(),
+                [ServerMode.Minigames] = Minigames.GetTotalPlayers(),
             };
             return result;
         }
@@ -143,9 +143,9 @@ namespace TheLastPlanet.Server.Core.Buckets
                 case ServerMode.FreeRoam:
                     return FreeRoam.Bucket.Players.Contains(player);
                 case ServerMode.Races:
-                    return Gare.Bucket.Players.Contains(player);
+                    return Races.Bucket.Players.Contains(player);
                 case ServerMode.Minigames:
-                    return Minigiochi.Buckets.Any(x => x.Players.Contains(player));
+                    return Minigames.Buckets.Any(x => x.Players.Contains(player));
                 default:
                     return true;
             }
@@ -158,8 +158,8 @@ namespace TheLastPlanet.Server.Core.Buckets
                 [ServerMode.Lobby] = Lobby.GetTotalPlayers(),
                 [ServerMode.FreeRoam] = FreeRoam.GetTotalPlayers(),
                 [ServerMode.Roleplay] = RolePlay.GetTotalPlayers(),
-                [ServerMode.Races] = Gare.GetTotalPlayers(),
-                [ServerMode.Minigames] = Minigiochi.GetTotalPlayers(),
+                [ServerMode.Races] = Races.GetTotalPlayers(),
+                [ServerMode.Minigames] = Minigames.GetTotalPlayers(),
             };
 
             EventDispatcher.Send(Lobby.Bucket.Players, "tlg:SetBucketsPlayers", result);

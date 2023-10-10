@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.MODALITA.MAINLOBBY;
+using TheLastPlanet.Client.GameMode.MAINLOBBY;
 
 namespace TheLastPlanet.Client.Core.Ingresso
 {
@@ -14,6 +14,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
         {
             EventDispatcher.Mount("tlg:SetBucketsPlayers", new Action<Dictionary<ServerMode, int>>(UpdateCountPlayers));
 #if DEBUG
+            // this is to enable script restart.. without this script restart won't work.. (expected behaviour as we won't restart gamemode on production)
             Client.Instance.AddTick(Entra);
 #endif
             InternalGameEvents.PlayerJoined += InternalGameEvents_PlayerJoined;
@@ -42,11 +43,13 @@ namespace TheLastPlanet.Client.Core.Ingresso
             MainChooser.Bucket_n_Players = count;
         }
 
+        // this is the first thing happening when entering the server
         public static async void PlayerSpawned()
         {
             _firstTick = false;
             Screen.Fading.FadeOut(800);
             while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
+            // we spawn in the hangar.. but i'm not sure this is definitive.. i'd prefer somewhere else
             IPLs.IPLInstance.SmugglerHangar.LoadDefault();
             await PlayerCache.InitPlayer();
             while (!NetworkIsPlayerActive(PlayerCache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
@@ -56,15 +59,15 @@ namespace TheLastPlanet.Client.Core.Ingresso
                 await PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
             NetworkSetTalkerProximity(-1000f);
 
-            // eventi di utility.. da sistemare (togliere gli eventi non di utility e spostarli)
-            Eventi.Init();
-            // TODO: gestire questa parte separatamente per i vari pianeti
+            // utility events.. to be fixed (remove non utility events and move them)
+            Events.Init();
+            // TODO: Handle this part for each game mode.. 
             PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
             PlayerCache.MyPlayer.Player.IgnoredByPolice = true;
             PlayerCache.MyPlayer.Player.DispatchsCops = false;
             //Screen.Hud.IsRadarVisible = false;
             Screen.Hud.IsRadarVisible = true;
-            // TODO: gestire questa parte separatamente per i vari pianeti
+            // TODO: maybe this part too 🤔
             CharSelect();
         }
 
@@ -91,10 +94,11 @@ namespace TheLastPlanet.Client.Core.Ingresso
             SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", PlayerCache.MyPlayer.Ped);
             Function.Call(Hash.NETWORK_FADE_IN_ENTITY, PlayerCache.MyPlayer.Ped.Handle, true, 1);
             MainChooser.Init();
-            PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = true;
+            PlayerCache.MyPlayer.Status.PlayerStates.PassiveMode = true;
             SpawnParticle.MarkAsNoLongerNeeded();
         }
 
+        // called when going back to lobby.. to be fixed and enhanced..
         public static async void ReturnToLobby()
         {
             PlayerCache.MyPlayer.Player.CanControlCharacter = false;
@@ -117,7 +121,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
             Function.Call(Hash.NETWORK_FADE_IN_ENTITY, PlayerCache.MyPlayer.Ped.Handle, true, 1);
             PlayerCache.MyPlayer.Player.CanControlCharacter = true;
             MainChooser.Init();
-            PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = true;
+            PlayerCache.MyPlayer.Status.PlayerStates.PassiveMode = true;
             SpawnParticle.MarkAsNoLongerNeeded();
         }
     }

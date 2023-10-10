@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Settings.Client.Configurazione.Negozi.Barbieri
+namespace Settings.Client.Configuration.Negozi.Barbieri
 {
     public class ConfigBarberShops
     {

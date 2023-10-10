@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TheLastPlanet.Shared.Vehicles;
 
-namespace Settings.Client.Configurazione.Vehicles
+namespace Settings.Client.Configuration.Vehicles
 {
     public class VehicleRentClasses
     {

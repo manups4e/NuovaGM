@@ -1,16 +1,16 @@
-﻿using Settings.Client.Configurazione.Main;
-using Settings.Client.Configurazione.Negozi.Abiti;
-using Settings.Client.Configurazione.Negozi.Barbieri;
-using Settings.Client.Configurazione.Negozi.Generici;
-using Settings.Client.Configurazione.Vehicles;
+﻿using Settings.Client.Configuration.Main;
+using Settings.Client.Configuration.Negozi.Abiti;
+using Settings.Client.Configuration.Negozi.Barbieri;
+using Settings.Client.Configuration.Negozi.Generici;
+using Settings.Client.Configuration.Vehicles;
 using Settings.Shared.Roleplay.Jobs.WhiteList;
 using System.Collections.Generic;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Jobs;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Properties.Hotel;
 
 namespace TheLastPlanet.Client
 {
-    public class Configurazione
+    public class Configuration
     {
         public RolePlayConfig RolePlay { get; private set; }
         public FreeRoamConfig FreeRoam { get; private set; }
@@ -183,7 +183,7 @@ namespace TheLastPlanet.Client
         public ConfigPolice Police { get; set; }
         public ConfigMedics Medics { get; set; }
         public ConfigCarDealer CarDealer { get; set; }
-        public ConfigVenditoriCase RealEstate { get; set; }
+        public ConfigHouseDealer RealEstate { get; set; }
         public ConfigLavoriGenerici Generics { get; set; }
     }
 

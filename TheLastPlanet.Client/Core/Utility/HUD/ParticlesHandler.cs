@@ -1,5 +1,7 @@
 ﻿namespace TheLastPlanet.Client.Core.Utility.HUD
 {
+    // THIS EXTENDS STOCK PARTICLE EFFECT ASSET CLASS WITH NETWORKED PARTICLES..
+    // SO THAT EVERYONE CAN SEE THE PARTICLES WITHOUT HAVING TO ADD THEM TO EACH CLIENT
     public class ParticleEffectsAssetNetworked : ParticleEffectsAsset
     {
         private readonly string _assetName;

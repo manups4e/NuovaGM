@@ -65,7 +65,7 @@ namespace TheLastPlanet.Server
 
     public class Configurazione
     {
-        public ConfPrincipale Main = new();
-        public ConfigQueue Coda = new();
+        public MainConfig Main = new();
+        public ConfigQueue Queue = new();
     }
 }

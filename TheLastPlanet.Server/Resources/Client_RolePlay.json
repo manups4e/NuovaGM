@@ -1037,7 +1037,7 @@
                 "Id":0,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1089,7 +1089,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1147,7 +1147,7 @@
                 "Id":1,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1199,7 +1199,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1257,7 +1257,7 @@
                 "Id":2,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1309,7 +1309,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1367,7 +1367,7 @@
                 "Id":3,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1419,7 +1419,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1477,7 +1477,7 @@
                 "Id":4,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1529,7 +1529,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1810,7 +1810,7 @@
                 "Id":0,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1862,7 +1862,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1920,7 +1920,7 @@
                 "Id":1,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -1972,7 +1972,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -2030,7 +2030,7 @@
                 "Id":2,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -2082,7 +2082,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -2140,7 +2140,7 @@
                 "Id":3,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -2192,7 +2192,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":95,
@@ -2250,7 +2250,7 @@
                 "Id":4,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":0,
@@ -2302,7 +2302,7 @@
                          "Unk_8":-1
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":-1,
                          "Maschera":95,
@@ -2380,7 +2380,7 @@
                 "Id":0,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -2432,7 +2432,7 @@
                          "Unk_8":0
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -2490,7 +2490,7 @@
                 "Id":1,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -2542,7 +2542,7 @@
                          "Unk_8":0
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -2819,7 +2819,7 @@
                 "Id":0,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -2871,7 +2871,7 @@
                          "Unk_8":0
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -2929,7 +2929,7 @@
                 "Id":1,
                 "Stipendio":0,
                 "Vestiti":{
-                   "Maschio":{
+                   "Male":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -2981,7 +2981,7 @@
                          "Unk_8":0
                       }
                    },
-                   "Femmina":{
+                   "Female":{
                       "Abiti":{
                          "Faccia":0,
                          "Maschera":0,
@@ -3166,7 +3166,7 @@
                 "asterope",
                 "emperor2",
                 "blista",
-                "premier",
+                "Presser",
                 "buffalo"
              ],
              "SpawnVeicoli":[
@@ -4263,7 +4263,7 @@
     },
     "Negozi":{
        "Abiti":{
-          "Femmina":{
+          "Female":{
              "BincoVest":[
                 {
                    "Price":360,
@@ -9848,7 +9848,7 @@
                 ]
              }
           },
-          "Maschio":{
+          "Male":{
              "BincoVest":[
                 {
                    "Price":350,
@@ -15978,7 +15978,7 @@
           }
        },
        "Barbieri":{
-          "Femmina":{
+          "Female":{
              "capelli":{
                 "kuts":[
                    {
@@ -16781,7 +16781,7 @@
                 }
              ]
           },
-          "Maschio":{
+          "Male":{
              "capelli":{
                 "kuts":[
                    {

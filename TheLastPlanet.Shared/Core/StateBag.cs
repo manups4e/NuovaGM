@@ -113,7 +113,7 @@ namespace TheLastPlanet.Shared
             set => _paused.State = value;
         }
 
-        public bool ModalitaPassiva
+        public bool PassiveMode
         {
             get => _passive.State;
             set => _passive.State = value;
@@ -242,7 +242,7 @@ namespace TheLastPlanet.Shared
         /// <summary>
         /// Istanza generica specificando quale Istanza
         /// </summary>
-        public void Istanzia(string instance)
+        public void InstancePlayer(string instance)
         {
             Instanced = true;
 #if CLIENT
@@ -272,7 +272,7 @@ namespace TheLastPlanet.Shared
         /// <summary>
         /// Rimuovi da istanza
         /// </summary>
-        public void RimuoviIstanza()
+        public void RemoveInstance()
         {
             Instanced = false;
             ServerIdOwner = 0;

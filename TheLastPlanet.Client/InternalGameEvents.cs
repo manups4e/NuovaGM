@@ -13,6 +13,7 @@ namespace TheLastPlanet.Client
     public delegate void EntityDamagedEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
     public delegate void PlayerJoined();
 
+    // TODO: ADD AS MUCH EVENTS AS WE CAN, LESS TICKS.. LESS CHECKS.. LET THE GAME DO ITS THING SMOOTHE AND FLAWLESS
     public class InternalGameEvents
     {
         public const string damageEventName = "DamageEvents";

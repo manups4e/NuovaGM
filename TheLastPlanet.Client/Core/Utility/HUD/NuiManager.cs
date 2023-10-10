@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
+    // I MEAN.. THIS IS AWESOME AS IT IS
     public class NuiManager
     {
         private bool _hasFocus;

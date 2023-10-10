@@ -5,7 +5,7 @@ namespace TheLastPlanet.Server.Discord.GuildData
 {
     public class Guild
     {
-        public List<Ruolo> Roles = new List<Ruolo>();
+        public List<Role> Roles = new List<Role>();
         public List<Emoji> emojis = new List<Emoji>();
         public List<VoiceState> voice_states = new List<VoiceState>();
         public List<Channel> channels = new List<Channel>();
@@ -24,23 +24,23 @@ namespace TheLastPlanet.Server.Discord.GuildData
         public int? explicit_content_filter;
         public ulong? system_channel_id;
         public int? system_channel_flags;
-        public ulong? rules_channel_id; // da capire
-        public ulong? public_updates_channel_id; // da capire
-        public ulong? application_id; // da capire
-        public List<dynamic> features = new List<dynamic>(); // da capire
+        public ulong? rules_channel_id; // TO BE UNDERSTOOD
+        public ulong? public_updates_channel_id; // TO BE UNDERSTOOD
+        public ulong? application_id; // TO BE UNDERSTOOD
+        public List<dynamic> features = new List<dynamic>(); // TO BE UNDERSTOOD
         public int? mfa_level;
         public DateTime joined_at;
         public bool large;
         public bool unavailable;
         public int? member_count;
-        public int? max_members; // da capire
-        public int? max_presences; // da capire
+        public int? max_members; // TO BE UNDERSTOOD
+        public int? max_presences; // TO BE UNDERSTOOD
         public bool is_owner;
-        public dynamic vanity_url_code; // da capire
-        public dynamic description; // da capire
-        public dynamic banner; // da capire
-        public ulong? premium_tier = 0;
-        public int? premium_subscription_count;
+        public dynamic vanity_url_code; // TO BE UNDERSTOOD
+        public dynamic description; // TO BE UNDERSTOOD
+        public dynamic banner; // TO BE UNDERSTOOD
+        public ulong? Pressum_tier = 0;
+        public int? Pressum_subscription_count;
         public ulong? id;
     }
 }

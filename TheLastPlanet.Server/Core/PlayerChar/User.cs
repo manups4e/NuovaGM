@@ -1,5 +1,5 @@
-﻿using Settings.Shared.Config.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -163,7 +163,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
                 if (checkedItem.Amount == ConfigShared.SharedConfig.Main.Generics.ItemList[item].max)
                 {
                     checkedItem.Amount = ConfigShared.SharedConfig.Main.Generics.ItemList[item].max;
-                    Player.TriggerEvent("tlg:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + "~w~!");
+                    Player.TriggerEvent("tlg:ShowNotification", "YOU ALREADY HAVE THE MOST OF ~w~" + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + "~w~!");
                 }
             }
             else
@@ -171,7 +171,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
                 CurrentChar.Inventory.Add(new Inventory(item, amount, weight));
             }
 
-            Player.TriggerEvent("tlg:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + "!");
+            Player.TriggerEvent("tlg:ShowNotification", "Received " + amount + " " + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + "!");
         }
 
         public void removeInventoryItem(string item, int amount)
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
                 CurrentChar.Inventory.ToList().Remove(checkedItem);
             }
 
-            Player.TriggerEvent("tlg:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + " ti sono stati rimossi/e!");
+            Player.TriggerEvent("tlg:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generics.ItemList[item].label + " have been removed!");
         }
 
         public List<Weapons> getCharWeapons(uint charId)
@@ -317,7 +317,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
                 if (licen.Name == license)
                     CurrentChar.Licenses.Remove(licen);
                 else
-                    Server.Logger.Warning($"Il player {Player.Name} non ha una licenza con nome '{license}'");
+                    Server.Logger.Warning($"Player {Player.Name} It does not have a named license '{license}'");
         }
 
         public List<OwnedVehicle> GetCharVehicles()

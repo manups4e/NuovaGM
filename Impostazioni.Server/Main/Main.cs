@@ -2,7 +2,7 @@
 
 namespace Settings.Server.Configurazione.Main
 {
-    public class ConfPrincipale
+    public class MainConfig
     {
         public string ServerName { get; set; }
         public string? WebHookLog { get; set; }

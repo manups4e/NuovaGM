@@ -351,7 +351,7 @@ namespace TheLastPlanet.Shared
 
     public class Skin
     {
-        public string Sex { get; set; } = "Maschio";
+        public string Sex { get; set; } = "Male";
         public uint Model { get; set; } = 1885233650u;
         public float Resemblance { get; set; } = 0f;
         public float Skinmix { get; set; } = 0f;

@@ -36,8 +36,8 @@ namespace TheLastPlanet.Client.IPLs.dlc_doomsday
 
             Walls.SetColor(AvengerColors.Utility);
             Decals.Set(Decals.style01);
-            Lounge.Set(Lounge.Premier, AvengerColors.Utility);
-            Sleeping.Set(Sleeping.Premier, AvengerColors.Utility);
+            Lounge.Set(Lounge.Presser, AvengerColors.Utility);
+            Sleeping.Set(Sleeping.Presser, AvengerColors.Utility);
             Security.Set(Security.On, AvengerColors.Utility);
             Cannon.Set(Cannon.On, AvengerColors.Utility);
 
@@ -144,7 +144,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_doomsday
 
     public class DLounge
     {
-        public string Utility = "set_int_02_lounge1"; public string Prestige = "set_int_02_lounge2"; public string Premier = "set_int_02_lounge3";
+        public string Utility = "set_int_02_lounge1"; public string Prestige = "set_int_02_lounge2"; public string Presser = "set_int_02_lounge3";
         public void Set(string lounge, AvengerColors color, bool refresh = true)
         {
             Clear(false);
@@ -160,7 +160,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_doomsday
     public class DSleeping
     {
         public string None = "set_int_02_no_sleep";
-        public string Utility = "set_int_02_sleep"; public string Prestige = "set_int_02_sleep2"; public string Premier = "set_int_02_sleep3";
+        public string Utility = "set_int_02_sleep"; public string Prestige = "set_int_02_sleep2"; public string Presser = "set_int_02_sleep3";
         public void Set(string sleep, AvengerColors color, bool refresh = true)
         {
             Clear(false);
@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_doomsday
 
     public class DPrivacyGlass
     {
-        public static int ControlModelHash = Funzioni.HashInt("xm_prop_x17_tem_control_01");
+        public static int ControlModelHash = Functions.HashInt("xm_prop_x17_tem_control_01");
 
         public PGBedRoom BedRoom = new PGBedRoom();
         public PGLounge Lounge = new PGLounge();
@@ -216,13 +216,13 @@ namespace TheLastPlanet.Client.IPLs.dlc_doomsday
     {
         public async void Enable(bool state)
         {
-            int handle = API.GetClosestObjectOfType(367.99f, 4827.745f, -59.0f, 1.0f, Funzioni.HashUint("xm_prop_x17_l_glass_03"), false, false, false);
+            int handle = API.GetClosestObjectOfType(367.99f, 4827.745f, -59.0f, 1.0f, Functions.HashUint("xm_prop_x17_l_glass_03"), false, false, false);
 
             if (state)
             {
                 if (handle == 0)
                 {
-                    int model = Funzioni.HashInt("xm_prop_x17_l_glass_03");
+                    int model = Functions.HashInt("xm_prop_x17_l_glass_03");
                     API.RequestModel((uint)model);
                     while (!API.HasModelLoaded((uint)model)) await BaseScript.Delay(0);
 
@@ -282,11 +282,11 @@ namespace TheLastPlanet.Client.IPLs.dlc_doomsday
 
         public List<Glass> Glasses = new List<Glass>()
                 {
-                    new Glass(Funzioni.HashInt("xm_prop_x17_l_door_glass_01"), Funzioni.HashInt("xm_prop_x17_l_door_frame_01"), new Vector3(359.22f, 4846.043f, -58.85f)),
-                    new Glass(Funzioni.HashInt("xm_prop_x17_l_door_glass_01"), Funzioni.HashInt("xm_prop_x17_l_door_frame_01"), new Vector3(369.066f, 4846.273f, -58.85f)),
-                    new Glass(Funzioni.HashInt("xm_prop_x17_l_glass_01"), Funzioni.HashInt("xm_prop_x17_l_frame_01"), new Vector3(358.843f, 4845.103f, -60.0f)),
-                    new Glass(Funzioni.HashInt("xm_prop_x17_l_glass_02"), Funzioni.HashInt("xm_prop_x17_l_frame_02"), new Vector3(366.309f, 4847.281f, -60.0f)),
-                    new Glass(Funzioni.HashInt("xm_prop_x17_l_glass_03"), Funzioni.HashInt("xm_prop_x17_l_frame_03"), new Vector3(371.194f, 4841.27f, -60.0f)),
+                    new Glass(Functions.HashInt("xm_prop_x17_l_door_glass_01"), Functions.HashInt("xm_prop_x17_l_door_frame_01"), new Vector3(359.22f, 4846.043f, -58.85f)),
+                    new Glass(Functions.HashInt("xm_prop_x17_l_door_glass_01"), Functions.HashInt("xm_prop_x17_l_door_frame_01"), new Vector3(369.066f, 4846.273f, -58.85f)),
+                    new Glass(Functions.HashInt("xm_prop_x17_l_glass_01"), Functions.HashInt("xm_prop_x17_l_frame_01"), new Vector3(358.843f, 4845.103f, -60.0f)),
+                    new Glass(Functions.HashInt("xm_prop_x17_l_glass_02"), Functions.HashInt("xm_prop_x17_l_frame_02"), new Vector3(366.309f, 4847.281f, -60.0f)),
+                    new Glass(Functions.HashInt("xm_prop_x17_l_glass_03"), Functions.HashInt("xm_prop_x17_l_frame_03"), new Vector3(371.194f, 4841.27f, -60.0f)),
                 };
 
         public async void Enable(bool state)

@@ -36,9 +36,9 @@ namespace FivemPlayerlistServer
                 case ServerMode.Roleplay:
                     return BucketsHandler.RolePlay.GetTotalPlayers();
                 case ServerMode.Races:
-                    return BucketsHandler.Gare.GetTotalPlayers();
+                    return BucketsHandler.Races.GetTotalPlayers();
                 case ServerMode.Minigames:
-                    return BucketsHandler.Minigiochi.GetTotalPlayers();
+                    return BucketsHandler.Minigames.GetTotalPlayers();
                 default:
                     return 0;
             }

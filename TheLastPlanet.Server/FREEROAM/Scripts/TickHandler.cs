@@ -1,9 +1,4 @@
-﻿using CitizenFX.Core;
-using System.Threading.Tasks;
-using TheLastPlanet.Server.Core;
-using TheLastPlanet.Server.Core.Buckets;
-
-namespace TheLastPlanet.Server.Scripts
+﻿namespace TheLastPlanet.Server.Scripts
 {
     static class TickHandler
     {
@@ -12,15 +7,17 @@ namespace TheLastPlanet.Server.Scripts
             //Server.Instance.AddTick(Salvataggio);
         }
 
-        private static async Task Salvataggio()
+        /*
+        private static async Task Save()
         {
             await BaseScript.Delay(600000);
-            foreach (var p in BucketsHandler.FreeRoam.Bucket.Players)
+            foreach (PlayerClient p in BucketsHandler.FreeRoam.Bucket.Players)
             {
-                var user = Funzioni.GetClientFromPlayerId(p.Handle);
+                PlayerClient user = Functions.GetClientFromPlayerId(p.Handle);
                 if (user != null && user.Status.PlayerStates.Spawned)
                     BucketsHandler.RolePlay.SalvaPersonaggioRoleplay(p);
             }
         }
+        */
     }
 }

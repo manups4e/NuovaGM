@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server.Core
         {
             try
             {
-                PlayerClient p = Funzioni.GetClientFromPlayerId(id);
+                PlayerClient p = Functions.GetClientFromPlayerId(id);
                 ServerMode currentMode = p.Status.PlayerStates.Mode;
                 if ((int)p.User.group_level < 0) return;
 
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Server.Core
 
         public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm, ServerMode mode)
         {
-            User user = Funzioni.GetUserFromPlayerId(sender.Handle);
+            User user = Functions.GetUserFromPlayerId(sender.Handle);
 
             if (comm != null)
             {
@@ -104,21 +104,21 @@ namespace TheLastPlanet.Server.Core
                 {
                     string txt;
                     if (command.Length > 1)
-                        txt = $"Comando: /{cmd} invocato da {sender.Name} con testo: {fullCommand.Substring(cmd.Length + 1)}, in modalità {mode}";
+                        txt = $"Command: /{cmd} invoked by{sender.Name} with text: {fullCommand.Substring(cmd.Length + 1)}, in {mode} mode";
                     else
-                        txt = $"Comando: /{cmd} invocato da {sender.Name}, in modalità {mode}";
+                        txt = $"Command: /{cmd} invoked by{sender.Name}, in {mode} mode";
                     Server.Logger.Info(txt);
                 }
                 else
                 {
-                    user.showNotification("Non hai i permessi per usare questo comando!");
-                    Server.Logger.Warning($"{sender.Name} ha provato a usare il comando {cmd}, in modalità {mode}");
+                    user.showNotification("You do not have permission to use this command!");
+                    Server.Logger.Warning($"{sender.Name} tried to use the {cmd} command, in {mode}");
                 }
             }
             else
             {
-                user.showNotification("Hai inserito un comando non valido!");
-                Server.Logger.Warning($"{sender.Name} ha inserito un comando non valido: {cmd}");
+                user.showNotification("You entered an invalid command!");
+                Server.Logger.Warning($"{sender.Name} entered an invalid command: {cmd}");
             }
         }
 

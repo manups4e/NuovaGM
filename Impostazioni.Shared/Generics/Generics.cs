@@ -18,7 +18,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Yoga matress",
                 description = "Namasté",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 0,
                 max = 1,
                 prop = (ObjectHash)(-1978741854),
@@ -32,7 +32,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Fishing rod for dummies",
                 description = "Good for starters",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(-1910604593),
@@ -46,7 +46,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Fishing rod for intermediates",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(-1910604593),
@@ -60,7 +60,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Fishing rod for experts",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(-1910604593),
@@ -71,12 +71,11 @@ namespace Settings.Shared.Config.Generic
                 buy = { label = "Buy fishing rod", description = "", buy = true }
             },
 
-
             ["europeanbass"] = new()
             {
                 label = "European bass",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 32,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -90,7 +89,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Mackerel",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 40,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -104,7 +103,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "sole",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 25,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -118,7 +117,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Sea bream",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 30,
                 prop = (ObjectHash)(802685111),
@@ -132,7 +131,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Tuna",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 50,
                 prop = (ObjectHash)(802685111),
@@ -146,7 +145,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Salmone",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 26,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -160,7 +159,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Codfish",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 45,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -174,7 +173,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Swordfish",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 56,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -188,7 +187,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Shark",
                 description = "Sea fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 120,
                 max = 100,
                 prop = (ObjectHash)(113504370),
@@ -203,7 +202,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Carp",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 46,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -217,7 +216,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Pike",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 35,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -231,7 +230,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Perch",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 39,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -245,7 +244,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Catfish",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 40,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -259,7 +258,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Speckled catfish",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 60,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -273,7 +272,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Sea ​​bass",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 49,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -287,7 +286,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Trout",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 55,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -301,7 +300,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Goby",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 60,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -315,7 +314,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Zander",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -329,7 +328,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Bleak",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -343,7 +342,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Crucian carp",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -357,7 +356,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Golden crucian carp",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -371,7 +370,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Twaite shad",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -385,7 +384,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Rove",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -399,7 +398,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Stickleback",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -413,7 +412,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Cobian sturgeon",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -427,7 +426,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Sturgeon",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -441,7 +440,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Sturgeon labdanum",
                 description = "Lake/river fish",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(802685111),
@@ -456,7 +455,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Deer meat",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(289396019),
@@ -470,7 +469,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Boar meat",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(289396019),
@@ -484,7 +483,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Rabbit meat",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(289396019),
@@ -498,7 +497,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Coyote meat",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(289396019),
@@ -512,7 +511,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Eagle meat",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 100,
                 max = 100,
                 prop = (ObjectHash)(289396019),
@@ -527,7 +526,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Hamburger",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 0,
                 max = 2,
                 prop = (ObjectHash)(-2054442544),
@@ -541,7 +540,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Water bottle",
                 description = "Thirst quenching",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 0,
                 max = 2,
                 prop = (ObjectHash)(746336278),
@@ -556,7 +555,7 @@ namespace Settings.Shared.Config.Generic
             {
                 label = "Kit for customizing",
                 description = "",
-                peso = 1f,
+                weight = 1f,
                 sellPrice = 0,
                 max = 2,
                 prop = (ObjectHash)(289396019),
@@ -1486,7 +1485,7 @@ namespace Settings.Shared.Config.Generic
     {
         public string label;
         public string description;
-        public float peso;
+        public float weight;
         public int sellPrice;
         public int max;
         public ObjectHash prop;
@@ -1532,7 +1531,7 @@ namespace Settings.Shared.Config.Generic
         {
             label = _label;
             description = _desc;
-            peso = _peso;
+            weight = _peso;
             sellPrice = _sellpr;
             max = _max;
             prop = _prop;

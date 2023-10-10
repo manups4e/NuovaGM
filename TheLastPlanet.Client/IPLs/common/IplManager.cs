@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.IPLs.dlc_finance;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Interactions;
 
 namespace TheLastPlanet.Client.IPLs
 {
@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.IPLs
             {
                 case 0:
                     if (IPLInstance.FinanceOrganization.Office.RenderId == -1)
-                        IPLInstance.FinanceOrganization.Office.RenderId = RenderTargets.CreateNamedRenderTargetForModel(IPLInstance.FinanceOrganization.Office.Target, Funzioni.HashUint(IPLInstance.FinanceOrganization.Office.Prop));
+                        IPLInstance.FinanceOrganization.Office.RenderId = RenderTargets.CreateNamedRenderTargetForModel(IPLInstance.FinanceOrganization.Office.Target, Functions.HashUint(IPLInstance.FinanceOrganization.Office.Prop));
                     if (IPLInstance.FinanceOrganization.Office.Movie is null)
                         IPLInstance.FinanceOrganization.Office.Movie = new("ORGANISATION_NAME");
                     IPLInstance.FinanceOrganization.Office.Stage = 1;

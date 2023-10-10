@@ -9,18 +9,18 @@ namespace TheLastPlanet.Client.Cache
     public static class PlayerCache
     {
         internal static bool _inVeh;
-        private static bool _inPausa;
+        private static bool _paused;
         private static SharedTimer _checkTimer;
 
         public static PlayerClient MyPlayer { get; private set; }
         public static Char_data CurrentChar => MyPlayer.User.CurrentChar;
-        public static ServerMode ModalitàAttuale = ServerMode.Lobby;
+        public static ServerMode ActualMode = ServerMode.Lobby;
 
 
         public static async Task InitPlayer()
         {
-            Tuple<Snowflake, BasePlayerShared> pippo = await EventDispatcher.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
-            MyPlayer = new PlayerClient(pippo);
+            Tuple<Snowflake, BasePlayerShared> player = await EventDispatcher.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
+            MyPlayer = new PlayerClient(player);
             _checkTimer = new(5000);
             Client.Instance.AddTick(TickStatus);
             await Task.FromResult(0);
@@ -53,19 +53,19 @@ namespace TheLastPlanet.Client.Cache
 
         public static async Task TickStatus()
         {
-            #region Posizione
-            // TODO: non salvare position nel db se siamo in un interior
+            #region Position
+            // TODO: DO NOT SAVE PLAYER IF INSIDE INTERIOR, ALWAYS SAVE PLAYER BEFORE ENTERING INTERIOR, AND SPAWNING OUTSIDE
 
-            MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
+            MyPlayer.Position = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
             #endregion
 
             #region Check Pausa
 
-            if (!_inPausa)
+            if (!_paused)
             {
                 if (Game.IsPaused || MenuHandler.IsAnyPauseMenuOpen)
                 {
-                    _inPausa = true;
+                    _paused = true;
                     MyPlayer.Status.PlayerStates.Paused = true;
                 }
             }
@@ -73,14 +73,14 @@ namespace TheLastPlanet.Client.Cache
             {
                 if (!Game.IsPaused & !MenuHandler.IsAnyPauseMenuOpen)
                 {
-                    _inPausa = false;
+                    _paused = false;
                     MyPlayer.Status.PlayerStates.Paused = false;
                 }
             }
 
             #endregion
 
-            /*
+            /*//auto save player singularly or handled serverside for all players at once in an async task?
             if (_checkTimer.IsPassed)
             {
                 if (MyPlayer.Status.Istanza.Instance != "IngressoRoleplay")

@@ -11,15 +11,15 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Generics\Generics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weather\SharedWeatherSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Unemployed.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Cacciatore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Pescatore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Tassista.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Towing.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Medics.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Police.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\CarDealer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\RealEstate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\Unemployed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\Generic\Hunter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\Generic\Fisherman.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\Generic\TaxiDriver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\Generic\Towing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\WhiteList\Medics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\WhiteList\Police.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\WhiteList\CarDealer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Jobs\WhiteList\RealEstate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vehicles\Businesses.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Vehicles\GasStations.cs" />
   </ItemGroup>

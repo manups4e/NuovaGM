@@ -1,9 +1,7 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Discord.GuildData;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Server.Discord
 {
@@ -12,17 +10,17 @@ namespace TheLastPlanet.Server.Discord
         //private static string serverUrl = "http://45.14.185.37:1337";
         private static string serverUrl = "http://localhost:1337";
         public static Guild TheLastServer;
-        public static void Init() { ConnessioneAlBot(); }
+        public static void Init() { BotConnection(); }
 
-        private static async void ConnessioneAlBot()
+        private static async void BotConnection()
         {
-            RequestResponse risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
+            RequestResponse risposta = await SendToBotAndReceive(new { tipo = "ConnessioneAlServer" });
             await BaseScript.Delay(0);
 
             while (risposta.status != System.Net.HttpStatusCode.OK)
             {
-                Server.Logger.Warning("Connessione al bot fallita, controlla che il bot sia attivo..");
-                risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
+                Server.Logger.Warning("Connection to bot failed, check if bot is active..");
+                risposta = await SendToBotAndReceive(new { tipo = "ConnessioneAlServer" });
                 await BaseScript.Delay(5000);
             }
 
@@ -31,7 +29,7 @@ namespace TheLastPlanet.Server.Discord
                 try
                 {
                     TheLastServer = risposta.content.FromJson<Guild>();
-                    Server.Logger.Info($"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
+                    Server.Logger.Info($"Connected to {TheLastServer.name}, total members {TheLastServer.member_count}");
                 }
                 catch (Exception e)
                 {
@@ -40,26 +38,26 @@ namespace TheLastPlanet.Server.Discord
             }
         }
 
-        public static async Task InviaAlBot(object data) { await Server.Instance.WebRequest.Http(serverUrl, "GET", data.ToJson()); }
+        public static async Task SendToBot(object data) { await Server.Instance.WebRequest.Http(serverUrl, "GET", data.ToJson()); }
 
-        public static async Task<RequestResponse> InviaAlBotERicevi(object data) { return await Server.Instance.WebRequest.Http(serverUrl, "GET", data.ToJson()); }
+        public static async Task<RequestResponse> SendToBotAndReceive(object data) { return await Server.Instance.WebRequest.Http(serverUrl, "GET", data.ToJson()); }
 
-        public static async Task<IngressoResponse> DoesPlayerHaveRole(string discordId, List<string> Ruoli, List<string> tokens)
+        public static async Task<JoinResponse> DoesPlayerHaveRole(string discordId, List<string> Ruoli, List<string> tokens)
         {
-            RequestResponse response = await InviaAlBotERicevi(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli, Tokens = tokens.ToJson() } });
+            RequestResponse response = await SendToBotAndReceive(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli, Tokens = tokens.ToJson() } });
 
-            return response.status == System.Net.HttpStatusCode.OK ? response.content.FromJson<IngressoResponse>() : new IngressoResponse() { permesso = false };
+            return response.status == System.Net.HttpStatusCode.OK ? response.content.FromJson<JoinResponse>() : new JoinResponse() { allowed = false };
         }
     }
 
-    internal class IngressoResponse
+    internal class JoinResponse
     {
-        public bool permesso;
-        public bool bannato;
-        public string motivazione;
+        public bool allowed;
+        public bool banned;
+        public string reason;
         public string banId;
-        public bool temporaneo;
-        public string datafine;
+        public bool temp;
+        public string endDate;
         public string banner;
     }
 }

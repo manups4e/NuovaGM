@@ -1,10 +1,7 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
+﻿using FxEvents.Shared.Snowflakes;
 using System;
 using System.Linq;
 using TheLastPlanet.Server.Core;
-
-using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Server.manager
 {
@@ -12,13 +9,13 @@ namespace TheLastPlanet.Server.manager
     {
         public static void Init()
         {
-            EventDispatcher.Mount("manager:TeletrasportaDaMe", new Action<PlayerClient, int>(TippaDaMe));
+            EventDispatcher.Mount("manager:TeletrasportaDaMe", new Action<PlayerClient, int>(teleportToMe));
             //Server.Instance.AddEventHandler("entityCreated", new Action<int>(EntityCreating));
         }
 
-        private static void TippaDaMe([FromSource] PlayerClient client, int source)
+        private static void teleportToMe([FromSource] PlayerClient client, int source)
         {
-            var player = Funzioni.GetClientFromPlayerId(source);
+            PlayerClient player = Functions.GetClientFromPlayerId(source);
             player.Ped.Position = client.Ped.Position + new Vector3(0, 1f, 0);
             player.Ped.Rotation = client.Ped.Rotation + new Vector3(0, 0, 180f);
         }
@@ -48,8 +45,8 @@ namespace TheLastPlanet.Server.manager
                     else if (ent.Type == typeof(Ped))
                     {
                     }
-                    Server.Logger.Warning($"Il Player {ent.Owner.Name} ha spawnato un entità con un mod Menu");
-                    //ent.Owner.Drop($"Hai spawnato un {ent.Type.Name} vietato [{(ObjectHash)ent.Entity.Model}]");
+                    Server.Logger.Warning($"Player {ent.Owner.Name} spawned an entity with a mod menu");
+                    //ent.Owner.Drop($"Hai Spawned un {ent.Type.Name} vietato [{(ObjectHash)ent.Entity.Model}]");
                     API.DeleteEntity(ent.Handle);
                 }
             }

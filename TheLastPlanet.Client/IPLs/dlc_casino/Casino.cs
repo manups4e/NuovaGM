@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Interactions;
 using TheLastPlanet.Client.TimeWeather;
 
 namespace TheLastPlanet.Client.IPLs.dlc_casino
@@ -84,10 +84,10 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
         {
             if (value)
             {
-                var model = Funzioni.HashInt("vw_prop_vw_valet_01a");
+                var model = Functions.HashInt("vw_prop_vw_valet_01a");
                 RequestModel((uint)model);
                 while (!HasModelLoaded((uint)model)) await BaseScript.Delay(0);
-                prop = await Funzioni.SpawnLocalProp(model, new Vector3(925.9088f, 51.24203f, 80.095f), false, true);
+                prop = await Functions.SpawnLocalProp(model, new Vector3(925.9088f, 51.24203f, 80.095f), false, true);
                 prop.Heading = 58f;
                 SetEntityProofs(prop.Handle, true, true, true, true, true, true, false, true);
                 prop.IsInvincible = true;
@@ -103,7 +103,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
         public async void CreateVehicleForDisplay(string model)
         {
             if (ExpositionVeh is not null && ExpositionVeh.Exists()) DeleteVehicle();
-            ExpositionVeh = await Funzioni.SpawnLocalVehicle(model, new Vector3(1100f, 220f, -50f), 0);
+            ExpositionVeh = await Functions.SpawnLocalVehicle(model, new Vector3(1100f, 220f, -50f), 0);
             ExpositionVeh.IsCollisionEnabled = true;
             ExpositionVeh.IsInvincible = true;
             ExpositionVeh.IsDriveable = false;
@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
             if (platformHandle is null || !platformHandle.Exists())
             {
                 await BaseScript.Delay(500);
-                platformHandle = new(GetClosestObjectOfType(1100f, 220f, -50f, 1f, Funzioni.HashUint("vw_prop_vw_casino_podium_01a"), false, false, false));
+                platformHandle = new(GetClosestObjectOfType(1100f, 220f, -50f, 1f, Functions.HashUint("vw_prop_vw_casino_podium_01a"), false, false, false));
             }
             Vector3 offset = ExpositionVeh.GetPositionOffset(platformHandle.Position);
             AttachEntityToEntity(ExpositionVeh.Handle, platformHandle.Handle, -1, 0f, 0f, -offset.Z, 0f, 0f, 0f, false, false, false, false, 2, true);
@@ -148,7 +148,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
                 if (platformHandle is null || !platformHandle.Exists())
                 {
                     await BaseScript.Delay(500);
-                    platformHandle = new(GetClosestObjectOfType(1100f, 220f, -50f, 1f, Funzioni.HashUint("vw_prop_vw_casino_podium_01a"), false, false, false));
+                    platformHandle = new(GetClosestObjectOfType(1100f, 220f, -50f, 1f, Functions.HashUint("vw_prop_vw_casino_podium_01a"), false, false, false));
                 }
                 else
                 {
@@ -166,27 +166,27 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
         public async void CreateWheel()
         {
             RequestScriptAudioBank("DLC_VINEWOOD\\CASINO_GENERAL", false);
-            var m1a = Funzioni.HashInt("vw_prop_vw_luckylight_off");
-            var m1b = Funzioni.HashInt("vw_prop_vw_luckylight_on");
-            var m2a = Funzioni.HashInt("vw_prop_vw_jackpot_off");
-            var m2b = Funzioni.HashInt("vw_prop_vw_jackpot_on");
+            var m1a = Functions.HashInt("vw_prop_vw_luckylight_off");
+            var m1b = Functions.HashInt("vw_prop_vw_luckylight_on");
+            var m2a = Functions.HashInt("vw_prop_vw_jackpot_off");
+            var m2b = Functions.HashInt("vw_prop_vw_jackpot_on");
             Vector3 wheelPos = new(1111.05f, 229.85f, -50.37f);
-            var model1 = Funzioni.HashInt("vw_prop_vw_luckywheel_02a");
-            var model2 = Funzioni.HashInt("vw_prop_vw_luckywheel_01a");
+            var model1 = Functions.HashInt("vw_prop_vw_luckywheel_02a");
+            var model2 = Functions.HashInt("vw_prop_vw_luckywheel_01a");
 
             ClearArea(wheelPos.X, wheelPos.Y, wheelPos.Z, 5.0f, true, false, false, false);
-            Wheel = await Funzioni.SpawnLocalProp(model1, new(wheelPos.X, wheelPos.Y, wheelPos.Z), false, false);
+            Wheel = await Functions.SpawnLocalProp(model1, new(wheelPos.X, wheelPos.Y, wheelPos.Z), false, false);
             Wheel.Heading = 0;
-            Base = await Funzioni.SpawnLocalProp(model2, new(wheelPos.X, wheelPos.Y, wheelPos.Z - 0.26f), false, false);
+            Base = await Functions.SpawnLocalProp(model2, new(wheelPos.X, wheelPos.Y, wheelPos.Z - 0.26f), false, false);
             Base.Heading = 0;
-            Lights1 = await Funzioni.SpawnLocalProp(m1a, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 0.35f), false, false);
+            Lights1 = await Functions.SpawnLocalProp(m1a, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 0.35f), false, false);
             Lights1.Heading = 0;
-            Lights2 = await Funzioni.SpawnLocalProp(m1b, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 0.35f), false, false);
+            Lights2 = await Functions.SpawnLocalProp(m1b, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 0.35f), false, false);
             Lights2.IsVisible = false;
             Lights2.Heading = 0;
-            Arrow1 = await Funzioni.SpawnLocalProp(m2a, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 2.5f), false, false);
+            Arrow1 = await Functions.SpawnLocalProp(m2a, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 2.5f), false, false);
             Arrow1.Heading = 0;
-            Arrow2 = await Funzioni.SpawnLocalProp(m2b, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 2.5f), false, false);
+            Arrow2 = await Functions.SpawnLocalProp(m2b, new(wheelPos.X, wheelPos.Y, wheelPos.Z + 2.5f), false, false);
             Arrow2.IsVisible = false;
             Arrow2.Heading = 0;
         }
@@ -198,9 +198,9 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
             {
                 RequestStreamedTextureDict("Prop_Screen_Vinewood", false);
                 while (!HasStreamedTextureDictLoaded("Prop_Screen_Vinewood")) await BaseScript.Delay(0);
-                renderTarget = RenderTargets.CreateNamedRenderTargetForModel("casinoscreen_01", Funzioni.HashUint("vw_vwint01_video_overlay"));
+                renderTarget = RenderTargets.CreateNamedRenderTargetForModel("casinoscreen_01", Functions.HashUint("vw_vwint01_video_overlay"));
                 await BaseScript.Delay(1000);
-                SetCurrentScreen(MeteoClient.Meteo.CurrentWeather switch
+                SetCurrentScreen(WeatherClient.Weather.CurrentWeather switch
                 {
                     (int)Weather.Christmas or (int)Weather.Snowing or (int)Weather.Snowlight or (int)Weather.Blizzard => SCREEN_SNOW,
                     (int)Weather.Halloween => SCREEN_SKULLS,
@@ -233,7 +233,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
                 if (Game.GameTime - currentTime > 9000)
                 {
                     ShowBigWin = false;
-                    SetCurrentScreen(MeteoClient.Meteo.CurrentWeather switch
+                    SetCurrentScreen(WeatherClient.Weather.CurrentWeather switch
                     {
                         (int)Weather.Christmas or (int)Weather.Snowing or (int)Weather.Snowlight or (int)Weather.Blizzard => SCREEN_SNOW,
                         (int)Weather.Halloween => SCREEN_SKULLS,
@@ -247,7 +247,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
                 if (Game.GameTime - currentTime > 42666)
                 {
                     currentTime = Game.GameTime;
-                    SetCurrentScreen(MeteoClient.Meteo.CurrentWeather switch
+                    SetCurrentScreen(WeatherClient.Weather.CurrentWeather switch
                     {
                         (int)Weather.Christmas or (int)Weather.Snowing or (int)Weather.Snowlight or (int)Weather.Blizzard => SCREEN_SNOW,
                         (int)Weather.Halloween => SCREEN_SKULLS,
@@ -256,7 +256,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
                 }
             }
 
-            renderTarget = RenderTargets.CreateNamedRenderTargetForModel("casinoscreen_01", Funzioni.HashUint("vw_vwint01_video_overlay"));
+            renderTarget = RenderTargets.CreateNamedRenderTargetForModel("casinoscreen_01", Functions.HashUint("vw_vwint01_video_overlay"));
             SetTextRenderId(renderTarget);
             SetScriptGfxDrawOrder(4);
             SetScriptGfxDrawBehindPausemenu(true);

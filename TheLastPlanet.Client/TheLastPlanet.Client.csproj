@@ -79,7 +79,7 @@
 
 	<!--SE OUTPUTDIR E' VUOTA NON CI SONO FILE DA COPIARE QUINDI NIENTE COPIA FINO A COMPILAZIONE SUCCESSIVA!-->
 	<ItemGroup>
-		<Folder Include="MODALITA\ROLEPLAY\Lavori\Profili\" />
+		<Folder Include="GameModes\ROLEPLAY\Jobs\Profili\" />
 	</ItemGroup>
 	<ItemGroup>
 		<SourceFiles Include="$(OutDir)/TheLastPlanet.Client.net.dll" />

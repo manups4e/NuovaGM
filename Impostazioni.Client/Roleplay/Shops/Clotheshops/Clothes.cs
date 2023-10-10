@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Settings.Client.Configurazione.Negozi.Abiti
+namespace Settings.Client.Configuration.Negozi.Abiti
 {
     public class ConfigClotheShops
     {

@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TheLastPlanet.Client.IPLs.dlc_afterhours;
 using TheLastPlanet.Client.IPLs.dlc_bikers;
 using TheLastPlanet.Client.IPLs.dlc_casino;
@@ -19,7 +18,7 @@ namespace TheLastPlanet.Client.IPLs
 {
     public static class IPLInstance
     {
-        // TODO: SPOSTARE IN LUOGO MIGLIORE.
+        // TODO: figure out a more dynamic way to handle ipls.
         public static Michael Michael = new();
         public static Simeon Simeon = new();
         public static FranklinAunt FranklinAunt = new();
@@ -87,11 +86,11 @@ namespace TheLastPlanet.Client.IPLs
 
         public static void Init()
         {
-            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplaySpawn += Spawned;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Spawnato(PlayerClient client)
+        public static void Spawned(PlayerClient client)
         {
 
             /*

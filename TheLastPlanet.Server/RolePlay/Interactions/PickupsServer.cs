@@ -1,12 +1,8 @@
-﻿using CitizenFX.Core;
-using Settings.Shared.Config.Generic;
+﻿using Settings.Shared.Config.Generic;
 using System;
 using System.Collections.Generic;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.PlayerChar;
-using TheLastPlanet.Shared;
-
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Interactions
 {
@@ -31,7 +27,7 @@ namespace TheLastPlanet.Server.Interactions
 
         public static void CreatePickup(Weapons oggetto, string label, PlayerClient user)
         {
-            PickupObject arma = new PickupObject(Pickups.Count, oggetto.Name, oggetto.Ammo, (ObjectHash)0, 0, label, user.Ped.Position.ToPosition(), "weapon", oggetto.Components, oggetto.Tint);
+            PickupObject arma = new PickupObject(Pickups.Count, oggetto.Name, oggetto.Ammo, 0, 0, label, user.Ped.Position.ToPosition(), "weapon", oggetto.Components, oggetto.Tint);
             Pickups.Add(arma);
             BaseScript.TriggerClientEvent("lprp:createPickup", arma.ToJson(), user.Player.Handle);
         }
@@ -71,7 +67,7 @@ namespace TheLastPlanet.Server.Interactions
 
         private static void RemoveInventoryItemWithPickup([FromSource] Player player, string item, int count)
         {
-            PlayerClient client = Funzioni.GetClientFromPlayerId(player.Handle);
+            PlayerClient client = Functions.GetClientFromPlayerId(player.Handle);
             User user = client?.User ?? player.GetCurrentChar();
             Tuple<bool, Inventory> oggetto = user.getInventoryItem(item);
 
@@ -85,21 +81,21 @@ namespace TheLastPlanet.Server.Interactions
                 }
                 else
                 {
-                    user.showNotification("Non hai oggetti come questo nell'inventario!");
+                    user.showNotification("No items in your inventory!");
                 }
             }
         }
 
         private static void RemoveWeaponWithPickup([FromSource] Player player, string weapon)
         {
-            PlayerClient client = Funzioni.GetClientFromPlayerId(player.Handle);
+            PlayerClient client = Functions.GetClientFromPlayerId(player.Handle);
             User user = client?.User ?? player.GetCurrentChar();
 
             if (user.hasWeapon(weapon))
             {
                 Tuple<int, Weapons> arma = user.getWeapon(weapon);
                 user.removeWeapon(weapon);
-                string label = Funzioni.GetWeaponLabel((uint)GetHashKey(weapon));
+                string label = Functions.GetWeaponLabel((uint)GetHashKey(weapon));
                 CreatePickup(arma.Item2, label, client);
             }
         }
@@ -107,19 +103,19 @@ namespace TheLastPlanet.Server.Interactions
         private static void RemoveAccountWithPickup([FromSource] Player player, string name, int amount)
         {
             string label = "";
-            PlayerClient client = Funzioni.GetClientFromPlayerId(player.Handle);
+            PlayerClient client = Functions.GetClientFromPlayerId(player.Handle);
             User user = client?.User ?? player.GetCurrentChar();
 
             switch (name)
             {
-                case "soldi":
+                case "cash":
                     user.Money -= amount;
-                    label = $"Soldi contanti [{amount}]";
+                    label = $"Cash [{amount}]";
 
                     break;
-                case "soldi_sporchi":
+                case "dirty_money":
                     user.DirtCash -= amount;
-                    label = $"Soldi sporchi [{amount}]";
+                    label = $"Dirty cash [{amount}]";
 
                     break;
             }
@@ -137,14 +133,14 @@ namespace TheLastPlanet.Server.Interactions
             {
                 case "item":
                     //aggiungere controllo se può portarlo
-                    user.addInventoryItem(pickup.Name, pickup.Amount, ConfigShared.SharedConfig.Main.Generics.ItemList[pickup.Name].peso);
+                    user.addInventoryItem(pickup.Name, pickup.Amount, ConfigShared.SharedConfig.Main.Generics.ItemList[pickup.Name].weight);
                     success = true;
 
                     break;
                 case "weapon":
                     if (user.hasWeapon(pickup.Name))
                     {
-                        user.showNotification("Hai già quest'arma!");
+                        user.showNotification("You already have this weapon!");
                     }
                     else
                     {
@@ -157,9 +153,9 @@ namespace TheLastPlanet.Server.Interactions
                     break;
                 case "account":
                     success = true;
-                    if (pickup.Name == "soldi")
+                    if (pickup.Name == "cash")
                         user.Money += pickup.Amount;
-                    else if (pickup.Name == "soldi_sporchi") user.DirtCash += pickup.Amount;
+                    else if (pickup.Name == "dirty_cash") user.DirtCash += pickup.Amount;
 
                     break;
             }

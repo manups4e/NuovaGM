@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_finance
 
         public void Init()
         {
-            IplManager.DrawEmptyRect(Target, Funzioni.HashUint(Prop));
+            IplManager.DrawEmptyRect(Target, Functions.HashUint(Prop));
         }
 
         public bool Enable

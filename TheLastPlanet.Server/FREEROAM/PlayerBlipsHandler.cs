@@ -1,13 +1,10 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.Buckets;
-using TheLastPlanet.Shared;
-using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Server.FREEROAM
+namespace TheLastPlanet.Server.FreeRoam
 {
     static class PlayerBlipsHandler
     {
@@ -21,10 +18,10 @@ namespace TheLastPlanet.Server.FREEROAM
             Server.Instance.AddTick(UpdatePlayersBlips);
             AccessingEvents.OnFreeRoamSpawn += (client) =>
             {
-                var serverId = client.Handle;
-                var pos = client.Ped.Position;
-                var rot = client.Ped.Rotation;
-                var netId = client.Ped.NetworkId;
+                int serverId = client.Handle;
+                Vector3 pos = client.Ped.Position;
+                Vector3 rot = client.Ped.Rotation;
+                int netId = client.Ped.NetworkId;
                 FRBlipsInfo user = new(client.Player.Name, new Position(pos, rot), netId, serverId);
                 _blipsInfos.Add(user);
             };
@@ -40,22 +37,22 @@ namespace TheLastPlanet.Server.FREEROAM
             try
             {
                 await BaseScript.Delay(500);
-                if (BucketsHandler.FreeRoam.GetTotalPlayers() < 1) return; // cambiare con <= ... se sono da solo non ha senso (se non per testare)
+                if (BucketsHandler.FreeRoam.GetTotalPlayers() < 1) return; // CHANGE WITH <=, NOW IT'S JUST FOR TESTING ON MY OWN
 
-                foreach (var client in BucketsHandler.FreeRoam.Bucket.Players)
+                foreach (PlayerClient client in BucketsHandler.FreeRoam.Bucket.Players)
                 {
                     if (!client.Status.PlayerStates.Spawned) continue;
-                    var serverId = Convert.ToInt32(client.Player.Handle);
-                    var pos = client.Ped.Position;
-                    var rot = client.Ped.Rotation;
-                    var netId = client.Ped.NetworkId;
+                    int serverId = Convert.ToInt32(client.Player.Handle);
+                    Vector3 pos = client.Ped.Position;
+                    Vector3 rot = client.Ped.Rotation;
+                    int netId = client.Ped.NetworkId;
                     Ped p = client.Ped;
                     if (_blipsInfos.Any(x => x.ServerId == serverId))
                     {
-                        var blip = _blipsInfos.SingleOrDefault(x => x.ServerId == serverId);
+                        FRBlipsInfo blip = _blipsInfos.SingleOrDefault(x => x.ServerId == serverId);
                         blip.Pos = new(pos, rot);
-                        var veh = GetVehiclePedIsIn(p.Handle, false);
-                        var model = GetEntityModel(veh);
+                        int veh = GetVehiclePedIsIn(p.Handle, false);
+                        int model = GetEntityModel(veh);
                         int sprite = 1;
                         if (veh != 0)
                         {

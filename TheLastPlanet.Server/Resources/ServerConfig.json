@@ -1,16 +1,16 @@
 {
   "Main": {
-    "NomeServer": "The Last Planet",
+    "ServerName": "The Last Planet",
     "WebHookLog": null,
     "WebHookAnticheat": null,
     "notWhitelisted": "SHIELD 2.0:\nNon sei autorizzato a entrare su questo server!\nChiedi l'autorizzazione sul canale Discord di Manups4e (discord.gg/n4ep9Fq) nella sezione dedicata!.",
     "EnableAntiSpam": true,
     "PlayersToStartRocade": 64,
     "PingMax": 500,
-    "SalvataggioTutti": 10,
-    "RentPricePompeDiBenzina": 5000,
-    "RentPriceNegozi": 5000,
-    "RuoloWhitelistato": "Test",
+    "SaveAll": 10,
+    "RentPriceGasPumps": 5000,
+    "RentPriceShops": 5000,
+    "WhitelistedRoles": "Test",
     "DiscordToken": "NjI3NjA2ODgzOTMwNDcyNDYw.Xmi23w.mDaXH53Bplyio4Duw9ofCK0x2rg",
     "GuildId": 627605029968281622,
     "BadWords": {
@@ -619,8 +619,8 @@
       "zoccole": "ragazze intriganti"
     }
   },
-  "Coda": {
-    "messages": {
+  "Queue": {
+    "Messages": {
       "Gathering": "Shield 2.0: raccolta info coda e controllo credenziali",
       "License": "Licenza SocialClub obbligatoria",
       "Discord": "ERRORE: DiscordID non trovato",
@@ -635,19 +635,19 @@
       "QueueCount": "[Coda: {0}]",
       "Symbols": "I simboli non sono ammessi nel tuo nome steam"
     },
-    "permessi": [
+    "Permissions": [
       "Admin",
       "Regina",
       "Tester",
       "Founder",
       "Fidanzata"
     ],
-    "whitelistonly": true,
-    "loadTime": 4,
-    "graceTime": 3,
-    "queueGraceTime": 2,
-    "contoCodaFineNomeServer": true,
-    "allowSymbols": true,
-    "stateChangeMessages": true
+    "Whitelistonly": true,
+    "LoadTime": 4,
+    "GraceTime": 3,
+    "QueueGraceTime": 2,
+    "AddCountAfterServerName": true,
+    "AllowSymbols": true,
+    "StateChangeMessages": true
   }
 }

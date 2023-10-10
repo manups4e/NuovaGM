@@ -13,11 +13,11 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 {
     internal static class NewServerEntrance
     {
-        private static readonly string NoWhitelist = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Non sei whitelistato nel server"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Non hai i permessi necessari ad accedere al server."",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Siamo in fase Alpha Testing, vuoi partecipare al testing e segnalare i bugs per aiutare lo sviluppo? Inserisci i tuoi dati qui sotto ed entra nel nostro Discord! (https://discord.gg/n4ep9Fq)"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}},{{""type"": ""TextBlock"",""text"": ""Il tuo nome"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myName"",""placeholder"": ""Scrivi qui Nome o NickName""}},{{""type"": ""TextBlock"",""text"": ""Motivazione"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myMotivazione"",""placeholder"": ""Scrivi qui la motivazione"",""style"": ""Text""}},{{""type"": ""TextBlock"",""text"": ""Nome Discord""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://miro.medium.com/max/1000/1*OQQLQscmbtr-xxxw5GKZ3w.jpeg"",""size"": ""auto""}}]}}]}},{{""type"": ""Input.Text"",""placeholder"": ""Scrivi qui NomeDiscord#0000"",""id"": ""MyDiscordId""}}],""actions"": [{{""type"": ""Action.Submit"",""title"": ""Invia""}}]}}";
+        private static readonly string NoWhitelist = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Non sei whitelistato nel server"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Non hai i permessi necessari ad accedere al server."",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""We are in the Alpha Testing phase, do you want to participate in the testing and report bugs to help development? Enter your details below and join our Discord! (https://discord.gg/n4ep9Fq)"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}},{{""type"": ""TextBlock"",""text"": ""Il tuo nome"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myName"",""placeholder"": ""Scrivi qui Nome o NickName""}},{{""type"": ""TextBlock"",""text"": ""Motivazione"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myMotivazione"",""placeholder"": ""Scrivi qui la motivazione"",""style"": ""Text""}},{{""type"": ""TextBlock"",""text"": ""Nome Discord""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://miro.medium.com/max/1000/1*OQQLQscmbtr-xxxw5GKZ3w.jpeg"",""size"": ""auto""}}]}}]}},{{""type"": ""Input.Text"",""placeholder"": ""Scrivi qui NomeDiscord#0000"",""id"": ""MyDiscordId""}}],""actions"": [{{""type"": ""Action.Submit"",""title"": ""Invia""}}]}}";
         private static readonly string ControlloLicenza = $@"{{""$schema"":""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""TextBlock"",""text"": ""Raccolta Informazioni..""}}],""backgroundImage"": {{""url"": ""https://64.media.tumblr.com/109134059fc40ed53f4f7d1ecdebc108/tumblr_p382z4i0va1qeyvpto1_500.gifv"",""horizontalAlignment"": ""Center""}},""minHeight"": ""360px"",""verticalContentAlignment"": ""Bottom""}}";
         private static readonly string IngressoConsentito = $@"{{""$schema"":""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""TextBlock"",""text"": ""Shield 2.0: Accesso consentito, attendi...""}}],""backgroundImage"": {{""url"": ""https://64.media.tumblr.com/109134059fc40ed53f4f7d1ecdebc108/tumblr_p382z4i0va1qeyvpto1_500.gifv"",""horizontalAlignment"": ""Center""}},""minHeight"": ""360px"",""verticalContentAlignment"": ""Bottom""}}";
-        private static readonly string Errore = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.3"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Errore sconosciuto"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Siamo spiacenti, l'accesso al server o la comunicazione con il bot ha subito un errore imprevisto!"",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Per farci perdonare, ecco qui l'immagine di un gattino su di un unicorno!"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://iyanceres.files.wordpress.com/2018/02/cat-unicorn.jpg"",""size"": ""auto""}}]}}]}}]}}";
-        private static readonly string InDevelopment = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.3"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Server is in development"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Siamo spiacenti, l'accesso al server al momento non è consentito, se vuoi aggiornamenti vai su https://discord.gg/n4ep9Fq"",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Per farci perdonare, ecco qui l'immagine di un gattino su di un unicorno!"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://iyanceres.files.wordpress.com/2018/02/cat-unicorn.jpg"",""size"": ""auto""}}]}}]}}]}}";
+        private static readonly string Errore = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.3"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Errore sconosciuto"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Sorry, accessing the server or communicating with the bot experienced an unexpected error!"",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""To make it up to you, here's a picture of a kitten on a unicorn!"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://iyanceres.files.wordpress.com/2018/02/cat-unicorn.jpg"",""size"": ""auto""}}]}}]}}]}}";
+        private static readonly string InDevelopment = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.3"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Server is in development"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Siamo spiacenti, l'accesso al server al momento non è consentito, se vuoi aggiornamenti vai su https://discord.gg/n4ep9Fq"",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""To make it up to you, here's a picture of a kitten on a unicorn!"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://iyanceres.files.wordpress.com/2018/02/cat-unicorn.jpg"",""size"": ""auto""}}]}}]}}]}}";
 
         public static void Init()
         {
@@ -42,7 +42,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 
         private static async void PlayerConnecting([FromSource] Player source, string playerName, dynamic denyWithReason, dynamic deferrals)
         {
-            Server.Logger.Warning($"{source.Name} si sta connettendo.");
+            Server.Logger.Warning($"{source.Name} is connecting.");
             deferrals.defer();
             await BaseScript.Delay(500);
 
@@ -53,15 +53,16 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 List<string> PlayerTokens = new();
                 int tokensNum = GetNumPlayerTokens(source.Handle);
                 for (int i = 0; i < tokensNum; i++) PlayerTokens.Add(GetPlayerToken(source.Handle, i));
-                IngressoResponse puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(source.GetLicense(Identifier.Discord), Server.Impostazioni.Coda.Permissions, PlayerTokens);
+                Server.Logger.Warning(Server.Impostazioni.ToJson());
+                JoinResponse canJoin = await BotDiscordHandler.DoesPlayerHaveRole(source.GetLicense(Identifier.Discord), Server.Impostazioni.Queue.Permissions, PlayerTokens);
 
-                if (puoentrare.permesso)
+                if (canJoin.allowed)
                 {
                     if (!Server.Debug)
                     {
                         if (Server.Instance.Clients.Any(x => source.Identifiers["license"] == x.Identifiers.License))
                         {
-                            deferrals.done($"Last Planet Shield 2.0\nSiamo spiacenti.. ma pare che tu stia usando una licenza attualmente già in uso tra i giocatori online.\n" + $"Tu - Lic.: {source.Identifiers["license"].Replace(source.Identifiers["license"].Substring(20), "")}...,\n" + $"altro player - Lic.: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Replace(Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Substring(20), "")}..., nome: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Player.Name}\n" + $"Fai uno screenshot di questo messaggio e contatta gli amministratori del server.\n Grazie");
+                            deferrals.done($"Last Galaxy Shield 2.0\nWe're sorry.. but it appears that you are using a license that is already in use among online players.\n" + $"You - Lic.: {source.Identifiers["license"].Replace(source.Identifiers["license "].Substring(20), "")}...,\n" + $"other player - Lic.: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Replace(Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Substring(20), "")}..., name: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Player.Name}\n" + $"Do a screenshot of this message and contact the server administrators.\nThank you");
                             return;
                         }
                     }
@@ -72,36 +73,36 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 }
                 else
                 {
-                    if (puoentrare.bannato)
+                    if (canJoin.banned)
                     {
-                        string banText = "Last Planet Shield 2.0.";
+                        string banText = "Last Galaxy Shield 2.0.";
 
-                        if (!string.IsNullOrEmpty(puoentrare.datafine))
+                        if (!string.IsNullOrEmpty(canJoin.endDate))
                         {
-                            string datafine = "MAI";
-                            banText += "\nSei attualmente bannato dal server!";
-                            if (puoentrare.temporaneo) banText += "\nIl tuo ban è temporaneo, potrai ri-entrare dopo la data e l'orario di fine ban.";
-                            banText += "\n- BAN ID: " + puoentrare.banId;
-                            banText += "\n- Bannato da: " + puoentrare.banner;
-                            banText += "\n- Motivazione: " + puoentrare.motivazione;
-                            banText += "\n- Data di fine: " + puoentrare.datafine;
+                            string endDate = "NEVER";
+                            banText += "\nYou are currently banned from the server!";
+                            if (canJoin.temp) banText += "\nYour ban is temporary, you will be able to re-enter after the ban end date and time.";
+                            banText += "\n- BAN ID: " + canJoin.banId;
+                            banText += "\n- Banned from: " + canJoin.banner;
+                            banText += "\n- Reason: " + canJoin.reason;
+                            banText += "\n- End date: " + canJoin.endDate;
                         }
                         else
                         {
-                            banText += "\nIl tuo accesso al server è stato bloccato!";
-                            banText += "\n\n- Motivazione: " + puoentrare.motivazione;
-                            banText += "\n- Bannato da: SISTEMA ANTICHEAT";
+                            banText += "\nYour access to the server has been blocked!";
+                            banText += "\n\n- Reason: " + canJoin.reason;
+                            banText += "\n- Banned by: ANTICHEAT SYSTEM";
                         }
-
-                        banText += "\n\nSe vuoi parlare con lo staff riguardo al tuo ban, ricorda di segnare il BAN ID (se presente, oppure fai uno screenshot dell'errore) e riferiscilo allo staff.";
+                        banText += "\n\nIf you want to talk to the staff about your ban, remember to write down the BAN ID (if present, or take a screenshot of the error) and report it to the staff.";
                         deferrals.done(banText);
 
                         return;
                     }
                     else
                     {
-                        if (Server.Impostazioni.Coda.Whitelistonly)
+                        if (Server.Impostazioni.Queue.Whitelistonly)
                         {
+                            // THIS CARD ADDS A FORM FOR THE PLAYER TO FILL TO ASK PERMISSION TO JOIN
                             /*
 							deferrals.presentCard(NoWhitelist, new Action<dynamic>(async (var) =>
 							{
@@ -128,7 +129,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
             try
             {
                 Snowflake newone = SnowflakeGenerator.Instance.Next();
-                const string procedure = "call IngressoPlayer(@disc, @lice, @name, @snow)";
+                const string procedure = "call IngressoPlayer(@disc, @lice, @name, @snow)"; // playerJoining on db
                 await BaseScript.Delay(0);
                 BasePlayerShared basePlayerShared = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)), lice = source.GetLicense(Identifier.License), name = source.Name, snow = newone.ToInt64() });
                 User user = new(source, basePlayerShared);
@@ -149,12 +150,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
             string handle = p.Handle;
             string text = name + " e' uscito.";
             if (!string.IsNullOrWhiteSpace(reason))
-                text = reason switch
-                {
-                    "Timed out after 10 seconds." => name + " e' crashato.",
-                    "Disconnected." or "Exited." => name + " si e' disconnesso.",
-                    _ => name + " si e' disconnesso: " + reason
-                };
+                text = reason;
             try
             {
                 PlayerClient client = Server.Instance.Clients.FirstOrDefault(x => x.Handle.ToString() == player.Handle);
@@ -165,7 +161,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                     string disc = ped.Identifiers.Discord;
                     if (client?.Status.PlayerStates.Mode == ServerMode.Lobby)
                     {
-                        Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
+                        Server.Logger.Info($"Player {name} [{disc}] left the server.");
                     }
                     else if (client?.Status.PlayerStates.Mode == ServerMode.Roleplay)
                     {

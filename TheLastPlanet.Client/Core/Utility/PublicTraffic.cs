@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core.Native;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 
@@ -13,14 +12,14 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static void Init()
         {
-            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplaySpawn += Spawned;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Spawnato(PlayerClient client)
+        public static void Spawned(PlayerClient client)
         {
-            baseTraffic = Client.Impostazioni.RolePlay.Main.BaseTraffic;
-            divMultiplier = Client.Impostazioni.RolePlay.Main.DivMultiplier;
+            baseTraffic = Client.Settings.RolePlay.Main.BaseTraffic;
+            divMultiplier = Client.Settings.RolePlay.Main.DivMultiplier;
             LastCheck = World.CurrentDayTime;
             SetDensity();
             Client.Instance.AddTick(Check);
@@ -28,8 +27,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static void onPlayerLeft(PlayerClient client)
         {
-            baseTraffic = Client.Impostazioni.RolePlay.Main.BaseTraffic;
-            divMultiplier = Client.Impostazioni.RolePlay.Main.DivMultiplier;
+            baseTraffic = Client.Settings.RolePlay.Main.BaseTraffic;
+            divMultiplier = Client.Settings.RolePlay.Main.DivMultiplier;
             LastCheck = World.CurrentDayTime;
             Client.Instance.RemoveTick(Check);
         }

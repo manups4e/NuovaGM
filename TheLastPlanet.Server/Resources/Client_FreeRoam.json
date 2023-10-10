@@ -2252,7 +2252,7 @@
       ]
    },
    "Outfits":{
-   "Maschio":{
+   "Male":{
       "Biker":[
          {
             "Name":"-- 38 --",
@@ -22730,7 +22730,7 @@
          }
       ]
    },
-   "Femmina":{
+   "Female":{
       "Biker":[
          {
             "Name":"-- 21 --",

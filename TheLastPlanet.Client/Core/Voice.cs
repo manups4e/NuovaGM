@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Personale;
 
 namespace TheLastPlanet.Client.Core
 {
     public enum Mode
     {
-        sottovoce = 0,
-        normale,
-        urla
+        whisper = 0,
+        normal,
+        scream
     }
 
+    //TODO: CONVERT THIS INTO USING MUMBLE..priority?
     internal static class Voice
     {
         private static List<Modes> VoiceMode = new List<Modes>() { new Modes(3, "Sei Sottovoce.", false), new Modes(8, "Parli Normalmente.", false), new Modes(14, "Urli.", false) };
         private static Dictionary<int, bool> Listeners = new Dictionary<int, bool>();
-        private static Mode Mode = Mode.normale;
+        private static Mode Mode = Mode.normal;
         private static float CheckDistance = 8.0f;
         private static bool OnlyVehicle = false;
         private static bool shouldReset = false;
@@ -152,12 +152,12 @@ namespace TheLastPlanet.Client.Core
 
                 switch (veh.Windows.AreAllWindowsIntact)
                 {
-                    case true when EventiPersonalMenu.WindowsGiu:
+                    case true when EventsPersonalMenu.WindowsDown:
                         Permesso = true;
                         notif = false;
 
                         break;
-                    case true when !EventiPersonalMenu.WindowsGiu:
+                    case true when !EventsPersonalMenu.WindowsDown:
                         {
                             if (!notif)
                             {

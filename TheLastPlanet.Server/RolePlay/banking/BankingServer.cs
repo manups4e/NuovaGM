@@ -21,24 +21,24 @@ namespace TheLastPlanet.Server.banking
             User user = source.User;
             if (user.Bank >= amount)
             {
-                foreach (var p in Server.Instance.Clients)
+                foreach (PlayerClient p in Server.Instance.Clients)
                 {
                     if (name.ToLower() == p.User.FullName.ToLower())
                     {
                         user.Bank -= amount;
                         p.User.Bank += amount;
-                        Server.Logger.Info($"Il personaggio '{user.FullName}' [{source.Player.Name}] ha inviato ${amount} a '{p.User.FullName}' [{p.Player.Name}]");
+                        Server.Logger.Info($"Character '{user.FullName}' [{source.Player.Name}] sent ${amount} to'{p.User.FullName}' [{p.Player.Name}]");
                         return new KeyValuePair<bool, string>(true, user.Bank.ToString());
                     }
                 }
-                return new KeyValuePair<bool, string>(false, "Utente non trovato");
+                return new KeyValuePair<bool, string>(false, "User not found");
             }
-            return new KeyValuePair<bool, string>(false, "I tuoi fondi bancari non coprono la transazione!");
+            return new KeyValuePair<bool, string>(false, "Your founds don't cover the transaction!");
         }
 
         private static async Task<KeyValuePair<bool, string>> Withdraw([FromSource] PlayerClient source, int amount)
         {
-            var player = source.Player;
+            Player player = source.Player;
             if (amount > 0)
             {
                 User user = player.GetCurrentChar();
@@ -48,18 +48,18 @@ namespace TheLastPlanet.Server.banking
                 if (bal >= amount)
                 {
                     user.Money += amount;
-                    Server.Logger.Info($"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
+                    Server.Logger.Info($"The character '{user.FullName}' [{player.Name}] has deposited {amount}$");
                     user.Bank -= amount;
                     return new KeyValuePair<bool, string>(true, newamt.ToString());
                 }
-                return new KeyValuePair<bool, string>(false, "Non hai abbastanza fondi nel tuo conto corrente per questa transazione.");
+                return new KeyValuePair<bool, string>(false, "You do not have enough funds in your checking account for this transaction.");
             }
-            return new KeyValuePair<bool, string>(false, "Devi inserire un valore positivo.");
+            return new KeyValuePair<bool, string>(false, "You must enter a positive value.");
         }
 
         private static async Task<KeyValuePair<bool, string>> Deposit([FromSource] PlayerClient source, int amount)
         {
-            var player = source.Player;
+            Player player = source.Player;
             if (amount > 0)
             {
                 User user = player.GetCurrentChar();
@@ -70,13 +70,13 @@ namespace TheLastPlanet.Server.banking
                 if (amount <= money)
                 {
                     user.Money -= amount;
-                    Server.Logger.Info($"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
+                    Server.Logger.Info($"The character '{user.FullName}' [{player.Name}] has deposited {amount}$");
                     user.Bank += amount;
                     return new KeyValuePair<bool, string>(true, newamt.ToString());
                 }
-                return new KeyValuePair<bool, string>(false, "Non hai abbastanza soldi nel tuo portafoglio per questa transazione.");
+                return new KeyValuePair<bool, string>(false, "You do not have enough money in your wallet for this transaction.");
             }
-            return new KeyValuePair<bool, string>(false, "Devi inserire un valore positivo.");
+            return new KeyValuePair<bool, string>(false, "You must enter a positive value.");
 
         }
     }

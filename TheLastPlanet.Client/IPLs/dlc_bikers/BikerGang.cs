@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Interactions;
 
 namespace TheLastPlanet.Client.IPLs.dlc_bikers
 {
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
             if (ClubHouse.ClubName.Stage == 0)
             {
                 if (ClubHouse.ClubName.RenderId == -1)
-                    ClubHouse.ClubName.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.ClubName.Target, Funzioni.HashUint(ClubHouse.ClubName.Prop));
+                    ClubHouse.ClubName.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.ClubName.Target, Functions.HashUint(ClubHouse.ClubName.Prop));
                 if (ClubHouse.ClubName.MovieId == -1)
                     ClubHouse.ClubName.MovieId = API.RequestScaleformMovie("CLUBHOUSE_NAME");
                 ClubHouse.ClubName.Stage = 1;
@@ -170,14 +170,14 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
             if (ClubHouse.Emblem.Stage == 0)
             {
                 if (ClubHouse.Emblem.RenderId == -1)
-                    ClubHouse.Emblem.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.Emblem.Target, Funzioni.HashUint(ClubHouse.Emblem.Prop));
+                    ClubHouse.Emblem.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.Emblem.Target, Functions.HashUint(ClubHouse.Emblem.Prop));
                 bool IsTextureDictLoaded = await IplManager.LoadStreamedTextureDict(texturesDict);
                 if (!IsTextureDictLoaded) Client.Logger.Error("Impossibile caricare texture riga 506 bikerGang.cs");
                 ClubHouse.Emblem.Stage = 1;
             }
             else if (ClubHouse.Emblem.Stage == 1)
             {
-                ClubHouse.Emblem.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.Emblem.Target, Funzioni.HashUint(ClubHouse.Emblem.Prop));
+                ClubHouse.Emblem.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.Emblem.Target, Functions.HashUint(ClubHouse.Emblem.Prop));
                 ClubHouse.Emblem.Stage = 2;
             }
             else if (ClubHouse.Emblem.Stage == 2)
@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
             if (ClubHouse.MissionWall.Stage == 0)
             {
                 if (ClubHouse.MissionWall.RenderId == -1)
-                    ClubHouse.MissionWall.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.MissionWall.Target, Funzioni.HashUint(ClubHouse.MissionWall.Prop));
+                    ClubHouse.MissionWall.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.MissionWall.Target, Functions.HashUint(ClubHouse.MissionWall.Prop));
                 ClubHouse.MissionWall.Stage = 1;
             }
             else if (ClubHouse.MissionWall.Stage == 1)
@@ -224,7 +224,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
                 member.Stage = 1;
             else if (member.Stage == 1)
             {
-                member.RenderId = RenderTargets.CreateNamedRenderTargetForModel(member.Target, Funzioni.HashUint(member.Prop));
+                member.RenderId = RenderTargets.CreateNamedRenderTargetForModel(member.Target, Functions.HashUint(member.Prop));
                 member.Stage = 2;
             }
             else if (member.Stage == 2)
@@ -319,7 +319,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
         public async void Set(Member member, Ped ped)
         {
             member.Clear();
-            Tuple<int, string> mugshot = await Core.Utility.Funzioni.GetPedMugshotAsync(ped);
+            Tuple<int, string> mugshot = await Core.Utility.Functions.GetPedMugshotAsync(ped);
             member.PedHeadshot = mugshot.Item1;
             member.TextureDict = mugshot.Item2;
             bool IsTextureDictLoaded = await IplManager.LoadStreamedTextureDict(member.TextureDict);
@@ -352,7 +352,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
         }
         public void Init()
         {
-            IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
+            IplManager.DrawEmptyRect(Target, Core.Utility.Functions.HashUint(Prop));
         }
         public void Enable(bool state)
         {
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
         public int Stage = 0;
         public void Init()
         {
-            IplManager.DrawEmptyRect(Target, Funzioni.HashUint(Prop));
+            IplManager.DrawEmptyRect(Target, Functions.HashUint(Prop));
         }
         public void Enable(bool state)
         {
@@ -408,7 +408,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
         public int Stage = 0;
         public void Init()
         {
-            IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
+            IplManager.DrawEmptyRect(Target, Core.Utility.Functions.HashUint(Prop));
         }
         public void Enable(bool state)
         {
@@ -441,7 +441,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
         }
         public void Init()
         {
-            IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
+            IplManager.DrawEmptyRect(Target, Core.Utility.Functions.HashUint(Prop));
         }
         public void Enable(bool state)
         {

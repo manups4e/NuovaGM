@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client.IPLs
                     float x = 0, y = 0, z = 0;
                     GetInteriorPosition(ipl.InteriorId, ref x, ref y, ref z);
 
-                    if (PlayerCache.MyPlayer.Posizione.IsInRangeOf(new Vector3(x, y, z), 300))
+                    if (PlayerCache.MyPlayer.Position.IsInRangeOf(new Vector3(x, y, z), 300))
                     {
                         if (!ipl.Enabled) ipl.Enabled = true;
                     }

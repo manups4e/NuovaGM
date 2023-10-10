@@ -10,7 +10,7 @@ namespace TheLastPlanet.Client.AdminAC
         private static InputController adminMenu = new(Control.DropAmmo, ServerMode.UNKNOWN, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu));
         private static InputController noclip = new(Control.ReplayStartStopRecordingSecondary, ServerMode.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip));
         private static InputController teleport = new(Control.SaveReplayClip, ServerMode.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport));
-        private static InputController camera = new(Control.ReplayStartStopRecording, ServerMode.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Telecamera));
+        private static InputController camera = new(Control.ReplayStartStopRecording, ServerMode.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Camera));
         private static Camera noClipCamera;
         private static Vector3 cameraPosition;
         private static float zoom = 75f;
@@ -54,9 +54,9 @@ namespace TheLastPlanet.Client.AdminAC
                 {
                     RequestAnimDict(noclip_ANIM_A);
                     while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-                    curLocation = Cache.PlayerCache.MyPlayer.Posizione.ToVector3;
+                    curLocation = Cache.PlayerCache.MyPlayer.Position.ToVector3;
                     curRotation = p.Rotation;
-                    curHeading = Cache.PlayerCache.MyPlayer.Posizione.Heading;
+                    curHeading = Cache.PlayerCache.MyPlayer.Position.Heading;
                     TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
                 }
                 else
@@ -71,11 +71,11 @@ namespace TheLastPlanet.Client.AdminAC
                 NoClip = true;
                 List<InstructionalButton> istr = new()
                 {
-                    new InstructionalButton(Control.FrontendLt, Control.Cover, "Sali"),
-                    new InstructionalButton(Control.FrontendRt, Control.HUDSpecial, "Scendi"),
-                    new InstructionalButton(Control.MoveLeftRight, "Ruota Dx / Sx"),
-                    new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
-                    new InstructionalButton(Control.FrontendX, "Cambia velocità")
+                    new InstructionalButton(Control.FrontendLt, Control.Cover, "Up"),
+                    new InstructionalButton(Control.FrontendRt, Control.HUDSpecial, "Down"),
+                    new InstructionalButton(Control.MoveLeftRight, "Rotate L/R"),
+                    new InstructionalButton(Control.MoveUpDown, "Move Fw/Bw"),
+                    new InstructionalButton(Control.FrontendX, "Change speed")
                 };
                 ScaleformUI.Main.InstructionalButtons.SetInstructionalButtons(istr);
             }
@@ -135,7 +135,7 @@ namespace TheLastPlanet.Client.AdminAC
             Game.EnableControlThisFrame(0, Control.LookUpOnly);
             Game.EnableControlThisFrame(0, Control.LookLeftOnly);
             Game.EnableControlThisFrame(0, Control.LookRightOnly);
-            HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
+            HUD.ShowHelp("Speed: ~y~" + travelSpeedStr + "~w~.");
             const float rotationSpeed = 2.5f;
             float forwardPush = 0.8f;
 
@@ -143,42 +143,42 @@ namespace TheLastPlanet.Client.AdminAC
             {
                 case 0:
                     forwardPush = 0.8f; //medium
-                    travelSpeedStr = "Media";
+                    travelSpeedStr = "Everage";
 
                     break;
                 case 1:
                     forwardPush = 1.8f; //fast
-                    travelSpeedStr = "Veloce";
+                    travelSpeedStr = "Fast";
 
                     break;
                 case 2:
                     forwardPush = 3.6f; //very fast
-                    travelSpeedStr = "Molto veloce";
+                    travelSpeedStr = "Very fast";
 
                     break;
                 case 3:
                     forwardPush = 5.4f; //extremely fast
-                    travelSpeedStr = "Estremamente veloce";
+                    travelSpeedStr = "Extremely fast";
 
                     break;
                 case 4:
                     forwardPush = 0.025f; //very slow
-                    travelSpeedStr = "Estremamente lenta";
+                    travelSpeedStr = "Extremely slow";
 
                     break;
                 case 5:
                     forwardPush = 0.05f; //very slow
-                    travelSpeedStr = "Molto lenta";
+                    travelSpeedStr = "Very slow";
 
                     break;
                 case 6:
                     forwardPush = 0.2f; //slow
-                    travelSpeedStr = "Lenta";
+                    travelSpeedStr = "Slow";
 
                     break;
             }
 
-            Vector2 vect = new(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
+            Vector2 vect = new(forwardPush * (float)Math.Sin(Functions.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Functions.Deg2rad(curHeading)));
             Entity target = p;
             if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle) target = p.CurrentVehicle;
             p.Velocity = new Vector3(0);
@@ -212,31 +212,31 @@ namespace TheLastPlanet.Client.AdminAC
             target.Heading = curHeading - rotationSpeed;
         }
 
-        private static async void Telecamera(Ped p, object[] args)
+        private static async void Camera(Ped p, object[] args)
         {
             if (Cache.PlayerCache.MyPlayer.User == null || (int)Cache.PlayerCache.MyPlayer.User.group_level < 4) return;
 
             if (!NoClip)
             {
                 noClipCamera = World.CreateCamera(PlayerCache.MyPlayer.Ped.Bones[Bone.SKEL_Head].Position, PlayerCache.MyPlayer.Ped.Rotation, GameplayCamera.FieldOfView);
-                curLocation = PlayerCache.MyPlayer.Posizione.ToVector3;
+                curLocation = PlayerCache.MyPlayer.Position.ToVector3;
                 cameraPosition = curLocation;
                 curRotation = p.Rotation;
-                curHeading = PlayerCache.MyPlayer.Posizione.Heading;
+                curHeading = PlayerCache.MyPlayer.Position.Heading;
                 zoom = GameplayCamera.FieldOfView;
                 p.Rotation = new Vector3(0);
                 Client.Instance.AddTick(NoClipCamera);
                 NoClip = true;
                 List<InstructionalButton> istr = new()
                 {
-                    new InstructionalButton(Control.FrontendLt, "Sali"),
-                    new InstructionalButton(Control.FrontendRt, "Scendi"),
+                    new InstructionalButton(Control.FrontendLt, "Up"),
+                    new InstructionalButton(Control.FrontendRt, "Down"),
                     new InstructionalButton(Control.FrontendLb, "Zoom+"),
                     new InstructionalButton(Control.FrontendRb, "Zoom-"),
-                    new InstructionalButton(Control.MoveLeftRight, "Ruota Dx / Sx"),
-                    new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
-                    new InstructionalButton(Control.FrontendX, "Cambia velocità"),
-                    new InstructionalButton(Control.NextCamera, "Save Camera")
+                    new InstructionalButton(Control.MoveLeftRight, "Rotate L/R"),
+                    new InstructionalButton(Control.MoveUpDown, "Move Fw/Bw"),
+                    new InstructionalButton(Control.FrontendX, "Change speed"),
+                    new InstructionalButton(Control.NextCamera, "Save camera")
                 };
                 ScaleformUI.Main.InstructionalButtons.SetInstructionalButtons(istr);
                 RenderScriptCams(true, true, 2000, true, false);
@@ -279,7 +279,7 @@ namespace TheLastPlanet.Client.AdminAC
             Game.DisableAllControlsThisFrame(0);
             Game.DisableAllControlsThisFrame(1);
             Game.DisableAllControlsThisFrame(2);
-            HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
+            HUD.ShowHelp("Actual speed: ~y~" + travelSpeedStr + "~w~.");
             const float rotationSpeed = 2.5f;
             float fVar0 = GetDisabledControlNormal(2, 218) * forwardPush;
             float fVar1 = GetDisabledControlNormal(2, 219) * forwardPush;
@@ -311,10 +311,10 @@ namespace TheLastPlanet.Client.AdminAC
                     zoomingWheel = -3f;
             }
 
-            float xVectFwd = -fVar1 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
-            float yVectFwd = fVar1 * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
-            float xVectLat = fVar0 * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
-            float yVectLat = fVar0 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
+            float xVectFwd = -fVar1 * (float)Math.Sin(Functions.Deg2rad(curRotation.Z));
+            float yVectFwd = fVar1 * (float)Math.Cos(Functions.Deg2rad(curRotation.Z));
+            float xVectLat = fVar0 * (float)Math.Cos(Functions.Deg2rad(curRotation.Z));
+            float yVectLat = fVar0 * (float)Math.Sin(Functions.Deg2rad(curRotation.Z));
 
 
             cameraPosition.X += xVectFwd + xVectLat;
@@ -351,37 +351,37 @@ namespace TheLastPlanet.Client.AdminAC
             {
                 case 0:
                     forwardPush = 0.1f; //medium
-                    travelSpeedStr = "Media";
+                    travelSpeedStr = "Everage";
 
                     break;
                 case 1:
                     forwardPush = 0.2f; //fast
-                    travelSpeedStr = "Veloce";
+                    travelSpeedStr = "Fast";
 
                     break;
                 case 2:
                     forwardPush = 0.4f; //very fast
-                    travelSpeedStr = "Molto veloce";
+                    travelSpeedStr = "Very fast";
 
                     break;
                 case 3:
                     forwardPush = 0.8f; //extremely fast
-                    travelSpeedStr = "Estremamente veloce";
+                    travelSpeedStr = "Extremely fast";
 
                     break;
                 case 6:
                     forwardPush = 0.02f; //very slow
-                    travelSpeedStr = "Estremamente lenta";
+                    travelSpeedStr = "Extremely slow";
 
                     break;
                 case 5:
                     forwardPush = 0.05f; //very slow
-                    travelSpeedStr = "Molto lenta";
+                    travelSpeedStr = "Very slow";
 
                     break;
                 case 4:
                     forwardPush = 0.08f; //slow
-                    travelSpeedStr = "Lenta";
+                    travelSpeedStr = "Slow";
 
                     break;
             }
@@ -406,9 +406,9 @@ namespace TheLastPlanet.Client.AdminAC
             noClipCamera.Rotation = curRotation;
             noClipCamera.FieldOfView = zoom;
 
-            HUD.DrawText(0.4f, 0.825f, $"~o~Posizione~w~: {cameraPosition}");
-            HUD.DrawText(0.4f, 0.85f, $"Rotazione: {curRotation}");
-            HUD.DrawText(0.4f, 0.80f, $"Fov = {zoom}");
+            HUD.DrawText(0.4f, 0.825f, $"~o~Position~w~: {cameraPosition}");
+            HUD.DrawText(0.4f, 0.85f, $"Rotation: {curRotation}");
+            HUD.DrawText(0.4f, 0.80f, $"Field of View = {zoom}");
         }
 
         private static int func_7449()
@@ -427,7 +427,7 @@ namespace TheLastPlanet.Client.AdminAC
 
         private static async void TeleportToMarker()
         {
-            Position coords = Cache.PlayerCache.MyPlayer.Posizione;
+            Position coords = Cache.PlayerCache.MyPlayer.Position;
             bool blipFound = false;
             // search for marker blip
             int blipIterator = GetBlipInfoIdIterator();
@@ -475,11 +475,11 @@ namespace TheLastPlanet.Client.AdminAC
 
                 //do it
                 ent.PositionNoOffset = new Vector3(coords.X, coords.Y, ground);
-                HUD.ShowNotification("Teletrasportato!", ColoreNotifica.Blue, true);
+                HUD.ShowNotification("Teleported!", ColoreNotifica.Blue, true);
             }
             else
             {
-                HUD.ShowNotification("Punto in mappa non trovato, imposta un punto in mappa!", ColoreNotifica.Red, true);
+                HUD.ShowNotification("Map POI not found, add a POI on the map to teleport!", ColoreNotifica.Red, true);
             }
         }
     }

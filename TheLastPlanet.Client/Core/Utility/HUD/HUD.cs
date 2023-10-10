@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.LogIn;
 using Font = CitizenFX.Core.UI.Font;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
+    //TODO: REPLACE THESE... WITH SCALEFORMUI ONES
     public enum TipoNotifica : int
     {
         Default = 0,
@@ -182,7 +183,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
         public static async void ShowStatNotification(int value, string title)
         {
-            Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(Cache.PlayerCache.MyPlayer.Ped);
+            Tuple<int, string> mug = await Functions.GetPedMugshotAsync(Cache.PlayerCache.MyPlayer.Ped);
             BeginTextCommandThefeedPost("PS_UPDATE");
             AddTextComponentInteger(value);
             Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, title, 2, value, value - 1, false, mug.Item2, mug.Item2);
@@ -192,16 +193,16 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
         public static async void ShowVSNotification(Ped otherPed, HudColor color1, HudColor color2)
         {
-            Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(Cache.PlayerCache.MyPlayer.Ped);
-            Tuple<int, string> otherMug = await Funzioni.GetPedMugshotAsync(otherPed);
+            Tuple<int, string> mug = await Functions.GetPedMugshotAsync(Cache.PlayerCache.MyPlayer.Ped);
+            Tuple<int, string> otherMug = await Functions.GetPedMugshotAsync(otherPed);
             BeginTextCommandThefeedPost("");
             Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_VERSUS_TU, mug.Item2, mug.Item2, 12, otherMug.Item2, otherMug.Item2, 1, color1, color2);
         }
 
         public static async void ShowVSNotification(Ped otherPed1, Ped otherPed2, HudColor color1, HudColor color2)
         {
-            Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(otherPed1);
-            Tuple<int, string> otherMug = await Funzioni.GetPedMugshotAsync(otherPed2);
+            Tuple<int, string> mug = await Functions.GetPedMugshotAsync(otherPed1);
+            Tuple<int, string> otherMug = await Functions.GetPedMugshotAsync(otherPed2);
             BeginTextCommandThefeedPost("");
             Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_VERSUS_TU, mug.Item2, mug.Item2, 12, otherMug.Item2, otherMug.Item2, 1, color1, color2);
         }

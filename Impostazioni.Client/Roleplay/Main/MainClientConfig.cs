@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Core;
 
-namespace Settings.Client.Configurazione.Main
+namespace Settings.Client.Configuration.Main
 {
     public class ConfMainRP
     {

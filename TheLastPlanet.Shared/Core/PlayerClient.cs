@@ -57,7 +57,7 @@ namespace TheLastPlanet.Shared
 #if CLIENT
         
         [JsonIgnore]
-        internal Position Posizione { get; set; }
+        internal Position Position { get; set; }
         
         [JsonIgnore]
         internal bool Ready => User != null;
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Shared
             RolePlayStates.OnDuty = false;
             RolePlayStates.Cuffed = false;
             RolePlayStates.Dying = false;
-            Instance.RimuoviIstanza();
+            Instance.RemoveInstance();
         }
 
         public void Load()

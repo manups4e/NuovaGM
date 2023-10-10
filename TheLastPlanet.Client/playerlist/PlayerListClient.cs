@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Banking;
 
-namespace TheLastPlanet.Client.ListaPlayers
+namespace TheLastPlanet.Client.PlayerList
 {
     internal static class FivemPlayerlist
     {
@@ -29,7 +27,7 @@ namespace TheLastPlanet.Client.ListaPlayers
             RemoveMultiplayerBankCash();
         }
 
-        //TODO: QUANDO ENTRA/ESCE AGGIORNA LISTA.. E LA RICHIESTA è FATTA SOLO AL LOGIN
+        //TODO: this should be replaced by the ScaleformUI one to show the players online
 
         /// <summary>
         /// Manages the display and page setup of the playerlist.
@@ -40,20 +38,20 @@ namespace TheLastPlanet.Client.ListaPlayers
             if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !MenuHandler.IsAnyMenuOpen && !IsPedRunningMobilePhoneTask(PlayerPedId()))
             {
                 ScaleformUI.Main.PlayerListInstance.PlayerRows.Clear();
-                var num = await EventDispatcher.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
-                var list = await EventDispatcher.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
-                if (PlayerCache.ModalitàAttuale == ServerMode.Roleplay)
+                int num = await EventDispatcher.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ActualMode);
+                List<PlayerSlot> list = await EventDispatcher.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ActualMode);
+                if (PlayerCache.ActualMode == ServerMode.Roleplay)
                 {
-                    if (BankingClient.InterfacciaAperta)
+                    if (BankingClient.interfaceOpen)
                         return;
                 }
 
-                foreach (var p in list)
+                foreach (PlayerSlot p in list)
                 {
-                    Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetPlayerClientFromServerId(p.ServerId)?.Ped;
-                    var mug = await Funzioni.GetPedMugshotAsync(ped);
+                    Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Functions.GetPlayerClientFromServerId(p.ServerId)?.Ped;
+                    System.Tuple<int, string> mug = await Functions.GetPedMugshotAsync(ped);
                     if (ScaleformUI.Main.PlayerListInstance.PlayerRows.Any<PlayerRow>(x => x.ServerId == p.ServerId)) continue;
-                    var row = new PlayerRow()
+                    PlayerRow row = new PlayerRow()
                     {
                         Color = p.Color,
                         CrewLabelText = p.CrewLabelText,
@@ -70,7 +68,7 @@ namespace TheLastPlanet.Client.ListaPlayers
                     ScaleformUI.Main.PlayerListInstance.AddRow(row);
                     UnregisterPedheadshot(mug.Item1);
                 }
-                ScaleformUI.Main.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ModalitàAttuale} (online {num})", $"{(ScaleformUI.Main.PlayerListInstance.CurrentPage + 1)} / {ScaleformUI.Main.PlayerListInstance.MaxPages}", 2);
+                ScaleformUI.Main.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ActualMode} (online {num})", $"{(ScaleformUI.Main.PlayerListInstance.CurrentPage + 1)} / {ScaleformUI.Main.PlayerListInstance.MaxPages}", 2);
                 ScaleformUI.Main.PlayerListInstance.CurrentPage++;
             }
             if (ScaleformUI.Main.PlayerListInstance.Enabled)
@@ -78,10 +76,10 @@ namespace TheLastPlanet.Client.ListaPlayers
                 if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) MostraMoney();
                 if (ScaleformUI.Main.PlayerListInstance.PlayerRows.Count > 0)
                 {
-                    foreach (var p in ScaleformUI.Main.PlayerListInstance.PlayerRows)
+                    foreach (PlayerRow p in ScaleformUI.Main.PlayerListInstance.PlayerRows)
                     {
-                        var player = GetPlayerFromServerId(p.ServerId);
-                        var index = ScaleformUI.Main.PlayerListInstance.PlayerRows.IndexOf(p);
+                        int player = GetPlayerFromServerId(p.ServerId);
+                        int index = ScaleformUI.Main.PlayerListInstance.PlayerRows.IndexOf(p);
                         if (NetworkIsPlayerTalking(player) || MumbleIsPlayerTalking(player))
                             ScaleformUI.Main.PlayerListInstance.SetIcon(index, ScoreRightIconType.ACTIVE_HEADSET, "");
                         else

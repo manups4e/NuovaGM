@@ -13,52 +13,52 @@ namespace TheLastPlanet.Server.TimeWeather
         private static SharedTimer WeatherTimer;
         public static async void Init()
         {
-            EventDispatcher.Mount("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
-            EventDispatcher.Mount("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
-            EventDispatcher.Mount("changeWeather", new Action<bool>(CambiaMeteo));
-            EventDispatcher.Mount("SyncWeatherForMe", new Action<PlayerClient, bool>(SyncMeteoPerMe));
+            EventDispatcher.Mount("changeWeatherWithParams", new Action<int, bool, bool>(ChangeWeatherWithParams));
+            EventDispatcher.Mount("changeWeatherDynamic", new Action<bool>(ChangeWeatherDynamic));
+            EventDispatcher.Mount("changeWeather", new Action<bool>(ChangeWeather));
+            EventDispatcher.Mount("SyncWeatherForMe", new Action<PlayerClient, bool>(SyncWeatherForMe));
             Weather = new SharedWeather()
             {
                 CurrentWeather = ConfigShared.SharedConfig.Main.Weather.ss_default_weather,
                 WeatherTimer = ConfigShared.SharedConfig.Main.Weather.ss_weather_timer * 60,
                 RainTimer = ConfigShared.SharedConfig.Main.Weather.ss_rain_timeout * 60,
-                RandomWindDirection = Funzioni.RandomFloatInRange(0, 359),
-                WindSpeed = Funzioni.RandomFloatInRange(0, 12),
+                RandomWindDirection = Functions.RandomFloatInRange(0, 359),
+                WindSpeed = Functions.RandomFloatInRange(0, 12),
             };
 
             WeatherTimer = new(1000);
-            Server.Instance.AddTick(Conteggio);
+            Server.Instance.AddTick(Count);
         }
 
-        private static void SyncMeteoPerMe([FromSource] PlayerClient p, bool startup)
+        private static void SyncWeatherForMe([FromSource] PlayerClient p, bool startup)
         {
             Weather.StartUp = startup;
             EventDispatcher.Send(p, "tlg:getMeteo", Weather);
             Weather.StartUp = false;
         }
 
-        private static void CambiaMeteoConParams(int meteo, bool black, bool startup)
+        private static void ChangeWeatherWithParams(int meteo, bool black, bool startup)
         {
             Weather.CurrentWeather = meteo;
             Weather.WeatherTimer = ConfigShared.SharedConfig.Main.Weather.ss_weather_timer * 60;
             Weather.Blackout = black;
-            Server.Instance.ServerState.Set("Meteo", Weather.ToBytes(), true);
+            Server.Instance.ServerState.Set("Weather", Weather.ToBytes(), true);
         }
 
-        private static void CambiaMeteoDinamico(bool dynamic)
+        private static void ChangeWeatherDynamic(bool dynamic)
         {
             ConfigShared.SharedConfig.Main.Weather.ss_enable_dynamic_weather = dynamic;
-            Server.Instance.ServerState.Set("Meteo", Weather.ToBytes(), true);
+            Server.Instance.ServerState.Set("Weather", Weather.ToBytes(), true);
         }
 
-        public static void CambiaMeteo(bool startup)
+        public static void ChangeWeather(bool startup)
         {
             if (startup) Weather.StartUp = startup;
             byte[] bytes = Weather.ToBytes();
-            Server.Instance.ServerState.Set("Meteo", bytes, true);
+            Server.Instance.ServerState.Set("Weather", bytes, true);
         }
 
-        public static async Task Conteggio()
+        public static async Task Count()
         {
             try
             {
@@ -98,11 +98,11 @@ namespace TheLastPlanet.Server.TimeWeather
                 }
                 if (tt - _timer > 600000)
                 {
-                    Weather.RandomWindDirection = Funzioni.RandomFloatInRange(0, 359);
-                    Weather.WindSpeed = Funzioni.RandomFloatInRange(0, 12);
+                    Weather.RandomWindDirection = Functions.RandomFloatInRange(0, 359);
+                    Weather.WindSpeed = Functions.RandomFloatInRange(0, 12);
                     _timer = tt;
                 }
-                CambiaMeteo(false);
+                ChangeWeather(false);
             }
             catch (Exception e)
             {

@@ -39,28 +39,13 @@ namespace TheLastPlanet.Server
 #endif
             SnowflakeGenerator.Create(new Random().NextShort(100, 200));
             SetConvarServerInfo("sv_projectName", "^2THE ^0LAST ^1GALAXY.");
-            SetConvarServerInfo("sv_projectDesc", "^5Un server per domarli, un server per trovarli, un server per ghermirli e nel videogioco incatenarli!");
-            SetConvarServerInfo("locale", "it-IT");
+            SetConvarServerInfo("sv_projectDesc", "^5A server to tame them, a server to find them, a server to seize them and in the videogame chain them!");
             SetConvarServerInfo("tags", "RolePlay, GTAO style, MultiMode");
-            SetGameType("RolePlay");
-            SetMapName("The Last Planet");
+            SetGameType("Multi-mode");
+            SetMapName("The Last Galaxy");
             StartServer();
-
-            EventDispatcher.Mount("testVector", new Action<Player, Tuple<Snowflake, Vector2>>(testVector));
-
-            Tuple<Snowflake, Vector2> aa = new Tuple<Snowflake, Vector2>(Snowflake.Next(), new Vector2(15, 60));
-            byte[] data = aa.ToBytes();
-            Logger.Warning(data.BytesToString());
-
-            Tuple<Snowflake, Vector2> bb = data.FromBytes<Tuple<Snowflake, Vector2>>();
-            Logger.Warning(bb.ToJson());
-
-
         }
 
-        private void testVector([FromSource] Player player, Tuple<Snowflake, Vector2> data)
-        {
-        }
         private async void StartServer()
         {
             StateBagsHandler = new StateBagsHandler();

@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.PlayerChar;
-using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
+using TheLastPlanet.Server.FreeRoam.Scripts.FreeroamEvents;
 using TheLastPlanet.Shared.Core.Buckets;
 
 namespace TheLastPlanet.Server.Core.Buckets
 {
 
-    // TODO: Verrà poi rimosso quando avrò un container per ogni modalità
+    // TODO: TO BE HANDLED AND MAYBE REMOVED AFTER A CONTAINER FOR EACH MODE WILL BE SET
     public class BucketsContainer
     {
-        public ServerMode Modalita { get; set; }
+        public ServerMode Mode { get; set; }
         public Bucket Bucket { get; set; }
         public List<Bucket> Buckets { get; set; }
 
-        public BucketsContainer(ServerMode modalitaServer, Bucket bucket)
+        public BucketsContainer(ServerMode serverMode, Bucket bucket)
         {
-            Modalita = modalitaServer;
+            Mode = serverMode;
             Bucket = bucket;
         }
-        public BucketsContainer(ServerMode modalitaServer, List<Bucket> buckets)
+        public BucketsContainer(ServerMode serverMode, List<Bucket> buckets)
         {
-            Modalita = modalitaServer;
+            Mode = serverMode;
             Buckets = buckets;
         }
 
@@ -428,7 +428,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         private static async Task<Char_data> LoadChar([FromSource] PlayerClient source, ulong id)
         {
-            User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
+            User user = Functions.GetClientFromPlayerId(source.Handle).User;
             /*
             string data = GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
             Server.Logger.Warning(data);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Settings.Client.Configurazione.Vehicles
+namespace Settings.Client.Configuration.Vehicles
 {
     public class ConfigVehicles
     {

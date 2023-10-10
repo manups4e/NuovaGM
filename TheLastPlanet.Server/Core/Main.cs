@@ -9,14 +9,15 @@ namespace TheLastPlanet.Server.Core
         private static DateTime Now;
         public static void Init()
         {
-            Server.Instance.AddTick(Orario_Playtime);
+            Server.Instance.AddTick(Playtime_Time);
             Now = DateTime.UtcNow;
         }
 
-        private static async Task Orario_Playtime()
+        private static async Task Playtime_Time()
         {
             try
             {
+                // TODO: FOR SURE PLAYERS TIME HANDLER IS TO BE RE-DONE
                 // gestione tempo players da rifare.. sicuramente!
                 await BaseScript.Delay(10000);
                 if (Server.Instance.Clients.Count > 0)
@@ -26,9 +27,8 @@ namespace TheLastPlanet.Server.Core
                         user.User.playTime += 10;
                     }
                 }
-                TimeSpan ora = DateTime.UtcNow - Now;
-                SetConvarServerInfo("Attivo da:", $"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
-                //Server.Logger.Debug($"Attivo da: {ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti {ora.Seconds} secondi");
+                TimeSpan hour = DateTime.UtcNow - Now;
+                SetConvarServerInfo("Active since:", $"{hour.Days} days {hour.Hours} Hours {hour.Minutes} Minutes");
             }
             catch (Exception e)
             {

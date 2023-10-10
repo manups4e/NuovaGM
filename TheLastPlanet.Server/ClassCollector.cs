@@ -1,7 +1,6 @@
-﻿using CitizenFX.Core;
-using FivemPlayerlistServer;
+﻿using FivemPlayerlistServer;
 using System.Threading.Tasks;
-using TheLastPlanet.Server.Appartamenti;
+using TheLastPlanet.Server.Apartments;
 using TheLastPlanet.Server.banking;
 using TheLastPlanet.Server.Businesses;
 using TheLastPlanet.Server.Clothestores;
@@ -9,14 +8,12 @@ using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerJoining;
 using TheLastPlanet.Server.Discord;
-using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
-using TheLastPlanet.Server.FREEROAM;
-using TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode;
+using TheLastPlanet.Server.FreeRoam.Scripts.FreeroamEvents;
 using TheLastPlanet.Server.Interactions;
-using TheLastPlanet.Server.Lavori.Whitelistati;
+using TheLastPlanet.Server.Jobs.Whitelisted;
 using TheLastPlanet.Server.manager;
 using TheLastPlanet.Server.RolePlay.Core;
-using TheLastPlanet.Server.Veicoli;
+using TheLastPlanet.Server.Vehicles;
 
 namespace TheLastPlanet.Server
 {
@@ -30,23 +27,23 @@ namespace TheLastPlanet.Server
             while (Server.Impostazioni == null) await BaseScript.Delay(0);
             ServerManager.Init();
             Main.Init();
-            Eventi.Init();
-            EventiRolePlay.Init();
+            Events.Init();
+            RolePlayEvents.Init();
             EntityCreation.Init();
             ChatServer.Init();
             ChatEvents.Init();
             BankingServer.Init();
-            PompeDiBenzinaServer.Init();
-            NegozioAbitiServer.Init();
+            GasStationsServer.Init();
+            ClotheShopsServer.Init();
             CarDealerServer.Init();
             HouseDealerServer.Init();
             PoliziaServer.Init();
-            MediciServer.Init();
+            MedicsServer.Init();
             PlayerListServer.Init();
-            AppartamentiServer.Init();
+            ApartmentsServer.Init();
             FuelServer.Init();
             VeicoliServer.Init();
-            GiostreServer.Init();
+            LunaParkServer.Init();
             //Telefoni.TelefonoMainServer.Init();
             TimeWeather.ServerWeather.Init();
             //TimeWeather.OrarioServer.Init();
@@ -58,7 +55,7 @@ namespace TheLastPlanet.Server
             VehicleManager.Init();
             //PlayerBlipsHandler.Init();
             BaseEventsFreeRoam.Init();
-            EventiFreeRoam.Init();
+            FreeRoamEvents.Init();
             await Task.FromResult(0);
         }
     }

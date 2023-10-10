@@ -1,165 +1,164 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAuto;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Banking;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Businesses;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Core.Status;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Interactions;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Jobs.Generics.Hunt;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Jobs.Generics.Towing;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Jobs.Whitelisted.Medics;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Jobs.Whitelisted.Police;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Jobs.Whitelisted.CarDealer;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Shops;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Personale;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Properties;
+using TheLastPlanet.Client.GameMode.ROLEPLAY.Vehicles;
 
 
 namespace TheLastPlanet.Client.Handlers
 {
+    //YEAH.. THIS HANDLES ALL THE TICKS IN CLIENT.. DISABLING/RE-ENABLING THEM WHEN ENTERING A VEHICLE OR EXITING IT.. THINGS LIKE THIS..
     internal static class TickController
     {
-        public static List<Func<Task>> TickAPiedi = new();
-        public static List<Func<Task>> TickVeicolo = new();
-        public static List<Func<Task>> TickAppartamento = new();
+        public static List<Func<Task>> TickOnFoot = new();
+        public static List<Func<Task>> TickOnVehicle = new();
+        public static List<Func<Task>> TickApartments = new();
         public static List<Func<Task>> TickHUD = new();
-        public static List<Func<Task>> TickGenerici = new();
-        public static List<Func<Task>> TickPolizia = new();
-        public static List<Func<Task>> TickMedici = new();
+        public static List<Func<Task>> TickGenerics = new();
+        public static List<Func<Task>> TickPolice = new();
+        public static List<Func<Task>> TickMedics = new();
 
-        private static bool _inUnVeicolo;
+        private static bool _inAVehicle;
         private static bool _hideHud;
-        private static bool _inAppartamento;
-        private static bool _polizia;
-        private static bool _medici;
+        private static bool _inApartment;
+        private static bool _police;
+        private static bool _medics;
         private static int _timer;
 
         public static void Init()
         {
-            AccessingEvents.OnRoleplaySpawn += Spawnato;
-            AccessingEvents.OnRoleplayLeave += Disconnesso;
+            AccessingEvents.OnRoleplaySpawn += Spawned;
+            AccessingEvents.OnRoleplayLeave += Disconnected;
 
             // TICK HUD \\
-            TickHUD.Add(EventiPersonalMenu.MostramiStatus);
+            TickHUD.Add(EventsPersonalMenu.ShowMeStatus);
 
             // TICK GENERICI \\ ATTIVI SEMPRE
-            TickGenerici.Add(StatsNeeds.GestioneStatsSkill);
+            TickGenerics.Add(StatsNeeds.StatsSkillHandler);
             //TickGenerici.Add(StatsNeeds.Agg);
-            TickGenerici.Add(Main.MainTick);
-            TickGenerici.Add(PersonalMenu.attiva);
-            TickGenerici.Add(FuelClient.FuelCount);
-            TickGenerici.Add(FuelClient.FuelTruck);
-            TickGenerici.Add(PompeDiBenzinaClient.BusinessesPumps);
-            TickGenerici.Add(ProximityChat.Prossimità);
+            TickGenerics.Add(Main.MainTick);
+            TickGenerics.Add(PersonalMenu.Enable);
+            TickGenerics.Add(FuelClient.FuelCount);
+            TickGenerics.Add(FuelClient.FuelTruck);
+            TickGenerics.Add(GasStationsClient.BusinessesPumps);
+            TickGenerics.Add(ProximityChat.Proximity);
 
             // TICK A PIEDI \\
-            TickAPiedi.Add(BankingClient.ControlloATM);
+            TickOnFoot.Add(BankingClient.CheckATM);
             //TickAPiedi.Add(BankingClient.Markers);
-            TickAPiedi.Add(Death.Injuried);
+            TickOnFoot.Add(Death.Injuried);
             //TickAPiedi.Add(NegozioAbitiClient.OnTick);
             //TickAPiedi.Add(NegoziClient.OnTick);
-            TickAPiedi.Add(BarberClient.Sedie);
+            TickOnFoot.Add(BarberClient.Chairs);
             //TickAPiedi.Add(VeicoliClient.MostraMenuAffitto);
-            TickAPiedi.Add(MediciMainClient.MarkersNonMedici);
-            TickAPiedi.Add(RimozioneClient.InizioLavoro);
-            TickAPiedi.Add(Macchinette.VendingMachines);
-            TickAPiedi.Add(Macchinette.ControlloMachines);
-            TickAPiedi.Add(PickupsClient.PickupsMain);
-            TickAPiedi.Add(Spazzatura.CestiSpazzatura);
-            TickAPiedi.Add(Spazzatura.ControlloSpazzatura);
-            TickAPiedi.Add(CacciatoreClient.ControlloCaccia);
+            TickOnFoot.Add(MedicsMainClient.MarkersNotMedics);
+            TickOnFoot.Add(TowingClient.StartJob);
+            TickOnFoot.Add(VendingMachines.VendingMachinesTick);
+            TickOnFoot.Add(VendingMachines.ControlMachines);
+            TickOnFoot.Add(PickupsClient.PickupsMain);
+            TickOnFoot.Add(TrashBins.TrashBinsTick);
+            TickOnFoot.Add(TrashBins.CheckTrash);
+            TickOnFoot.Add(HunterClient.HuntCheck);
             //TickAPiedi.Add(PescatoreClient.ControlloPesca);
             //TickAPiedi.Add(Hotels.ControlloHotel);
-            TickAPiedi.Add(MODALITA.ROLEPLAY.Proprietà.Manager.MarkerFuori);
-            TickAPiedi.Add(DivaniEPosizioniSedute.CheckSedia);
-            TickAPiedi.Add(DivaniEPosizioniSedute.SedieSiedi);
-            TickAPiedi.Add(CarDealer.Markers);
-            TickAPiedi.Add(LootingDead.Looting);
+            TickOnFoot.Add(GameMode.ROLEPLAY.Properties.Manager.MarkerOutside);
+            TickOnFoot.Add(SittingAnimations.CheckChair);
+            TickOnFoot.Add(SittingAnimations.ChairsSit);
+            TickOnFoot.Add(CarDealer.Markers);
+            TickOnFoot.Add(LootingDead.Looting);
 
             // TICK NEL VEICOLO \\
-            TickVeicolo.Add(VehicleDamage.OnTick);
-            if (VehicleDamage.torqueMultiplierEnabled || VehicleDamage.preventVehicleFlip || VehicleDamage.limpMode) TickVeicolo.Add(VehicleDamage.IfNeeded);
-            TickVeicolo.Add(VeicoliClient.Lux);
-            TickVeicolo.Add(VeicoliClient.gestioneVeh);
-            TickVeicolo.Add(Prostitute.LoopProstitute);
-            TickVeicolo.Add(Prostitute.ControlloProstitute);
-            TickVeicolo.Add(EffettiRuote.ControlloRuote);
-            TickVeicolo.Add(EffettiRuote.WheelGlow);
+            TickOnVehicle.Add(VehicleDamage.OnTick);
+            if (VehicleDamage.torqueMultiplierEnabled || VehicleDamage.preventVehicleFlip || VehicleDamage.limpMode) TickOnVehicle.Add(VehicleDamage.IfNeeded);
+            TickOnVehicle.Add(VehiclesClient.Lux);
+            TickOnVehicle.Add(VehiclesClient.vehHandle);
+            TickOnVehicle.Add(Prostitutes.LoopProstitutes);
+            TickOnVehicle.Add(Prostitutes.CheckProstitutes);
+            TickOnVehicle.Add(WheelsEffects.WheelCheck);
+            TickOnVehicle.Add(WheelsEffects.WheelGlow);
 
             // TICK APPARTAMENTO \\
-            TickAppartamento.Add(DivaniEPosizioniSedute.DivaniCasa);
-            TickAppartamento.Add(Docce.ControlloDocceVicino);
-            TickAppartamento.Add(Docce.Docceeee);
-            TickAppartamento.Add(Letti.ControlloLetti);
-            TickAppartamento.Add(MODALITA.ROLEPLAY.Proprietà.Manager.MarkerDentro);
+            TickApartments.Add(SittingAnimations.HouseCouches);
+            TickApartments.Add(Showers.CheckShowersNear);
+            TickApartments.Add(Showers.Shower);
+            TickApartments.Add(Beds.CheckBeds);
+            TickApartments.Add(Manager.MarkerInside);
 
             // TICK POLIZIA \\
-            TickPolizia.Add(PoliziaMainClient.MarkersPolizia);
-            TickPolizia.Add(PoliziaMainClient.MainTickPolizia);
-            if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
+            TickPolice.Add(PoliceMainClient.MarkersPolice);
+            TickPolice.Add(PoliceMainClient.MainTickPolice);
+            if (Client.Settings.RolePlay.Jobs.Police.Config.EnableBlipsPolice) TickPolice.Add(PoliceMainClient.EnableBlipPolice);
 
             // TICK MEDICI \\
-            TickMedici.Add(MediciMainClient.MarkersMedici);
-            TickMedici.Add(MediciMainClient.BlipMorti);
+            TickMedics.Add(MedicsMainClient.MarkersMedics);
+            TickMedics.Add(MedicsMainClient.DeadBlips);
         }
 
 
-        private static void Spawnato(PlayerClient client)
+        private static void Spawned(PlayerClient client)
         {
-            TickGenerici.ForEach(x => Client.Instance.AddTick(x));
-            TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
+            TickGenerics.ForEach(x => Client.Instance.AddTick(x));
+            TickOnFoot.ForEach(x => Client.Instance.AddTick(x));
             TickHUD.ForEach(x => Client.Instance.AddTick(x));
             Client.Instance.AddTick(TickHandler);
         }
-        private static void Disconnesso(PlayerClient client)
+        private static void Disconnected(PlayerClient client)
         {
 
             TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
-            TickGenerici.ForEach(x => Client.Instance.RemoveTick(x));
-            TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
-            TickVeicolo.ForEach(x => Client.Instance.RemoveTick(x));
-            TickAppartamento.ForEach(x => Client.Instance.RemoveTick(x));
-            TickPolizia.ForEach(x => Client.Instance.RemoveTick(x));
-            TickMedici.ForEach(x => Client.Instance.RemoveTick(x));
+            TickGenerics.ForEach(x => Client.Instance.RemoveTick(x));
+            TickOnFoot.ForEach(x => Client.Instance.RemoveTick(x));
+            TickOnVehicle.ForEach(x => Client.Instance.RemoveTick(x));
+            TickApartments.ForEach(x => Client.Instance.RemoveTick(x));
+            TickPolice.ForEach(x => Client.Instance.RemoveTick(x));
+            TickMedics.ForEach(x => Client.Instance.RemoveTick(x));
             TickHUD.Clear();
-            TickGenerici.Clear();
-            TickAPiedi.Clear();
-            TickVeicolo.Clear();
-            TickAppartamento.Clear();
-            TickPolizia.Clear();
-            TickMedici.Clear();
+            TickGenerics.Clear();
+            TickOnFoot.Clear();
+            TickOnVehicle.Clear();
+            TickApartments.Clear();
+            TickPolice.Clear();
+            TickMedics.Clear();
         }
         private static async Task TickHandler()
         {
             if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVehicle)
             {
-                if (!_inUnVeicolo)
+                if (!_inAVehicle)
                 {
-                    TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
-                    TickVeicolo.ForEach(x => Client.Instance.AddTick(x));
-                    _inUnVeicolo = true;
+                    TickOnFoot.ForEach(x => Client.Instance.RemoveTick(x));
+                    TickOnVehicle.ForEach(x => Client.Instance.AddTick(x));
+                    _inAVehicle = true;
                 }
             }
             else
             {
-                if (_inUnVeicolo)
+                if (_inAVehicle)
                 {
-                    TickVeicolo.ForEach(x => Client.Instance.RemoveTick(x));
-                    TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
+                    TickOnVehicle.ForEach(x => Client.Instance.RemoveTick(x));
+                    TickOnFoot.ForEach(x => Client.Instance.AddTick(x));
                     VehHud.NUIBuckled(false);
-                    _inUnVeicolo = false;
+                    _inAVehicle = false;
                 }
             }
 
-            if (Main.ImpostazioniClient.CinemaMode)
+            if (Main.ClientConfig.CinemaMode)
             {
                 if (!_hideHud)
                 {
                     TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
-                    Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
+                    Client.Instance.AddTick(EventsPersonalMenu.CinematicMode);
                     _hideHud = true;
                 }
             }
@@ -168,146 +167,113 @@ namespace TheLastPlanet.Client.Handlers
                 if (_hideHud)
                 {
                     TickHUD.ForEach(x => Client.Instance.AddTick(x));
-                    Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
+                    Client.Instance.RemoveTick(EventsPersonalMenu.CinematicMode);
                     _hideHud = false;
                 }
             }
 
             if (Cache.PlayerCache.MyPlayer.Status.Instance.Instanced)
             {
-                if (!_inAppartamento)
+                if (!_inApartment)
                 {
-                    TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
-                    // verrà aggiunta gestione garage
-                    TickAppartamento.ForEach(x => Client.Instance.AddTick(x));
-                    _inAppartamento = true;
+                    TickOnFoot.ForEach(x => Client.Instance.RemoveTick(x));
+                    // TODO: HANDLE GARAGES 
+                    TickApartments.ForEach(x => Client.Instance.AddTick(x));
+                    _inApartment = true;
                 }
             }
             else
             {
-                if (_inAppartamento)
+                if (_inApartment)
                 {
-                    TickAppartamento.ForEach(x => Client.Instance.RemoveTick(x));
-                    // verrà aggiunta gestione garage
-                    TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
-                    _inAppartamento = false;
+                    TickApartments.ForEach(x => Client.Instance.RemoveTick(x));
+                    // TODO: HANDLE GARAGES 
+                    TickOnFoot.ForEach(x => Client.Instance.AddTick(x));
+                    _inApartment = false;
                 }
             }
 
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "polizia")
             {
-                if (_medici)
+                if (_medics)
                 {
-                    Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
-                    foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti) morto.Value.Delete();
+                    Client.Instance.RemoveTick(MedicsMainClient.MarkersMedics);
+                    foreach (KeyValuePair<Ped, Blip> morto in MedicsMainClient.Dead) morto.Value.Delete();
 
-                    if (MediciMainClient.Morti.Count > 0)
+                    if (MedicsMainClient.Dead.Count > 0)
                     {
-                        MediciMainClient.Morti.Clear();
-                        Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
+                        MedicsMainClient.Dead.Clear();
+                        Client.Instance.RemoveTick(MedicsMainClient.DeadBlips);
                     }
 
-                    _medici = false;
+                    _medics = false;
                 }
 
-                if (!_polizia)
+                if (!_police)
                 {
-                    Client.Instance.AddTick(PoliziaMainClient.MarkersPolizia);
-                    Client.Instance.AddTick(PoliziaMainClient.MainTickPolizia);
-                    if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
-                    _polizia = true;
+                    Client.Instance.AddTick(PoliceMainClient.MarkersPolice);
+                    Client.Instance.AddTick(PoliceMainClient.MainTickPolice);
+                    if (Client.Settings.RolePlay.Jobs.Police.Config.EnableBlipsPolice) Client.Instance.AddTick(PoliceMainClient.EnableBlipPolice);
+                    _police = true;
                 }
             }
             else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
             {
-                if (_polizia)
+                if (_police)
                 {
-                    Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
-                    Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-                    if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
-                    _polizia = false;
+                    Client.Instance.RemoveTick(PoliceMainClient.MarkersPolice);
+                    Client.Instance.RemoveTick(PoliceMainClient.MainTickPolice);
+                    if (Client.Settings.RolePlay.Jobs.Police.Config.EnableBlipsPolice) Client.Instance.RemoveTick(PoliceMainClient.EnableBlipPolice);
+                    _police = false;
                 }
 
-                if (!_medici)
+                if (!_medics)
                 {
-                    Client.Instance.AddTick(MediciMainClient.MarkersMedici);
-                    Client.Instance.AddTick(MediciMainClient.BlipMorti);
-                    _medici = true;
+                    Client.Instance.AddTick(MedicsMainClient.MarkersMedics);
+                    Client.Instance.AddTick(MedicsMainClient.DeadBlips);
+                    _medics = true;
                 }
             }
             else if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medico" && Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "polizia")
             {
-                if (_polizia)
+                if (_police)
                 {
-                    Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
-                    Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-                    if (Client.Impostazioni.RolePlay.Jobs.Police.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
-                    _polizia = false;
+                    Client.Instance.RemoveTick(PoliceMainClient.MarkersPolice);
+                    Client.Instance.RemoveTick(PoliceMainClient.MainTickPolice);
+                    if (Client.Settings.RolePlay.Jobs.Police.Config.EnableBlipsPolice) Client.Instance.RemoveTick(PoliceMainClient.EnableBlipPolice);
+                    _police = false;
                 }
 
-                if (_medici)
+                if (_medics)
                 {
-                    Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
-                    foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti) morto.Value.Delete();
+                    Client.Instance.RemoveTick(MedicsMainClient.MarkersMedics);
+                    foreach (KeyValuePair<Ped, Blip> morto in MedicsMainClient.Dead) morto.Value.Delete();
 
-                    if (MediciMainClient.Morti.Count > 0)
+                    if (MedicsMainClient.Dead.Count > 0)
                     {
-                        MediciMainClient.Morti.Clear();
-                        Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
+                        MedicsMainClient.Dead.Clear();
+                        Client.Instance.RemoveTick(MedicsMainClient.DeadBlips);
                     }
 
-                    _medici = false;
+                    _medics = false;
                 }
             }
             await BaseScript.Delay(250);
-            // 4 volte al secondo bastano per gestire i tick.. non serve che siano tutti immediatamente attivati / disattivati
+            // 4 time per second is enough.. it's not necessary to be "immediate" switching
         }
 
-        private static bool CheckAppartamento(int iParam1)
+        private static bool CheckApartment(int iParam1)
         {
-            switch (iParam1)
+            return iParam1 switch
             {
-                case 227329:
-                case 227585:
-                case 206337:
-                case 208385:
-                case 207361:
-                case 207873:
-                case 208129:
-                case 207617:
-                case 206081:
-                case 146689:
-                case 147201:
-                case 146177:
-                case 227841:
-                case 206593:
-                case 207105:
-                case 146945:
-                case 145921:
-                case 143873:
-                case 243201:
-                case 148225:
-                case 144641:
-                case 144129:
-                case 144385:
-                case 141825:
-                case 141569:
-                case 145409:
-                case 145665:
-                case 143617:
-                case 143105:
-                case 142593:
-                case 141313:
-                case 147969:
-                case 142849:
-                case 143361:
-                case 144897:
-                case 145153:
-                case 149761:
-                    return true;
-            }
-
-            return false;
+                227329 or 227585 or 206337 or 208385 or 207361 or 207873 or
+                208129 or 207617 or 206081 or 146689 or 147201 or 146177 or
+                227841 or 206593 or 207105 or 146945 or 145921 or 143873 or
+                243201 or 148225 or 144641 or 144129 or 144385 or 141825 or
+                141569 or 145409 or 145665 or 143617 or 143105 or 142593 or
+                141313 or 147969 or 142849 or 143361 or 144897 or 145153 or 149761 => true,
+                _ => false,
+            };
         }
     }
 }

@@ -80,7 +80,7 @@ namespace TheLastPlanet.Client.IPLs.gtav
 
     public class MichaelDetails
     {
-        public string MoviePoster = "Michael_premier";          // Meltdown movie poster
+        public string MoviePoster = "Michael_Presser";          // Meltdown movie poster
         public string FameShamePoste = "V_Michael_FameShame";     // Next to Tracey's bed
         public string PlaneTicket = "V_Michael_plane_ticket";       // Plane ticket
         public string SpyGlasses = "V_Michael_JewelHeist";      // On the shelf inside Michael's bedroom

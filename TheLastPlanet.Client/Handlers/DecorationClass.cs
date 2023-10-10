@@ -1,18 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client
 {
+    [Obsolete("not needed anymore since statebags (yeah this class is older than statebags)")]
     internal static class DecorationClass
     {
-        public static async void DichiaraDecor()
+        public static async void DeclareDecors()
         {
             /* DECOR GENERICI */
             EntityDecoration.RegisterProperty("NuovaGM2019fighissimo!yeah!", DecorationType.Int);
             EntityDecoration.RegisterProperty("Testdecor", DecorationType.Int);
             /* DECOR VEICOLI */
             EntityDecoration.RegisterProperty("lprp_fuel", DecorationType.Float);
-            EntityDecoration.RegisterProperty("VehiclePoliceizia", DecorationType.Int);
-            EntityDecoration.RegisterProperty("VeicoloMedici", DecorationType.Int);
+            EntityDecoration.RegisterProperty("VehiclePolice", DecorationType.Int);
+            EntityDecoration.RegisterProperty("MedicsVehicle", DecorationType.Int);
             EntityDecoration.RegisterProperty("VeicoloRimozione", DecorationType.Int);
             EntityDecoration.RegisterProperty("VeicoloPersonale", DecorationType.Int);
             /* DECOR PICKUP */

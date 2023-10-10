@@ -66,9 +66,9 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         {
             Ped result;
             if (TypeSpawn == TypeSpawn.Local)
-                result = await Funzioni.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
+                result = await Functions.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
             else
-                result = await Funzioni.SpawnPed(Model.Hash, Position);
+                result = await Functions.SpawnPed(Model.Hash, Position);
 
             return result;
         }
@@ -76,9 +76,9 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         public async Task Spawn()
         {
             if (TypeSpawn == TypeSpawn.Local)
-                Ped = await Funzioni.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
+                Ped = await Functions.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
             else
-                Ped = await Funzioni.SpawnPed(Model.Hash, Position);
+                Ped = await Functions.SpawnPed(Model.Hash, Position);
             AnimQueue = new AnimationQueue(Ped.Handle);
         }
     }
@@ -114,9 +114,9 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         {
             Vehicle result;
             if (TypeSpawn == TypeSpawn.Local)
-                result = await Funzioni.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
+                result = await Functions.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
             else
-                result = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
+                result = await Functions.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
 
             return result;
         }
@@ -124,9 +124,9 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         public async Task Spawn()
         {
             if (TypeSpawn == TypeSpawn.Local)
-                Vehicle = await Funzioni.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
+                Vehicle = await Functions.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
             else
-                Vehicle = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
+                Vehicle = await Functions.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
         }
     }
 
@@ -169,9 +169,9 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         {
             Prop result;
             if (TypeSpawn == TypeSpawn.Local)
-                result = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
+                result = await Functions.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
             else
-                result = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
+                result = await Functions.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
 
             return result;
         }
@@ -179,9 +179,9 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
         public async Task Spawn()
         {
             if (TypeSpawn == TypeSpawn.Local)
-                Prop = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
+                Prop = await Functions.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
             else
-                Prop = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
+                Prop = await Functions.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
         }
     }
 

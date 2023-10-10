@@ -1,3 +1,3 @@
-﻿namespace Settings.Client.Configurazione.Vehicles
+﻿namespace Settings.Client.Configuration.Vehicles
 {
 }
